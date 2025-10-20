@@ -3,22 +3,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mapa de Apellidos - Provincias y Comunas de Chile</title>
+  <title>Mapa de Apellidos - Chile</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
     html, body { height: 100%; margin: 0; }
     #map { width: 100%; height: 100vh; }
     .info {
-      background: rgba(255,255,255,0.9);
+      background: rgba(255,255,255,.9);
       padding: 8px 10px;
       border-radius: 6px;
       font-family: "Book Antiqua", serif;
-      line-height: 1.3;
       box-shadow: 0 1px 4px rgba(0,0,0,.2);
-    }
-    .leaflet-control-layers-expanded {
-      font-family: "Book Antiqua", serif;
+      line-height: 1.35;
     }
   </style>
 </head>
@@ -26,152 +23,114 @@
   <div id="map"></div>
 
   <script>
-    // --------- Utilidades ----------
+    // --- Utilidad para leer nombres con campos variables ---
     function getProp(props, keys, fallback = "—") {
-      // Devuelve el primer campo existente según una lista de posibles nombres
-      for (const k of keys) {
-        if (props && props[k] != null && props[k] !== "") return props[k];
-      }
+      for (const k of keys) if (props && props[k] != null && props[k] !== "") return props[k];
       return fallback;
     }
 
-    // --------- Mapa base ----------
-    const map = L.map('map', {
-      zoomControl: true
-    }).setView([-35.6751, -71.5430], 5);
+    // --- Mapa base ---
+    const map = L.map('map').setView([-35.6751, -71.5430], 5);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors'
     }).addTo(map);
 
-    // --------- Controles e info ----------
+    // --- Pane para asegurar orden de dibujo (comunas arriba) ---
+    map.createPane('pane-provincias');  map.getPane('pane-provincias').style.zIndex = 520;
+    map.createPane('pane-regiones');    map.getPane('pane-regiones').style.zIndex   = 530;
+    map.createPane('pane-comunas');     map.getPane('pane-comunas').style.zIndex    = 650;
+
+    // --- Controles de info ---
     const info = L.control({position: 'topright'});
-    info.onAdd = function() {
-      this._div = L.DomUtil.create('div', 'info');
-      this.update();
-      return this._div;
-    };
-    info.update = function(txt) {
-      this._div.innerHTML = txt || '<b>Mapa de Apellidos</b><br>• Provincias en verde<br>• Comunas al acercar (zoom ≥ 8)';
-    };
+    info.onAdd = function () { this._div = L.DomUtil.create('div','info'); this.update(); return this._div; };
+    info.update = (txt) => this._div ? this._div.innerHTML = (txt || "<b>Mapa de Apellidos</b><br>Provincias en verde.<br>Acércate (zoom ≥ 7) para ver comunas en rojo.") : null;
     info.addTo(map);
 
-    // Grupos de capas
-    const provinciasLayer = L.layerGroup().addTo(map);  // visible por defecto
-    const regionesLayer   = L.layerGroup();             // opcional
-    const comunasLayer    = L.layerGroup();             // aparece con zoom
+    // --- Grupos de capas ---
+    const provinciasLayer = L.layerGroup().addTo(map);
+    const regionesLayer   = L.layerGroup();     // opcional
+    const comunasLayer    = L.layerGroup();     // aparece con zoom
+    let comunasGeoLayer = null;
 
-    // --------- Estilos ----------
-    const styleProvincias = {
-      color: "#333",
-      weight: 1,
-      fillColor: "#76c893",  // verde
-      fillOpacity: 0.55
-    };
+    // --- Estilos ---
+    const styleProvincias = { color:"#333", weight:1, fillColor:"#76c893", fillOpacity:.55 };
+    const styleRegiones   = { color:"#1b4d3e", weight:2, fillOpacity:0, dashArray:"3" };
+    const styleComunas    = { color:"#990000", weight:.8, fillColor:"#e34a33", fillOpacity:.45 };
 
-    const styleRegiones = {
-      color: "#1b4d3e",
-      weight: 2.2,
-      fillOpacity: 0
-    };
-
-    const styleComunas = {
-      color: "#444",
-      weight: 0.8,
-      fillColor: "#a1d99b",
-      fillOpacity: 0.45
-    };
-
-    // --------- Carga de GeoJSON ----------
     const BASE = "https://raw.githubusercontent.com/crcofre/mapa-apellidos/main";
 
-    // Provincias
+    // --- Provincias (verde) ---
     fetch(`${BASE}/provincias.json`)
-      .then(r => {
-        if (!r.ok) throw new Error("No se pudo cargar provincias.json");
-        return r.json();
-      })
-      .then(geo => {
-        L.geoJSON(geo, {
-          style: styleProvincias,
-          onEachFeature: (feature, layer) => {
-            const p = feature.properties || {};
-            const nomProv = getProp(p, ["NOM_PROV","PROVINCIA","Provincia","provincia","NAME_2","name"], "Provincia");
-            const nomReg  = getProp(p, ["NOM_REG","REGION","Región","region","NAME_1"], "Región");
-            layer.bindPopup(`<b>Provincia:</b> ${nomProv}<br><b>Región:</b> ${nomReg}`);
-            layer.on('click', () => {
-              map.fitBounds(layer.getBounds(), { padding: [20,20] });
-            });
-          }
-        }).addTo(provinciasLayer);
-      })
-      .catch(err => console.warn("Error al cargar provincias:", err));
+      .then(r => { if(!r.ok) throw new Error("provincias.json"); return r.json(); })
+      .then(geo => L.geoJSON(geo, {
+        pane: 'pane-provincias',
+        style: styleProvincias,
+        onEachFeature: (f, layer) => {
+          const p = f.properties||{};
+          const prov = getProp(p, ["PROVINCIA","NOM_PROV","Provincia","NAME_2","name"], "Provincia");
+          const reg  = getProp(p, ["REGION","NOM_REG","Región","NAME_1"], "Región");
+          layer.bindPopup(`<b>Provincia:</b> ${prov}<br><b>Región:</b> ${reg}`);
+          layer.on('click', () => map.fitBounds(layer.getBounds(), {padding:[20,20]}));
+        }
+      }).addTo(provinciasLayer))
+      .catch(e => console.warn("No se pudo cargar:", e.message));
 
-    // Regiones (opcional)
+    // --- Regiones (borde, opcional) ---
     fetch(`${BASE}/regiones.json`)
-      .then(r => {
-        if (!r.ok) throw new Error("No se pudo cargar regiones.json (opcional)");
-        return r.json();
-      })
-      .then(geo => {
-        L.geoJSON(geo, {
-          style: styleRegiones,
-          onEachFeature: (feature, layer) => {
-            const p = feature.properties || {};
-            const nomReg = getProp(p, ["NOM_REG","REGION","Región","region","NAME_1"], "Región");
-            layer.bindPopup(`<b>Región:</b> ${nomReg}`);
-          }
-        }).addTo(regionesLayer);
-      })
-      .catch(err => console.info("Regiones no cargadas (opcional):", err.message));
+      .then(r => { if(!r.ok) throw new Error("regiones.json"); return r.json(); })
+      .then(geo => L.geoJSON(geo, {
+        pane: 'pane-regiones',
+        style: styleRegiones,
+        onEachFeature: (f, layer) => {
+          const p = f.properties||{};
+          const reg = getProp(p, ["REGION","NOM_REG","Región","NAME_1"], "Región");
+          layer.bindPopup(`<b>Región:</b> ${reg}`);
+        }
+      }).addTo(regionesLayer))
+      .catch(() => {}); // si no existe, no molesta
 
-    // Comunas (visibles con zoom alto)
-    let comunasGeoLayer = null;
+    // --- Comunas (rojo, solo con zoom) ---
     fetch(`${BASE}/comunas.json`)
-      .then(r => {
-        if (!r.ok) throw new Error("No se pudo cargar comunas.json");
-        return r.json();
-      })
+      .then(r => { if(!r.ok) throw new Error("comunas.json"); return r.json(); })
       .then(geo => {
         comunasGeoLayer = L.geoJSON(geo, {
+          pane: 'pane-comunas',
           style: styleComunas,
-          onEachFeature: (feature, layer) => {
-            const p = feature.properties || {};
-            const nomCom = getProp(p, ["NOM_COM","COMUNA","Comuna","comuna","name"], "Comuna");
-            const nomProv = getProp(p, ["NOM_PROV","PROVINCIA","Provincia","provincia","NAME_2"], "Provincia");
-            const nomReg  = getProp(p, ["NOM_REG","REGION","Región","region","NAME_1"], "Región");
-            layer.bindPopup(`<b>Comuna:</b> ${nomCom}<br><b>Provincia:</b> ${nomProv}<br><b>Región:</b> ${nomReg}`);
-            layer.on('click', () => map.fitBounds(layer.getBounds(), { padding: [20,20] }));
+          onEachFeature: (f, layer) => {
+            const p = f.properties||{};
+            const com  = getProp(p, ["COMUNA","NOM_COM","Comuna","name"], "Comuna");
+            const prov = getProp(p, ["PROVINCIA","NOM_PROV","Provincia","NAME_2"], "Provincia");
+            const reg  = getProp(p, ["REGION","NOM_REG","Región","NAME_1"], "Región");
+            layer.bindPopup(`<b>Comuna:</b> ${com}<br><b>Provincia:</b> ${prov}<br><b>Región:</b> ${reg}`);
+            layer.on('click', () => map.fitBounds(layer.getBounds(), {padding:[20,20]}));
           }
         });
-        // No la agregamos aún: se maneja con el zoom
         updateComunasVisibility();
       })
-      .catch(err => console.error("Error al cargar comunas:", err));
+      .catch(e => console.error("No se pudo cargar:", e.message));
 
-    // --------- Mostrar/Ocultar comunas según zoom ----------
-    const ZOOM_MIN_COMUNAS = 8;
+    const ZOOM_MIN_COMUNAS = 7;
     function updateComunasVisibility() {
       if (!comunasGeoLayer) return;
       if (map.getZoom() >= ZOOM_MIN_COMUNAS) {
         if (!map.hasLayer(comunasLayer)) comunasLayer.addTo(map);
         if (!comunasLayer.hasLayer(comunasGeoLayer)) comunasGeoLayer.addTo(comunasLayer);
-        info.update('<b>Mapa de Apellidos</b><br>Comunas visibles (zoom ≥ 8).');
+        info.update("<b>Mapa de Apellidos</b><br>Comunas visibles (rojo).");
       } else {
         if (comunasLayer.hasLayer(comunasGeoLayer)) comunasLayer.removeLayer(comunasGeoLayer);
         if (map.hasLayer(comunasLayer)) map.removeLayer(comunasLayer);
-        info.update('<b>Mapa de Apellidos</b><br>Provincias en verde. Acércate para ver comunas (zoom ≥ 8).');
+        info.update(); // texto por defecto
       }
     }
     map.on('zoomend', updateComunasVisibility);
 
-    // --------- Control de capas (por si lo quieres mostrar) ----------
-    const overlays = {
+    // --- Control de capas (opcional) ---
+    L.control.layers(null, {
       "Provincias (verde)": provinciasLayer,
       "Regiones (borde)": regionesLayer,
-      "Comunas (zoom ≥ 8)": comunasLayer
-    };
-    L.control.layers(null, overlays, { collapsed: true }).addTo(map);
+      "Comunas (rojo, zoom≥7)": comunasLayer
+    }, {collapsed:true}).addTo(map);
   </script>
 </body>
 </html>
