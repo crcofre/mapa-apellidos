@@ -3,259 +3,192 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Apellido – Comunas de Chile</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<title>Generador provincias.json desde comunas.json (Chile)</title>
 <style>
-  html,body{height:100%;margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial}
-  #app{display:grid;grid-template-rows:auto auto 1fr auto;min-height:100vh}
-  header{padding:.75rem 1rem;background:#fff;border-bottom:1px solid #eee}
-  h1{font-size:1.05rem;margin:0}
-  #controls{display:flex;gap:.75rem;align-items:center;margin-top:.45rem;flex-wrap:wrap}
-  label{font-size:.9rem;color:#374151}
-  input,button{padding:.35rem .55rem;border:1px solid #e5e7eb;border-radius:.5rem}
-  input{min-width:320px;max-width:100%}
-  button{cursor:pointer;background:#fff}
-  #status{padding:.45rem 1rem;background:#f8fafc;border-top:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;font-size:.9rem;color:#374151}
-  #map{height:70vh;min-height:560px;background:#000 !important}
-  .legend{background:#fff;padding:.5rem .6rem;line-height:1.2;border-radius:.5rem;box-shadow:0 2px 10px rgba(0,0,0,.08);font-size:.85rem}
-  .legend .scale{display:flex;gap:4px;align-items:center;margin:.18rem 0}
-  .legend .swatch{width:18px;height:12px;border-radius:2px}
-  .legend .label{margin-left:.35rem;white-space:nowrap}
-  .info{padding:.5rem .6rem;background:#fff;border-radius:.5rem;box-shadow:0 2px 10px rgba(0,0,0,.08);font-size:.9rem}
-  footer{padding:.55rem 1rem;font-size:.85rem;color:#ccc;background:#000;border-top:1px solid #222}
-  .pill{background:#ef4444;color:#fff;padding:.12rem .45rem;border-radius:999px;font-size:.8rem}
-  .ok{color:#10b981}.err{color:#ef4444}
+  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial;margin:0;background:#0b0b0b;color:#e5e7eb}
+  header{padding:16px 20px;border-bottom:1px solid #1f2937;background:#111827}
+  h1{margin:0;font-size:18px}
+  main{padding:16px 20px;max-width:960px}
+  label{display:block;margin:.5rem 0 .25rem;color:#93c5fd}
+  input,button{padding:.5rem .6rem;border-radius:8px;border:1px solid #374151;background:#0b0b0b;color:#e5e7eb}
+  input{width:100%}
+  button{cursor:pointer}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .muted{color:#9ca3af;font-size:.95rem}
+  pre{background:#111827;border:1px solid #1f2937;padding:12px;border-radius:8px;overflow:auto}
+  .ok{color:#10b981}.warn{color:#f59e0b}.err{color:#ef4444}
 </style>
+<!-- Turf.js para unir polígonos en el navegador -->
+<script src="https://cdn.jsdelivr.net/npm/@turf/turf@6.5.0/turf.min.js"></script>
 </head>
 <body>
-<div id="app">
-  <header>
-    <h1>Apellido <span id="surnameTag" class="pill">CISTERNAS</span> · Comunas de Chile</h1>
-    <div id="controls">
-      <label>Apellido:
-        <input id="surnameInput" type="text" value="CISTERNAS" />
-      </label>
-      <label>URL CSV:
-        <input id="csvUrl" type="text"
-          value="https://docs.google.com/spreadsheets/d/1CKDZkGGO3Rbkd88GFkHYc3f_oFaQkM2RN_ESZU8e898/gviz/tq?tqx=out:csv&gid=24675813" />
-      </label>
-      <button id="btnLoad">Cargar</button>
-    </div>
-  </header>
+<header>
+  <h1>Generador <code>provincias.json</code> (dissolve por provincia a partir de <code>comunas.json</code>)</h1>
+</header>
 
-  <div id="status">Preparando…</div>
-  <div id="map"></div>
+<main>
+  <p class="muted">
+    Paso 1: ingresa la URL pública de tu <b>comunas.json</b> (ej.: <code>https://crcofre.github.io/mapa-apellidos/comunas.json</code>).
+    <br/>Paso 2: haz clic en <b>Generar provincias.json</b>. Se descargará un archivo GeoJSON con las 56 provincias.
+  </p>
 
-  <footer>
-    Fondo negro + límites de Chile. Capa comunal (rojos) por <b>prct_apellido</b> (en porcentaje). Datos desde Google Sheets.
-  </footer>
-</div>
+  <label for="url">URL de <code>comunas.json</code> (o <code>comunas.geojson</code>)</label>
+  <input id="url" type="text" value="https://crcofre.github.io/mapa-apellidos/comunas.json" />
 
-<!-- Cargar librerías de forma robusta -->
+  <div class="row" style="margin-top:10px">
+    <button id="btn">Generar provincias.json</button>
+    <span id="status" class="muted">Listo.</span>
+  </div>
+
+  <details style="margin-top:14px">
+    <summary>Registro</summary>
+    <pre id="log"></pre>
+  </details>
+</main>
+
 <script>
-function loadScript(src){
-  return new Promise((resolve, reject)=>{
-    const s=document.createElement('script'); s.src=src; s.async=true; s.defer=true;
-    s.onload=resolve; s.onerror=()=>reject(new Error('No se pudo cargar: '+src));
-    document.head.appendChild(s);
-  });
+const $ = s => document.querySelector(s);
+function logln(msg){ const el = $('#log'); el.textContent += msg + '\n'; el.scrollTop = el.scrollHeight; }
+function setStatus(msg, cls=''){ const el=$('#status'); el.textContent=msg; el.className=cls; }
+
+const REGION_NAMES = {
+  "01":"Región de Tarapacá","02":"Región de Antofagasta","03":"Región de Atacama","04":"Región de Coquimbo",
+  "05":"Región de Valparaíso","06":"Región del Libertador B. O'Higgins","07":"Región del Maule","08":"Región del Biobío",
+  "09":"Región de La Araucanía","10":"Región de Los Lagos","11":"Región de Aysén del G. Carlos Ibáñez del Campo",
+  "12":"Región de Magallanes y de la Antártica Chilena","13":"Región Metropolitana de Santiago","14":"Región de Los Ríos",
+  "15":"Región de Arica y Parinacota","16":"Región de Ñuble"
+};
+
+// Catálogo códigoProvincia → nombre (oficial 56 provs)
+const PROV_NAMES = {
+  "011":"Iquique","014":"Tamarugal","021":"Antofagasta","022":"El Loa","023":"Tocopilla",
+  "031":"Copiapó","032":"Chañaral","033":"Huasco","041":"Elqui","042":"Choapa","043":"Limarí",
+  "051":"Valparaíso","052":"Isla de Pascua","053":"Los Andes","054":"Petorca","055":"Quillota",
+  "056":"San Antonio","057":"San Felipe de Aconcagua","058":"Marga Marga",
+  "061":"Cachapoal","062":"Cardenal Caro","063":"Colchagua",
+  "071":"Talca","072":"Cauquenes","073":"Curicó","074":"Linares",
+  "081":"Concepción","082":"Arauco","083":"Biobío",
+  "091":"Cautín","092":"Malleco",
+  "101":"Llanquihue","102":"Chiloé","103":"Osorno","104":"Palena",
+  "111":"Coyhaique","112":"Aysén","113":"General Carrera","114":"Capitán Prat",
+  "121":"Magallanes","122":"Antártica Chilena","123":"Tierra del Fuego","124":"Última Esperanza",
+  "131":"Santiago","132":"Cordillera","133":"Chacabuco","134":"Maipo","135":"Melipilla","136":"Talagante",
+  "141":"Valdivia","142":"Ranco",
+  "151":"Arica","152":"Parinacota",
+  "161":"Diguillín","162":"Itata","163":"Punilla"
+};
+
+// Toma un valor de múltiples claves posibles
+function getProp(props, names){
+  if(!props) return null;
+  const idx={};
+  for (const k of Object.keys(props)){
+    idx[k.toLowerCase().replace(/[\s_\-]/g,'')] = k;
+  }
+  for (const n of names){
+    const key = idx[n.toLowerCase().replace(/[\s_\-]/g,'')];
+    if (key) return props[key];
+  }
+  return null;
 }
-function waitForGlobals(timeoutMs=15000){
-  return new Promise((resolve, reject)=>{
-    const t0=Date.now();(function tick(){
-      if (window.L && L.map && window.Papa && Papa.parse) return resolve();
-      if (Date.now()-t0>timeoutMs) return reject(new Error('Timeout esperando Leaflet/Papa'));
-      setTimeout(tick,50);
-    })();
-  });
+
+async function descargarJSON(url){
+  const r = await fetch(url, { cache: 'no-store' });
+  if (!r.ok) throw new Error('HTTP '+r.status+' al descargar '+url);
+  return r.json();
 }
-(async()=>{
-  const st=document.getElementById('status');
+
+// Convierte cualquier Polygon/MultiPolygon en una lista de Polygon para unir
+function polygonsFromFeature(ft){
+  const out = [];
+  turf.flattenEach(ft, g => {
+    if (g.geometry && g.geometry.type === 'Polygon') out.push(g);
+  });
+  return out;
+}
+
+function descargarBlob(nombre, objeto){
+  const data = JSON.stringify(objeto);
+  const blob = new Blob([data], {type:'application/geo+json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = nombre;
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(a.href);
+}
+
+$('#btn').addEventListener('click', async ()=>{
+  const url = $('#url').value.trim();
+  if(!url){ alert('Ingresa la URL de comunas.json'); return; }
+
+  $('#log').textContent = '';
+  setStatus('Descargando comunas…', 'muted');
   try{
-    await loadScript('https://unpkg.com/leaflet@1.9.4/dist/leaflet.js');
-    await loadScript('https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js');
-    await waitForGlobals(); init();
-  }catch(e){ st.textContent='Error cargando/iniciando: '+(e.message||e); console.error(e); }
-})();
-</script>
-
-<script>
-function init(){
-  const $ = s => document.querySelector(s);
-  function setStatus(msg, ok=true){ const el=$('#status'); el.textContent=msg; el.className=ok?'ok':'err'; }
-  function normalizeTxt(s){
-    try{ return (s||'').toString().normalize('NFD').replace(/\p{Diacritic}/gu,'').replace(/\s+/g,' ').trim().toUpperCase(); }
-    catch(e){ return (s||'').toString().toUpperCase().replace(/\s+/g,' ').trim(); }
-  }
-  function parsePctFlexible(v){
-    if (v==null) return 0;
-    if (typeof v==='number' && isFinite(v)) return v;
-    let s=String(v).trim(); if(!s) return 0;
-    const hadPct=s.includes('%'); s=s.replace(/\s+/g,'').replace(/%/g,'');
-    if (s.includes(',') && !s.includes('.')) s=s.replace(/\./g,'').replace(/,/g,'.');
-    if (/^\d{1,3}(\.\d{3})+(,\d+)?$/.test(s)) s=s.replace(/\./g,'').replace(/,/g,'.');
-    const n=parseFloat(s); if(!isFinite(n)) return 0;
-    return (!hadPct && n<=1) ? n*100 : n;
-  }
-  function loadCSV(url){
-    return new Promise((resolve,reject)=>{
-      Papa.parse(url,{download:true,header:true,skipEmptyLines:true,complete:r=>resolve(r.data),error:reject});
-    });
-  }
-  async function fetchJSON(u){ const r=await fetch(u,{cache:'no-store'}); if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); }
-  function getProp(props, names){
-    const idx={}; for(const k of Object.keys(props||{})){ idx[k.toLowerCase().replace(/[\s_\-]/g,'')]=k; }
-    for(const n of names){ const key=idx[n.toLowerCase().replace(/[\s_\-]/g,'')]; if(key) return props[key]; }
-    return null;
-  }
-  function colorCommune(p){ const v=+p||0;
-    if(v>2.5) return '#7f1d1d'; if(v>1.5) return '#991b1b'; if(v>1.0) return '#b91c1c';
-    if(v>0.6) return '#dc2626'; if(v>0.3) return '#ef4444'; if(v>0.15) return '#f87171'; return '#fecaca';
-  }
-
-  // === Mapa base
-  const map=L.map('map',{
-    zoomControl:true, attributionControl:false, preferCanvas:true,
-    zoomSnap:0.25, wheelDebounceTime:30, wheelPxPerZoomLevel:80, inertia:true, inertiaDeceleration:2500
-  });
-  map.setMinZoom(3.5);
-  L.tileLayer('', { attribution:'' }).addTo(map);
-  // Limitar vista aproximada a Chile (cojín amplio)
-  map.setMaxBounds([[-56.5,-78],[-16,-62]]);
-  map.setMaxBounds(map.options.maxBounds.pad(0.15));
-
-  // Controles
-  const info=L.control({position:'topright'});
-  info.onAdd=function(){ this._div=L.DomUtil.create('div','info'); this.update(); return this._div; }
-  info.update=function(p){
-    if(!p){ this._div.innerHTML='<b>Pasa el mouse</b> por una comuna'; return; }
-    const nombre=p.__name || '(sin nombre)';
-    const pct=(p.__freq!=null && isFinite(p.__freq)) ? (+p.__freq).toFixed(1)+'%' : '0.0%';
-    this._div.innerHTML=`<b>${nombre}</b><br>Frecuencia: <b>${pct}</b>`;
-  }
-  info.addTo(map);
-
-  const legend=L.control({position:'bottomright'});
-  legend.onAdd=function(){
-    const div=L.DomUtil.create('div','legend');
-    const stops=[0,0.15,0.3,0.6,1.0,1.5,2.5];
-    div.innerHTML=`<b>Frecuencia (%)</b>`;
-    stops.forEach((s,i)=>{
-      const row=document.createElement('div'); row.className='scale';
-      const box=document.createElement('div'); box.className='swatch';
-      box.style.background=colorCommune(s+0.0001);
-      const label=document.createElement('span'); label.className='label';
-      const next=stops[i+1]; label.textContent=next?`${s}–${next}%`:`>${s}%`;
-      row.appendChild(box); row.appendChild(label); div.appendChild(row);
-    });
-    return div;
-  }
-  legend.addTo(map);
-
-  <script>
-// Reemplaza tu loadGeoCommunesLocal() por esta versión
-async function loadGeoCommunesLocal(){
-  const base = location.pathname.endsWith('/') ? location.pathname : location.pathname.replace(/[^/]+$/, '');
-  const candidates = [
-    new URL('comunas.json',  location.origin + base).href,
-    new URL('comunas.geojson', location.origin + base).href,
-    // fallback RAW (por si acaso, no debería ser necesario si el de arriba existe)
-    'https://raw.githubusercontent.com/crcofre/mapa-apellidos/main/comunas.json',
-    'https://raw.githubusercontent.com/crcofre/mapa-apellidos/main/comunas.geojson'
-  ];
-
-  let lastErr = '';
-  for (const url of candidates){
-    try{
-      // Muestra en la barra de estado qué URL está intentando
-      const st = document.getElementById('status');
-      if (st) st.textContent = 'Cargando GeoJSON: ' + url;
-
-      const r = await fetch(url, { cache: 'no-store' });
-      if (!r.ok) throw new Error('HTTP ' + r.status + ' en ' + url);
-      const gj = await r.json();
-      if (!gj?.features?.length) throw new Error('GeoJSON sin features en ' + url);
-      return gj;
-    }catch(e){
-      console.warn('Fallo cargando GeoJSON:', e);
-      lastErr = e.message || String(e);
+    const gj = await descargarJSON(url);
+    if (!gj || !Array.isArray(gj.features) || !gj.features.length){
+      throw new Error('GeoJSON inválido o sin features');
     }
-  }
-  throw new Error('No se pudo cargar GeoJSON: ' + lastErr);
-}
-</script>
+    logln(`Features de comunas: ${gj.features.length}`);
 
-
-  async function build(){
-    try{
-      setStatus('Cargando CSV y GeoJSON local…');
-      const csvUrl=$('#csvUrl').value.trim();
-      const surname=normalizeTxt($('#surnameInput').value);
-      $('#surnameTag').textContent=$('#surnameInput').value.toUpperCase();
-
-      const [rows, gjComAll] = await Promise.all([ loadCSV(csvUrl), loadGeoCommunesLocal() ]);
-      const rowsSurname = rows.filter(r=>normalizeTxt(r.apellido||r.Apellido||r.APELLIDO)===surname);
-
-      // Índice por CUT; si no viene CUT, tratamos por nombre
-      const byCUT={}, byName={};
-      for(const r of rowsSurname){
-        let cut=String(r.cut||r.CUT||r.cut_com||r.CUT_COM||'').trim();
-        const nameCSV=r.comuna||r.Comuna||r.COMUNA||'';
-        const pct=parsePctFlexible(r.prct_apellido); // ya viene en %
-        if(cut){ byCUT[cut.padStart(5,'0')]={f:pct}; }
-        else if(nameCSV){ byName[normalizeTxt(nameCSV)]={f:pct}; }
+    // Agrupar por provincia (por código de provincia: 3 primeros dígitos del CUT_COM de la comuna)
+    const grupos = {}; // provCode -> array de features de comuna
+    gj.features.forEach((ft, i)=>{
+      const p = ft.properties || {};
+      let cut = String(getProp(p, ['CUT_COM','cut_com','Codigo comuna','codigo_comuna','cod_comuna','CUT','codigo'])||'').padStart(5,'0');
+      if (!/^\d{5}$/.test(cut)) {
+        // Si no hay CUT válido, omitir
+        return;
       }
+      const prov = cut.slice(0,3);
+      if (!grupos[prov]) grupos[prov] = [];
+      grupos[prov].push(ft);
+    });
 
-      // Mapa auxiliar nombre→CUT desde el propio GeoJSON
-      const nameToCut={};
-      (gjComAll.features||[]).forEach(ft=>{
-        const p=ft.properties||{};
-        const cut=String(getProp(p,['CUT_COM','cut_com','Codigo comuna','codigo_comuna','cod_comuna'])||'').padStart(5,'0');
-        const nombre=getProp(p,['Comuna','COMUNA','NOM_COM','name','Nombre'])||'';
-        if(cut && nombre) nameToCut[normalizeTxt(nombre)]=cut;
-      });
-      for(const nKey of Object.keys(byName)){
-        const cut=nameToCut[nKey];
-        if(cut && !byCUT[cut]) byCUT[cut]=byName[nKey];
-      }
+    const provCodes = Object.keys(grupos).sort();
+    logln(`Provincias detectadas: ${provCodes.length}`);
 
-      // Construir capa comunal
-      if(window._communesLayer){ try{ map.removeLayer(window._communesLayer);}catch(_){ } }
-      const communesFC={type:'FeatureCollection',features:[]};
-      (gjComAll.features||[]).forEach(f=>{
-        const p=f.properties||{};
-        const cut=String(getProp(p,['CUT_COM','cut_com','Codigo comuna','codigo_comuna','cod_comuna'])||'').padStart(5,'0');
-        const nombre=getProp(p,['Comuna','COMUNA','NOM_COM','name','Nombre'])||'(sin nombre)';
-        const hit=byCUT[cut];
-        const props=Object.assign({},p,{__name:nombre,__freq:hit?hit.f:0});
-        communesFC.features.push({type:'Feature',properties:props,geometry:f.geometry});
-      });
+    const provinciasFC = { type:'FeatureCollection', features: [] };
 
-      window._communesLayer=L.geoJSON(communesFC,{
-        style:ft=>({color:'#7f1d1d',weight:.8,fillOpacity:.85,fillColor:colorCommune(ft.properties.__freq)}),
-        onEachFeature:(feature,lyr)=>{
-          const p=feature.properties;
-          lyr.on({
-            mouseover:(e)=>{ e.target.setStyle({weight:2}); info.update(p); },
-            mouseout:(e)=>{ window._communesLayer.resetStyle(e.target); info.update(); },
-            click:(e)=> map.fitBounds(e.target.getBounds())
-          });
-          const pctTxt=(p.__freq!=null && isFinite(p.__freq))?p.__freq.toFixed(1)+'%':'0.0%';
-          lyr.bindTooltip(`<b>${p.__name}</b><br>Frecuencia: <b>${pctTxt}</b>`,{sticky:true});
+    // Unir polígonos por provincia
+    for (const prov of provCodes){
+      const fts = grupos[prov];
+      logln(`• Uniendo provincia ${prov} (comunas: ${fts.length})…`);
+      // Convertir todo a polígonos simples y hacer union incremental
+      let unionGeom = null;
+      for (const ft of fts){
+        const polys = polygonsFromFeature(ft);
+        for (const poly of polys){
+          unionGeom = unionGeom ? turf.union(unionGeom, poly) : poly;
         }
-      }).addTo(map);
-
-      map.fitBounds(window._communesLayer.getBounds(),{padding:[40,40]});
-      setStatus(`OK: comunas pintadas: ${communesFC.features.length}`,true);
-    }catch(err){
-      console.error(err);
-      setStatus('Error: '+(err.message||err),false);
+      }
+      if (!unionGeom){
+        logln(`  ¡Atención! No se pudo unir ${prov} (sin geometría)`, 'warn');
+        continue;
+      }
+      const reg = prov.slice(0,2);
+      const props = {
+        codigo_provincia: prov,
+        Provincia: PROV_NAMES[prov] || ('Provincia ' + prov),
+        codigo_region: reg,
+        Region: REGION_NAMES[reg] || ('Región ' + reg)
+      };
+      provinciasFC.features.push({
+        type:'Feature',
+        properties: props,
+        geometry: unionGeom.geometry
+      });
     }
-  }
 
-  document.getElementById('btnLoad').addEventListener('click', build);
-  build();
-}
+    logln(`Provincias generadas: ${provinciasFC.features.length}`);
+    setStatus('Descarga lista: provincias.json', 'ok');
+    descargarBlob('provincias.json', provinciasFC);
+
+  }catch(err){
+    console.error(err);
+    setStatus('Error: ' + (err.message||err), 'err');
+    logln('ERROR: ' + (err.message||err));
+  }
+});
 </script>
 </body>
 </html>
