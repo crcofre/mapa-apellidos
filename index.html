@@ -153,7 +153,7 @@
       .catch(e => console.error("No se pudo cargar:", e.message));
 
     // ---------- Visibilidad de comunas por zoom ----------
-    const ZOOM_MIN_COMUNAS = 7;
+    const ZOOM_MIN_COMUNAS = 9;
     function updateComunasVisibility() {
       if (!comunasGeoLayer) return;
       if (map.getZoom() >= ZOOM_MIN_COMUNAS) {
