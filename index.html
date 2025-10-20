@@ -1,194 +1,177 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Generador provincias.json desde comunas.json (Chile)</title>
-<style>
-  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial;margin:0;background:#0b0b0b;color:#e5e7eb}
-  header{padding:16px 20px;border-bottom:1px solid #1f2937;background:#111827}
-  h1{margin:0;font-size:18px}
-  main{padding:16px 20px;max-width:960px}
-  label{display:block;margin:.5rem 0 .25rem;color:#93c5fd}
-  input,button{padding:.5rem .6rem;border-radius:8px;border:1px solid #374151;background:#0b0b0b;color:#e5e7eb}
-  input{width:100%}
-  button{cursor:pointer}
-  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-  .muted{color:#9ca3af;font-size:.95rem}
-  pre{background:#111827;border:1px solid #1f2937;padding:12px;border-radius:8px;overflow:auto}
-  .ok{color:#10b981}.warn{color:#f59e0b}.err{color:#ef4444}
-</style>
-<!-- Turf.js para unir polígonos en el navegador -->
-<script src="https://cdn.jsdelivr.net/npm/@turf/turf@6.5.0/turf.min.js"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mapa de Apellidos - Provincias y Comunas de Chile</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    html, body { height: 100%; margin: 0; }
+    #map { width: 100%; height: 100vh; }
+    .info {
+      background: rgba(255,255,255,0.9);
+      padding: 8px 10px;
+      border-radius: 6px;
+      font-family: "Book Antiqua", serif;
+      line-height: 1.3;
+      box-shadow: 0 1px 4px rgba(0,0,0,.2);
+    }
+    .leaflet-control-layers-expanded {
+      font-family: "Book Antiqua", serif;
+    }
+  </style>
 </head>
 <body>
-<header>
-  <h1>Generador <code>provincias.json</code> (dissolve por provincia a partir de <code>comunas.json</code>)</h1>
-</header>
+  <div id="map"></div>
 
-<main>
-  <p class="muted">
-    Paso 1: ingresa la URL pública de tu <b>comunas.json</b> (ej.: <code>https://crcofre.github.io/mapa-apellidos/comunas.json</code>).
-    <br/>Paso 2: haz clic en <b>Generar provincias.json</b>. Se descargará un archivo GeoJSON con las 56 provincias.
-  </p>
-
-  <label for="url">URL de <code>comunas.json</code> (o <code>comunas.geojson</code>)</label>
-  <input id="url" type="text" value="https://crcofre.github.io/mapa-apellidos/comunas.json" />
-
-  <div class="row" style="margin-top:10px">
-    <button id="btn">Generar provincias.json</button>
-    <span id="status" class="muted">Listo.</span>
-  </div>
-
-  <details style="margin-top:14px">
-    <summary>Registro</summary>
-    <pre id="log"></pre>
-  </details>
-</main>
-
-<script>
-const $ = s => document.querySelector(s);
-function logln(msg){ const el = $('#log'); el.textContent += msg + '\n'; el.scrollTop = el.scrollHeight; }
-function setStatus(msg, cls=''){ const el=$('#status'); el.textContent=msg; el.className=cls; }
-
-const REGION_NAMES = {
-  "01":"Región de Tarapacá","02":"Región de Antofagasta","03":"Región de Atacama","04":"Región de Coquimbo",
-  "05":"Región de Valparaíso","06":"Región del Libertador B. O'Higgins","07":"Región del Maule","08":"Región del Biobío",
-  "09":"Región de La Araucanía","10":"Región de Los Lagos","11":"Región de Aysén del G. Carlos Ibáñez del Campo",
-  "12":"Región de Magallanes y de la Antártica Chilena","13":"Región Metropolitana de Santiago","14":"Región de Los Ríos",
-  "15":"Región de Arica y Parinacota","16":"Región de Ñuble"
-};
-
-// Catálogo códigoProvincia → nombre (oficial 56 provs)
-const PROV_NAMES = {
-  "011":"Iquique","014":"Tamarugal","021":"Antofagasta","022":"El Loa","023":"Tocopilla",
-  "031":"Copiapó","032":"Chañaral","033":"Huasco","041":"Elqui","042":"Choapa","043":"Limarí",
-  "051":"Valparaíso","052":"Isla de Pascua","053":"Los Andes","054":"Petorca","055":"Quillota",
-  "056":"San Antonio","057":"San Felipe de Aconcagua","058":"Marga Marga",
-  "061":"Cachapoal","062":"Cardenal Caro","063":"Colchagua",
-  "071":"Talca","072":"Cauquenes","073":"Curicó","074":"Linares",
-  "081":"Concepción","082":"Arauco","083":"Biobío",
-  "091":"Cautín","092":"Malleco",
-  "101":"Llanquihue","102":"Chiloé","103":"Osorno","104":"Palena",
-  "111":"Coyhaique","112":"Aysén","113":"General Carrera","114":"Capitán Prat",
-  "121":"Magallanes","122":"Antártica Chilena","123":"Tierra del Fuego","124":"Última Esperanza",
-  "131":"Santiago","132":"Cordillera","133":"Chacabuco","134":"Maipo","135":"Melipilla","136":"Talagante",
-  "141":"Valdivia","142":"Ranco",
-  "151":"Arica","152":"Parinacota",
-  "161":"Diguillín","162":"Itata","163":"Punilla"
-};
-
-// Toma un valor de múltiples claves posibles
-function getProp(props, names){
-  if(!props) return null;
-  const idx={};
-  for (const k of Object.keys(props)){
-    idx[k.toLowerCase().replace(/[\s_\-]/g,'')] = k;
-  }
-  for (const n of names){
-    const key = idx[n.toLowerCase().replace(/[\s_\-]/g,'')];
-    if (key) return props[key];
-  }
-  return null;
-}
-
-async function descargarJSON(url){
-  const r = await fetch(url, { cache: 'no-store' });
-  if (!r.ok) throw new Error('HTTP '+r.status+' al descargar '+url);
-  return r.json();
-}
-
-// Convierte cualquier Polygon/MultiPolygon en una lista de Polygon para unir
-function polygonsFromFeature(ft){
-  const out = [];
-  turf.flattenEach(ft, g => {
-    if (g.geometry && g.geometry.type === 'Polygon') out.push(g);
-  });
-  return out;
-}
-
-function descargarBlob(nombre, objeto){
-  const data = JSON.stringify(objeto);
-  const blob = new Blob([data], {type:'application/geo+json'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = nombre;
-  document.body.appendChild(a); a.click(); a.remove();
-  URL.revokeObjectURL(a.href);
-}
-
-$('#btn').addEventListener('click', async ()=>{
-  const url = $('#url').value.trim();
-  if(!url){ alert('Ingresa la URL de comunas.json'); return; }
-
-  $('#log').textContent = '';
-  setStatus('Descargando comunas…', 'muted');
-  try{
-    const gj = await descargarJSON(url);
-    if (!gj || !Array.isArray(gj.features) || !gj.features.length){
-      throw new Error('GeoJSON inválido o sin features');
-    }
-    logln(`Features de comunas: ${gj.features.length}`);
-
-    // Agrupar por provincia (por código de provincia: 3 primeros dígitos del CUT_COM de la comuna)
-    const grupos = {}; // provCode -> array de features de comuna
-    gj.features.forEach((ft, i)=>{
-      const p = ft.properties || {};
-      let cut = String(getProp(p, ['CUT_COM','cut_com','Codigo comuna','codigo_comuna','cod_comuna','CUT','codigo'])||'').padStart(5,'0');
-      if (!/^\d{5}$/.test(cut)) {
-        // Si no hay CUT válido, omitir
-        return;
+  <script>
+    // --------- Utilidades ----------
+    function getProp(props, keys, fallback = "—") {
+      // Devuelve el primer campo existente según una lista de posibles nombres
+      for (const k of keys) {
+        if (props && props[k] != null && props[k] !== "") return props[k];
       }
-      const prov = cut.slice(0,3);
-      if (!grupos[prov]) grupos[prov] = [];
-      grupos[prov].push(ft);
-    });
-
-    const provCodes = Object.keys(grupos).sort();
-    logln(`Provincias detectadas: ${provCodes.length}`);
-
-    const provinciasFC = { type:'FeatureCollection', features: [] };
-
-    // Unir polígonos por provincia
-    for (const prov of provCodes){
-      const fts = grupos[prov];
-      logln(`• Uniendo provincia ${prov} (comunas: ${fts.length})…`);
-      // Convertir todo a polígonos simples y hacer union incremental
-      let unionGeom = null;
-      for (const ft of fts){
-        const polys = polygonsFromFeature(ft);
-        for (const poly of polys){
-          unionGeom = unionGeom ? turf.union(unionGeom, poly) : poly;
-        }
-      }
-      if (!unionGeom){
-        logln(`  ¡Atención! No se pudo unir ${prov} (sin geometría)`, 'warn');
-        continue;
-      }
-      const reg = prov.slice(0,2);
-      const props = {
-        codigo_provincia: prov,
-        Provincia: PROV_NAMES[prov] || ('Provincia ' + prov),
-        codigo_region: reg,
-        Region: REGION_NAMES[reg] || ('Región ' + reg)
-      };
-      provinciasFC.features.push({
-        type:'Feature',
-        properties: props,
-        geometry: unionGeom.geometry
-      });
+      return fallback;
     }
 
-    logln(`Provincias generadas: ${provinciasFC.features.length}`);
-    setStatus('Descarga lista: provincias.json', 'ok');
-    descargarBlob('provincias.json', provinciasFC);
+    // --------- Mapa base ----------
+    const map = L.map('map', {
+      zoomControl: true
+    }).setView([-35.6751, -71.5430], 5);
 
-  }catch(err){
-    console.error(err);
-    setStatus('Error: ' + (err.message||err), 'err');
-    logln('ERROR: ' + (err.message||err));
-  }
-});
-</script>
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    // --------- Controles e info ----------
+    const info = L.control({position: 'topright'});
+    info.onAdd = function() {
+      this._div = L.DomUtil.create('div', 'info');
+      this.update();
+      return this._div;
+    };
+    info.update = function(txt) {
+      this._div.innerHTML = txt || '<b>Mapa de Apellidos</b><br>• Provincias en verde<br>• Comunas al acercar (zoom ≥ 8)';
+    };
+    info.addTo(map);
+
+    // Grupos de capas
+    const provinciasLayer = L.layerGroup().addTo(map);  // visible por defecto
+    const regionesLayer   = L.layerGroup();             // opcional
+    const comunasLayer    = L.layerGroup();             // aparece con zoom
+
+    // --------- Estilos ----------
+    const styleProvincias = {
+      color: "#333",
+      weight: 1,
+      fillColor: "#76c893",  // verde
+      fillOpacity: 0.55
+    };
+
+    const styleRegiones = {
+      color: "#1b4d3e",
+      weight: 2.2,
+      fillOpacity: 0
+    };
+
+    const styleComunas = {
+      color: "#444",
+      weight: 0.8,
+      fillColor: "#a1d99b",
+      fillOpacity: 0.45
+    };
+
+    // --------- Carga de GeoJSON ----------
+    const BASE = "https://raw.githubusercontent.com/crcofre/mapa-apellidos/main";
+
+    // Provincias
+    fetch(`${BASE}/provincias.json`)
+      .then(r => {
+        if (!r.ok) throw new Error("No se pudo cargar provincias.json");
+        return r.json();
+      })
+      .then(geo => {
+        L.geoJSON(geo, {
+          style: styleProvincias,
+          onEachFeature: (feature, layer) => {
+            const p = feature.properties || {};
+            const nomProv = getProp(p, ["NOM_PROV","PROVINCIA","Provincia","provincia","NAME_2","name"], "Provincia");
+            const nomReg  = getProp(p, ["NOM_REG","REGION","Región","region","NAME_1"], "Región");
+            layer.bindPopup(`<b>Provincia:</b> ${nomProv}<br><b>Región:</b> ${nomReg}`);
+            layer.on('click', () => {
+              map.fitBounds(layer.getBounds(), { padding: [20,20] });
+            });
+          }
+        }).addTo(provinciasLayer);
+      })
+      .catch(err => console.warn("Error al cargar provincias:", err));
+
+    // Regiones (opcional)
+    fetch(`${BASE}/regiones.json`)
+      .then(r => {
+        if (!r.ok) throw new Error("No se pudo cargar regiones.json (opcional)");
+        return r.json();
+      })
+      .then(geo => {
+        L.geoJSON(geo, {
+          style: styleRegiones,
+          onEachFeature: (feature, layer) => {
+            const p = feature.properties || {};
+            const nomReg = getProp(p, ["NOM_REG","REGION","Región","region","NAME_1"], "Región");
+            layer.bindPopup(`<b>Región:</b> ${nomReg}`);
+          }
+        }).addTo(regionesLayer);
+      })
+      .catch(err => console.info("Regiones no cargadas (opcional):", err.message));
+
+    // Comunas (visibles con zoom alto)
+    let comunasGeoLayer = null;
+    fetch(`${BASE}/comunas.json`)
+      .then(r => {
+        if (!r.ok) throw new Error("No se pudo cargar comunas.json");
+        return r.json();
+      })
+      .then(geo => {
+        comunasGeoLayer = L.geoJSON(geo, {
+          style: styleComunas,
+          onEachFeature: (feature, layer) => {
+            const p = feature.properties || {};
+            const nomCom = getProp(p, ["NOM_COM","COMUNA","Comuna","comuna","name"], "Comuna");
+            const nomProv = getProp(p, ["NOM_PROV","PROVINCIA","Provincia","provincia","NAME_2"], "Provincia");
+            const nomReg  = getProp(p, ["NOM_REG","REGION","Región","region","NAME_1"], "Región");
+            layer.bindPopup(`<b>Comuna:</b> ${nomCom}<br><b>Provincia:</b> ${nomProv}<br><b>Región:</b> ${nomReg}`);
+            layer.on('click', () => map.fitBounds(layer.getBounds(), { padding: [20,20] }));
+          }
+        });
+        // No la agregamos aún: se maneja con el zoom
+        updateComunasVisibility();
+      })
+      .catch(err => console.error("Error al cargar comunas:", err));
+
+    // --------- Mostrar/Ocultar comunas según zoom ----------
+    const ZOOM_MIN_COMUNAS = 8;
+    function updateComunasVisibility() {
+      if (!comunasGeoLayer) return;
+      if (map.getZoom() >= ZOOM_MIN_COMUNAS) {
+        if (!map.hasLayer(comunasLayer)) comunasLayer.addTo(map);
+        if (!comunasLayer.hasLayer(comunasGeoLayer)) comunasGeoLayer.addTo(comunasLayer);
+        info.update('<b>Mapa de Apellidos</b><br>Comunas visibles (zoom ≥ 8).');
+      } else {
+        if (comunasLayer.hasLayer(comunasGeoLayer)) comunasLayer.removeLayer(comunasGeoLayer);
+        if (map.hasLayer(comunasLayer)) map.removeLayer(comunasLayer);
+        info.update('<b>Mapa de Apellidos</b><br>Provincias en verde. Acércate para ver comunas (zoom ≥ 8).');
+      }
+    }
+    map.on('zoomend', updateComunasVisibility);
+
+    // --------- Control de capas (por si lo quieres mostrar) ----------
+    const overlays = {
+      "Provincias (verde)": provinciasLayer,
+      "Regiones (borde)": regionesLayer,
+      "Comunas (zoom ≥ 8)": comunasLayer
+    };
+    L.control.layers(null, overlays, { collapsed: true }).addTo(map);
+  </script>
 </body>
 </html>
