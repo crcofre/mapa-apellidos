@@ -3,176 +3,136 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mapa de Apellidos - Chile (Regiones, Provincias y Comunas)</title>
+  <title>Mapa de Apellidos - Chile</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
     html, body { height: 100%; margin: 0; }
-    #map { width: 100%; height: 100vh; background: #f7f7f7; } /* sin cartografía base */
-    .info {
-      background: rgba(255,255,255,.95);
-      padding: 8px 10px;
-      border-radius: 6px;
-      font-family: "Book Antiqua", serif;
-      box-shadow: 0 1px 4px rgba(0,0,0,.2);
-      line-height: 1.35;
-    }
+    #map { width: 100%; height: 100vh; background: #f7f7f7; }
     .leaflet-tooltip {
       font-family: "Book Antiqua", serif;
       font-size: 13px;
+      font-weight: bold;
+      color: #000;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(0,0,0,0.2);
+      border-radius: 4px;
       padding: 4px 6px;
     }
-    .hover-pointer { cursor: pointer; }
   </style>
 </head>
 <body>
   <div id="map"></div>
 
   <script>
-    // ---------- Utilidades ----------
-    function getProp(props, keys, fallback = "—") {
-      for (const k of keys) if (props && props[k] != null && props[k] !== "") return props[k];
+    // ------------------ Configuración básica ------------------
+    const map = L.map('map', {
+      center: [-35.6751, -71.5430],
+      zoom: 5,
+      worldCopyJump: false,
+      zoomControl: true
+    });
+
+    // Sin cartografía base (fondo neutro)
+    document.getElementById('map').style.background = "#f7f7f7";
+
+    // Rutas base (ajusta si los JSON están en otra carpeta)
+    const BASE = "https://raw.githubusercontent.com/crcofre/mapa-apellidos/main";
+
+    // Estilos de cada capa
+    const styleRegiones = { color: "#0057b7", weight: 3.5, fillOpacity: 0.1 }; // azul
+    const styleProvincias = { color: "#333", weight: 1, fillColor: "#76c893", fillOpacity: 0.55 };
+    const styleComunas = { color: "#990000", weight: 0.8, fillColor: "#e34a33", fillOpacity: 0.45 };
+
+    // Crear panes para controlar el orden de dibujo
+    map.createPane('pane-provincias');  map.getPane('pane-provincias').style.zIndex = 520;
+    map.createPane('pane-comunas');     map.getPane('pane-comunas').style.zIndex = 600;
+    map.createPane('pane-regiones');    map.getPane('pane-regiones').style.zIndex = 650; // regiones arriba de todo
+
+    // Grupos de capas
+    const provinciasLayer = L.layerGroup().addTo(map);
+    const comunasLayer = L.layerGroup();
+    const regionesLayer = L.layerGroup().addTo(map);
+    let comunasGeoLayer = null;
+
+    // Función para obtener propiedades con nombre variable
+    function getProp(p, keys, fallback = "—") {
+      for (const k of keys) if (p && p[k] != null && p[k] !== "") return p[k];
       return fallback;
     }
 
-    // Límites aprox. Chile continental (sin Rapa Nui/Antártica)
-    const CHILE_BOUNDS = L.latLngBounds(
-      L.latLng(-56.2, -81.5),  // Suroeste
-      L.latLng(-17.0, -66.0)   // Noreste
-    );
-
-    // ---------- Mapa (sin cartografía base) ----------
-    const map = L.map('map', {
-      zoomControl: true,
-      maxBounds: CHILE_BOUNDS,
-      maxBoundsViscosity: 1.0,
-      worldCopyJump: false
-    });
-    map.fitBounds(CHILE_BOUNDS);
-
-    // Panes para controlar orden de dibujo
-    map.createPane('pane-provincias');  map.getPane('pane-provincias').style.zIndex = 520;
-    map.createPane('pane-regiones');    map.getPane('pane-regiones').style.zIndex   = 560;
-    map.createPane('pane-comunas');     map.getPane('pane-comunas').style.zIndex    = 650;
-
-    // ---------- Control de información ----------
-    const info = L.control({ position: 'topright' });
-    info.onAdd = function () { this._div = L.DomUtil.create('div', 'info'); this.update(); return this._div; };
-    info.update = function (txt) {
-      this._div.innerHTML = txt || "<b>Mapa de Apellidos</b><br>Regiones (borde), Provincias en verde.<br>Acércate (zoom ≥ 7) para ver Comunas en rojo.";
-    };
-    info.addTo(map);
-
-    // ---------- Grupos de capas ----------
-    const provinciasLayer = L.layerGroup().addTo(map); // visible por defecto
-    const regionesLayer   = L.layerGroup().addTo(map); // visible por defecto
-    const comunasLayer    = L.layerGroup();            // visible con zoom
-    let comunasGeoLayer = null;
-
-    // ---------- Estilos ----------
-    const styleProvincias = { color:"#333", weight:1, fillColor:"#76c893", fillOpacity:.55 };
-    const styleRegiones   = { color:"#0b3d2e", weight:3.2, fillOpacity:0, dashArray:"3" };
-    const styleComunas    = { color:"#990000", weight:.8, fillColor:"#e34a33", fillOpacity:.45 };
-
-    // ---------- Rutas (ajusta si moviste los archivos a otra carpeta) ----------
-    const BASE = "https://raw.githubusercontent.com/crcofre/mapa-apellidos/main";
-
-    // ---------- Carga REGIONES ----------
+    // ------------------ Carga de REGIONES ------------------
     fetch(`${BASE}/regiones.json`)
-      .then(r => { if(!r.ok) throw new Error("regiones.json"); return r.json(); })
+      .then(r => r.json())
       .then(geo => {
-        const lyr = L.geoJSON(geo, {
+        L.geoJSON(geo, {
           pane: 'pane-regiones',
           style: styleRegiones,
           onEachFeature: (f, layer) => {
             const p = f.properties || {};
-            const reg = getProp(p, ["REGION","NOM_REG","Región","NAME_1"], "Región");
-            layer.bindPopup(`<b>Región:</b> ${reg}`);
-            layer.on('click', () => map.fitBounds(layer.getBounds(), { padding: [20,20] }));
-            layer.on('mouseover', () => layer.setStyle({ weight: 4.2 }));
-            layer.on('mouseout',  () => layer.setStyle({ weight: 3.2 }));
-            layer.getElement && layer.getElement().classList && layer.getElement().classList.add('hover-pointer');
+            const reg = getProp(p, ["REGION", "NOM_REG", "Región", "NAME_1"], "Región");
+            layer.bindTooltip(reg, { permanent: false, direction: 'auto', opacity: 0.95, sticky: true });
+            layer.on('click', () => map.fitBounds(layer.getBounds(), { padding: [20, 20] }));
           }
         }).addTo(regionesLayer);
-        if (lyr.bringToFront) lyr.bringToFront();
-      })
-      .catch(() => {}); // si falta, no rompe
+      });
 
-    // ---------- Carga PROVINCIAS (tooltip al pasar el mouse) ----------
+    // ------------------ Carga de PROVINCIAS ------------------
     fetch(`${BASE}/provincias.json`)
-      .then(r => { if(!r.ok) throw new Error("provincias.json"); return r.json(); })
+      .then(r => r.json())
       .then(geo => {
-        const lyr = L.geoJSON(geo, {
+        L.geoJSON(geo, {
           pane: 'pane-provincias',
           style: styleProvincias,
           onEachFeature: (f, layer) => {
             const p = f.properties || {};
-            const prov = getProp(p, ["PROVINCIA","NOM_PROV","Provincia","NAME_2","name"], "Provincia");
-            const reg  = getProp(p, ["REGION","NOM_REG","Región","NAME_1"], "Región");
-            // Tooltip (hover)
-            layer.bindTooltip(`Provincia: ${prov}<br>Región: ${reg}`, { sticky: true, direction: 'auto', opacity: 0.95 });
-            // Popup (click) y zoom al polígono
-            layer.bindPopup(`<b>Provincia:</b> ${prov}<br><b>Región:</b> ${reg}`);
-            layer.on('click', () => map.fitBounds(layer.getBounds(), { padding: [20,20] }));
-            // Efecto hover sutil
-            layer.on('mouseover', () => layer.setStyle({ fillOpacity: .65 }));
-            layer.on('mouseout',  () => layer.setStyle({ fillOpacity: .55 }));
-            // Cursor mano
-            try { layer.getElement().classList.add('hover-pointer'); } catch(_e){}
+            const prov = getProp(p, ["PROVINCIA", "NOM_PROV", "Provincia", "NAME_2", "name"], "Provincia");
+            layer.bindTooltip(prov, { permanent: false, direction: 'auto', opacity: 0.95, sticky: true });
+            layer.on('click', () => map.fitBounds(layer.getBounds(), { padding: [20, 20] }));
+            layer.on('mouseover', () => layer.setStyle({ fillOpacity: 0.65 }));
+            layer.on('mouseout', () => layer.setStyle({ fillOpacity: 0.55 }));
           }
         }).addTo(provinciasLayer);
-        if (lyr.bringToFront) lyr.bringToFront();
-      })
-      .catch(e => console.warn("No se pudo cargar:", e.message));
+      });
 
-    // ---------- Carga COMUNAS (tooltip al pasar el mouse, visible con zoom) ----------
+    // ------------------ Carga de COMUNAS ------------------
     fetch(`${BASE}/comunas.json`)
-      .then(r => { if(!r.ok) throw new Error("comunas.json"); return r.json(); })
+      .then(r => r.json())
       .then(geo => {
         comunasGeoLayer = L.geoJSON(geo, {
           pane: 'pane-comunas',
           style: styleComunas,
           onEachFeature: (f, layer) => {
             const p = f.properties || {};
-            const com  = getProp(p, ["COMUNA","NOM_COM","Comuna","name"], "Comuna");
-            const prov = getProp(p, ["PROVINCIA","NOM_PROV","Provincia","NAME_2"], "Provincia");
-            const reg  = getProp(p, ["REGION","NOM_REG","Región","NAME_1"], "Región");
-            // Tooltip (hover)
-            layer.bindTooltip(`Comuna: ${com}<br>Provincia: ${prov}<br>Región: ${reg}`, { sticky: true, direction: 'auto', opacity: 0.95 });
-            // Popup (click) y zoom
-            layer.bindPopup(`<b>Comuna:</b> ${com}<br><b>Provincia:</b> ${prov}<br><b>Región:</b> ${reg}`);
-            layer.on('click', () => map.fitBounds(layer.getBounds(), { padding: [20,20] }));
-            // Efecto hover sutil
-            layer.on('mouseover', () => layer.setStyle({ fillOpacity: .55 }));
-            layer.on('mouseout',  () => layer.setStyle({ fillOpacity: .45 }));
-            try { layer.getElement().classList.add('hover-pointer'); } catch(_e){}
+            const com = getProp(p, ["COMUNA", "NOM_COM", "Comuna", "name"], "Comuna");
+            layer.bindTooltip(com, { permanent: false, direction: 'auto', opacity: 0.95, sticky: true });
+            layer.on('click', () => map.fitBounds(layer.getBounds(), { padding: [20, 20] }));
+            layer.on('mouseover', () => layer.setStyle({ fillOpacity: 0.55 }));
+            layer.on('mouseout', () => layer.setStyle({ fillOpacity: 0.45 }));
           }
         });
         updateComunasVisibility();
-      })
-      .catch(e => console.error("No se pudo cargar:", e.message));
+      });
 
-    // ---------- Visibilidad de comunas por zoom ----------
-    const ZOOM_MIN_COMUNAS = 9;
+    // ------------------ Mostrar comunas al acercar ------------------
+    const ZOOM_MIN_COMUNAS = 8;
     function updateComunasVisibility() {
       if (!comunasGeoLayer) return;
       if (map.getZoom() >= ZOOM_MIN_COMUNAS) {
         if (!map.hasLayer(comunasLayer)) comunasLayer.addTo(map);
         if (!comunasLayer.hasLayer(comunasGeoLayer)) comunasGeoLayer.addTo(comunasLayer);
-        info.update("<b>Mapa de Apellidos</b><br>Comunas visibles (rojo). Pasa el mouse para ver nombres.");
       } else {
         if (comunasLayer.hasLayer(comunasGeoLayer)) comunasLayer.removeLayer(comunasGeoLayer);
         if (map.hasLayer(comunasLayer)) map.removeLayer(comunasLayer);
-        info.update(); // texto por defecto
       }
     }
     map.on('zoomend', updateComunasVisibility);
 
-    // ---------- Control de capas (opcional) ----------
+    // Control opcional de capas (puedes quitarlo si no quieres el panel)
     L.control.layers(null, {
-      "Regiones (borde)": regionesLayer,
+      "Regiones (azul)": regionesLayer,
       "Provincias (verde)": provinciasLayer,
-      "Comunas (rojo, zoom≥7)": comunasLayer
+      "Comunas (rojo, zoom≥8)": comunasLayer
     }, { collapsed: true }).addTo(map);
   </script>
 </body>
