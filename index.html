@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mapa de apellidos en Chile – Comunas</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+  html,body{height:100%;margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial}
+  #app{display:grid;grid-template-rows:auto auto 1fr auto;min-height:80vh}
+  header{padding:.75rem 1rem;background:#fff;border-bottom:1px solid #eee}
+  h1{font-size:1.05rem;margin:0}
+  #controls{display:flex;gap:.75rem;align-items:center;margin-top:.45rem;flex-wrap:wrap}
+  label{font-size:.9rem;color:#374151}
+  input,button{padding:.35rem .55rem;border:1px solid #e5e7eb;border-radius:.5rem}
+  input{min-width:320px;max-width:100%}
+  button{cursor:pointer;background:#fff}
+  #status{padding:.45rem 1rem;background:#f8fafc;border-top:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;font-size:.9rem;color:#374151}
+  #map{height:70vh;min-height:520px;background:#000 !important}
+  .legend{background:#fff;padding:.5rem .6rem;line-height:1.2;border-radius:.5rem;box-shadow:0 2px 10px rgba(0,0,0,.08);font-size:.85rem}
+  .legend .scale{display:flex;gap:4px;align-items:center;margin:.18rem 0}
+  .legend .swatch{width:18px;height:12px;border-radius:2px}
+  .legend .label{margin-left:.35rem;white-space:nowrap}
+  .info{padding:.5rem .6rem;background:#fff;border-radius:.5rem;box-shadow:0 2px 10px rgba(0,0,0,.08);font-size:.9rem}
+  footer{padding:.55rem 1rem;font-size:.85rem;color:#ccc;background:#000;border-top:1px solid #222}
+  .pill{background:#ef4444;color:#fff;padding:.12rem .45rem;border-radius:999px;font-size:.8rem}
+  .ok{color:#10b981}.err{color:#ef4444}
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <h1>Apellido <span id="surnameTag" class="pill">CISTERNAS</span> · Comunas de Chile</h1>
+    <div id="controls">
+      <label>Apellido:
+        <input id="surnameInput" type="text" value="CISTERNAS" />
+      </label>
+      <label>URL CSV:
+        <input id="csvUrl" type="text"
+          value="https://docs.google.com/spreadsheets/d/1CKDZkGGO3Rbkd88GFkHYc3f_oFaQkM2RN_ESZU8e898/gviz/tq?tqx=out:csv&gid=24675813" />
+      </label>
+      <button id="btnLoad">Cargar</button>
+    </div>
+  </header>
+
+  <div id="status">Preparando…</div>
+  <div id="map"></div>
+
+  <footer>
+    Fondo negro + límites de Chile. Capa comunal (rojos) por <b>prct_apellido</b> (en porcentaje). Datos desde Google Sheets.
+  </footer>
+</div>
+
+<!-- Cargador robusto de librerías -->
+<script>
+function loadScript(src){
+  return new Promise((resolve, reject)=>{
+    const s = document.createElement('script');
+    s.src = src; s.async = true; s.defer = true;
+    s.onload = resolve; s.onerror = () => reject(new Error('No se pudo cargar: '+src));
+    document.head.appendChild(s);
+  });
+}
+function waitForGlobals(timeoutMs = 15000){
+  return new Promise((resolve, reject)=>{
+    const t0 = Date.now();
+    (function tick(){
+      if (window.L && L.map && window.Papa && Papa.parse) return resolve();
+      if (Date.now() - t0 > timeoutMs) return reject(new Error('Timeout esperando Leaflet/Papa'));
+      setTimeout(tick, 50);
+    })();
+  });
+}
+(async () => {
+  const st = document.getElementById('status');
+  try{
+    await loadScript('https://unpkg.com/leaflet@1.9.4/dist/leaflet.js');
+    await loadScript('https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js');
+    await waitForGlobals();
+    await new Promise(r=>setTimeout(r,0));
+    init();
+  }catch(e){
+    st.textContent = 'Error cargando/iniciando: ' + (e.message||e);
+    console.error(e);
+  }
+})();
+</script>
+
+<script>
+function init(){
+  // ===== Catálogo embebido CUT -> nombre (nacional) =====
+  // (resumen suficiente para resolver nombres→códigos si el CSV no trae CUT)
+  window.EMBED_CUT2NAME = {
+    "01101":"Iquique","01107":"Alto Hospicio","01401":"Pozo Almonte","01402":"Camiña","01403":"Colchane","01404":"Huara","01405":"Pica",
+    "02101":"Antofagasta","02102":"Mejillones","02103":"Sierra Gorda","02104":"Taltal","02201":"Calama","02202":"Ollagüe","02203":"San Pedro de Atacama",
+    "02301":"Tocopilla","02302":"María Elena",
+    "03101":"Copiapó","03102":"Caldera","03103":"Tierra Amarilla","03201":"Chañaral","03202":"Diego de Almagro",
+    "03301":"Vallenar","03302":"Alto del Carmen","03303":"Freirina","03304":"Huasco",
+    "04101":"La Serena","04102":"Coquimbo","04103":"Andacollo","04104":"La Higuera","04105":"Paiguano","04106":"Vicuña",
+    "04201":"Illapel","04202":"Canela","04203":"Los Vilos","04204":"Salamanca",
+    "04301":"Ovalle","04302":"Combarbalá","04303":"Monte Patria","04304":"Punitaqui","04305":"Río Hurtado",
+    "05101":"Valparaíso","05102":"Casablanca","05103":"Concón","05104":"Juan Fernández","05105":"Puchuncaví","05107":"Quintero","05109":"Viña del Mar",
+    "05201":"Isla de Pascua",
+    "05301":"Los Andes","05302":"Calle Larga","05303":"Rinconada","05304":"San Esteban",
+    "05401":"La Ligua","05402":"Cabildo","05403":"Papudo","05404":"Petorca","05405":"Zapallar",
+    "05501":"Quillota","05502":"Calera","05503":"Hijuelas","05504":"La Cruz","05506":"Nogales",
+    "05601":"San Antonio","05602":"Algarrobo","05603":"Cartagena","05604":"El Quisco","05605":"El Tabo","05606":"Santo Domingo",
+    "05701":"San Felipe","05702":"Catemu","05703":"Llaillay","05704":"Panquehue","05705":"Putaendo","05706":"Santa María",
+    "05801":"Quilpué","05802":"Limache","05803":"Olmué","05804":"Villa Alemana",
+    "06101":"Rancagua","06102":"Codegua","06103":"Coinco","06104":"Coltauco","06105":"Doñihue","06106":"Graneros","06107":"Las Cabras","06108":"Machalí","06109":"Malloa","06110":"Mostazal","06111":"Olivar","06112":"Peumo","06113":"Pichidegua","06114":"Quinta de Tilcoco","06115":"Rengo","06116":"Requínoa","06117":"San Vicente",
+    "06201":"Pichilemu","06202":"La Estrella","06203":"Litueche","06204":"Marchihue","06205":"Navidad","06206":"Paredones",
+    "06301":"San Fernando","06302":"Chépica","06303":"Chimbarongo","06304":"Lolol","06305":"Nancagua","06306":"Palmilla","06307":"Peralillo","06308":"Placilla","06309":"Pumanque","06310":"Santa Cruz",
+    "07101":"Talca","07102":"Constitución","07103":"Curepto","07104":"Empedrado","07105":"Maule","07106":"Pelarco","07107":"Pencahue","07108":"Río Claro","07109":"San Clemente","07110":"San Rafael",
+    "07201":"Cauquenes","07202":"Chanco","07203":"Pelluhue",
+    "07301":"Curicó","07302":"Hualañé","07303":"Licantén","07304":"Molina","07305":"Rauco","07306":"Romeral","07307":"Sagrada Familia","07308":"Teno","07309":"Vichuquén",
+    "07401":"Linares","07402":"Colbún","07403":"Longaví","07404":"Parral","07405":"Retiro","07406":"San Javier","07407":"Villa Alegre","07408":"Yerbas Buenas",
+    "08101":"Concepción","08102":"Coronel","08103":"Chiguayante","08104":"Florida","08105":"Hualqui","08106":"Lota","08107":"Penco","08108":"San Pedro de la Paz","08109":"Santa Juana","08110":"Talcahuano","08111":"Tomé","08112":"Hualpén",
+    "08201":"Lebu","08202":"Arauco","08203":"Cañete","08204":"Contulmo","08205":"Curanilahue","08206":"Los Alamos","08207":"Tirúa",
+    "08301":"Los Angeles","08302":"Antuco","08303":"Cabrero","08304":"Laja","08305":"Mulchén","08306":"Nacimiento","08307":"Negrete","08308":"Quilaco","08309":"Quilleco","08310":"San Rosendo","08311":"Santa Bárbara","08312":"Tucapel","08313":"Yumbel","08314":"Alto Biobío",
+    "09101":"Temuco","09102":"Carahue","09103":"Cunco","09104":"Curarrehue","09105":"Freire","09106":"Galvarino","09107":"Gorbea","09108":"Lautaro","09109":"Loncoche","09110":"Melipeuco","09111":"Nueva Imperial","09112":"Padre Las Casas","09113":"Perquenco","09114":"Pitrufquén","09115":"Pucón","09116":"Saavedra","09117":"Teodoro Schmidt","09118":"Toltén","09119":"Vilcún","09120":"Villarrica","09121":"Cholchol",
+    "09201":"Angol","09202":"Collipulli","09203":"Curacautín","09204":"Ercilla","09205":"Lonquimay","09206":"Los Sauces","09207":"Lumaco","09208":"Purén","09209":"Renaico","09210":"Traiguén","09211":"Victoria",
+    "10101":"Puerto Montt","10102":"Calbuco","10103":"Cochamó","10104":"Fresia","10105":"Frutillar","10106":"Los Muermos","10107":"Llanquihue","10108":"Maullín","10109":"Puerto Varas",
+    "10201":"Castro","10202":"Ancud","10203":"Chonchi","10204":"Curaco de Vélez","10205":"Dalcahue","10206":"Puqueldón","10207":"Queilén","10208":"Quellón","10209":"Quemchi","10210":"Quinchao",
+    "10301":"Osorno","10302":"Puerto Octay","10303":"Purranque","10304":"Puyehue","10305":"Río Negro","10306":"San Juan de la Costa","10307":"San Pablo",
+    "10401":"Chaitén","10402":"Futaleufú","10403":"Hualaihué","10404":"Palena",
+    "11101":"Coihaique","11102":"Lago Verde","11201":"Aisén","11202":"Cisnes","11203":"Guaitecas","11301":"Cochrane","11302":"O'Higgins","11303":"Tortel","11401":"Chile Chico","11402":"Río Ibáñez",
+    "12101":"Punta Arenas","12102":"Laguna Blanca","12103":"Río Verde","12104":"San Gregorio","12201":"Cabo de Hornos","12202":"Antártica","12301":"Porvenir","12302":"Primavera","12303":"Timaukel","12401":"Natales","12402":"Torres del Paine",
+    "13101":"Santiago","13102":"Cerrillos","13103":"Cerro Navia","13104":"Conchalí","13105":"El Bosque","13106":"Estación Central","13107":"Huechuraba","13108":"Independencia","13109":"La Cisterna","13110":"La Florida","13111":"La Granja","13112":"La Pintana","13113":"La Reina","13114":"Las Condes","13115":"Lo Barnechea","13116":"Lo Espejo","13117":"Lo Prado","13118":"Macul","13119":"Maipú","13120":"Ñuñoa","13121":"Pedro Aguirre Cerda","13122":"Peñalolén","13123":"Providencia","13124":"Pudahuel","13125":"Quilicura","13126":"Quinta Normal","13127":"Recoleta","13128":"Renca","13129":"San Joaquín","13130":"San Miguel","13131":"San Ramón","13132":"Vitacura",
+    "13201":"Puente Alto","13202":"Pirque","13203":"San José de Maipo",
+    "13301":"Colina","13302":"Lampa","13303":"Tiltil",
+    "13401":"San Bernardo","13402":"Buin","13403":"Calera de Tango","13404":"Paine",
+    "13501":"Melipilla","13502":"Alhué","13503":"Curacaví","13504":"María Pinto","13505":"San Pedro",
+    "13601":"Talagante","13602":"El Monte","13603":"Isla de Maipo","13604":"Padre Hurtado","13605":"Peñaflor",
+    "14101":"Valdivia","14102":"Corral","14103":"Lanco","14104":"Los Lagos","14105":"Máfil","14106":"Mariquina","14107":"Paillaco","14108":"Panguipulli",
+    "14201":"La Unión","14202":"Futrono","14203":"Lago Ranco","14204":"Río Bueno",
+    "15101":"Arica","15102":"Camarones","15201":"Putre","15202":"General Lagos",
+    "16101":"Chillán","16102":"Bulnes","16103":"Chillán Viejo","16104":"El Carmen","16105":"Pemuco","16106":"Pinto","16107":"Quillón","16108":"San Ignacio","16109":"Yungay",
+    "16201":"Quirihue","16202":"Cobquecura","16203":"Coelemu","16204":"Ninhue","16205":"Portezuelo","16206":"Ranquil","16207":"Treguaco",
+    "16301":"San Carlos","16302":"Coihueco","16303":"Ñiquén","16304":"San Fabián","16305":"San Nicolás"
+  };
+  window.EMBED_NAME2CUT = {};
+  for (const [cut, name] of Object.entries(window.EMBED_CUT2NAME)) {
+    window.EMBED_NAME2CUT[(name||'').normalize('NFD').replace(/\p{Diacritic}/gu,'').toUpperCase()] = cut;
+  }
+
+  const $ = s => document.querySelector(s);
+  function setStatus(msg, ok=true){ const el=$('#status'); el.textContent = msg; el.className = ok? 'ok':'err'; }
+  function normalizeTxt(s){
+    try{ return (s||'').toString().normalize('NFD').replace(/\p{Diacritic}/gu,'').replace(/\s+/g,' ').trim().toUpperCase(); }
+    catch(e){ return (s||'').toString().toUpperCase().replace(/\s+/g,' ').trim(); }
+  }
+  function parsePctFlexible(v){
+    if (v == null) return 0;
+    if (typeof v === 'number' && isFinite(v)) return v;
+    let s = String(v).trim(); if (!s) return 0;
+    const hadPct = s.includes('%'); s = s.replace(/\s+/g,'').replace(/%/g,'');
+    if (s.includes(',') && !s.includes('.')) s = s.replace(/\./g,'').replace(/,/g,'.');
+    if (s.match(/^\d{1,3}(\.\d{3})+(,\d+)?$/)) s = s.replace(/\./g,'').replace(/,/g,'.');
+    const n = parseFloat(s); if (!isFinite(n)) return 0;
+    return (!hadPct && n<=1) ? n*100 : n;
+  }
+  function loadCSV(url){
+    return new Promise((resolve,reject)=>{
+      Papa.parse(url,{download:true,header:true,skipEmptyLines:true,complete:r=>resolve(r.data),error:reject});
+    });
+  }
+  async function fetchJSON(u){ const r=await fetch(u,{cache:'no-store'}); if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); }
+  function getProp(props, names){
+    const idx={}; for(const k of Object.keys(props||{})){ idx[k.toLowerCase().replace(/[\s_\-]/g,'')] = k; }
+    for(const n of names){ const key=idx[n.toLowerCase().replace(/[\s_\-]/g,'')]; if(key) return props[key]; }
+    return null;
+  }
+  function colorCommune(p){ const v=+p||0;
+    if(v>2.5) return '#7f1d1d'; if(v>1.5) return '#991b1b'; if(v>1.0) return '#b91c1c';
+    if(v>0.6) return '#dc2626'; if(v>0.3) return '#ef4444'; if(v>0.15) return '#f87171';
+    return '#fecaca';
+  }
+
+  // Cache GeoJSON de comunas (no pedimos regiones → sin 404)
+  async function loadGeoCommunes(){
+    const KEY="gj_comunas_v1", TTL=7*24*60*60*1000;
+    try{ const c=JSON.parse(localStorage.getItem(KEY)||"null"); if(c&&Date.now()-c.time<TTL&&c.data?.features?.length) return c.data; }catch(_){}
+    const CANDS=[
+      "https://raw.githubusercontent.com/juancri/chile-geojson/master/comunas.json",
+      "https://cdn.jsdelivr.net/gh/juancri/chile-geojson@master/comunas.json",
+      "https://cdn.statically.io/gh/juancri/chile-geojson/master/comunas.json"
+    ];
+    let last=''; for(const u of CANDS){ try{ const gj=await fetchJSON(u); if(gj?.features?.length){ try{localStorage.setItem(KEY,JSON.stringify({time:Date.now(),data:gj}))}catch(_){}
+      return gj; } }catch(e){ last=e.message||String(e);} }
+    throw new Error('No se pudo cargar GeoJSON de comunas: '+last);
+  }
+
+  // ===== Mapa base =====
+  const map = L.map('map', {
+    zoomControl:true, attributionControl:false, preferCanvas:true,
+    zoomSnap:0.25, wheelDebounceTime:30, wheelPxPerZoomLevel:80, inertia:true, inertiaDeceleration:2500
+  });
+  map.setMinZoom(3.5);
+  L.tileLayer('', { attribution:'' }).addTo(map);
+
+  // Info y leyenda
+  const info = L.control({position:'topright'});
+  info.onAdd=function(){ this._div=L.DomUtil.create('div','info'); this.update(); return this._div; }
+  info.update=function(p){
+    if(!p){ this._div.innerHTML='<b>Pasa el mouse</b> por una comuna'; return; }
+    const nombre = p.__name || '(sin nombre)';
+    const pct = (p.__freq!=null && isFinite(p.__freq)) ? (+p.__freq).toFixed(1)+'%' : '0.0%';
+    this._div.innerHTML = `<b>${nombre}</b><br>Frecuencia: <b>${pct}</b>`;
+  }
+  info.addTo(map);
+
+  const legend = L.control({position:'bottomright'});
+  legend.onAdd=function(){
+    const div = L.DomUtil.create('div','legend');
+    const stops = [0,0.15,0.3,0.6,1.0,1.5,2.5];
+    div.innerHTML = `<b>Frecuencia (%)</b>`;
+    stops.forEach((s,i)=>{
+      const row=document.createElement('div'); row.className='scale';
+      const box=document.createElement('div'); box.className='swatch';
+      box.style.background = colorCommune(s+0.0001);
+      const label=document.createElement('span'); label.className='label';
+      const next=stops[i+1]; label.textContent = next ? `${s}–${next}%` : `>${s}%`;
+      row.appendChild(box); row.appendChild(label); div.appendChild(row);
+    });
+    return div;
+  }
+  legend.addTo(map);
+
+  async function build(){
+    try{
+      setStatus('Cargando CSV y GeoJSON…');
+      const csvUrl = $('#csvUrl').value.trim();
+      const surname = normalizeTxt($('#surnameInput').value);
+      $('#surnameTag').textContent = $('#surnameInput').value.toUpperCase();
+
+      const [rows, gjComAll] = await Promise.all([ loadCSV(csvUrl), loadGeoCommunes() ]);
+      const rowsSurname = rows.filter(r => normalizeTxt(r.apellido||r.Apellido||r.APELLIDO) === surname);
+
+      const byCUT = {}, byName = {};
+      for(const r of rowsSurname){
+        let cut = String(r.cut || r.CUT || r.cut_com || r.CUT_COM || '').trim();
+        const nameCSV = r.comuna || r.Comuna || r.COMUNA || '';
+        const pct = parsePctFlexible(r.prct_apellido); // ya viene en %
+        if (!cut && nameCSV) cut = window.EMBED_NAME2CUT[ normalizeTxt(nameCSV) ] || "";
+        if (cut){ byCUT[cut.padStart(5,'0')] = { f: pct }; }
+        else if (nameCSV){ byName[ normalizeTxt(nameCSV) ] = { f: pct }; }
+      }
+
+      // Completar por nombre desde el propio GeoJSON si faltó algo
+      const gjNameToCut = {};
+      (gjComAll.features||[]).forEach(ft=>{
+        const p = ft.properties || {};
+        const cut = String(getProp(p, ['CUT_COM','cut_com','Codigo comuna','codigo_comuna','cod_comuna'])||'').padStart(5,'0');
+        const nombre = getProp(p, ['Comuna','COMUNA','NOM_COM','name','Nombre']) || '';
+        if (cut && nombre) gjNameToCut[ normalizeTxt(nombre) ] = cut;
+      });
+      for(const nKey of Object.keys(byName)){
+        const cut = gjNameToCut[nKey];
+        if (cut && !byCUT[cut]) byCUT[cut] = byName[nKey];
+      }
+
+      // Construir capa comunal
+      if (window._communesLayer) { try{ map.removeLayer(window._communesLayer);}catch(_){} }
+      const communesFC = { type:'FeatureCollection', features: [] };
+      (gjComAll.features||[]).forEach(f=>{
+        const p = f.properties || {};
+        const cut = String(getProp(p, ['CUT_COM','cut_com','Codigo comuna','codigo_comuna','cod_comuna'])||'').padStart(5,'0');
+        const nombre = getProp(p, ['Comuna','COMUNA','NOM_COM','name','Nombre']) || (window.EMBED_CUT2NAME[cut] || '(sin nombre)');
+        const hit = byCUT[cut];
+        const props = Object.assign({}, p, { __name:nombre, __freq: hit ? hit.f : 0 });
+        communesFC.features.push({ type:'Feature', properties: props, geometry: f.geometry });
+      });
+
+      window._communesLayer = L.geoJSON(communesFC, {
+        style: ft => ({ color:'#7f1d1d', weight:.8, fillOpacity:.85, fillColor: colorCommune(ft.properties.__freq) }),
+        onEachFeature: (feature, lyr) => {
+          const p = feature.properties;
+          lyr.on({
+            mouseover:(e)=>{ e.target.setStyle({weight:2}); info.update(p); },
+            mouseout:(e)=>{ window._communesLayer.resetStyle(e.target); info.update(); },
+            click:(e)=> map.fitBounds(e.target.getBounds())
+          });
+          const pctTxt = (p.__freq!=null && isFinite(p.__freq)) ? p.__freq.toFixed(1)+'%' : '0.0%';
+          lyr.bindTooltip(`<b>${p.__name}</b><br>Frecuencia: <b>${pctTxt}</b>`, {sticky:true});
+        }
+      }).addTo(map);
+
+      map.fitBounds(window._communesLayer.getBounds(), { padding:[40,40] });
+      setStatus(`OK: comunas pintadas: ${communesFC.features.length}`, true);
+    }catch(err){
+      console.error(err);
+      setStatus('Error: '+(err.message||err), false);
+    }
+  }
+
+  document.getElementById('btnLoad').addEventListener('click', build);
+  build();
+}
+</script>
+</body>
+</html>
