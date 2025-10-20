@@ -154,7 +154,7 @@ function init(){
 
   async function loadGeoCommunesLocal(){
     // Carga 'comunas.geojson' del mismo repositorio (colócalo junto a index.html)
-    const gj = await fetchJSON('./comunas.geojson');
+    const gj = await fetch('./comunas.json', { cache: 'no-store' }).then(r => r.json());
     if(!gj?.features?.length) throw new Error('GeoJSON inválido');
     return gj;
   }
