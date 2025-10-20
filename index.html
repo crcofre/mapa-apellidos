@@ -152,12 +152,39 @@ function init(){
   }
   legend.addTo(map);
 
-  async function loadGeoCommunesLocal(){
-    // Carga 'comunas.geojson' del mismo repositorio (colócalo junto a index.html)
-    const gj = await fetch('./comunas.json', { cache: 'no-store' }).then(r => r.json());
-    if(!gj?.features?.length) throw new Error('GeoJSON inválido');
-    return gj;
+  <script>
+// Reemplaza tu loadGeoCommunesLocal() por esta versión
+async function loadGeoCommunesLocal(){
+  const base = location.pathname.endsWith('/') ? location.pathname : location.pathname.replace(/[^/]+$/, '');
+  const candidates = [
+    new URL('comunas.json',  location.origin + base).href,
+    new URL('comunas.geojson', location.origin + base).href,
+    // fallback RAW (por si acaso, no debería ser necesario si el de arriba existe)
+    'https://raw.githubusercontent.com/crcofre/mapa-apellidos/main/comunas.json',
+    'https://raw.githubusercontent.com/crcofre/mapa-apellidos/main/comunas.geojson'
+  ];
+
+  let lastErr = '';
+  for (const url of candidates){
+    try{
+      // Muestra en la barra de estado qué URL está intentando
+      const st = document.getElementById('status');
+      if (st) st.textContent = 'Cargando GeoJSON: ' + url;
+
+      const r = await fetch(url, { cache: 'no-store' });
+      if (!r.ok) throw new Error('HTTP ' + r.status + ' en ' + url);
+      const gj = await r.json();
+      if (!gj?.features?.length) throw new Error('GeoJSON sin features en ' + url);
+      return gj;
+    }catch(e){
+      console.warn('Fallo cargando GeoJSON:', e);
+      lastErr = e.message || String(e);
+    }
   }
+  throw new Error('No se pudo cargar GeoJSON: ' + lastErr);
+}
+</script>
+
 
   async function build(){
     try{
