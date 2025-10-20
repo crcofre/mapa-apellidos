@@ -153,8 +153,8 @@ function init(){
   legend.addTo(map);
 
   async function loadGeoCommunesLocal(){
-    // Carga 'comunas.json' del mismo repositorio (colócalo junto a index.html)
-    const gj = await fetchJSON('./comunas.json');
+    // Carga 'comunas.geojson' del mismo repositorio (colócalo junto a index.html)
+    const gj = await fetchJSON('./comunas.geojson');
     if(!gj?.features?.length) throw new Error('GeoJSON inválido');
     return gj;
   }
