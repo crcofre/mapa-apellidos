@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-  <!-- d3 para leer CSV y utilidades -->
+  <!-- d3 para leer CSV -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 
   <style>
@@ -20,31 +20,33 @@
       color:#000; background:rgba(255,255,255,.9);
       border:1px solid rgba(0,0,0,.2); border-radius:4px; padding:3px 6px;
     }
-    path.leaflet-interactive:focus { outline: none; filter: drop-shadow(0 0 2px rgba(0,0,0,0.4)); }
+    path.leaflet-interactive:focus { outline:none; filter:drop-shadow(0 0 2px rgba(0,0,0,.4)); }
 
-    /* UI flotante para buscar apellidos */
+    /* UI búsqueda */
     .search-ui{
       position:absolute; top:12px; left:12px; z-index:1000;
       background:#ffffffeb; backdrop-filter: blur(3px);
       border:1px solid #ddd; border-radius:10px; padding:10px 12px;
-      box-shadow:0 6px 16px rgba(0,0,0,.08); font-family:system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      box-shadow:0 6px 16px rgba(0,0,0,.08);
+      font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
     }
     .search-ui h3{ margin:0 0 6px 0; font-size:14px; font-weight:700; }
     .search-ui .row{ display:flex; gap:6px; }
-    .search-ui input{
-      flex:1; padding:6px 8px; font-size:14px; border:1px solid #ccc; border-radius:8px;
-    }
+    .search-ui input{ flex:1; padding:6px 8px; font-size:14px; border:1px solid #ccc; border-radius:8px; }
     .search-ui button{
       padding:6px 10px; border:0; border-radius:8px; cursor:pointer; font-weight:600;
       background:#0b5ed7; color:#fff;
     }
     .search-ui small{ display:block; margin-top:6px; color:#555; }
+
     .legend{
-      line-height:14px; color:#333; background:#fff; padding:8px 10px; border-radius:8px; border:1px solid #ddd;
-      box-shadow:0 6px 16px rgba(0,0,0,.08);
+      line-height:16px; color:#333; background:#fff; padding:8px 10px;
+      border-radius:8px; border:1px solid #ddd; box-shadow:0 6px 16px rgba(0,0,0,.08);
+      font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif; font-size:12px;
     }
-    .legend .scale{ display:flex; align-items:center; gap:6px; margin-top:6px; }
-    .legend .box{ width:18px; height:12px; border:1px solid #999; }
+    .legend .item{ display:flex; align-items:center; gap:6px; }
+    .legend .swatch{ width:18px; height:12px; border:1px solid #999; }
+    .legend b{ display:block; margin-bottom:4px; }
   </style>
 </head>
 <body>
@@ -65,39 +67,76 @@
     const map = L.map('map', { center: [-35.6751, -71.5430], zoom: 5, minZoom: 4, maxZoom: 12 });
     const BASE = "https://raw.githubusercontent.com/crcofre/mapa-apellidos/main";
 
-    // GeoJSON panes
+    // CSV de Google Sheets (asegura permisos "cualquiera con el enlace")
+    const SHEET_CSV = "https://docs.google.com/spreadsheets/d/1CKDZkGGO3Rbkd88GFkHYc3f_oFaQkM2RN_ESZU8e898/export?format=csv&gid=24675813";
+
+    // Panes / capas
     map.createPane('pane-regiones');
     map.createPane('pane-provincias');
     map.createPane('pane-comunas');
 
-    // Capas
     const regionesLayer   = L.layerGroup();
     const provinciasLayer = L.layerGroup();
     const comunasLayer    = L.layerGroup();
 
     let regionesGeo=null, provinciasGeo=null, comunasGeo=null;
 
-    // Escalas y estado
-    let dataRows = [];              // filas del Google Sheet
-    let indice = {                  // índices rápidos por apellido → nivel → nombre normalizado → frecuencia
-      region:{}, provincia:{}, comuna:{}
-    };
+    // Estado
+    let dataRows = [];
+    let indice = { region:{}, provincia:{}, comuna:{} };
     let apellidoActual = "Cisternas";
-    let colorScale = (v)=>"#aecdff"; // placeholder, se recalcula por nivel
-    let nivelActual = "region";      // "region" | "provincia" | "comuna" según zoom
+    let nivelActual = "region";  // region | provincia | comuna
 
-    // URL del CSV de Google Sheets (mismo doc, pestaña gid=24675813)
-    // IMPORTANTE: la hoja debe estar accesible públicamente o "cualquiera con el enlace".
-    const SHEET_CSV = "https://docs.google.com/spreadsheets/d/1CKDZkGGO3Rbkd88GFkHYc3f_oFaQkM2RN_ESZU8e898/export?format=csv&gid=24675813";
-
-    // Utilidad: normalizar nombres para cruzar con GeoJSON por nombre
-    const norm = s => (s||"")
-      .toString()
+    // Normalizador
+    const norm = s => (s||"").toString()
       .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
       .replace(/\s+/g," ").trim().toUpperCase();
 
-    // Obtención de propiedades "seguras" por variedad de campos
+    // Parser porcentajes ("1.8%" o "1,8%" -> 1.8 número)
+    const parsePct = (x) => {
+      if (x == null) return 0;
+      let s = String(x).trim().replace(',', '.');
+      if (s.endsWith('%')) s = s.slice(0, -1);
+      const v = parseFloat(s);
+      return isNaN(v) ? 0 : v;
+    };
+
+    // Paletas (7 clases) para cada nivel
+    const PALETAS = {
+      region:    ["#d7ebff","#badaff","#9cc9ff","#7fb8ff","#62a7ff","#458fff","#2a73e0"], // azul
+      provincia: ["#e2f7ee","#c6efdc","#a9e6c9","#8cddb7","#6fc5a0","#4fae85","#2f956b"], // verde
+      comuna:    ["#fde6e9","#fdc9cf","#fdaaae","#fb8b8d","#f25f63","#d84349","#a92d31"]  // rojo
+    };
+
+    // Cortes fijos (en porcentaje) – 7 clases
+    //   0–0.15 · 0.15–0.3 · 0.3–0.6 · 0.6–1 · 1–1.5 · 1.5–2.5 · >2.5
+    const BINS = [0, 0.15, 0.3, 0.6, 1.0, 1.5, 2.5, Infinity];
+
+    // Utilidades
     const getProp = (p, keys, def="—") => { for(const k of keys){ if(p && p[k]!=null && p[k]!=="") return p[k]; } return def; };
+
+    // Color por bins
+    function colorByBins(v, pal){
+      if (v==null || isNaN(v)) return pal[0];
+      // v viene como valor en % (ej: 1.8). Comparamos contra BINS ya en escala %
+      for (let i=0; i<BINS.length-1; i++){
+        if (v >= BINS[i] && v < BINS[i+1]) return pal[i];
+      }
+      return pal[pal.length-1];
+    }
+
+    // Etiquetas para la leyenda
+    function labelsBins(){
+      return [
+        "0–0.15%",
+        "0.15–0.3%",
+        "0.3–0.6%",
+        "0.6–1%",
+        "1–1.5%",
+        "1.5–2.5%",
+        ">2.5%"
+      ];
+    }
 
     // --------- Cargar GeoJSON ---------
     Promise.all([
@@ -105,7 +144,6 @@
       fetch(`${BASE}/provincias.json`).then(r=>r.json()),
       fetch(`${BASE}/comunas.json`).then(r=>r.json())
     ]).then(([geoReg, geoProv, geoCom])=>{
-      // Definimos estilos base (el fillColor se actualizará dinámicamente)
       const styleBase = { color:"#666", weight:1, fillColor:"#ddd", fillOpacity:.6 };
 
       regionesGeo = L.geoJSON(geoReg, {
@@ -150,53 +188,39 @@
       dataRows = rows;
       construirIndice();
       document.getElementById('estado').textContent = `Listo. Apellido por defecto: ${apellidoActual}`;
-      // Pintamos con el apellido por defecto
       actualizarPintado();
     }).catch(err=>{
       console.error(err);
       document.getElementById('estado').textContent = "No se pudo cargar el CSV. Revisa permisos del Sheet.";
     });
 
-    // Construir índice: apellido→{region|provincia|comuna}→nombre normalizado→valor
+    // Índice: apellido → nivel → nombre normalizado → porcentaje (número)
     function construirIndice(){
       indice = { region:{}, provincia:{}, comuna:{} };
       for(const r of dataRows){
         const ap = norm(r.apellido || r.Apellido || r.APELLIDO || "");
-        const regNom = norm(r.region || r.Region || r.REGION || r["Nombre Región"] || "");
+        if(!ap) continue;
+
+        const regNom = norm(r.region || r.Region || r.REGION || r["Nombre Región"] || r["Nombre region"] || "");
         const provNom= norm(r.provincia || r.Provincia || r.PROVINCIA || r["Nombre Provincia"] || "");
         const comNom = norm(r.comuna || r.Comuna || r.COMUNA || r["Nombre Comuna"] || "");
-        const fCom   = +((r["pcrt_apellidos"] ?? r.pcrt_apellidos ?? r["Frecuencia Comuna"]) || 0);
-        const fProv  = +((r["Frecuencia Provincia"] ?? r.frecuencia_provincia) || 0);
-        const fReg   = +((r["Frecuencia Regiones"] ?? r.frecuencia_regiones) || 0);
 
-        if(!ap) continue;
-        if(!indice.region[ap])   indice.region[ap]   = {};
-        if(!indice.provincia[ap])indice.provincia[ap]= {};
-        if(!indice.comuna[ap])   indice.comuna[ap]   = {};
+        // Porcentajes desde columnas exactas
+        const fCom  = parsePct(r["prct_apellido"]);                            // comunas
+        const fProv = parsePct(r["Frecuencia provincia"] ?? r["Frecuencia Provincia"]); // provincias
+        const fReg  = parsePct(r["Frecuencia región"]   ?? r["Frecuencia Región"]);     // regiones
 
-        if(regNom)  indice.region[ap][regNom]   = fReg;
-        if(provNom) indice.provincia[ap][provNom]= fProv;
-        if(comNom)  indice.comuna[ap][comNom]   = fCom;
+        if(!indice.region[ap])    indice.region[ap]    = {};
+        if(!indice.provincia[ap]) indice.provincia[ap] = {};
+        if(!indice.comuna[ap])    indice.comuna[ap]    = {};
+
+        if(regNom)  indice.region[ap][regNom]     = fReg;
+        if(provNom) indice.provincia[ap][provNom] = fProv;
+        if(comNom)  indice.comuna[ap][comNom]     = fCom;
       }
     }
 
-    // --------- Escala de color por cuantiles (5 clases) ---------
-    function construirEscala(valores){
-      const nums = valores.filter(v=>typeof v==="number" && !isNaN(v)).sort((a,b)=>a-b);
-      if(nums.length===0) return v=>"#f0f0f0";
-      const q = p => nums[Math.min(nums.length-1, Math.floor(p*(nums.length-1)))];
-      const b1 = q(0.2), b2 = q(0.4), b3 = q(0.6), b4 = q(0.8);
-      return v=>{
-        if(v==null || isNaN(v)) return "#f0f0f0";
-        if(v<=b1) return "#cfe7ff";
-        if(v<=b2) return "#9fd0ff";
-        if(v<=b3) return "#6fb8ff";
-        if(v<=b4) return "#3a98ff";
-        return "#0e76ff";
-      };
-    }
-
-    // --------- Obtener valor para una feature por nivel/apellido ---------
+    // Valor de una feature según nivel y apellido
     function valorFeature(f, nivel, ap){
       const p=f.properties||{};
       if(nivel==="region"){
@@ -211,7 +235,7 @@
       }
     }
 
-    // --------- Aplicar colores al mapa según zoom/nivel ---------
+    // Pintado según zoom + leyenda de 7 clases fijas
     function actualizarPintado(){
       const ap = norm(apellidoActual);
       const z = map.getZoom();
@@ -219,38 +243,23 @@
       else if (z <= 7) { nivelActual="provincia"; }
       else { nivelActual="comuna"; }
 
-      // Construir escala para el nivel actual
-      let valores=[];
-      if(nivelActual==="region" && regionesGeo){
-        regionesGeo.eachLayer(l=>{
-          const v = valorFeature(l.feature,"region",ap); if(v!=null) valores.push(+v);
-        });
-      }else if(nivelActual==="provincia" && provinciasGeo){
-        provinciasGeo.eachLayer(l=>{
-          const v = valorFeature(l.feature,"provincia",ap); if(v!=null) valores.push(+v);
-        });
-      }else if(comunasGeo){
-        comunasGeo.eachLayer(l=>{
-          const v = valorFeature(l.feature,"comuna",ap); if(v!=null) valores.push(+v);
-        });
-      }
-      colorScale = construirEscala(valores);
+      const pal = PALETAS[nivelActual];
 
-      // Pintar capas visibles
+      const pctFmt = v => (v==null || isNaN(v)) ? "0%" : `${(+v).toFixed(2).replace('.',',')}%`;
+
       const pintar = (geo, nivel)=>{
         if(!geo) return;
         geo.eachLayer(l=>{
-          const v = valorFeature(l.feature, nivel, ap);
-          const fill = colorScale(v);
+          const v = valorFeature(l.feature, nivel, ap);     // número en %
+          const fill = colorByBins(v, pal);
           l.setStyle({ fillColor: fill, fillOpacity: .65 });
-          // Tooltip enriquecido
           const p=l.feature.properties||{};
           const nombre = (nivel==="region")
             ? getProp(p,["REGION","NOM_REG","Región","NAME_1"],"Región")
             : (nivel==="provincia")
               ? getProp(p,["PROVINCIA","NOM_PROV","Provincia","NAME_2","name"],"Provincia")
               : getProp(p,["COMUNA","NOM_COM","Comuna","name"],"Comuna");
-          l.bindTooltip(`${nombre}<br><small>${apellidoActual}: <b>${v ?? 0}</b></small>`, {sticky:true,opacity:.95});
+          l.bindTooltip(`${nombre}<br><small>${apellidoActual}: <b>${pctFmt(v)}</b></small>`, {sticky:true,opacity:.95});
         });
       };
 
@@ -258,15 +267,14 @@
       if(nivelActual==="provincia")pintar(provinciasGeo,"provincia");
       if(nivelActual==="comuna")   pintar(comunasGeo,"comuna");
 
-      actualizarLeyenda(valores);
+      actualizarLeyenda(pal);
       document.getElementById('estado').textContent =
         `Mostrando "${apellidoActual}" por ${nivelActual} (zoom ${z}).`;
     }
 
-    // --------- Visibilidad por zoom (capas) ---------
+    // Visibilidad por zoom
     function updateVisibility(){
       const z = map.getZoom();
-      // limpiar
       regionesLayer.clearLayers(); provinciasLayer.clearLayers(); comunasLayer.clearLayers();
       if(map.hasLayer(regionesLayer)) map.removeLayer(regionesLayer);
       if(map.hasLayer(provinciasLayer)) map.removeLayer(provinciasLayer);
@@ -282,44 +290,33 @@
       actualizarPintado();
     }
 
-    // --------- Leyenda dinámica ---------
+    // Leyenda fija de 7 clases
     const legend = L.control({position:'bottomright'});
     legend.onAdd = function(){
       this._div = L.DomUtil.create('div','legend');
-      this.update([]);
+      this.update();
       return this._div;
     };
-    legend.update = function(valores){
-      // construir 5 cajas de ejemplo basadas en cuantiles aproximados
-      let html = `<b>Leyenda (${apellidoActual})</b><br><small>${nivelActual}</small>`;
-      if(!valores || valores.length===0){ html += `<div class="scale"><span>Sin datos</span></div>`; }
-      else{
-        const nums = valores.filter(v=>!isNaN(v)).sort((a,b)=>a-b);
-        const q = p => nums[Math.min(nums.length-1, Math.floor(p*(nums.length-1)))];
-        const b = [q(0.0), q(0.2), q(0.4), q(0.6), q(0.8), q(1.0)];
-        const muestras = [
-          {c: colorScale(b[1]), t: `≤ ${b[1]}`},
-          {c: colorScale(b[2]), t: `≤ ${b[2]}`},
-          {c: colorScale(b[3]), t: `≤ ${b[3]}`},
-          {c: colorScale(b[4]), t: `≤ ${b[4]}`},
-          {c: colorScale(b[5]), t: `≤ ${b[5]}`}
-        ];
-        html += `<div class="scale">` + muestras.map(m=>`<span class="box" style="background:${m.c}"></span> ${m.t}`).join('<br>') + `</div>`;
+    legend.update = function(){
+      const pal = PALETAS[nivelActual];
+      const labs = labelsBins();
+      let html = `<b>Frecuencia (%)</b><br>`;
+      for(let i=0;i<labs.length;i++){
+        html += `<div class="item"><span class="swatch" style="background:${pal[i]}"></span>${labs[i]}</div>`;
       }
       this._div.innerHTML = html;
     };
     legend.addTo(map);
+    function actualizarLeyenda(){ legend.update(); }
 
-    function actualizarLeyenda(valores){ legend.update(valores); }
-
-    // --------- Control de capas (opcional) ---------
+    // Control de capas (opcional)
     L.control.layers(null, {
       "Regiones (zoom ≤ 6)": regionesLayer,
       "Provincias (7)": provinciasLayer,
       "Comunas (≥ 8)": comunasLayer
     }, {collapsed:true}).addTo(map);
 
-    // --------- Búsqueda por apellido ---------
+    // Búsqueda por apellido
     document.getElementById('buscarBtn').addEventListener('click', ()=>{
       const v = document.getElementById('apellidoInput').value.trim();
       if(!v) return;
@@ -329,7 +326,6 @@
     document.getElementById('apellidoInput').addEventListener('keydown', (e)=>{
       if(e.key==="Enter") document.getElementById('buscarBtn').click();
     });
-
   </script>
 </body>
 </html>
