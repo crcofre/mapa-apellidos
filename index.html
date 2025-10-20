@@ -32,9 +32,9 @@
     // --- Mapa base ---
     const map = L.map('map').setView([-35.6751, -71.5430], 5);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
+   // ---L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    // ---  attribution: '© OpenStreetMap contributors'
+    // ---}).addTo(map);
 
     // --- Pane para asegurar orden de dibujo (comunas arriba) ---
     map.createPane('pane-provincias');  map.getPane('pane-provincias').style.zIndex = 520;
