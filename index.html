@@ -96,9 +96,23 @@
     }
 
     // Normalizador y parser %
-    const norm = s => (s||"").toString()
-      .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
-      .replace(/\s+/g," ").trim().toUpperCase();
+   // Normaliza nombres y elimina prefijos tipo "REGIÓN DE", "PROVINCIA DE", etc.
+const norm = s => {
+  if(!s) return "";
+  let t = String(s)
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")  // sin tildes
+    .replace(/\s+/g," ").trim().toUpperCase();
+  t = t.replace(/^REGION DE /,"")
+       .replace(/^PROVINCIA DE /,"")
+       .replace(/^DEPARTAMENTO DE /,"")
+       .replace(/^REGION /,"")
+       .replace(/^PROVINCIA /,"")
+       .replace(/^DEPARTAMENTO /,"")
+       .replace(/^DEL /,"")
+       .replace(/^DE /,"");
+  return t.trim();
+};
+
 
     const parsePct = (x) => {
       if (x == null) return 0;
@@ -107,6 +121,7 @@
       const v = parseFloat(s);
       return isNaN(v) ? 0 : v;
     };
+
 
     // Panes / capas
     map.createPane('pane-regiones');
