@@ -22,12 +22,14 @@
     }
     path.leaflet-interactive:focus { outline:none; filter:drop-shadow(0 0 2px rgba(0,0,0,.4)); }
 
+    /* UI búsqueda */
     .search-ui{
       position:absolute; top:12px; left:12px; z-index:1000;
       background:#ffffffeb; backdrop-filter: blur(3px);
       border:1px solid #ddd; border-radius:10px; padding:10px 12px;
       box-shadow:0 6px 16px rgba(0,0,0,.08);
       font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+      max-width: min(92vw, 420px);
     }
     .search-ui h3{ margin:0 0 6px 0; font-size:14px; font-weight:700; }
     .search-ui .row{ display:flex; gap:6px; }
@@ -36,7 +38,7 @@
       padding:6px 10px; border:0; border-radius:8px; cursor:pointer; font-weight:600;
       background:#0b5ed7; color:#fff;
     }
-    .search-ui small{ display:block; margin-top:6px; color:#555; }
+    .search-ui small{ display:block; margin-top:6px; color:#555; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 
     .legend{
       line-height:16px; color:#333; background:#fff; padding:8px 10px;
@@ -49,12 +51,15 @@
   </style>
 </head>
 <body>
+  <!-- UI de búsqueda -->
   <div class="search-ui">
     <h3>Consulta tu apellido</h3>
     <div class="row">
-      <input id="apellidoInput" type="text" placeholder="Ej.: Cisternas" />
+      <input id="apellidoInput" type="text" placeholder="Ej.: Cisternas" list="apellidosList" autocomplete="off" />
       <button id="buscarBtn">Buscar</button>
     </div>
+    <!-- opciones para autocompletar -->
+    <datalist id="apellidosList"></datalist>
     <small id="estado">Cargando datos…</small>
   </div>
 
@@ -95,27 +100,25 @@
       return "";
     }
 
-    // Normalizador y parser %
-// Normaliza nombres y elimina prefijos como "05. REGION DE", "PROVINCIA DE", etc.
-const norm = s => {
-  if (!s) return "";
-  let t = String(s)
-    .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // sin tildes
-    .replace(/\s+/g, " ").trim().toUpperCase();
+    // Normaliza nombres y elimina prefijos como "05. REGION DE", "PROVINCIA DE", etc.
+    const norm = s => {
+      if (!s) return "";
+      let t = String(s)
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // sin tildes
+        .replace(/\s+/g, " ").trim().toUpperCase();
 
-  // 1) quita prefijo numérico: "05. ", "5 - ", "05-" ...
-  t = t.replace(/^\s*\d+\s*[\.\-]?\s*/, "");
+      // quita prefijo numérico: "05. ", "5 - ", "05-"
+      t = t.replace(/^\s*\d+\s*[\.\-]?\s*/, "");
 
-  // 2) quita encabezados administrativos
-  t = t
-    .replace(/^(REGION|PROVINCIA|DEPARTAMENTO)\s+(DEL\s+|DE\s+)?/, "")
-    .replace(/^(DEL|DE)\s+/, "");
+      // quita encabezados administrativos y preposiciones iniciales
+      t = t
+        .replace(/^(REGION|PROVINCIA|DEPARTAMENTO)\s+(DEL\s+|DE\s+)?/, "")
+        .replace(/^(DEL|DE)\s+/, "");
 
-  return t.trim();
-};
+      return t.trim();
+    };
 
-
-
+    // Parser porcentajes ("1.8%" o "1,8%" -> 1.8 número)
     const parsePct = (x) => {
       if (x == null) return 0;
       let s = String(x).trim().replace(',', '.');
@@ -123,7 +126,6 @@ const norm = s => {
       const v = parseFloat(s);
       return isNaN(v) ? 0 : v;
     };
-
 
     // Panes / capas
     map.createPane('pane-regiones');
@@ -141,6 +143,10 @@ const norm = s => {
     let indice = { region:{}, provincia:{}, comuna:{} };
     let apellidoActual = "Cisternas";
     let nivelActual = "region";  // region | provincia | comuna
+
+    // --- Autocompletado ---
+    let apellidosDisponibles = [];
+    const apellidosCanonPorNorm = new Map(); // norm-> forma canónica (como aparece en la hoja)
 
     // Paletas (7 clases)
     const PALETAS = {
@@ -226,6 +232,7 @@ const norm = s => {
     d3.csv(SHEET_CSV).then(rows=>{
       dataRows = rows;
       construirIndice();
+      poblarDatalistApellidos();
       document.getElementById('estado').textContent = `Listo. Apellido por defecto: ${apellidoActual}`;
       actualizarPintado();
     }).catch(err=>{
@@ -239,7 +246,8 @@ const norm = s => {
       let cReg=0, cProv=0, cCom=0;
 
       for(const r of dataRows){
-        const ap    = norm(getAny(r, ALIASES.apellido));
+        const apRaw = getAny(r, ALIASES.apellido);
+        const ap    = norm(apRaw);
         if(!ap) continue;
 
         const regNom = norm(getAny(r, ALIASES.reg_name));
@@ -258,9 +266,25 @@ const norm = s => {
         if(regNom){  indice.region[ap][regNom]     = fReg;  cReg++; }
         if(provNom){ indice.provincia[ap][provNom] = fProv; cProv++; }
         if(comNom){  indice.comuna[ap][comNom]     = fCom;  cCom++; }
+
+        // catálogo para autocompletar
+        const canon = String(apRaw).trim();
+        if(canon){
+          const key = ap; // ya normalizado
+          if(!apellidosCanonPorNorm.has(key)) apellidosCanonPorNorm.set(key, canon);
+        }
       }
-      // Útil para depurar en consola si hiciera falta:
+      // arma lista ordenada de apellidos
+      apellidosDisponibles = Array.from(new Set([...apellidosCanonPorNorm.values()]))
+        .sort((a,b)=>a.localeCompare(b,'es',{sensitivity:'base'}));
+
       console.log("Filas procesadas:", dataRows.length, "| reg:", cReg, "prov:", cProv, "com:", cCom);
+    }
+
+    // Poblar <datalist> con los apellidos disponibles
+    function poblarDatalistApellidos(){
+      const dl = document.getElementById('apellidosList');
+      dl.innerHTML = apellidosDisponibles.map(a=>`<option value="${a}"></option>`).join('');
     }
 
     // Valor de una feature según nivel y apellido
@@ -354,22 +378,34 @@ const norm = s => {
     legend.addTo(map);
     function actualizarLeyenda(){ legend.update(); }
 
-    // Control de capas (opcional)
-    L.control.layers(null, {
-      "Regiones (zoom ≤ 6)": regionesLayer,
-      "Provincias (7)": provinciasLayer,
-      "Comunas (≥ 8)": comunasLayer
-    }, {collapsed:true}).addTo(map);
-
-    // Búsqueda por apellido
-    document.getElementById('buscarBtn').addEventListener('click', ()=>{
-      const v = document.getElementById('apellidoInput').value.trim();
+    // Búsqueda por apellido (con validación y coincidencia por prefijo)
+    function buscarApellido(){
+      const input = document.getElementById('apellidoInput');
+      const v = input.value.trim();
       if(!v) return;
-      apellidoActual = v;
+
+      const key = norm(v);
+      let canon = apellidosCanonPorNorm.get(key);
+
+      if(!canon){
+        // intenta coincidencia por prefijo
+        const found = apellidosDisponibles.find(a => norm(a).startsWith(key));
+        if(found) canon = found;
+      }
+
+      if(canon){
+        apellidoActual = canon;
+        document.getElementById('estado').textContent = `Mostrando "${canon}".`;
+      }else{
+        apellidoActual = v;
+        document.getElementById('estado').textContent = `No encontré coincidencia exacta. Mostrando "${v}" (puede no tener datos).`;
+      }
       actualizarPintado();
-    });
+    }
+
+    document.getElementById('buscarBtn').addEventListener('click', buscarApellido);
     document.getElementById('apellidoInput').addEventListener('keydown', (e)=>{
-      if(e.key==="Enter") document.getElementById('buscarBtn').click();
+      if(e.key==="Enter") buscarApellido();
     });
   </script>
 </body>
