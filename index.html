@@ -108,34 +108,34 @@
       comuna:    ["#fde6e9","#fdc9cf","#fdaaae","#fb8b8d","#f25f63","#d84349","#a92d31"]  // rojo
     };
 
-    // Cortes fijos (en porcentaje) – 7 clases
-    //   0–0.15 · 0.15–0.3 · 0.3–0.6 · 0.6–1 · 1–1.5 · 1.5–2.5 · >2.5
-    const BINS = [0, 0.15, 0.3, 0.6, 1.0, 1.5, 2.5, Infinity];
+    // Cortes fijos por nivel (en %). 8 bordes -> 7 clases.
+    const BINS_BY_LEVEL = {
+      region:   [0, 0.05, 0.10, 0.20, 0.40, 0.80, 1.50, Infinity], // más conservador
+      provincia:[0, 0.10, 0.20, 0.40, 0.80, 1.20, 2.00, Infinity], // intermedio
+      comuna:   [0, 0.15, 0.30, 0.60, 1.00, 1.50, 2.50, Infinity]  // como tu ejemplo
+    };
 
     // Utilidades
     const getProp = (p, keys, def="—") => { for(const k of keys){ if(p && p[k]!=null && p[k]!=="") return p[k]; } return def; };
 
-    // Color por bins
-    function colorByBins(v, pal){
+    // Color por bins (v en %, bins en %)
+    function colorByBins(v, pal, bins){
       if (v==null || isNaN(v)) return pal[0];
-      // v viene como valor en % (ej: 1.8). Comparamos contra BINS ya en escala %
-      for (let i=0; i<BINS.length-1; i++){
-        if (v >= BINS[i] && v < BINS[i+1]) return pal[i];
+      for (let i=0; i<bins.length-1; i++){
+        if (v >= bins[i] && v < bins[i+1]) return pal[i];
       }
       return pal[pal.length-1];
     }
 
-    // Etiquetas para la leyenda
-    function labelsBins(){
-      return [
-        "0–0.15%",
-        "0.15–0.3%",
-        "0.3–0.6%",
-        "0.6–1%",
-        "1–1.5%",
-        "1.5–2.5%",
-        ">2.5%"
-      ];
+    // Etiquetas para la leyenda a partir de bins
+    function labelsFromBins(bins){
+      const fmt = x => (x===Infinity) ? "∞" : `${(+x).toLocaleString('es-CL',{maximumFractionDigits:2})}%`;
+      const labs = [];
+      for(let i=0;i<bins.length-1;i++){
+        const a = bins[i], b = bins[i+1];
+        labs.push(b===Infinity ? `>${fmt(a)}` : `${fmt(a)}–${fmt(b)}`);
+      }
+      return labs;
     }
 
     // --------- Cargar GeoJSON ---------
@@ -235,7 +235,7 @@
       }
     }
 
-    // Pintado según zoom + leyenda de 7 clases fijas
+    // Pintado según zoom + leyenda con bins por nivel
     function actualizarPintado(){
       const ap = norm(apellidoActual);
       const z = map.getZoom();
@@ -243,7 +243,8 @@
       else if (z <= 7) { nivelActual="provincia"; }
       else { nivelActual="comuna"; }
 
-      const pal = PALETAS[nivelActual];
+      const pal  = PALETAS[nivelActual];
+      const bins = BINS_BY_LEVEL[nivelActual];
 
       const pctFmt = v => (v==null || isNaN(v)) ? "0%" : `${(+v).toFixed(2).replace('.',',')}%`;
 
@@ -251,7 +252,7 @@
         if(!geo) return;
         geo.eachLayer(l=>{
           const v = valorFeature(l.feature, nivel, ap);     // número en %
-          const fill = colorByBins(v, pal);
+          const fill = colorByBins(v, pal, bins);
           l.setStyle({ fillColor: fill, fillOpacity: .65 });
           const p=l.feature.properties||{};
           const nombre = (nivel==="region")
@@ -267,7 +268,7 @@
       if(nivelActual==="provincia")pintar(provinciasGeo,"provincia");
       if(nivelActual==="comuna")   pintar(comunasGeo,"comuna");
 
-      actualizarLeyenda(pal);
+      actualizarLeyenda(); // usa nivelActual
       document.getElementById('estado').textContent =
         `Mostrando "${apellidoActual}" por ${nivelActual} (zoom ${z}).`;
     }
@@ -290,7 +291,7 @@
       actualizarPintado();
     }
 
-    // Leyenda fija de 7 clases
+    // Leyenda por nivel
     const legend = L.control({position:'bottomright'});
     legend.onAdd = function(){
       this._div = L.DomUtil.create('div','legend');
@@ -298,8 +299,9 @@
       return this._div;
     };
     legend.update = function(){
-      const pal = PALETAS[nivelActual];
-      const labs = labelsBins();
+      const pal  = PALETAS[nivelActual];
+      const bins = BINS_BY_LEVEL[nivelActual];
+      const labs = labelsFromBins(bins);
       let html = `<b>Frecuencia (%)</b><br>`;
       for(let i=0;i<labs.length;i++){
         html += `<div class="item"><span class="swatch" style="background:${pal[i]}"></span>${labs[i]}</div>`;
