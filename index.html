@@ -96,22 +96,24 @@
     }
 
     // Normalizador y parser %
-   // Normaliza nombres y elimina prefijos tipo "REGIÓN DE", "PROVINCIA DE", etc.
+// Normaliza nombres y elimina prefijos como "05. REGION DE", "PROVINCIA DE", etc.
 const norm = s => {
-  if(!s) return "";
+  if (!s) return "";
   let t = String(s)
-    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")  // sin tildes
-    .replace(/\s+/g," ").trim().toUpperCase();
-  t = t.replace(/^REGION DE /,"")
-       .replace(/^PROVINCIA DE /,"")
-       .replace(/^DEPARTAMENTO DE /,"")
-       .replace(/^REGION /,"")
-       .replace(/^PROVINCIA /,"")
-       .replace(/^DEPARTAMENTO /,"")
-       .replace(/^DEL /,"")
-       .replace(/^DE /,"");
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // sin tildes
+    .replace(/\s+/g, " ").trim().toUpperCase();
+
+  // 1) quita prefijo numérico: "05. ", "5 - ", "05-" ...
+  t = t.replace(/^\s*\d+\s*[\.\-]?\s*/, "");
+
+  // 2) quita encabezados administrativos
+  t = t
+    .replace(/^(REGION|PROVINCIA|DEPARTAMENTO)\s+(DEL\s+|DE\s+)?/, "")
+    .replace(/^(DEL|DE)\s+/, "");
+
   return t.trim();
 };
+
 
 
     const parsePct = (x) => {
