@@ -2,45 +2,76 @@ name: Descomprimir y publicar mapa
 
 on:
   push:
-    branches: [ main ]   # se ejecuta cuando hagas cambios en main
-  workflow_dispatch:      # y también podrás lanzarlo manualmente desde "Actions"
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Preparamos carpeta de publicación (_site)
-      - name: Preparar _site
+      - name: Mostrar árbol inicial
+        run: |
+          ls -la
+          echo "Contenido de data/:"
+          ls -la data || true
+
+      - name: Instalar unzip
+        run: sudo apt-get update && sudo apt-get install -y unzip
+
+      - name: Preparar carpeta de salida
         run: |
           rm -rf _site
           mkdir -p _site
           rsync -av --exclude '.git' --exclude '.github' ./ _site/
 
-      # Descomprimir los ZIPs que subiste en data/ dentro de _site/data/apellidos_json
-      - name: Descomprimir ZIPs de apellidos
-        working-directory: _site
+      - name: Descomprimir ZIPs (si existen)
         shell: bash
+        working-directory: _site
         run: |
           mkdir -p data/apellidos_json
-          if compgen -G "data/apellidos_json_parte_*.zip" > /dev/null; then
-            for z in data/apellidos_json_parte_*.zip; do
+          set +e
+          count=0
+          for z in data/apellidos_json_parte_*.zip; do
+            if [ -f "$z" ]; then
               echo "Descomprimiendo $z ..."
               unzip -oq "$z" -d data/apellidos_json
-            done
-          else
-            echo "No se encontraron ZIPs en _site/data/. ¿Están en data/?"
-          fi
-          echo "Conteo de JSON:"
+              ((count++))
+            fi
+          done
+          echo "ZIPs procesados: $count"
+          echo "JSON totales:"
           find data/apellidos_json -type f -name '*.json' | wc -l
+          # Listar algunos para verificar
+          find data/apellidos_json -type f -name '*.json' | head -n 10 || true
 
-      # Publicar el contenido de _site en la rama gh-pages (GitHub Pages)
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Configurar Pages
+        uses: actions/configure-pages@v5
+
+      - name: Subir artefacto para Pages
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: _site
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publicar en GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
