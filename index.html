@@ -22,7 +22,6 @@
     }
     path.leaflet-interactive:focus { outline:none; filter:drop-shadow(0 0 2px rgba(0,0,0,.4)); }
 
-    /* UI búsqueda */
     .search-ui{
       position:absolute; top:12px; left:12px; z-index:1000;
       background:#ffffffeb; backdrop-filter: blur(3px);
@@ -50,7 +49,6 @@
   </style>
 </head>
 <body>
-  <!-- UI de búsqueda -->
   <div class="search-ui">
     <h3>Consulta tu apellido</h3>
     <div class="row">
@@ -70,6 +68,46 @@
     // CSV de Google Sheets (asegura permisos "cualquiera con el enlace")
     const SHEET_CSV = "https://docs.google.com/spreadsheets/d/1CKDZkGGO3Rbkd88GFkHYc3f_oFaQkM2RN_ESZU8e898/export?format=csv&gid=24675813";
 
+    // ---- Aliases de columnas (para evitar 0% por cambios de nombre) ----
+    const ALIASES = {
+      reg_pct: [
+        "Frecuencia Regiones","Frecuencia regiones","Frecuencia Región","Frecuencia región",
+        "frecuencia_regiones","frecuencia_region"
+      ],
+      prov_pct: [
+        "Frecuencia provincia","Frecuencia Provincia","frecuencia_provincia"
+      ],
+      com_pct: [
+        "prct_apellido","pcrt_apellidos","Frecuencia Comuna","frecuencia_comuna"
+      ],
+      reg_name: ["region","Region","REGION","Nombre Región","Nombre region"],
+      prov_name:["provincia","Provincia","PROVINCIA","Nombre Provincia"],
+      com_name: ["comuna","Comuna","COMUNA","Nombre Comuna"],
+      apellido: ["apellido","Apellido","APELLIDO"]
+    };
+    function getAny(row, keys){
+      for(const k of keys){
+        if(Object.prototype.hasOwnProperty.call(row,k)){
+          const v = row[k];
+          if(v!=null && String(v).trim()!=="") return v;
+        }
+      }
+      return "";
+    }
+
+    // Normalizador y parser %
+    const norm = s => (s||"").toString()
+      .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+      .replace(/\s+/g," ").trim().toUpperCase();
+
+    const parsePct = (x) => {
+      if (x == null) return 0;
+      let s = String(x).trim().replace(',', '.');
+      if (s.endsWith('%')) s = s.slice(0, -1);
+      const v = parseFloat(s);
+      return isNaN(v) ? 0 : v;
+    };
+
     // Panes / capas
     map.createPane('pane-regiones');
     map.createPane('pane-provincias');
@@ -87,43 +125,7 @@
     let apellidoActual = "Cisternas";
     let nivelActual = "region";  // region | provincia | comuna
 
-    // Normalizador
-    const norm = s => (s||"").toString()
-      .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
-      .replace(/\s+/g," ").trim().toUpperCase();
-
-    // Parser porcentajes ("1.8%" o "1,8%" -> 1.8 número)
-    const parsePct = (x) => {
-      if (x == null) return 0;
-      let s = String(x).trim().replace(',', '.');
-      if (s.endsWith('%')) s = s.slice(0, -1);
-      const v = parseFloat(s);
-      return isNaN(v) ? 0 : v;
-    };
-// Campos posibles en la hoja (por si cambian mayúsculas/acentos/plural)
-const ALIASES = {
-  reg_pct: [
-    "Frecuencia Regiones","Frecuencia regiones","Frecuencia Región","Frecuencia región",
-    "frecuencia_regiones","frecuencia_region"
-  ],
-  prov_pct: [
-    "Frecuencia provincia","Frecuencia Provincia","frecuencia_provincia"
-  ],
-  com_pct: [
-    "prct_apellido","pcrt_apellidos","Frecuencia Comuna","frecuencia_comuna"
-  ],
-  reg_name: ["region","Region","REGION","Nombre Región","Nombre region"],
-  prov_name:["provincia","Provincia","PROVINCIA","Nombre Provincia"],
-  com_name: ["comuna","Comuna","COMUNA","Nombre Comuna"],
-  apellido: ["apellido","Apellido","APELLIDO"]
-};
-
-function getAny(row, keys){
-  for(const k of keys){ if(row[k] != null && String(row[k]).trim() !== "") return row[k]; }
-  return "";
-}
-
-    // Paletas (7 clases) para cada nivel
+    // Paletas (7 clases)
     const PALETAS = {
       region:    ["#d7ebff","#badaff","#9cc9ff","#7fb8ff","#62a7ff","#458fff","#2a73e0"], // azul
       provincia: ["#e2f7ee","#c6efdc","#a9e6c9","#8cddb7","#6fc5a0","#4fae85","#2f956b"], // verde
@@ -132,15 +134,14 @@ function getAny(row, keys){
 
     // Cortes fijos por nivel (en %). 8 bordes -> 7 clases.
     const BINS_BY_LEVEL = {
-      region:   [0, 0.05, 0.10, 0.20, 0.40, 0.80, 1.50, Infinity], // más conservador
+      region:   [0, 0.05, 0.10, 0.20, 0.40, 0.80, 1.50, Infinity], // conservador
       provincia:[0, 0.10, 0.20, 0.40, 0.80, 1.20, 2.00, Infinity], // intermedio
-      comuna:   [0, 0.15, 0.30, 0.60, 1.00, 1.50, 2.50, Infinity]  // como tu ejemplo
+      comuna:   [0, 0.15, 0.30, 0.60, 1.00, 1.50, 2.50, Infinity]  // ejemplo original
     };
 
     // Utilidades
     const getProp = (p, keys, def="—") => { for(const k of keys){ if(p && p[k]!=null && p[k]!=="") return p[k]; } return def; };
 
-    // Color por bins (v en %, bins en %)
     function colorByBins(v, pal, bins){
       if (v==null || isNaN(v)) return pal[0];
       for (let i=0; i<bins.length-1; i++){
@@ -149,7 +150,6 @@ function getAny(row, keys){
       return pal[pal.length-1];
     }
 
-    // Etiquetas para la leyenda a partir de bins
     function labelsFromBins(bins){
       const fmt = x => (x===Infinity) ? "∞" : `${(+x).toLocaleString('es-CL',{maximumFractionDigits:2})}%`;
       const labs = [];
@@ -218,31 +218,33 @@ function getAny(row, keys){
 
     // Índice: apellido → nivel → nombre normalizado → porcentaje (número)
     function construirIndice(){
-  indice = { region:{}, provincia:{}, comuna:{} };
+      indice = { region:{}, provincia:{}, comuna:{} };
+      let cReg=0, cProv=0, cCom=0;
 
-  for(const r of dataRows){
-    const ap    = norm(getAny(r, ALIASES.apellido));
-    if(!ap) continue;
+      for(const r of dataRows){
+        const ap    = norm(getAny(r, ALIASES.apellido));
+        if(!ap) continue;
 
-    const regNom = norm(getAny(r, ALIASES.reg_name));
-    const provNom= norm(getAny(r, ALIASES.prov_name));
-    const comNom = norm(getAny(r, ALIASES.com_name));
+        const regNom = norm(getAny(r, ALIASES.reg_name));
+        const provNom= norm(getAny(r, ALIASES.prov_name));
+        const comNom = norm(getAny(r, ALIASES.com_name));
 
-    // Porcentajes (se parsean aunque vengan con % o coma)
-    const fReg  = parsePct(getAny(r, ALIASES.reg_pct));
-    const fProv = parsePct(getAny(r, ALIASES.prov_pct));
-    const fCom  = parsePct(getAny(r, ALIASES.com_pct));
+        // Porcentajes
+        const fReg  = parsePct(getAny(r, ALIASES.reg_pct));
+        const fProv = parsePct(getAny(r, ALIASES.prov_pct));
+        const fCom  = parsePct(getAny(r, ALIASES.com_pct));
 
-    if(!indice.region[ap])    indice.region[ap]    = {};
-    if(!indice.provincia[ap]) indice.provincia[ap] = {};
-    if(!indice.comuna[ap])    indice.comuna[ap]    = {};
+        if(!indice.region[ap])    indice.region[ap]    = {};
+        if(!indice.provincia[ap]) indice.provincia[ap] = {};
+        if(!indice.comuna[ap])    indice.comuna[ap]    = {};
 
-    if(regNom)  indice.region[ap][regNom]     = fReg;
-    if(provNom) indice.provincia[ap][provNom] = fProv;
-    if(comNom)  indice.comuna[ap][comNom]     = fCom;
-  }
-}
-
+        if(regNom){  indice.region[ap][regNom]     = fReg;  cReg++; }
+        if(provNom){ indice.provincia[ap][provNom] = fProv; cProv++; }
+        if(comNom){  indice.comuna[ap][comNom]     = fCom;  cCom++; }
+      }
+      // Útil para depurar en consola si hiciera falta:
+      console.log("Filas procesadas:", dataRows.length, "| reg:", cReg, "prov:", cProv, "com:", cCom);
+    }
 
     // Valor de una feature según nivel y apellido
     function valorFeature(f, nivel, ap){
@@ -292,7 +294,7 @@ function getAny(row, keys){
       if(nivelActual==="provincia")pintar(provinciasGeo,"provincia");
       if(nivelActual==="comuna")   pintar(comunasGeo,"comuna");
 
-      actualizarLeyenda(); // usa nivelActual
+      actualizarLeyenda();
       document.getElementById('estado').textContent =
         `Mostrando "${apellidoActual}" por ${nivelActual} (zoom ${z}).`;
     }
