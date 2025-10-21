@@ -1,0 +1,46 @@
+name: Descomprimir y publicar mapa
+
+on:
+  push:
+    branches: [ main ]   # se ejecuta cuando hagas cambios en main
+  workflow_dispatch:      # y también podrás lanzarlo manualmente desde "Actions"
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Preparamos carpeta de publicación (_site)
+      - name: Preparar _site
+        run: |
+          rm -rf _site
+          mkdir -p _site
+          rsync -av --exclude '.git' --exclude '.github' ./ _site/
+
+      # Descomprimir los ZIPs que subiste en data/ dentro de _site/data/apellidos_json
+      - name: Descomprimir ZIPs de apellidos
+        working-directory: _site
+        shell: bash
+        run: |
+          mkdir -p data/apellidos_json
+          if compgen -G "data/apellidos_json_parte_*.zip" > /dev/null; then
+            for z in data/apellidos_json_parte_*.zip; do
+              echo "Descomprimiendo $z ..."
+              unzip -oq "$z" -d data/apellidos_json
+            done
+          else
+            echo "No se encontraron ZIPs en _site/data/. ¿Están en data/?"
+          fi
+          echo "Conteo de JSON:"
+          find data/apellidos_json -type f -name '*.json' | wc -l
+
+      # Publicar el contenido de _site en la rama gh-pages (GitHub Pages)
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: _site
