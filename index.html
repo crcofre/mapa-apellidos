@@ -1,254 +1,280 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mapa de Apellidos - Chile (debug)</title>
-
-  <!-- Leaflet -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
+  <title>Mapa de apellidos</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous">
   <style>
-    html, body { height:100%; margin:0; }
-    #map { width:100%; height:100vh; background:#f7f7f7; }
-    .ui{
-      position:absolute; top:12px; left:12px; z-index:1000;
-      background:#ffffffeb; backdrop-filter: blur(3px);
-      border:1px solid #ddd; border-radius:10px; padding:10px 12px;
-      box-shadow:0 6px 16px rgba(0,0,0,.08);
-      font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-      max-width:min(92vw, 460px);
+    html, body { height: 100%; margin: 0; }
+    #map { height: 100%; }
+    .panel {
+      position: absolute; z-index: 1000; top: 16px; left: 16px;
+      background: #fff; border: 1px solid #e5e7eb; border-radius: 10px;
+      padding: 12px; width: 320px; box-shadow: 0 6px 24px rgba(0,0,0,.08);
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif;
     }
-    .ui h3{ margin:0 0 6px 0; font-size:14px; font-weight:700; }
-    .ui .row{ display:flex; gap:6px; }
-    .ui input{ flex:1; padding:6px 8px; font-size:14px; border:1px solid #ccc; border-radius:8px; }
-    .ui button{ padding:6px 10px; border:0; border-radius:8px; cursor:pointer; font-weight:600; background:#0b5ed7; color:#fff; }
-    .ui small{ display:block; margin-top:6px; color:#555; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-
-    .legend{
-      line-height:16px; color:#333; background:#fff; padding:8px 10px;
-      border-radius:8px; border:1px solid #ddd; box-shadow:0 6px 16px rgba(0,0,0,.08);
-      font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif; font-size:12px;
+    .panel h3 { margin: 0 0 8px 0; font-size: 18px; }
+    .row { display:flex; gap:8px; }
+    .row input { flex:1; padding:8px 10px; border:1px solid #d1d5db; border-radius:8px; }
+    .row button { padding:8px 12px; border:0; background:#1d4ed8; color:#fff; border-radius:8px; font-weight:600; cursor:pointer; }
+    .log {
+      margin-top: 8px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px; color:#111827; background:#f9fafb; border:1px dashed #d1d5db;
+      height: 140px; overflow:auto; border-radius:8px; padding:8px;
     }
-    .legend .item{ display:flex; align-items:center; gap:6px; }
-    .legend .swatch{ width:18px; height:12px; border:1px solid #999; }
-
-    .debug{
-      margin-top:8px; font-size:12px; background:#fff; border:1px dashed #aaa; border-radius:8px; padding:8px;
-      max-height:160px; overflow:auto; color:#333;
-    }
-    .debug b{ color:#000; }
-    .debug .line{ margin:2px 0; }
-    .warn{ color:#b36b00; }
-    .err{ color:#b00000; font-weight:600; }
+    .pill { display:inline-block; padding:2px 6px; border-radius:999px; background:#eef2ff; color:#3730a3; font-size:11px; }
+    .legend { position:absolute; right:16px; bottom:16px; background:#fff; padding:8px 10px; border-radius:8px; border:1px solid #e5e7eb; font-size:12px; }
   </style>
 </head>
 <body>
-  <div class="ui">
-    <h3>Consulta tu apellido</h3>
-    <div class="row">
-      <input id="apellidoInput" type="text" placeholder="Ej.: Cisternas" list="apellidosList" autocomplete="off"/>
-      <button id="btn-buscar">Buscar</button>
-    </div>
-    <datalist id="apellidosList"></datalist>
-    <small id="estado">Cargando…</small>
-    <div class="debug" id="debug"></div>
-  </div>
-
   <div id="map"></div>
 
+  <div class="panel">
+    <h3>Consulta tu apellido</h3>
+    <div class="row">
+      <input id="q" placeholder="Ej.: Cisternas" />
+      <button id="go">Buscar</button>
+    </div>
+    <div id="status" style="margin-top:6px; font-size:13px; color:#6b7280;">Cargando…</div>
+    <div class="log" id="log"></div>
+  </div>
+
+  <div class="legend" id="legend" style="display:none">
+    <div><span class="pill">Intensidad</span></div>
+    <div>Más claro = menor; más oscuro = mayor</div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous"></script>
+
   <script>
-    // ============= UTILIDAD DE LOG =============
-    const dbgEl = document.getElementById('debug');
-    function dlog(msg, kind="log", obj){
-      const ts = new Date().toLocaleTimeString();
-      const div = document.createElement('div');
-      div.className = 'line ' + (kind==="warn" ? "warn": kind==="error" ? "err" : "");
-      div.textContent = `[${ts}] ${msg}`;
-      dbgEl.appendChild(div);
-      dbgEl.scrollTop = dbgEl.scrollHeight;
-      if (kind==="warn") console.warn(msg, obj ?? "");
-      else if (kind==="error") console.error(msg, obj ?? "");
-      else console.log(msg, obj ?? "");
-    }
-    function setEstado(t){ document.getElementById('estado').textContent = t; dlog(`ESTADO: ${t}`); }
+  // ===== Config =====
+  const DATA_DIR = 'data';
+  const MANIFEST_URL = `${DATA_DIR}/apellidos_manifest.json`; // <-- tu archivo adjunto
+  const REGIONES_URL  = 'regiones.json';
+  const PROVINCIAS_URL= 'provincias.json';
+  const COMUNAS_URL   = 'comunas.json';
 
-   <script>
-  // ===== CAPTURA CUALQUIER ERROR GLOBAL =====
-  (function() {
-    const dbg = document.getElementById('debug');
-    function line(msg, cls){ if(!dbg) return; const d=document.createElement('div'); d.className='line '+(cls||''); d.textContent=msg; dbg.appendChild(d); dbg.scrollTop=dbg.scrollHeight; }
-    window.addEventListener('error', e => { console.error('GLOBAL ERROR', e); line('[GLOBAL ERROR] '+(e.message||e.error), 'err'); });
-    window.addEventListener('unhandledrejection', e => { console.error('PROMISE REJECTION', e.reason); line('[PROMISE REJECTION] '+(e.reason&&e.reason.message?e.reason.message:e.reason), 'err'); });
-    window.__dbgline = line; // util global para otros logs
-  })();
+  // ===== UI helpers =====
+  const $q = (s) => document.querySelector(s);
+  const $log = $q('#log');
+  const log = (...args) => { console.log(...args); $log.append(document.createTextNode(time(), ' ')); $log.append(document.createTextNode(args.map(a => safe(a)).join(' '))); $log.append(document.createElement('br')); $log.scrollTop = $log.scrollHeight; }
+  const err = (...args) => { console.error(...args); $log.append(document.createTextNode(time(), ' ')); const span = document.createElement('span'); span.style.color = '#b91c1c'; span.textContent = args.map(a => safe(a)).join(' '); $log.append(span); $log.append(document.createElement('br')); $log.scrollTop = $log.scrollHeight; }
+  const setStatus = (t) => { $q('#status').textContent = t; }
+  const time = () => `[${new Date().toLocaleTimeString()}]`;
+  const safe = (v) => (typeof v === 'string' ? v : JSON.stringify(v));
 
-  // ===== RUTAS FIJAS (evitamos auto-detección) =====
-  const SITE_BASE = "https://crcofre.github.io/mapa-apellidos";   // << fijo
-  const MANIFEST_URL = `${SITE_BASE}/data/apellidos_manifest.json`;
-  const SHARDS_BASE  = `${SITE_BASE}/data/`;                      // tus shards están en /data
-  const INDEX_URL    = `${SITE_BASE}/data/index_apellidos.json`;
+  // ===== Normalización de apellidos (claves del manifest están en minúsculas, sin tildes) =====
+  const slugify = (s) => {
+    if (!s) return '';
+    return s
+      .normalize('NFKD')
+      .replace(/[\u0300-\u036f]/g, '') // quitar diacríticos
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9\s\-']/g, '')  // dejar letras/números/espacios simples
+      .replace(/\s+/g, ' ')            // colapsar espacios
+      .replace(/^\s+|\s+$/g, '')       // trim
+      .replace(/\s+/g, ' ');           // (manifest usa claves sin guiones; p.ej. "abarca")
+  };
 
-  const GEO_REG = `${SITE_BASE}/regiones.json`;
-  const GEO_PRO = `${SITE_BASE}/provincias.json`;
-  const GEO_COM = `${SITE_BASE}/comunas.json`;
+  // ===== Estado global mínimo =====
+  let map, comunasLayer, manifest = null, geo = { regiones:null, provincias:null, comunas:null };
 
-  // ===== LOG INICIAL PARA VERIFICAR =====
-  (function(){
-    console.log('RUTAS', {SITE_BASE, MANIFEST_URL, SHARDS_BASE, INDEX_URL, GEO_REG, GEO_PRO, GEO_COM});
-    if (window.__dbgline) window.__dbgline('RUTAS OK: ' + JSON.stringify({MANIFEST_URL, INDEX_URL}));
-  })();
-</script>
-<script>
-let MANIFEST = null, INDICE = [];
-
-async function boot(){
-  try{
-    if (window.__dbgline) window.__dbgline('boot() → cargando índice…');
-    const idxRes = await fetch(INDEX_URL, {cache:'no-store'});
-    console.log('fetch index_apellidos.json →', idxRes.status, idxRes.statusText);
-    if (!idxRes.ok) throw new Error("No pude cargar index_apellidos.json");
-    INDICE = await idxRes.json();
-
-    // Generar manifest en cliente: apellidos_{dos letras}.json
-    MANIFEST = {};
-    for (const it of INDICE){
-      const slug = String(it.slug||'').toLowerCase();
-      const pref = (slug.slice(0,2) || '__');
-      MANIFEST[slug] = `apellidos_${pref}.json`;
-    }
-    if (window.__dbgline) window.__dbgline('boot() → índice OK, manifest generado ('+Object.keys(MANIFEST).length+' slugs)');
-
-    // autocompletar
-    const dl = document.getElementById('apellidosList');
-    dl.innerHTML = INDICE.map(x=>`<option value="${x.apellido}"></option>`).join('');
-    document.getElementById('estado').textContent = "Listo. Escribe tu apellido y presiona Buscar.";
-  }catch(err){
-    console.error('boot() error', err);
-    if (window.__dbgline) window.__dbgline('boot() ERROR: ' + (err.message||err), 'err');
-    document.getElementById('estado').textContent = "No pude cargar el índice / generar manifest.";
+  // ===== Capa base =====
+  function initMap() {
+    map = L.map('map', { zoomControl: true });
+    const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 12, minZoom: 4, attribution: '&copy; OpenStreetMap'
+    }).addTo(map);
+    map.setView([-35.675, -71.542], 5);
   }
-}
 
-// Arranque explícito cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', () => {
-  if (window.__dbgline) window.__dbgline('DOMContentLoaded → iniciar boot()');
-  try { boot(); } catch (e) {
-    console.error('Fallo al iniciar boot', e);
-    if (window.__dbgline) window.__dbgline('Fallo al iniciar boot: '+(e.message||e), 'err');
+  // ===== Cargar GeoJSON base =====
+  async function loadBaseGeo() {
+    geo.regiones  = await fetchJSON(REGIONES_URL, 'regiones');
+    geo.provincias= await fetchJSON(PROVINCIAS_URL, 'provincias');
+    geo.comunas   = await fetchJSON(COMUNAS_URL, 'comunas');
+
+    if (!geo.comunas) throw new Error('No se pudo cargar comunas.json');
+
+    // Dibujamos comunas (sin datos aún)
+    if (comunasLayer) map.removeLayer(comunasLayer);
+    comunasLayer = L.geoJSON(geo.comunas, {
+      style: { color:'#b91c1c', weight: 0.7, fillColor:'#e5e7eb', fillOpacity:0.9 }
+    }).addTo(map);
+    log('OK capas base dibujadas. comunas features:', geo.comunas.features?.length ?? '¿?');
   }
-});
-</script>
 
+  // ===== Cargar manifest =====
+  async function loadManifest() {
+    manifest = await fetchJSON(MANIFEST_URL, 'manifest');
+    if (!manifest) throw new Error('manifest vacío o no encontrado');
+    // Sanity check
+    const sample = Object.keys(manifest).slice(0, 3).map(k => `${k}→${manifest[k]}`).join(', ');
+    log('Manifest cargado. Ejemplos:', sample);
+  }
 
-
-    // ====== Cargar un apellido desde su shard ======
-    function slugify(s){
-      return String(s ?? "")
-        .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
-        .replace(/\s+/g," ").trim().toLowerCase()
-        .replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
-    }
-
-    async function cargarApellido(apellidoTexto){
-      dlog(`cargarApellido("${apellidoTexto}")`);
-      const slug = (INDICE.find(x => x.apellido.toUpperCase()===String(apellidoTexto).toUpperCase())?.slug) || slugify(apellidoTexto);
-      dlog(`slug resuelto: ${slug}`);
-      const shardName = MANIFEST?.[slug] || MANIFEST?.[slug.toLowerCase()];
-      if (!shardName) throw new Error(`Apellido no disponible (manifest no tiene slug: ${slug}).`);
-
-      const url = SHARDS_BASE + shardName;
-      dlog(`fetch shard: ${url}`);
-      const res = await fetch(url);
-      dlog(`respuesta shard: ${res.status} ${res.statusText}`);
-      if (!res.ok) throw new Error(`No pude leer shard ${shardName} (${res.status}).`);
-
-      const shardData = await res.json();
-      const data = shardData[slug] || shardData[slug.toLowerCase()] || shardData[slug.toUpperCase()];
-      if (!data) throw new Error(`No encontré el apellido "${slug}" dentro de ${shardName}.`);
-      dlog(`OK apellido "${data.apellido}" con ${data.comunas?.length||0} filas.`);
+  // ===== Utilitario fetch JSON con logs =====
+  async function fetchJSON(url, tag) {
+    try {
+      log(`fetch → ${tag}:`, url);
+      const res = await fetch(url, { cache: 'no-store' });
+      log(`respuesta ${tag}:`, res.status);
+      if (!res.ok) throw new Error(`${tag} HTTP ${res.status}`);
+      const ct = (res.headers.get('content-type')||'').toLowerCase();
+      if (!ct.includes('application/json')) {
+        // Cuando hay “Unexpected token <” suele ser porque vino un HTML
+        err(`ADVERTENCIA: content-type de ${tag} es "${ct}". ¿Ruta correcta?`);
+      }
+      const data = await res.json();
+      log(`OK parse ${tag}`);
       return data;
+    } catch (e) {
+      err(`Error cargando ${tag}:`, e.message);
+      return null;
+    }
+  }
+
+  // ===== Buscar y pintar =====
+  async function runSearch() {
+    const raw = $q('#q').value;
+    const key = slugify(raw);
+    if (!key) { setStatus('Ingresa un apellido.'); return; }
+    if (!manifest) { setStatus('Manifest no disponible.'); err('Manifest no cargado.'); return; }
+
+    setStatus('Buscando en manifest…');
+    const shardFile = manifest[key];
+    log('apellido:', raw, '→ clave:', key, '→ archivo:', shardFile || '(no encontrado)');
+
+    if (!shardFile) {
+      setStatus('No encontré ese apellido en el índice.');
+      return;
     }
 
-    // ====== Pintado ======
-    function construirTablasValor(data){
-      const reg = {}, prov = {}, com = {};
-      for (const r of data.comunas || []){
-        com[norm(r.comuna)] = r.prct_apellido ?? 0;
-        const kProv = norm(r.provincia);
-        const kReg  = norm(r.region);
-        if (r.freq_prov!=null && !(kProv in prov)) prov[kProv] = r.freq_prov;
-        if (r.freq_reg !=null && !(kReg  in reg )) reg[kReg ] = r.freq_reg;
-      }
-      return {reg, prov, com};
-    }
-    function valorFeature(f, nivel, tablas){
-      const p = f.properties || {};
-      if (nivel==="region"){
-        const key = norm(getProp(p,["REGION","NOM_REG","Región","NAME_1"],""));
-        return tablas.reg[key];
-      }else if (nivel==="provincia"){
-        const key = norm(getProp(p,["PROVINCIA","NOM_PROV","Provincia","NAME_2","name"],""));
-        return tablas.prov[key];
-      }else{
-        const key = norm(getProp(p,["COMUNA","NOM_COM","Comuna","name"],""));
-        return tablas.com[key];
-      }
-    }
-    function pintar(data){
-      window.__ultimo = data;
-      const tablas = construirTablasValor(data);
-      const pal  = PALETAS[nivelActual];
-      const bins = BINS_BY_LEVEL[nivelActual];
-      const pctFmt = v => (v==null || isNaN(v)) ? "0%" : `${(+v).toFixed(2).replace('.',',')}%`;
+    setStatus(`Cargando shard: ${shardFile}…`);
+    const shard = await fetchJSON(`${DATA_DIR}/${shardFile}`, 'shard');
+    if (!shard) { setStatus('No se pudo cargar el shard.'); return; }
 
-      const pintarCapa = (geo, nivel) => {
-        if (!geo) { dlog(`No hay geo para ${nivel}`, "warn"); return; }
-        geo.eachLayer(l=>{
-          const v = valorFeature(l.feature, nivel, tablas);
-          l.setStyle({ fillColor: colorByBins(v, pal, bins), fillOpacity:.65 });
-          const p=l.feature.properties||{};
-          const nombre = (nivel==="region")
-            ? getProp(p,["REGION","NOM_REG","Región","NAME_1"],"Región")
-            : (nivel==="provincia")
-              ? getProp(p,["PROVINCIA","NOM_PROV","Provincia","NAME_2","name"],"Provincia")
-              : getProp(p,["COMUNA","NOM_COM","Comuna","name"],"Comuna");
-          l.bindTooltip(`${nombre}<br><small>${data.apellido}: <b>${pctFmt(v)}</b></small>`, {sticky:true,opacity:.95});
-        });
+    // Detectar formato del shard
+    let entry = null;
+    if (Array.isArray(shard)) {
+      log('Shard es un arreglo. Busco objeto con clave del apellido…');
+      entry = shard.find(o =>
+        (typeof o?.apellido === 'string' && slugify(o.apellido) === key) ||
+        (typeof o?.apellido_slug === 'string' && o.apellido_slug === key) ||
+        (typeof o?.key === 'string' && o.key === key)
+      );
+    } else if (typeof shard === 'object' && shard !== null) {
+      log('Shard es un objeto. Intento tomar directamente shard[key]…');
+      entry = shard[key] || shard[key?.toLowerCase?.()] || shard[key?.toUpperCase?.()];
+      // algunos shards podrían estar agrupados por primera letra:
+      if (!entry && key) {
+        const first = key[0];
+        if (shard[first] && typeof shard[first] === 'object') {
+          entry = shard[first][key];
+          if (entry) log('Entrada encontrada en subobjeto por primera letra.');
+        }
+      }
+    }
+
+    if (!entry) {
+      setStatus('No encontré datos del apellido dentro del shard (ver logs).');
+      err('Entrada no encontrada en shard para clave:', key);
+      return;
+    }
+
+    // Intentamos deducir un diccionario comuna_id → valor
+    let byComuna = null;
+    if (entry.comunas && typeof entry.comunas === 'object') {
+      byComuna = entry.comunas;
+    } else if (entry.data && typeof entry.data === 'object') {
+      byComuna = entry.data;
+    } else if (entry.mapa && typeof entry.mapa === 'object') {
+      byComuna = entry.mapa;
+    } else if (typeof entry === 'object' && !Array.isArray(entry)) {
+      // último intento: quizá la propia entrada es el mapping
+      const keys = Object.keys(entry);
+      const seemsComunas = keys.length && keys.every(k => /^\d+$/.test(k));
+      if (seemsComunas) byComuna = entry;
+    }
+
+    if (!byComuna) {
+      setStatus('El formato del shard no es reconocible (ver logs).');
+      err('No pude inferir mapping comuna_id→valor. Entrada:', entry);
+      return;
+    }
+
+    // Pintamos
+    paint(byComuna, raw || key);
+  }
+
+  function paint(byComuna, label) {
+    // Tomar valores numéricos
+    const vals = Object.values(byComuna).map(v => Number(v)).filter(n => Number.isFinite(n));
+    const max = Math.max(...vals, 0);
+    const min = Math.min(...vals, 0);
+    log('Rango valores:', {min, max, n: vals.length});
+
+    // Re-estilo de comunas
+    comunasLayer.setStyle(f => {
+      const id = f.properties?.id || f.properties?.cut || f.properties?.codigo || f.properties?.Cod_Comuna || f.properties?.codigo_comuna;
+      const v = Number(byComuna[id] ?? byComuna[String(id)] ?? NaN);
+      const t = Number.isFinite(v) ? v : null;
+      return {
+        color:'#b91c1c', weight: 0.7,
+        fillColor: t==null ? '#e5e7eb' : shade(t, min, max),
+        fillOpacity: t==null ? 0.7 : 0.9
       };
+    });
 
-      const z = map.getZoom();
-      if (z <= 6) pintarCapa(regionesGeo,"region");
-      else if (z <= 7) pintarCapa(provinciasGeo,"provincia");
-      else pintarCapa(comunasGeo,"comuna");
+    comunasLayer.eachLayer(layer => {
+      const f = layer.feature;
+      const id = f.properties?.id || f.properties?.cut || f.properties?.codigo || f.properties?.Cod_Comuna || f.properties?.codigo_comuna;
+      const nm = f.properties?.name || f.properties?.Nombre || f.properties?.Comuna || f.properties?.NOM_COM;
+      const v = byComuna[id] ?? byComuna[String(id)];
+      layer.bindTooltip(`${nm ?? 'Comuna'} (${id ?? 's/i'})<br>${label}: <b>${v ?? 's/dato'}</b>`, { sticky:true });
+    });
 
-      setEstado(`Mostrando "${data.apellido}" (${nivelActual}).`);
+    setStatus(`Listo: ${label}. Coloreadas ${Object.keys(byComuna).length} comunas.`);
+    $q('#legend').style.display = 'block';
+  }
+
+  // color simple
+  function shade(v, min, max) {
+    if (max === min) return '#082f49'; // caso borde
+    const t = (v - min) / (max - min); // 0..1
+    // escala azul (claro→oscuro)
+    const c = Math.floor(255 - (t * 160)); // 255→95
+    return `rgb(${c},${c+15},255)`;
+  }
+
+  // ===== Boot =====
+  async function boot() {
+    try {
+      initMap();
+      setStatus('Cargando capas base…');
+      await loadBaseGeo();
+
+      setStatus('Cargando índice de apellidos…');
+      await loadManifest();
+
+      setStatus('Listo. Escribe un apellido y presiona Buscar.');
+      log('BOOT OK');
+    } catch (e) {
+      err('boot() error', e.message);
+      setStatus('No pude cargar el índice / generar manifest.');
     }
+  }
 
-    // ====== UI ======
-    async function onBuscar(){
-      const v = document.getElementById('apellidoInput').value.trim();
-      if (!v) return;
-      setEstado(`Cargando "${v}"…`);
-      try{
-        const data = await cargarApellido(v);
-        pintar(data);
-      }catch(e){
-        setEstado(e.message);
-        dlog(e.message, "error", e);
-      }
-    }
-    document.getElementById('btn-buscar').addEventListener('click', onBuscar);
-    document.getElementById('apellidoInput').addEventListener('keydown', e=>{ if(e.key==="Enter") onBuscar(); });
+  // ===== Eventos =====
+  $q('#go').addEventListener('click', runSearch);
+  $q('#q').addEventListener('keydown', e => { if (e.key === 'Enter') runSearch(); });
 
-    // ====== Inicio ======
-    (async function start(){
-      setEstado("Cargando manifest, índice y GeoJSON…");
-      await boot(); // manifest + index
-      // geojson se carga en paralelo al inicio; si ya terminó, updateVisibility() habrá corrido
-      dlog("Boot completado.");
-    })();
+  // go!
+  boot();
   </script>
 </body>
 </html>
