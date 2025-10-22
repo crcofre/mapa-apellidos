@@ -3,38 +3,28 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mapa de Apellidos - Chile</title>
+  <title>Mapa de Apellidos - Chile (debug)</title>
 
   <!-- Leaflet -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
   <style>
     html, body { height:100%; margin:0; }
     #map { width:100%; height:100vh; background:#f7f7f7; }
-    .leaflet-tooltip{
-      font-family:"Book Antiqua",serif; font-size:13px; font-weight:bold;
-      color:#000; background:rgba(255,255,255,.9);
-      border:1px solid rgba(0,0,0,.2); border-radius:4px; padding:3px 6px;
-    }
-    path.leaflet-interactive:focus { outline:none; filter:drop-shadow(0 0 2px rgba(0,0,0,.4)); }
-
-    .search-ui{
+    .ui{
       position:absolute; top:12px; left:12px; z-index:1000;
       background:#ffffffeb; backdrop-filter: blur(3px);
       border:1px solid #ddd; border-radius:10px; padding:10px 12px;
       box-shadow:0 6px 16px rgba(0,0,0,.08);
       font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-      max-width: min(92vw, 420px);
+      max-width:min(92vw, 460px);
     }
-    .search-ui h3{ margin:0 0 6px 0; font-size:14px; font-weight:700; }
-    .search-ui .row{ display:flex; gap:6px; }
-    .search-ui input{ flex:1; padding:6px 8px; font-size:14px; border:1px solid #ccc; border-radius:8px; }
-    .search-ui button{
-      padding:6px 10px; border:0; border-radius:8px; cursor:pointer; font-weight:600;
-      background:#0b5ed7; color:#fff;
-    }
-    .search-ui small{ display:block; margin-top:6px; color:#555; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .ui h3{ margin:0 0 6px 0; font-size:14px; font-weight:700; }
+    .ui .row{ display:flex; gap:6px; }
+    .ui input{ flex:1; padding:6px 8px; font-size:14px; border:1px solid #ccc; border-radius:8px; }
+    .ui button{ padding:6px 10px; border:0; border-radius:8px; cursor:pointer; font-weight:600; background:#0b5ed7; color:#fff; }
+    .ui small{ display:block; margin-top:6px; color:#555; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 
     .legend{
       line-height:16px; color:#333; background:#fff; padding:8px 10px;
@@ -43,43 +33,84 @@
     }
     .legend .item{ display:flex; align-items:center; gap:6px; }
     .legend .swatch{ width:18px; height:12px; border:1px solid #999; }
-    .legend b{ display:block; margin-bottom:4px; }
+
+    .debug{
+      margin-top:8px; font-size:12px; background:#fff; border:1px dashed #aaa; border-radius:8px; padding:8px;
+      max-height:160px; overflow:auto; color:#333;
+    }
+    .debug b{ color:#000; }
+    .debug .line{ margin:2px 0; }
+    .warn{ color:#b36b00; }
+    .err{ color:#b00000; font-weight:600; }
   </style>
 </head>
 <body>
-  <!-- UI de búsqueda -->
-  <div class="search-ui">
+  <div class="ui">
     <h3>Consulta tu apellido</h3>
     <div class="row">
-      <input id="apellidoInput" type="text" placeholder="Ej.: Cisternas" list="apellidosList" autocomplete="off" />
+      <input id="apellidoInput" type="text" placeholder="Ej.: Cisternas" list="apellidosList" autocomplete="off"/>
       <button id="btn-buscar">Buscar</button>
     </div>
     <datalist id="apellidosList"></datalist>
     <small id="estado">Cargando…</small>
+    <div class="debug" id="debug"></div>
   </div>
 
   <div id="map"></div>
 
   <script>
-    // ======================= CONFIG =======================
-    // Base del sitio (GitHub Pages)
-    const SITE_BASE = "https://crcofre.github.io/mapa-apellidos";
+    // ============= UTILIDAD DE LOG =============
+    const dbgEl = document.getElementById('debug');
+    function dlog(msg, kind="log", obj){
+      const ts = new Date().toLocaleTimeString();
+      const div = document.createElement('div');
+      div.className = 'line ' + (kind==="warn" ? "warn": kind==="error" ? "err" : "");
+      div.textContent = `[${ts}] ${msg}`;
+      dbgEl.appendChild(div);
+      dbgEl.scrollTop = dbgEl.scrollHeight;
+      if (kind==="warn") console.warn(msg, obj ?? "");
+      else if (kind==="error") console.error(msg, obj ?? "");
+      else console.log(msg, obj ?? "");
+    }
+    function setEstado(t){ document.getElementById('estado').textContent = t; dlog(`ESTADO: ${t}`); }
 
-    // Datos estáticos
-    const MANIFEST_URL = `${SITE_BASE}/data/apellidos_manifest.json`; // slug -> shard
-    const SHARDS_BASE  = `${SITE_BASE}/data/`;                 // carpeta con apellidos_xx.json
-    const INDEX_URL    = `${SITE_BASE}/data/index_apellidos.json`;    // [{apellido, slug}, ...]
+    // ============= CONFIG (AUTO-DETECT BASE) =============
+    const SITE_BASE = (()=>{
+      // Usa el path actual (ej: https://crcofre.github.io/mapa-apellidos)
+      const base = (location.origin + location.pathname).replace(/\/$/, "");
+      dlog(`SITE_BASE = ${base}`);
+      return base;
+    })();
+
+    // Tu estructura actual (shards en /data/*.json):
+    const MANIFEST_URL = `${SITE_BASE}/data/apellidos_manifest.json`;
+    const SHARDS_BASE  = `${SITE_BASE}/data/`; // << shards aquí
+    const INDEX_URL    = `${SITE_BASE}/data/index_apellidos.json`;
 
     // GeoJSON (en la raíz del repo)
     const GEO_REG = `${SITE_BASE}/regiones.json`;
     const GEO_PRO = `${SITE_BASE}/provincias.json`;
     const GEO_COM = `${SITE_BASE}/comunas.json`;
 
+    dlog("RUTAS", {MANIFEST_URL, SHARDS_BASE, INDEX_URL, GEO_REG, GEO_PRO, GEO_COM});
+
+    // ============= MAPA =============
+    const map = L.map('map', { center: [-35.6751, -71.5430], zoom: 5, minZoom: 4, maxZoom: 12 });
+    // Fondo para que siempre veas algo
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19, attribution: '&copy; OpenStreetMap'
+    }).addTo(map);
+
+    const regionesLayer = L.layerGroup().addTo(map);
+    const provinciasLayer = L.layerGroup().addTo(map);
+    const comunasLayer = L.layerGroup().addTo(map);
+    let regionesGeo=null, provinciasGeo=null, comunasGeo=null;
+
     // Paletas y bins
     const PALETAS = {
-      region:    ["#d7ebff","#badaff","#9cc9ff","#7fb8ff","#62a7ff","#458fff","#2a73e0"], // azul
-      provincia: ["#e2f7ee","#c6efdc","#a9e6c9","#8cddb7","#6fc5a0","#4fae85","#2f956b"], // verde
-      comuna:    ["#fde6e9","#fdc9cf","#fdaaae","#fb8b8d","#f25f63","#d84349","#a92d31"]  // rojo
+      region:    ["#d7ebff","#badaff","#9cc9ff","#7fb8ff","#62a7ff","#458fff","#2a73e0"],
+      provincia: ["#e2f7ee","#c6efdc","#a9e6c9","#8cddb7","#6fc5a0","#4fae85","#2f956b"],
+      comuna:    ["#fde6e9","#fdc9cf","#fdaaae","#fb8b8d","#f25f63","#d84349","#a92d31"]
     };
     const BINS_BY_LEVEL = {
       region:   [0, 0.05, 0.10, 0.20, 0.40, 0.80, 1.50, Infinity],
@@ -87,18 +118,28 @@
       comuna:   [0, 0.15, 0.30, 0.60, 1.00, 1.50, 2.50, Infinity]
     };
 
-    // ======================= UTILIDADES =======================
+    // Leyenda
+    let nivelActual = "region";
+    const legend = L.control({position:'bottomright'});
+    legend.onAdd = function(){ this._div = L.DomUtil.create('div','legend'); this.update(); return this._div; };
+    legend.update = function(){
+      const bins = BINS_BY_LEVEL[nivelActual];
+      this._div.innerHTML = "<b>Frecuencia (%)</b><br>" + bins.slice(0,-1).map((b,i)=>{
+        const next = bins[i+1]; const label = (next===Infinity) ? `>${b}%` : `${b}%–${next}%`;
+        return `<div class="item"><span class="swatch" style="background:${PALETAS[nivelActual][i]}"></span>${label}</div>`;
+      }).join("");
+    };
+    legend.addTo(map);
+
+    // ====== helpers ======
+    const getProp = (p, keys, def="—") => { for(const k of keys){ if(p && p[k]!=null && p[k]!=="") return p[k]; } return def; };
     const norm = s => {
       if (!s) return "";
-      let t = String(s).normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-        .replace(/\s+/g, " ").trim().toUpperCase();
-      t = t.replace(/^\s*\d+\s*[\.\-]?\s*/, ""); // prefijo numérico
+      let t = String(s).normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g," ").trim().toUpperCase();
+      t = t.replace(/^\s*\d+\s*[\.\-]?\s*/, ""); // quita prefijo numérico tipo "05. REGION..."
       t = t.replace(/^(REGION|PROVINCIA|DEPARTAMENTO)\s+(DEL\s+|DE\s+)?/, "").replace(/^(DEL|DE)\s+/, "");
       return t.trim();
     };
-    const slugify = s => norm(s).toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
-    const getProp = (p, keys, def="—") => { for(const k of keys){ if(p && p[k]!=null && p[k]!=="") return p[k]; } return def; };
-
     function colorByBins(v, pal, bins){
       if (v==null || isNaN(v)) return pal[0];
       for (let i=0; i<bins.length-1; i++){
@@ -106,87 +147,60 @@
       }
       return pal[pal.length-1];
     }
-    function labelsFromBins(bins){
-      const fmt = x => (x===Infinity) ? "∞" : `${(+x).toLocaleString('es-CL',{maximumFractionDigits:2})}%`;
-      const labs = [];
-      for(let i=0;i<bins.length-1;i++){
-        const a=bins[i], b=bins[i+1];
-        labs.push(b===Infinity ? `>${fmt(a)}` : `${fmt(a)}–${fmt(b)}`);
-      }
-      return labs;
+
+    // ====== Cargar GeoJSON ======
+    async function safeFetchJSON(url, name){
+      dlog(`fetch → ${name}: ${url}`);
+      const res = await fetch(url);
+      dlog(`respuesta ${name}: ${res.status} ${res.statusText}`);
+      if (!res.ok) throw new Error(`No pude cargar ${name} (${res.status})`);
+      const json = await res.json();
+      dlog(`OK ${name}: keys=${Object.keys(json)}`);
+      return json;
     }
 
-    // ======================= MAPA =======================
-    const map = L.map('map', { center: [-35.6751, -71.5430], zoom: 5, minZoom: 4, maxZoom: 12 });
+    (async function loadGeo(){
+      try{
+        const [geoReg, geoProv, geoCom] = await Promise.all([
+          safeFetchJSON(GEO_REG, "regiones.json"),
+          safeFetchJSON(GEO_PRO, "provincias.json"),
+          safeFetchJSON(GEO_COM, "comunas.json")
+        ]);
 
-    const regionesLayer   = L.layerGroup().addTo(map);
-    const provinciasLayer = L.layerGroup().addTo(map);
-    const comunasLayer    = L.layerGroup().addTo(map);
+        const styleBase = { color:"#666", weight:1, fillColor:"#ddd", fillOpacity:.6 };
 
-    let regionesGeo=null, provinciasGeo=null, comunasGeo=null;
+        regionesGeo = L.geoJSON(geoReg, {
+          style: f => ({...styleBase, color:"#587fbf", weight:1 }),
+          onEachFeature:(f,layer)=>{
+            const p=f.properties||{}, reg=getProp(p,["REGION","NOM_REG","Región","NAME_1"],"Región");
+            layer.bindTooltip(reg,{sticky:true,opacity:.95});
+          }
+        }).addTo(regionesLayer);
 
-    // Leyenda
-    let nivelActual = "region";
-    const legend = L.control({position:'bottomright'});
-    legend.onAdd = function(){
-      this._div = L.DomUtil.create('div','legend');
-      this.update();
-      return this._div;
-    };
-    legend.update = function(){
-      const pal  = PALETAS[nivelActual];
-      const bins = BINS_BY_LEVEL[nivelActual];
-      const labs = labelsFromBins(bins);
-      let html = `<b>Frecuencia (%)</b><br>`;
-      for(let i=0;i<labs.length;i++){
-        html += `<div class="item"><span class="swatch" style="background:${pal[i]}"></span>${labs[i]}</div>`;
+        provinciasGeo = L.geoJSON(geoProv, {
+          style: f => ({...styleBase, color:"#333", weight:1 }),
+          onEachFeature:(f,layer)=>{
+            const p=f.properties||{}, prov=getProp(p,["PROVINCIA","NOM_PROV","Provincia","NAME_2","name"],"Provincia");
+            layer.bindTooltip(prov,{sticky:true,opacity:.95});
+          }
+        }).addTo(provinciasLayer);
+
+        comunasGeo = L.geoJSON(geoCom, {
+          style: f => ({...styleBase, color:"#990000", weight:.8 }),
+          onEachFeature:(f,layer)=>{
+            const p=f.properties||{}, com=getProp(p,["COMUNA","NOM_COM","Comuna","name"],"Comuna");
+            layer.bindTooltip(com,{sticky:true,opacity:.95});
+          }
+        }).addTo(comunasLayer);
+
+        updateVisibility();
+        map.on('zoomend', updateVisibility);
+        dlog("GeoJSON cargados y agregados al mapa.");
+      }catch(err){
+        dlog("Error cargando GeoJSON", "error", err);
+        setEstado("No pude cargar GeoJSON. Revisa rutas/ubicación de regiones.json, provincias.json y comunas.json.");
       }
-      this._div.innerHTML = html;
-    };
-    legend.addTo(map);
-    function actualizarLeyenda(){ legend.update(); }
-
-    // Cargar GeoJSON
-    Promise.all([
-      fetch(GEO_REG).then(r=>r.json()),
-      fetch(GEO_PRO).then(r=>r.json()),
-      fetch(GEO_COM).then(r=>r.json())
-    ]).then(([geoReg, geoProv, geoCom])=>{
-      const styleBase = { color:"#666", weight:1, fillColor:"#ddd", fillOpacity:.6 };
-
-      regionesGeo = L.geoJSON(geoReg, {
-        style: f => ({...styleBase, color:"#587fbf", weight:1 }),
-        onEachFeature:(f,layer)=>{
-          const p=f.properties||{}, reg=getProp(p,["REGION","NOM_REG","Región","NAME_1"],"Región");
-          layer.bindTooltip(reg,{sticky:true,opacity:.95});
-          layer.on('mouseover', ()=> layer.setStyle({weight:2}));
-          layer.on('mouseout',  ()=> layer.setStyle({weight:1}));
-        }
-      }).addTo(regionesLayer);
-
-      provinciasGeo = L.geoJSON(geoProv, {
-        style: f => ({...styleBase, color:"#333", weight:1 }),
-        onEachFeature:(f,layer)=>{
-          const p=f.properties||{}, prov=getProp(p,["PROVINCIA","NOM_PROV","Provincia","NAME_2","name"],"Provincia");
-          layer.bindTooltip(prov,{sticky:true,opacity:.95});
-          layer.on('mouseover', ()=> layer.setStyle({weight:2}));
-          layer.on('mouseout',  ()=> layer.setStyle({weight:1}));
-        }
-      }).addTo(provinciasLayer);
-
-      comunasGeo = L.geoJSON(geoCom, {
-        style: f => ({...styleBase, color:"#990000", weight:.8 }),
-        onEachFeature:(f,layer)=>{
-          const p=f.properties||{}, com=getProp(p,["COMUNA","NOM_COM","Comuna","name"],"Comuna");
-          layer.bindTooltip(com,{sticky:true,opacity:.95});
-          layer.on('mouseover', ()=> layer.setStyle({weight:1.2}));
-          layer.on('mouseout',  ()=> layer.setStyle({weight:.8}));
-        }
-      }).addTo(comunasLayer);
-
-      updateVisibility();
-      map.on('zoomend', updateVisibility);
-    });
+    })();
 
     function updateVisibility(){
       const z = map.getZoom();
@@ -194,87 +208,68 @@
       if (z <= 6) { regionesLayer.addLayer(regionesGeo);  nivelActual="region"; }
       else if (z <= 7) { provinciasLayer.addLayer(provinciasGeo); nivelActual="provincia"; }
       else { comunasLayer.addLayer(comunasGeo); nivelActual="comuna"; }
-      actualizarLeyenda();
-      if (window.__ultimoApellido) pintar(window.__ultimoApellido);
+      legend.update();
+      if (window.__ultimo) pintar(window.__ultimo);
+      dlog(`updateVisibility → zoom=${z}, nivel=${nivelActual}`);
     }
 
-    // ======================= CARGA DE DATOS (SHARDS) =======================
-    let MANIFEST = null;           // { slug : "apellidos_ab.json", ... }
-    let INDICE   = [];             // [{apellido, slug}, ...]
-
-    // autocompletar
-    function poblarDatalist(){
-      const dl = document.getElementById('apellidosList');
-      dl.innerHTML = INDICE.map(x=>`<option value="${x.apellido}"></option>`).join('');
-    }
+    // ====== Carga de datos (manifest + índice) ======
+    let MANIFEST=null, INDICE=[];
 
     async function boot(){
-      const [man, idx] = await Promise.all([
-        fetch(MANIFEST_URL).then(r=>r.json()),
-        fetch(INDEX_URL).then(r=>r.json())
-      ]);
-      MANIFEST = man;
-      INDICE = idx;
-      poblarDatalist();
-      document.getElementById('estado').textContent = "Listo. Escribe tu apellido y presiona Buscar.";
+      try{
+        MANIFEST = await safeFetchJSON(MANIFEST_URL, "apellidos_manifest.json");
+        INDICE   = await safeFetchJSON(INDEX_URL, "index_apellidos.json");
+        // autocompletar
+        const dl = document.getElementById('apellidosList');
+        dl.innerHTML = INDICE.map(x=>`<option value="${x.apellido}"></option>`).join('');
+        setEstado("Listo. Escribe tu apellido y presiona Buscar.");
+      }catch(err){
+        dlog("Error cargando manifest/índice", "error", err);
+        setEstado("No pude cargar manifest o índice. Revisa rutas en /data/.");
+      }
     }
 
-    // descarga un apellido: busca su shard, lo lee y devuelve el objeto del apellido
-    <script>
-const slugify = s =>
-  String(s ?? "")
-    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
-    .replace(/\s+/g," ").trim().toLowerCase()
-    .replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
+    // ====== Cargar un apellido desde su shard ======
+    function slugify(s){
+      return String(s ?? "")
+        .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+        .replace(/\s+/g," ").trim().toLowerCase()
+        .replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
+    }
 
-async function cargarApellido(apellidoTexto){
-  // 1) Resolver slug desde el índice (si existe) o generarlo
-  const slug =
-    (INDICE.find(x => x.apellido.toUpperCase() === String(apellidoTexto).toUpperCase())?.slug)
-    || slugify(apellidoTexto);
+    async function cargarApellido(apellidoTexto){
+      dlog(`cargarApellido("${apellidoTexto}")`);
+      const slug = (INDICE.find(x => x.apellido.toUpperCase()===String(apellidoTexto).toUpperCase())?.slug) || slugify(apellidoTexto);
+      dlog(`slug resuelto: ${slug}`);
+      const shardName = MANIFEST?.[slug] || MANIFEST?.[slug.toLowerCase()];
+      if (!shardName) throw new Error(`Apellido no disponible (manifest no tiene slug: ${slug}).`);
 
-  // 2) Manifest: slug -> shard
-  const shardName = MANIFEST[slug] || MANIFEST[slug.toLowerCase()];
-  if (!shardName) throw new Error(`Apellido no disponible: ${slug}`);
+      const url = SHARDS_BASE + shardName;
+      dlog(`fetch shard: ${url}`);
+      const res = await fetch(url);
+      dlog(`respuesta shard: ${res.status} ${res.statusText}`);
+      if (!res.ok) throw new Error(`No pude leer shard ${shardName} (${res.status}).`);
 
-  // 3) Fetch del shard correcto (en /data, no /data/shards)
-  const url = SHARDS_BASE + shardName;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`No pude leer ${url} (${res.status})`);
-  const shardData = await res.json();
+      const shardData = await res.json();
+      const data = shardData[slug] || shardData[slug.toLowerCase()] || shardData[slug.toUpperCase()];
+      if (!data) throw new Error(`No encontré el apellido "${slug}" dentro de ${shardName}.`);
+      dlog(`OK apellido "${data.apellido}" con ${data.comunas?.length||0} filas.`);
+      return data;
+    }
 
-  // 4) Buscar la clave del apellido dentro del shard (tolerante a mayúsculas)
-  const data = shardData[slug]
-            || shardData[slug.toLowerCase()]
-            || shardData[slug.toUpperCase()];
-  if (!data) throw new Error(`No encontré el apellido "${slug}" dentro de ${shardName}`);
-
-  return data; // { apellido, comunas:[...], ... }
-}
-</script>
-
-
-    // ======================= PINTADO =======================
+    // ====== Pintado ======
     function construirTablasValor(data){
       const reg = {}, prov = {}, com = {};
       for (const r of data.comunas || []){
-        // comuna: clave por nombre normalizado (más robusto con distintos GeoJSON)
-        const kCom = norm(r.comuna);
-        com[kCom] = (r.prct_apellido ?? 0);
-
-        // provincia / región: mismas tasas en toda la unidad
-        if (r.provincia!=null) {
-          const kProv = norm(r.provincia);
-          if (!(kProv in prov) && r.freq_prov!=null) prov[kProv] = r.freq_prov;
-        }
-        if (r.region!=null) {
-          const kReg = norm(r.region);
-          if (!(kReg in reg) && r.freq_reg!=null) reg[kReg] = r.freq_reg;
-        }
+        com[norm(r.comuna)] = r.prct_apellido ?? 0;
+        const kProv = norm(r.provincia);
+        const kReg  = norm(r.region);
+        if (r.freq_prov!=null && !(kProv in prov)) prov[kProv] = r.freq_prov;
+        if (r.freq_reg !=null && !(kReg  in reg )) reg[kReg ] = r.freq_reg;
       }
       return {reg, prov, com};
     }
-
     function valorFeature(f, nivel, tablas){
       const p = f.properties || {};
       if (nivel==="region"){
@@ -288,16 +283,15 @@ async function cargarApellido(apellidoTexto){
         return tablas.com[key];
       }
     }
-
     function pintar(data){
-      window.__ultimoApellido = data; // para repintar al cambiar zoom
+      window.__ultimo = data;
       const tablas = construirTablasValor(data);
       const pal  = PALETAS[nivelActual];
       const bins = BINS_BY_LEVEL[nivelActual];
       const pctFmt = v => (v==null || isNaN(v)) ? "0%" : `${(+v).toFixed(2).replace('.',',')}%`;
 
-      const pintarCapa = (geo, nivel)=>{
-        if (!geo) return;
+      const pintarCapa = (geo, nivel) => {
+        if (!geo) { dlog(`No hay geo para ${nivel}`, "warn"); return; }
         geo.eachLayer(l=>{
           const v = valorFeature(l.feature, nivel, tablas);
           l.setStyle({ fillColor: colorByBins(v, pal, bins), fillOpacity:.65 });
@@ -312,47 +306,36 @@ async function cargarApellido(apellidoTexto){
       };
 
       const z = map.getZoom();
-      if (z <= 6) pintar(regionesGeo,"region");
-      else if (z <= 7) pintar(provinciasGeo,"provincia");
-      else pintar(comunasGeo,"comuna");
+      if (z <= 6) pintarCapa(regionesGeo,"region");
+      else if (z <= 7) pintarCapa(provinciasGeo,"provincia");
+      else pintarCapa(comunasGeo,"comuna");
 
-      document.getElementById('estado').textContent = `Mostrando "${data.apellido}" (${nivelActual}).`;
+      setEstado(`Mostrando "${data.apellido}" (${nivelActual}).`);
     }
 
-    // ======================= UI =======================
+    // ====== UI ======
     async function onBuscar(){
       const v = document.getElementById('apellidoInput').value.trim();
       if (!v) return;
-      document.getElementById('estado').textContent = `Cargando "${v}"…`;
+      setEstado(`Cargando "${v}"…`);
       try{
         const data = await cargarApellido(v);
         pintar(data);
       }catch(e){
-        console.error(e);
-        document.getElementById('estado').textContent = e.message;
+        setEstado(e.message);
+        dlog(e.message, "error", e);
       }
     }
     document.getElementById('btn-buscar').addEventListener('click', onBuscar);
     document.getElementById('apellidoInput').addEventListener('keydown', e=>{ if(e.key==="Enter") onBuscar(); });
-<script>
-async function onBuscar(){
-  const v = document.getElementById('apellidoInput').value.trim();
-  if (!v) return;
-  const estado = document.getElementById('estado');
-  estado.textContent = `Cargando "${v}"…`;
-  try{
-    const data = await cargarApellido(v);
-    pintar(data);                 // tu función que ya colorea el mapa
-    estado.textContent = `Mostrando "${data.apellido}"`;
-  }catch(e){
-    console.error(e);
-    estado.textContent = e.message;
-  }
-}
-</script>
 
-    // Boot
-    boot();
+    // ====== Inicio ======
+    (async function start(){
+      setEstado("Cargando manifest, índice y GeoJSON…");
+      await boot(); // manifest + index
+      // geojson se carga en paralelo al inicio; si ya terminó, updateVisibility() habrá corrido
+      dlog("Boot completado.");
+    })();
   </script>
 </body>
 </html>
