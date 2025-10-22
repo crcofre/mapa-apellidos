@@ -216,19 +216,39 @@
     // ====== Carga de datos (manifest + índice) ======
     let MANIFEST=null, INDICE=[];
 
-    async function boot(){
-      try{
-        MANIFEST = await safeFetchJSON(MANIFEST_URL, "apellidos_manifest.json");
-        INDICE   = await safeFetchJSON(INDEX_URL, "index_apellidos.json");
-        // autocompletar
-        const dl = document.getElementById('apellidosList');
-        dl.innerHTML = INDICE.map(x=>`<option value="${x.apellido}"></option>`).join('');
-        setEstado("Listo. Escribe tu apellido y presiona Buscar.");
-      }catch(err){
-        dlog("Error cargando manifest/índice", "error", err);
-        setEstado("No pude cargar manifest o índice. Revisa rutas en /data/.");
-      }
+    <script>
+let MANIFEST = null, INDICE = [];
+
+async function boot(){
+  try{
+    // Cargamos sólo el índice (para autocompletar)
+    const idxRes = await fetch(INDEX_URL);
+    if (!idxRes.ok) throw new Error("No pude cargar index_apellidos.json");
+    INDICE = await idxRes.json();
+
+    // Si el manifest no está, lo generamos en el cliente:
+    // Regla: shard = "apellidos_" + primeras 2 letras del slug + ".json"
+    // (rellenamos con "_" si hiciera falta)
+    MANIFEST = {};
+    for (const it of INDICE){
+      const slug = (it.slug || "").toLowerCase();
+      const pref = (slug.slice(0,2) || "__");
+      MANIFEST[slug] = `apellidos_${pref}.json`;
     }
+
+    // autocompletar
+    const dl = document.getElementById('apellidosList');
+    dl.innerHTML = INDICE.map(x=>`<option value="${x.apellido}"></option>`).join('');
+
+    setEstado("Listo. Escribe tu apellido y presiona Buscar.");
+    dlog("Manifest generado en cliente", "log", {ejemplos: Object.entries(MANIFEST).slice(0,5)});
+  }catch(err){
+    dlog("Error en boot()", "error", err);
+    setEstado("No pude cargar el índice / generar manifest.");
+  }
+}
+</script>
+
 
     // ====== Cargar un apellido desde su shard ======
     function slugify(s){
