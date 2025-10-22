@@ -220,15 +220,39 @@
     }
 
     // descarga un apellido: busca su shard, lo lee y devuelve el objeto del apellido
-    async function cargarApellido(apellidoTexto){
-      const slug = (INDICE.find(x => x.apellido.toUpperCase()===apellidoTexto.toUpperCase())?.slug) || slugify(apellidoTexto);
-      const shard = MANIFEST[slug];
-      if (!shard) throw new Error("Apellido no disponible.");
-      const dataShard = await fetch(SHARDS_BASE + shard).then(r=>r.json());
-      const data = dataShard[slug];
-      if (!data) throw new Error("No encontré el apellido dentro del shard.");
-      return data;  // { apellido, comunas:[{comuna,provincia,region,prct_apellido,freq_prov,freq_reg,...}], ...}
-    }
+    <script>
+const slugify = s =>
+  String(s ?? "")
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+    .replace(/\s+/g," ").trim().toLowerCase()
+    .replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
+
+async function cargarApellido(apellidoTexto){
+  // 1) Resolver slug desde el índice (si existe) o generarlo
+  const slug =
+    (INDICE.find(x => x.apellido.toUpperCase() === String(apellidoTexto).toUpperCase())?.slug)
+    || slugify(apellidoTexto);
+
+  // 2) Manifest: slug -> shard
+  const shardName = MANIFEST[slug] || MANIFEST[slug.toLowerCase()];
+  if (!shardName) throw new Error(`Apellido no disponible: ${slug}`);
+
+  // 3) Fetch del shard correcto (en /data, no /data/shards)
+  const url = SHARDS_BASE + shardName;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`No pude leer ${url} (${res.status})`);
+  const shardData = await res.json();
+
+  // 4) Buscar la clave del apellido dentro del shard (tolerante a mayúsculas)
+  const data = shardData[slug]
+            || shardData[slug.toLowerCase()]
+            || shardData[slug.toUpperCase()];
+  if (!data) throw new Error(`No encontré el apellido "${slug}" dentro de ${shardName}`);
+
+  return data; // { apellido, comunas:[...], ... }
+}
+</script>
+
 
     // ======================= PINTADO =======================
     function construirTablasValor(data){
@@ -310,6 +334,22 @@
     }
     document.getElementById('btn-buscar').addEventListener('click', onBuscar);
     document.getElementById('apellidoInput').addEventListener('keydown', e=>{ if(e.key==="Enter") onBuscar(); });
+<script>
+async function onBuscar(){
+  const v = document.getElementById('apellidoInput').value.trim();
+  if (!v) return;
+  const estado = document.getElementById('estado');
+  estado.textContent = `Cargando "${v}"…`;
+  try{
+    const data = await cargarApellido(v);
+    pintar(data);                 // tu función que ya colorea el mapa
+    estado.textContent = `Mostrando "${data.apellido}"`;
+  }catch(e){
+    console.error(e);
+    estado.textContent = e.message;
+  }
+}
+</script>
 
     // Boot
     boot();
