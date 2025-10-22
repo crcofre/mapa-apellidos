@@ -74,180 +74,73 @@
     }
     function setEstado(t){ document.getElementById('estado').textContent = t; dlog(`ESTADO: ${t}`); }
 
-    // ============= CONFIG (AUTO-DETECT BASE) =============
-    const SITE_BASE = (()=>{
-      // Usa el path actual (ej: https://crcofre.github.io/mapa-apellidos)
-      const base = (location.origin + location.pathname).replace(/\/$/, "");
-      dlog(`SITE_BASE = ${base}`);
-      return base;
-    })();
+   <script>
+  // ===== CAPTURA CUALQUIER ERROR GLOBAL =====
+  (function() {
+    const dbg = document.getElementById('debug');
+    function line(msg, cls){ if(!dbg) return; const d=document.createElement('div'); d.className='line '+(cls||''); d.textContent=msg; dbg.appendChild(d); dbg.scrollTop=dbg.scrollHeight; }
+    window.addEventListener('error', e => { console.error('GLOBAL ERROR', e); line('[GLOBAL ERROR] '+(e.message||e.error), 'err'); });
+    window.addEventListener('unhandledrejection', e => { console.error('PROMISE REJECTION', e.reason); line('[PROMISE REJECTION] '+(e.reason&&e.reason.message?e.reason.message:e.reason), 'err'); });
+    window.__dbgline = line; // util global para otros logs
+  })();
 
-    // Tu estructura actual (shards en /data/*.json):
-    const MANIFEST_URL = `${SITE_BASE}/data/apellidos_manifest.json`;
-    const SHARDS_BASE  = `${SITE_BASE}/data/`; // << shards aquí
-    const INDEX_URL    = `${SITE_BASE}/data/index_apellidos.json`;
+  // ===== RUTAS FIJAS (evitamos auto-detección) =====
+  const SITE_BASE = "https://crcofre.github.io/mapa-apellidos";   // << fijo
+  const MANIFEST_URL = `${SITE_BASE}/data/apellidos_manifest.json`;
+  const SHARDS_BASE  = `${SITE_BASE}/data/`;                      // tus shards están en /data
+  const INDEX_URL    = `${SITE_BASE}/data/index_apellidos.json`;
 
-    // GeoJSON (en la raíz del repo)
-    const GEO_REG = `${SITE_BASE}/regiones.json`;
-    const GEO_PRO = `${SITE_BASE}/provincias.json`;
-    const GEO_COM = `${SITE_BASE}/comunas.json`;
+  const GEO_REG = `${SITE_BASE}/regiones.json`;
+  const GEO_PRO = `${SITE_BASE}/provincias.json`;
+  const GEO_COM = `${SITE_BASE}/comunas.json`;
 
-    dlog("RUTAS", {MANIFEST_URL, SHARDS_BASE, INDEX_URL, GEO_REG, GEO_PRO, GEO_COM});
-
-    // ============= MAPA =============
-    const map = L.map('map', { center: [-35.6751, -71.5430], zoom: 5, minZoom: 4, maxZoom: 12 });
-    // Fondo para que siempre veas algo
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19, attribution: '&copy; OpenStreetMap'
-    }).addTo(map);
-
-    const regionesLayer = L.layerGroup().addTo(map);
-    const provinciasLayer = L.layerGroup().addTo(map);
-    const comunasLayer = L.layerGroup().addTo(map);
-    let regionesGeo=null, provinciasGeo=null, comunasGeo=null;
-
-    // Paletas y bins
-    const PALETAS = {
-      region:    ["#d7ebff","#badaff","#9cc9ff","#7fb8ff","#62a7ff","#458fff","#2a73e0"],
-      provincia: ["#e2f7ee","#c6efdc","#a9e6c9","#8cddb7","#6fc5a0","#4fae85","#2f956b"],
-      comuna:    ["#fde6e9","#fdc9cf","#fdaaae","#fb8b8d","#f25f63","#d84349","#a92d31"]
-    };
-    const BINS_BY_LEVEL = {
-      region:   [0, 0.05, 0.10, 0.20, 0.40, 0.80, 1.50, Infinity],
-      provincia:[0, 0.10, 0.20, 0.40, 0.80, 1.20, 2.00, Infinity],
-      comuna:   [0, 0.15, 0.30, 0.60, 1.00, 1.50, 2.50, Infinity]
-    };
-
-    // Leyenda
-    let nivelActual = "region";
-    const legend = L.control({position:'bottomright'});
-    legend.onAdd = function(){ this._div = L.DomUtil.create('div','legend'); this.update(); return this._div; };
-    legend.update = function(){
-      const bins = BINS_BY_LEVEL[nivelActual];
-      this._div.innerHTML = "<b>Frecuencia (%)</b><br>" + bins.slice(0,-1).map((b,i)=>{
-        const next = bins[i+1]; const label = (next===Infinity) ? `>${b}%` : `${b}%–${next}%`;
-        return `<div class="item"><span class="swatch" style="background:${PALETAS[nivelActual][i]}"></span>${label}</div>`;
-      }).join("");
-    };
-    legend.addTo(map);
-
-    // ====== helpers ======
-    const getProp = (p, keys, def="—") => { for(const k of keys){ if(p && p[k]!=null && p[k]!=="") return p[k]; } return def; };
-    const norm = s => {
-      if (!s) return "";
-      let t = String(s).normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g," ").trim().toUpperCase();
-      t = t.replace(/^\s*\d+\s*[\.\-]?\s*/, ""); // quita prefijo numérico tipo "05. REGION..."
-      t = t.replace(/^(REGION|PROVINCIA|DEPARTAMENTO)\s+(DEL\s+|DE\s+)?/, "").replace(/^(DEL|DE)\s+/, "");
-      return t.trim();
-    };
-    function colorByBins(v, pal, bins){
-      if (v==null || isNaN(v)) return pal[0];
-      for (let i=0; i<bins.length-1; i++){
-        if (v >= bins[i] && v < bins[i+1]) return pal[i];
-      }
-      return pal[pal.length-1];
-    }
-
-    // ====== Cargar GeoJSON ======
-    async function safeFetchJSON(url, name){
-      dlog(`fetch → ${name}: ${url}`);
-      const res = await fetch(url);
-      dlog(`respuesta ${name}: ${res.status} ${res.statusText}`);
-      if (!res.ok) throw new Error(`No pude cargar ${name} (${res.status})`);
-      const json = await res.json();
-      dlog(`OK ${name}: keys=${Object.keys(json)}`);
-      return json;
-    }
-
-    (async function loadGeo(){
-      try{
-        const [geoReg, geoProv, geoCom] = await Promise.all([
-          safeFetchJSON(GEO_REG, "regiones.json"),
-          safeFetchJSON(GEO_PRO, "provincias.json"),
-          safeFetchJSON(GEO_COM, "comunas.json")
-        ]);
-
-        const styleBase = { color:"#666", weight:1, fillColor:"#ddd", fillOpacity:.6 };
-
-        regionesGeo = L.geoJSON(geoReg, {
-          style: f => ({...styleBase, color:"#587fbf", weight:1 }),
-          onEachFeature:(f,layer)=>{
-            const p=f.properties||{}, reg=getProp(p,["REGION","NOM_REG","Región","NAME_1"],"Región");
-            layer.bindTooltip(reg,{sticky:true,opacity:.95});
-          }
-        }).addTo(regionesLayer);
-
-        provinciasGeo = L.geoJSON(geoProv, {
-          style: f => ({...styleBase, color:"#333", weight:1 }),
-          onEachFeature:(f,layer)=>{
-            const p=f.properties||{}, prov=getProp(p,["PROVINCIA","NOM_PROV","Provincia","NAME_2","name"],"Provincia");
-            layer.bindTooltip(prov,{sticky:true,opacity:.95});
-          }
-        }).addTo(provinciasLayer);
-
-        comunasGeo = L.geoJSON(geoCom, {
-          style: f => ({...styleBase, color:"#990000", weight:.8 }),
-          onEachFeature:(f,layer)=>{
-            const p=f.properties||{}, com=getProp(p,["COMUNA","NOM_COM","Comuna","name"],"Comuna");
-            layer.bindTooltip(com,{sticky:true,opacity:.95});
-          }
-        }).addTo(comunasLayer);
-
-        updateVisibility();
-        map.on('zoomend', updateVisibility);
-        dlog("GeoJSON cargados y agregados al mapa.");
-      }catch(err){
-        dlog("Error cargando GeoJSON", "error", err);
-        setEstado("No pude cargar GeoJSON. Revisa rutas/ubicación de regiones.json, provincias.json y comunas.json.");
-      }
-    })();
-
-    function updateVisibility(){
-      const z = map.getZoom();
-      regionesLayer.clearLayers(); provinciasLayer.clearLayers(); comunasLayer.clearLayers();
-      if (z <= 6) { regionesLayer.addLayer(regionesGeo);  nivelActual="region"; }
-      else if (z <= 7) { provinciasLayer.addLayer(provinciasGeo); nivelActual="provincia"; }
-      else { comunasLayer.addLayer(comunasGeo); nivelActual="comuna"; }
-      legend.update();
-      if (window.__ultimo) pintar(window.__ultimo);
-      dlog(`updateVisibility → zoom=${z}, nivel=${nivelActual}`);
-    }
-
-    // ====== Carga de datos (manifest + índice) ======
-    let MANIFEST=null, INDICE=[];
-
-    <script>
+  // ===== LOG INICIAL PARA VERIFICAR =====
+  (function(){
+    console.log('RUTAS', {SITE_BASE, MANIFEST_URL, SHARDS_BASE, INDEX_URL, GEO_REG, GEO_PRO, GEO_COM});
+    if (window.__dbgline) window.__dbgline('RUTAS OK: ' + JSON.stringify({MANIFEST_URL, INDEX_URL}));
+  })();
+</script>
+<script>
 let MANIFEST = null, INDICE = [];
 
 async function boot(){
   try{
-    // Cargamos sólo el índice (para autocompletar)
-    const idxRes = await fetch(INDEX_URL);
+    if (window.__dbgline) window.__dbgline('boot() → cargando índice…');
+    const idxRes = await fetch(INDEX_URL, {cache:'no-store'});
+    console.log('fetch index_apellidos.json →', idxRes.status, idxRes.statusText);
     if (!idxRes.ok) throw new Error("No pude cargar index_apellidos.json");
     INDICE = await idxRes.json();
 
-    // Si el manifest no está, lo generamos en el cliente:
-    // Regla: shard = "apellidos_" + primeras 2 letras del slug + ".json"
-    // (rellenamos con "_" si hiciera falta)
+    // Generar manifest en cliente: apellidos_{dos letras}.json
     MANIFEST = {};
     for (const it of INDICE){
-      const slug = (it.slug || "").toLowerCase();
-      const pref = (slug.slice(0,2) || "__");
+      const slug = String(it.slug||'').toLowerCase();
+      const pref = (slug.slice(0,2) || '__');
       MANIFEST[slug] = `apellidos_${pref}.json`;
     }
+    if (window.__dbgline) window.__dbgline('boot() → índice OK, manifest generado ('+Object.keys(MANIFEST).length+' slugs)');
 
     // autocompletar
     const dl = document.getElementById('apellidosList');
     dl.innerHTML = INDICE.map(x=>`<option value="${x.apellido}"></option>`).join('');
-
-    setEstado("Listo. Escribe tu apellido y presiona Buscar.");
-    dlog("Manifest generado en cliente", "log", {ejemplos: Object.entries(MANIFEST).slice(0,5)});
+    document.getElementById('estado').textContent = "Listo. Escribe tu apellido y presiona Buscar.";
   }catch(err){
-    dlog("Error en boot()", "error", err);
-    setEstado("No pude cargar el índice / generar manifest.");
+    console.error('boot() error', err);
+    if (window.__dbgline) window.__dbgline('boot() ERROR: ' + (err.message||err), 'err');
+    document.getElementById('estado').textContent = "No pude cargar el índice / generar manifest.";
   }
 }
+
+// Arranque explícito cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.__dbgline) window.__dbgline('DOMContentLoaded → iniciar boot()');
+  try { boot(); } catch (e) {
+    console.error('Fallo al iniciar boot', e);
+    if (window.__dbgline) window.__dbgline('Fallo al iniciar boot: '+(e.message||e), 'err');
+  }
+});
 </script>
+
 
 
     // ====== Cargar un apellido desde su shard ======
