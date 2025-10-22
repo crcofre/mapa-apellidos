@@ -9,9 +9,6 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-  <!-- d3 para leer CSV -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
-
   <style>
     html, body { height:100%; margin:0; }
     #map { width:100%; height:100vh; background:#f7f7f7; }
@@ -22,7 +19,6 @@
     }
     path.leaflet-interactive:focus { outline:none; filter:drop-shadow(0 0 2px rgba(0,0,0,.4)); }
 
-    /* UI búsqueda */
     .search-ui{
       position:absolute; top:12px; left:12px; z-index:1000;
       background:#ffffffeb; backdrop-filter: blur(3px);
@@ -56,113 +52,51 @@
     <h3>Consulta tu apellido</h3>
     <div class="row">
       <input id="apellidoInput" type="text" placeholder="Ej.: Cisternas" list="apellidosList" autocomplete="off" />
-      <button id="buscarBtn">Buscar</button>
+      <button id="btn-buscar">Buscar</button>
     </div>
-    <!-- opciones para autocompletar -->
     <datalist id="apellidosList"></datalist>
-    <small id="estado">Cargando datos…</small>
+    <small id="estado">Cargando…</small>
   </div>
 
   <div id="map"></div>
 
   <script>
-    // ----------------- Configuración general -----------------
-    const map = L.map('map', { center: [-35.6751, -71.5430], zoom: 5, minZoom: 4, maxZoom: 12 });
-    const BASE = "https://raw.githubusercontent.com/crcofre/mapa-apellidos/main";
+    // ======================= CONFIG =======================
+    // Base del sitio (GitHub Pages)
+    const SITE_BASE = "https://crcofre.github.io/mapa-apellidos";
 
-    // CSV de Google Sheets (asegura permisos "cualquiera con el enlace")
-    const SHEET_CSV = "https://docs.google.com/spreadsheets/d/1CKDZkGGO3Rbkd88GFkHYc3f_oFaQkM2RN_ESZU8e898/export?format=csv&gid=24675813";
+    // Datos estáticos
+    const MANIFEST_URL = `${SITE_BASE}/data/apellidos_manifest.json`; // slug -> shard
+    const SHARDS_BASE  = `${SITE_BASE}/data/`;                 // carpeta con apellidos_xx.json
+    const INDEX_URL    = `${SITE_BASE}/data/index_apellidos.json`;    // [{apellido, slug}, ...]
 
-    // ---- Aliases de columnas (para evitar 0% por cambios de nombre) ----
-    const ALIASES = {
-      reg_pct: [
-        "Frecuencia Regiones","Frecuencia regiones","Frecuencia Región","Frecuencia región",
-        "frecuencia_regiones","frecuencia_region"
-      ],
-      prov_pct: [
-        "Frecuencia provincia","Frecuencia Provincia","frecuencia_provincia"
-      ],
-      com_pct: [
-        "prct_apellido","pcrt_apellidos","Frecuencia Comuna","frecuencia_comuna"
-      ],
-      reg_name: ["region","Region","REGION","Nombre Región","Nombre region"],
-      prov_name:["provincia","Provincia","PROVINCIA","Nombre Provincia"],
-      com_name: ["comuna","Comuna","COMUNA","Nombre Comuna"],
-      apellido: ["apellido","Apellido","APELLIDO"]
-    };
-    function getAny(row, keys){
-      for(const k of keys){
-        if(Object.prototype.hasOwnProperty.call(row,k)){
-          const v = row[k];
-          if(v!=null && String(v).trim()!=="") return v;
-        }
-      }
-      return "";
-    }
+    // GeoJSON (en la raíz del repo)
+    const GEO_REG = `${SITE_BASE}/regiones.json`;
+    const GEO_PRO = `${SITE_BASE}/provincias.json`;
+    const GEO_COM = `${SITE_BASE}/comunas.json`;
 
-    // Normaliza nombres y elimina prefijos como "05. REGION DE", "PROVINCIA DE", etc.
-    const norm = s => {
-      if (!s) return "";
-      let t = String(s)
-        .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // sin tildes
-        .replace(/\s+/g, " ").trim().toUpperCase();
-
-      // quita prefijo numérico: "05. ", "5 - ", "05-"
-      t = t.replace(/^\s*\d+\s*[\.\-]?\s*/, "");
-
-      // quita encabezados administrativos y preposiciones iniciales
-      t = t
-        .replace(/^(REGION|PROVINCIA|DEPARTAMENTO)\s+(DEL\s+|DE\s+)?/, "")
-        .replace(/^(DEL|DE)\s+/, "");
-
-      return t.trim();
-    };
-
-    // Parser porcentajes ("1.8%" o "1,8%" -> 1.8 número)
-    const parsePct = (x) => {
-      if (x == null) return 0;
-      let s = String(x).trim().replace(',', '.');
-      if (s.endsWith('%')) s = s.slice(0, -1);
-      const v = parseFloat(s);
-      return isNaN(v) ? 0 : v;
-    };
-
-    // Panes / capas
-    map.createPane('pane-regiones');
-    map.createPane('pane-provincias');
-    map.createPane('pane-comunas');
-
-    const regionesLayer   = L.layerGroup();
-    const provinciasLayer = L.layerGroup();
-    const comunasLayer    = L.layerGroup();
-
-    let regionesGeo=null, provinciasGeo=null, comunasGeo=null;
-
-    // Estado
-    let dataRows = [];
-    let indice = { region:{}, provincia:{}, comuna:{} };
-    let apellidoActual = "Cisternas";
-    let nivelActual = "region";  // region | provincia | comuna
-
-    // --- Autocompletado ---
-    let apellidosDisponibles = [];
-    const apellidosCanonPorNorm = new Map(); // norm-> forma canónica (como aparece en la hoja)
-
-    // Paletas (7 clases)
+    // Paletas y bins
     const PALETAS = {
       region:    ["#d7ebff","#badaff","#9cc9ff","#7fb8ff","#62a7ff","#458fff","#2a73e0"], // azul
       provincia: ["#e2f7ee","#c6efdc","#a9e6c9","#8cddb7","#6fc5a0","#4fae85","#2f956b"], // verde
       comuna:    ["#fde6e9","#fdc9cf","#fdaaae","#fb8b8d","#f25f63","#d84349","#a92d31"]  // rojo
     };
-
-    // Cortes fijos por nivel (en %). 8 bordes -> 7 clases.
     const BINS_BY_LEVEL = {
-      region:   [0, 0.05, 0.10, 0.20, 0.40, 0.80, 1.50, Infinity], // conservador
-      provincia:[0, 0.10, 0.20, 0.40, 0.80, 1.20, 2.00, Infinity], // intermedio
-      comuna:   [0, 0.15, 0.30, 0.60, 1.00, 1.50, 2.50, Infinity]  // ejemplo original
+      region:   [0, 0.05, 0.10, 0.20, 0.40, 0.80, 1.50, Infinity],
+      provincia:[0, 0.10, 0.20, 0.40, 0.80, 1.20, 2.00, Infinity],
+      comuna:   [0, 0.15, 0.30, 0.60, 1.00, 1.50, 2.50, Infinity]
     };
 
-    // Utilidades
+    // ======================= UTILIDADES =======================
+    const norm = s => {
+      if (!s) return "";
+      let t = String(s).normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .replace(/\s+/g, " ").trim().toUpperCase();
+      t = t.replace(/^\s*\d+\s*[\.\-]?\s*/, ""); // prefijo numérico
+      t = t.replace(/^(REGION|PROVINCIA|DEPARTAMENTO)\s+(DEL\s+|DE\s+)?/, "").replace(/^(DEL|DE)\s+/, "");
+      return t.trim();
+    };
+    const slugify = s => norm(s).toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
     const getProp = (p, keys, def="—") => { for(const k of keys){ if(p && p[k]!=null && p[k]!=="") return p[k]; } return def; };
 
     function colorByBins(v, pal, bins){
@@ -172,193 +106,27 @@
       }
       return pal[pal.length-1];
     }
-
     function labelsFromBins(bins){
       const fmt = x => (x===Infinity) ? "∞" : `${(+x).toLocaleString('es-CL',{maximumFractionDigits:2})}%`;
       const labs = [];
       for(let i=0;i<bins.length-1;i++){
-        const a = bins[i], b = bins[i+1];
+        const a=bins[i], b=bins[i+1];
         labs.push(b===Infinity ? `>${fmt(a)}` : `${fmt(a)}–${fmt(b)}`);
       }
       return labs;
     }
 
-    // --------- Cargar GeoJSON ---------
-    Promise.all([
-      fetch(`${BASE}/regiones.json`).then(r=>r.json()),
-      fetch(`${BASE}/provincias.json`).then(r=>r.json()),
-      fetch(`${BASE}/comunas.json`).then(r=>r.json())
-    ]).then(([geoReg, geoProv, geoCom])=>{
-      const styleBase = { color:"#666", weight:1, fillColor:"#ddd", fillOpacity:.6 };
+    // ======================= MAPA =======================
+    const map = L.map('map', { center: [-35.6751, -71.5430], zoom: 5, minZoom: 4, maxZoom: 12 });
 
-      regionesGeo = L.geoJSON(geoReg, {
-        pane:'pane-regiones',
-        style: f => ({...styleBase, color:"#587fbf", weight:1 }),
-        onEachFeature:(f,layer)=>{
-          const p=f.properties||{}, reg=getProp(p,["REGION","NOM_REG","Región","NAME_1"],"Región");
-          layer.bindTooltip(reg,{sticky:true,opacity:.95});
-          layer.on('mouseover', ()=> layer.setStyle({weight:2}));
-          layer.on('mouseout',  ()=> layer.setStyle({weight:1}));
-        }
-      });
+    const regionesLayer   = L.layerGroup().addTo(map);
+    const provinciasLayer = L.layerGroup().addTo(map);
+    const comunasLayer    = L.layerGroup().addTo(map);
 
-      provinciasGeo = L.geoJSON(geoProv, {
-        pane:'pane-provincias',
-        style: f => ({...styleBase, color:"#333", weight:1 }),
-        onEachFeature:(f,layer)=>{
-          const p=f.properties||{}, prov=getProp(p,["PROVINCIA","NOM_PROV","Provincia","NAME_2","name"],"Provincia");
-          layer.bindTooltip(prov,{sticky:true,opacity:.95});
-          layer.on('mouseover', ()=> layer.setStyle({weight:2}));
-          layer.on('mouseout',  ()=> layer.setStyle({weight:1}));
-        }
-      });
+    let regionesGeo=null, provinciasGeo=null, comunasGeo=null;
 
-      comunasGeo = L.geoJSON(geoCom, {
-        pane:'pane-comunas',
-        style: f => ({...styleBase, color:"#990000", weight:.8 }),
-        onEachFeature:(f,layer)=>{
-          const p=f.properties||{}, com=getProp(p,["COMUNA","NOM_COM","Comuna","name"],"Comuna");
-          layer.bindTooltip(com,{sticky:true,opacity:.95});
-          layer.on('mouseover', ()=> layer.setStyle({weight:1.2}));
-          layer.on('mouseout',  ()=> layer.setStyle({weight:.8}));
-        }
-      });
-
-      updateVisibility();
-      map.on('zoomend', updateVisibility);
-    });
-
-    // --------- Leer Google Sheet y construir índice ---------
-    d3.csv(SHEET_CSV).then(rows=>{
-      dataRows = rows;
-      construirIndice();
-      poblarDatalistApellidos();
-      document.getElementById('estado').textContent = `Listo. Apellido por defecto: ${apellidoActual}`;
-      actualizarPintado();
-    }).catch(err=>{
-      console.error(err);
-      document.getElementById('estado').textContent = "No se pudo cargar el CSV. Revisa permisos del Sheet.";
-    });
-
-    // Índice: apellido → nivel → nombre normalizado → porcentaje (número)
-    function construirIndice(){
-      indice = { region:{}, provincia:{}, comuna:{} };
-      let cReg=0, cProv=0, cCom=0;
-
-      for(const r of dataRows){
-        const apRaw = getAny(r, ALIASES.apellido);
-        const ap    = norm(apRaw);
-        if(!ap) continue;
-
-        const regNom = norm(getAny(r, ALIASES.reg_name));
-        const provNom= norm(getAny(r, ALIASES.prov_name));
-        const comNom = norm(getAny(r, ALIASES.com_name));
-
-        // Porcentajes
-        const fReg  = parsePct(getAny(r, ALIASES.reg_pct));
-        const fProv = parsePct(getAny(r, ALIASES.prov_pct));
-        const fCom  = parsePct(getAny(r, ALIASES.com_pct));
-
-        if(!indice.region[ap])    indice.region[ap]    = {};
-        if(!indice.provincia[ap]) indice.provincia[ap] = {};
-        if(!indice.comuna[ap])    indice.comuna[ap]    = {};
-
-        if(regNom){  indice.region[ap][regNom]     = fReg;  cReg++; }
-        if(provNom){ indice.provincia[ap][provNom] = fProv; cProv++; }
-        if(comNom){  indice.comuna[ap][comNom]     = fCom;  cCom++; }
-
-        // catálogo para autocompletar
-        const canon = String(apRaw).trim();
-        if(canon){
-          const key = ap; // ya normalizado
-          if(!apellidosCanonPorNorm.has(key)) apellidosCanonPorNorm.set(key, canon);
-        }
-      }
-      // arma lista ordenada de apellidos
-      apellidosDisponibles = Array.from(new Set([...apellidosCanonPorNorm.values()]))
-        .sort((a,b)=>a.localeCompare(b,'es',{sensitivity:'base'}));
-
-      console.log("Filas procesadas:", dataRows.length, "| reg:", cReg, "prov:", cProv, "com:", cCom);
-    }
-
-    // Poblar <datalist> con los apellidos disponibles
-    function poblarDatalistApellidos(){
-      const dl = document.getElementById('apellidosList');
-      dl.innerHTML = apellidosDisponibles.map(a=>`<option value="${a}"></option>`).join('');
-    }
-
-    // Valor de una feature según nivel y apellido
-    function valorFeature(f, nivel, ap){
-      const p=f.properties||{};
-      if(nivel==="region"){
-        const key = norm(getProp(p,["REGION","NOM_REG","Región","NAME_1"],""));
-        return (indice.region[ap]||{})[key];
-      }else if(nivel==="provincia"){
-        const key = norm(getProp(p,["PROVINCIA","NOM_PROV","Provincia","NAME_2","name"],""));
-        return (indice.provincia[ap]||{})[key];
-      }else{
-        const key = norm(getProp(p,["COMUNA","NOM_COM","Comuna","name"],""));
-        return (indice.comuna[ap]||{})[key];
-      }
-    }
-
-    // Pintado según zoom + leyenda con bins por nivel
-    function actualizarPintado(){
-      const ap = norm(apellidoActual);
-      const z = map.getZoom();
-      if (z <= 6) { nivelActual="region"; }
-      else if (z <= 7) { nivelActual="provincia"; }
-      else { nivelActual="comuna"; }
-
-      const pal  = PALETAS[nivelActual];
-      const bins = BINS_BY_LEVEL[nivelActual];
-
-      const pctFmt = v => (v==null || isNaN(v)) ? "0%" : `${(+v).toFixed(2).replace('.',',')}%`;
-
-      const pintar = (geo, nivel)=>{
-        if(!geo) return;
-        geo.eachLayer(l=>{
-          const v = valorFeature(l.feature, nivel, ap);     // número en %
-          const fill = colorByBins(v, pal, bins);
-          l.setStyle({ fillColor: fill, fillOpacity: .65 });
-          const p=l.feature.properties||{};
-          const nombre = (nivel==="region")
-            ? getProp(p,["REGION","NOM_REG","Región","NAME_1"],"Región")
-            : (nivel==="provincia")
-              ? getProp(p,["PROVINCIA","NOM_PROV","Provincia","NAME_2","name"],"Provincia")
-              : getProp(p,["COMUNA","NOM_COM","Comuna","name"],"Comuna");
-          l.bindTooltip(`${nombre}<br><small>${apellidoActual}: <b>${pctFmt(v)}</b></small>`, {sticky:true,opacity:.95});
-        });
-      };
-
-      if(nivelActual==="region")   pintar(regionesGeo,"region");
-      if(nivelActual==="provincia")pintar(provinciasGeo,"provincia");
-      if(nivelActual==="comuna")   pintar(comunasGeo,"comuna");
-
-      actualizarLeyenda();
-      document.getElementById('estado').textContent =
-        `Mostrando "${apellidoActual}" por ${nivelActual} (zoom ${z}).`;
-    }
-
-    // Visibilidad por zoom
-    function updateVisibility(){
-      const z = map.getZoom();
-      regionesLayer.clearLayers(); provinciasLayer.clearLayers(); comunasLayer.clearLayers();
-      if(map.hasLayer(regionesLayer)) map.removeLayer(regionesLayer);
-      if(map.hasLayer(provinciasLayer)) map.removeLayer(provinciasLayer);
-      if(map.hasLayer(comunasLayer)) map.removeLayer(comunasLayer);
-
-      if (z <= 6) {
-        if(regionesGeo){ regionesLayer.addLayer(regionesGeo); regionesLayer.addTo(map); }
-      } else if (z <= 7) {
-        if(provinciasGeo){ provinciasLayer.addLayer(provinciasGeo); provinciasLayer.addTo(map); }
-      } else {
-        if(comunasGeo){ comunasLayer.addLayer(comunasGeo); comunasLayer.addTo(map); }
-      }
-      actualizarPintado();
-    }
-
-    // Leyenda por nivel
+    // Leyenda
+    let nivelActual = "region";
     const legend = L.control({position:'bottomright'});
     legend.onAdd = function(){
       this._div = L.DomUtil.create('div','legend');
@@ -378,35 +146,173 @@
     legend.addTo(map);
     function actualizarLeyenda(){ legend.update(); }
 
-    // Búsqueda por apellido (con validación y coincidencia por prefijo)
-    function buscarApellido(){
-      const input = document.getElementById('apellidoInput');
-      const v = input.value.trim();
-      if(!v) return;
+    // Cargar GeoJSON
+    Promise.all([
+      fetch(GEO_REG).then(r=>r.json()),
+      fetch(GEO_PRO).then(r=>r.json()),
+      fetch(GEO_COM).then(r=>r.json())
+    ]).then(([geoReg, geoProv, geoCom])=>{
+      const styleBase = { color:"#666", weight:1, fillColor:"#ddd", fillOpacity:.6 };
 
-      const key = norm(v);
-      let canon = apellidosCanonPorNorm.get(key);
+      regionesGeo = L.geoJSON(geoReg, {
+        style: f => ({...styleBase, color:"#587fbf", weight:1 }),
+        onEachFeature:(f,layer)=>{
+          const p=f.properties||{}, reg=getProp(p,["REGION","NOM_REG","Región","NAME_1"],"Región");
+          layer.bindTooltip(reg,{sticky:true,opacity:.95});
+          layer.on('mouseover', ()=> layer.setStyle({weight:2}));
+          layer.on('mouseout',  ()=> layer.setStyle({weight:1}));
+        }
+      }).addTo(regionesLayer);
 
-      if(!canon){
-        // intenta coincidencia por prefijo
-        const found = apellidosDisponibles.find(a => norm(a).startsWith(key));
-        if(found) canon = found;
-      }
+      provinciasGeo = L.geoJSON(geoProv, {
+        style: f => ({...styleBase, color:"#333", weight:1 }),
+        onEachFeature:(f,layer)=>{
+          const p=f.properties||{}, prov=getProp(p,["PROVINCIA","NOM_PROV","Provincia","NAME_2","name"],"Provincia");
+          layer.bindTooltip(prov,{sticky:true,opacity:.95});
+          layer.on('mouseover', ()=> layer.setStyle({weight:2}));
+          layer.on('mouseout',  ()=> layer.setStyle({weight:1}));
+        }
+      }).addTo(provinciasLayer);
 
-      if(canon){
-        apellidoActual = canon;
-        document.getElementById('estado').textContent = `Mostrando "${canon}".`;
-      }else{
-        apellidoActual = v;
-        document.getElementById('estado').textContent = `No encontré coincidencia exacta. Mostrando "${v}" (puede no tener datos).`;
-      }
-      actualizarPintado();
+      comunasGeo = L.geoJSON(geoCom, {
+        style: f => ({...styleBase, color:"#990000", weight:.8 }),
+        onEachFeature:(f,layer)=>{
+          const p=f.properties||{}, com=getProp(p,["COMUNA","NOM_COM","Comuna","name"],"Comuna");
+          layer.bindTooltip(com,{sticky:true,opacity:.95});
+          layer.on('mouseover', ()=> layer.setStyle({weight:1.2}));
+          layer.on('mouseout',  ()=> layer.setStyle({weight:.8}));
+        }
+      }).addTo(comunasLayer);
+
+      updateVisibility();
+      map.on('zoomend', updateVisibility);
+    });
+
+    function updateVisibility(){
+      const z = map.getZoom();
+      regionesLayer.clearLayers(); provinciasLayer.clearLayers(); comunasLayer.clearLayers();
+      if (z <= 6) { regionesLayer.addLayer(regionesGeo);  nivelActual="region"; }
+      else if (z <= 7) { provinciasLayer.addLayer(provinciasGeo); nivelActual="provincia"; }
+      else { comunasLayer.addLayer(comunasGeo); nivelActual="comuna"; }
+      actualizarLeyenda();
+      if (window.__ultimoApellido) pintar(window.__ultimoApellido);
     }
 
-    document.getElementById('buscarBtn').addEventListener('click', buscarApellido);
-    document.getElementById('apellidoInput').addEventListener('keydown', (e)=>{
-      if(e.key==="Enter") buscarApellido();
-    });
+    // ======================= CARGA DE DATOS (SHARDS) =======================
+    let MANIFEST = null;           // { slug : "apellidos_ab.json", ... }
+    let INDICE   = [];             // [{apellido, slug}, ...]
+
+    // autocompletar
+    function poblarDatalist(){
+      const dl = document.getElementById('apellidosList');
+      dl.innerHTML = INDICE.map(x=>`<option value="${x.apellido}"></option>`).join('');
+    }
+
+    async function boot(){
+      const [man, idx] = await Promise.all([
+        fetch(MANIFEST_URL).then(r=>r.json()),
+        fetch(INDEX_URL).then(r=>r.json())
+      ]);
+      MANIFEST = man;
+      INDICE = idx;
+      poblarDatalist();
+      document.getElementById('estado').textContent = "Listo. Escribe tu apellido y presiona Buscar.";
+    }
+
+    // descarga un apellido: busca su shard, lo lee y devuelve el objeto del apellido
+    async function cargarApellido(apellidoTexto){
+      const slug = (INDICE.find(x => x.apellido.toUpperCase()===apellidoTexto.toUpperCase())?.slug) || slugify(apellidoTexto);
+      const shard = MANIFEST[slug];
+      if (!shard) throw new Error("Apellido no disponible.");
+      const dataShard = await fetch(SHARDS_BASE + shard).then(r=>r.json());
+      const data = dataShard[slug];
+      if (!data) throw new Error("No encontré el apellido dentro del shard.");
+      return data;  // { apellido, comunas:[{comuna,provincia,region,prct_apellido,freq_prov,freq_reg,...}], ...}
+    }
+
+    // ======================= PINTADO =======================
+    function construirTablasValor(data){
+      const reg = {}, prov = {}, com = {};
+      for (const r of data.comunas || []){
+        // comuna: clave por nombre normalizado (más robusto con distintos GeoJSON)
+        const kCom = norm(r.comuna);
+        com[kCom] = (r.prct_apellido ?? 0);
+
+        // provincia / región: mismas tasas en toda la unidad
+        if (r.provincia!=null) {
+          const kProv = norm(r.provincia);
+          if (!(kProv in prov) && r.freq_prov!=null) prov[kProv] = r.freq_prov;
+        }
+        if (r.region!=null) {
+          const kReg = norm(r.region);
+          if (!(kReg in reg) && r.freq_reg!=null) reg[kReg] = r.freq_reg;
+        }
+      }
+      return {reg, prov, com};
+    }
+
+    function valorFeature(f, nivel, tablas){
+      const p = f.properties || {};
+      if (nivel==="region"){
+        const key = norm(getProp(p,["REGION","NOM_REG","Región","NAME_1"],""));
+        return tablas.reg[key];
+      }else if (nivel==="provincia"){
+        const key = norm(getProp(p,["PROVINCIA","NOM_PROV","Provincia","NAME_2","name"],""));
+        return tablas.prov[key];
+      }else{
+        const key = norm(getProp(p,["COMUNA","NOM_COM","Comuna","name"],""));
+        return tablas.com[key];
+      }
+    }
+
+    function pintar(data){
+      window.__ultimoApellido = data; // para repintar al cambiar zoom
+      const tablas = construirTablasValor(data);
+      const pal  = PALETAS[nivelActual];
+      const bins = BINS_BY_LEVEL[nivelActual];
+      const pctFmt = v => (v==null || isNaN(v)) ? "0%" : `${(+v).toFixed(2).replace('.',',')}%`;
+
+      const pintarCapa = (geo, nivel)=>{
+        if (!geo) return;
+        geo.eachLayer(l=>{
+          const v = valorFeature(l.feature, nivel, tablas);
+          l.setStyle({ fillColor: colorByBins(v, pal, bins), fillOpacity:.65 });
+          const p=l.feature.properties||{};
+          const nombre = (nivel==="region")
+            ? getProp(p,["REGION","NOM_REG","Región","NAME_1"],"Región")
+            : (nivel==="provincia")
+              ? getProp(p,["PROVINCIA","NOM_PROV","Provincia","NAME_2","name"],"Provincia")
+              : getProp(p,["COMUNA","NOM_COM","Comuna","name"],"Comuna");
+          l.bindTooltip(`${nombre}<br><small>${data.apellido}: <b>${pctFmt(v)}</b></small>`, {sticky:true,opacity:.95});
+        });
+      };
+
+      const z = map.getZoom();
+      if (z <= 6) pintar(regionesGeo,"region");
+      else if (z <= 7) pintar(provinciasGeo,"provincia");
+      else pintar(comunasGeo,"comuna");
+
+      document.getElementById('estado').textContent = `Mostrando "${data.apellido}" (${nivelActual}).`;
+    }
+
+    // ======================= UI =======================
+    async function onBuscar(){
+      const v = document.getElementById('apellidoInput').value.trim();
+      if (!v) return;
+      document.getElementById('estado').textContent = `Cargando "${v}"…`;
+      try{
+        const data = await cargarApellido(v);
+        pintar(data);
+      }catch(e){
+        console.error(e);
+        document.getElementById('estado').textContent = e.message;
+      }
+    }
+    document.getElementById('btn-buscar').addEventListener('click', onBuscar);
+    document.getElementById('apellidoInput').addEventListener('keydown', e=>{ if(e.key==="Enter") onBuscar(); });
+
+    // Boot
+    boot();
   </script>
 </body>
 </html>
