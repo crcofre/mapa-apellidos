@@ -123,6 +123,11 @@
 
     /* ---------------- Mapa ---------------- */
     const map = L.map('map', { center: [-35.6751, -71.5430], zoom: 5, minZoom: 4, maxZoom: 12 });
+    // despues de: const map = L.map('map', { ... });
+map.createPane('pane-regiones');
+map.createPane('pane-provincias');
+map.createPane('pane-comunas');
+
     const styleBase = { color:"#666", weight:1, fillColor:"#ddd", fillOpacity:.6 };
 
     let regionesGeo=null, provinciasGeo=null, comunasGeo=null;
@@ -302,17 +307,36 @@
       return APELLIDOS_MANIFEST;
     }
 
-    async function loadShard(filename){
-      if(SHARD_CACHE.has(filename)) return SHARD_CACHE.get(filename);
-      const url = `data/${filename}`;
-      log(`Cargando shard: ${filename}…`,'dim');
-      const res = await fetch(url, {cache:'no-store'});
-      if(!res.ok) throw new Error(`No se pudo cargar ${filename} (${res.status})`);
-      const data = await res.json();
-      SHARD_CACHE.set(filename, data);
-      log(`Shard ${filename} cargado.`,'ok');
-      return data;
-    }
+async function loadShard(filename){
+  if (SHARD_CACHE.has(filename)) return SHARD_CACHE.get(filename);
+  const url = `data/${filename}`;
+  log(`Cargando shard: ${filename}…`, 'dim');
+
+  const res = await fetch(url, { cache: 'no-store' });
+  if (!res.ok) throw new Error(`No se pudo cargar ${filename} (${res.status})`);
+
+  // Los shards pueden traer NaN/Infinity, que no son JSON válidos.
+  const raw = await res.text();
+  const cleaned = raw
+    .replace(/\bNaN\b/g, 'null')
+    .replace(/\bInfinity\b/g, 'null')
+    .replace(/\b-Infinity\b/g, 'null');
+
+  let data;
+  try {
+    data = JSON.parse(cleaned);
+  } catch (e) {
+    // Muestra un trozo para diagnosticar si sigue fallando
+    log(`Parse error en ${filename}: ${e.message}`, 'err');
+    log(cleaned.slice(0, 300) + '…', 'err');
+    throw e;
+  }
+
+  SHARD_CACHE.set(filename, data);
+  log(`Shard ${filename} cargado.`, 'ok');
+  return data;
+}
+
 
     async function fetchApellidoData(apellidoInput){
       const manifest = await getApellidosManifest();
@@ -332,25 +356,40 @@
     }
 
     // Construye el índice {region, provincia, comuna} desde el objeto del shard
-    function buildIndiceFromShard(apellidoObj){
-      const out = { region:{}, provincia:{}, comuna:{} };
-      const rows = apellidoObj.comunas || [];
+    function function buildIndiceFromShard(apellidoObj){
+  const out = { region:{}, provincia:{}, comuna:{} };
+  const rows = Array.isArray(apellidoObj.comunas) ? apellidoObj.comunas : [];
 
-      for(const r of rows){
-        const reg = norm(r.region);
-        const prov= norm(r.provincia);
-        const com = norm(r.comuna);
+  const norm = s => {
+    if (!s) return '';
+    let t = String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+      .replace(/\s+/g,' ').trim().toUpperCase();
+    t = t.replace(/^\s*\d+\s*[\.\-]?\s*/,'')
+         .replace(/^(REGION|PROVINCIA|DEPARTAMENTO)\s+(DEL\s+|DE\s+)?/,'')
+         .replace(/^(DEL|DE)\s+/,'');
+    return t;
+  };
+  const num = v => {
+    const n = Number(v);
+    return Number.isFinite(n) ? n : 0;
+  };
 
-        const pC  = +r.prct_apellido || 0; // comuna
-        const pP  = +r.freq_prov || 0;     // provincia
-        const pR  = +r.freq_reg  || 0;     // región
+  for (const r of rows){
+    const reg  = norm(r.region);
+    const prov = norm(r.provincia);
+    const com  = norm(r.comuna);
 
-        if(com)  out.comuna[com] = pC;
-        if(prov) out.provincia[prov] = pP;
-        if(reg)  out.region[reg] = pR;
-      }
-      return out;
-    }
+    const pC = num(r.prct_apellido); // comuna
+    const pP = num(r.freq_prov);     // provincia
+    const pR = num(r.freq_reg);      // región
+
+    if (com)  out.comuna[com]     = pC;
+    if (prov) out.provincia[prov] = Math.max(pP, out.provincia[prov] ?? 0);
+    if (reg)  out.region[reg]     = Math.max(pR, out.region[reg] ?? 0);
+  }
+  return out;
+}
+
 
     /* ---------------- Buscador ---------------- */
     const $input = document.getElementById('apellidoInput');
