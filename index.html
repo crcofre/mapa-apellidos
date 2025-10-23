@@ -75,17 +75,27 @@
       <input id="apellidoInput" type="text" placeholder="Ej.: Cisternas" list="apellidosList" autocomplete="off" />
       <button id="buscarBtn">Buscar</button>
     </div>
-    <div class="row">
-      <select id="nivelSelect" title="Nivel de visualización">
-        <option value="auto" selected>Auto (según zoom)</option>
-        <option value="region">Región</option>
-        <option value="provincia">Provincia</option>
-        <option value="comuna">Comuna</option>
-      </select>
-    </div>
-    <datalist id="apellidosList"></datalist>
-    <small id="estado">Cargando datos…</small>
-  </div>
+   <!-- Cuadro de opciones de nivel -->
+<div class="option-box" id="nivelBox">
+  <div class="option-title">Nivel de visualización</div>
+  <label class="opt">
+    <input type="radio" name="nivel" value="auto" checked>
+    Auto (según zoom)
+  </label>
+  <label class="opt">
+    <input type="radio" name="nivel" value="region">
+    Región
+  </label>
+  <label class="opt">
+    <input type="radio" name="nivel" value="provincia">
+    Provincia
+  </label>
+  <label class="opt">
+    <input type="radio" name="nivel" value="comuna">
+    Comuna
+  </label>
+</div>
+
 
   <!-- Panel de logs -->
   <div class="log-panel" id="logPanel">
