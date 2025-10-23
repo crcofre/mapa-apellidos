@@ -48,6 +48,21 @@
     .legend .item{ display:flex; align-items:center; gap:6px; }
     .legend .swatch{ width:18px; height:12px; border:1px solid #999; }
     .legend b{ display:block; margin-bottom:4px; }
+
+    /* Panel de logs */
+    .log-panel{
+      position:fixed; right:12px; top:12px; z-index:1100;
+      width:min(38vw, 420px); max-height:46vh; overflow:auto;
+      font:12px/1.35 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      background:#111; color:#eaeaea; border:1px solid #333; border-radius:10px;
+      box-shadow:0 6px 16px rgba(0,0,0,.35);
+    }
+    .log-panel header{ position:sticky; top:0; background:#0d0d0d; color:#9ad; padding:6px 8px; font-weight:700; }
+    .log-panel pre{ margin:0; padding:8px; white-space:pre-wrap; word-break:break-word; }
+    .log-ok{ color:#9f9; }
+    .log-warn{ color:#ff9; }
+    .log-err{ color:#f99; }
+    .log-dim{ color:#aaa; }
   </style>
 </head>
 <body>
@@ -63,17 +78,41 @@
     <small id="estado">Cargando datos…</small>
   </div>
 
+  <!-- Panel de logs -->
+  <div class="log-panel" id="logPanel">
+    <header>Logs</header>
+    <pre id="logText"></pre>
+  </div>
+
   <div id="map"></div>
 
   <script>
+    /* ---------- Logger simple (pantalla + consola) ---------- */
+    const $log = document.getElementById('logText');
+    const log = (msg, level='dim') => {
+      const ts = new Date().toISOString().substring(11,19);
+      const line = `[${ts}] ${msg}\n`;
+      $log.insertAdjacentText('beforeend', line);
+      $log.className = `log-${level}`;
+      if(level==='err') console.error(msg);
+      else if(level==='warn') console.warn(msg);
+      else console.log(msg);
+      $log.scrollTop = $log.scrollHeight;
+    };
+
     // ----------------- Configuración general -----------------
     const map = L.map('map', { center: [-35.6751, -71.5430], zoom: 5, minZoom: 4, maxZoom: 12 });
-    const BASE = "https://raw.githubusercontent.com/crcofre/mapa-apellidos/main";
+
+    // Intento 1: GitHub Pages (mejor caché y CORS); Intento 2: Raw (fallback)
+    const BASES = [
+      "https://crcofre.github.io/mapa-apellidos",
+      "https://raw.githubusercontent.com/crcofre/mapa-apellidos/main"
+    ];
 
     // CSV de Google Sheets (asegura permisos "cualquiera con el enlace")
     const SHEET_CSV = "https://docs.google.com/spreadsheets/d/1CKDZkGGO3Rbkd88GFkHYc3f_oFaQkM2RN_ESZU8e898/export?format=csv&gid=24675813";
 
-    // ---- Aliases de columnas (para evitar 0% por cambios de nombre) ----
+    // ---- Aliases de columnas ----
     const ALIASES = {
       reg_pct: [
         "Frecuencia Regiones","Frecuencia regiones","Frecuencia Región","Frecuencia región",
@@ -100,25 +139,19 @@
       return "";
     }
 
-    // Normaliza nombres y elimina prefijos como "05. REGION DE", "PROVINCIA DE", etc.
+    // Normalización nombres
     const norm = s => {
       if (!s) return "";
       let t = String(s)
-        .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // sin tildes
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
         .replace(/\s+/g, " ").trim().toUpperCase();
-
-      // quita prefijo numérico: "05. ", "5 - ", "05-"
       t = t.replace(/^\s*\d+\s*[\.\-]?\s*/, "");
-
-      // quita encabezados administrativos y preposiciones iniciales
       t = t
         .replace(/^(REGION|PROVINCIA|DEPARTAMENTO)\s+(DEL\s+|DE\s+)?/, "")
         .replace(/^(DEL|DE)\s+/, "");
-
       return t.trim();
     };
 
-    // Parser porcentajes ("1.8%" o "1,8%" -> 1.8 número)
     const parsePct = (x) => {
       if (x == null) return 0;
       let s = String(x).trim().replace(',', '.');
@@ -127,7 +160,6 @@
       return isNaN(v) ? 0 : v;
     };
 
-    // Panes / capas
     map.createPane('pane-regiones');
     map.createPane('pane-provincias');
     map.createPane('pane-comunas');
@@ -148,23 +180,19 @@
     let apellidosDisponibles = [];
     const apellidosCanonPorNorm = new Map(); // norm-> forma canónica (como aparece en la hoja)
 
-    // Paletas (7 clases)
+    // Paletas (7 clases) y cortes
     const PALETAS = {
-      region:    ["#d7ebff","#badaff","#9cc9ff","#7fb8ff","#62a7ff","#458fff","#2a73e0"], // azul
-      provincia: ["#e2f7ee","#c6efdc","#a9e6c9","#8cddb7","#6fc5a0","#4fae85","#2f956b"], // verde
-      comuna:    ["#fde6e9","#fdc9cf","#fdaaae","#fb8b8d","#f25f63","#d84349","#a92d31"]  // rojo
+      region:    ["#d7ebff","#badaff","#9cc9ff","#7fb8ff","#62a7ff","#458fff","#2a73e0"],
+      provincia: ["#e2f7ee","#c6efdc","#a9e6c9","#8cddb7","#6fc5a0","#4fae85","#2f956b"],
+      comuna:    ["#fde6e9","#fdc9cf","#fdaaae","#fb8b8d","#f25f63","#d84349","#a92d31"]
     };
-
-    // Cortes fijos por nivel (en %). 8 bordes -> 7 clases.
     const BINS_BY_LEVEL = {
-      region:   [0, 0.05, 0.10, 0.20, 0.40, 0.80, 1.50, Infinity], // conservador
-      provincia:[0, 0.10, 0.20, 0.40, 0.80, 1.20, 2.00, Infinity], // intermedio
-      comuna:   [0, 0.15, 0.30, 0.60, 1.00, 1.50, 2.50, Infinity]  // ejemplo original
+      region:   [0, 0.05, 0.10, 0.20, 0.40, 0.80, 1.50, Infinity],
+      provincia:[0, 0.10, 0.20, 0.40, 0.80, 1.20, 2.00, Infinity],
+      comuna:   [0, 0.15, 0.30, 0.60, 1.00, 1.50, 2.50, Infinity]
     };
 
-    // Utilidades
     const getProp = (p, keys, def="—") => { for(const k of keys){ if(p && p[k]!=null && p[k]!=="") return p[k]; } return def; };
-
     function colorByBins(v, pal, bins){
       if (v==null || isNaN(v)) return pal[0];
       for (let i=0; i<bins.length-1; i++){
@@ -172,7 +200,6 @@
       }
       return pal[pal.length-1];
     }
-
     function labelsFromBins(bins){
       const fmt = x => (x===Infinity) ? "∞" : `${(+x).toLocaleString('es-CL',{maximumFractionDigits:2})}%`;
       const labs = [];
@@ -183,62 +210,132 @@
       return labs;
     }
 
-    // --------- Cargar GeoJSON ---------
-    Promise.all([
-      fetch(`${BASE}/regiones.json`).then(r=>r.json()),
-      fetch(`${BASE}/provincias.json`).then(r=>r.json()),
-      fetch(`${BASE}/comunas.json`).then(r=>r.json())
-    ]).then(([geoReg, geoProv, geoCom])=>{
-      const styleBase = { color:"#666", weight:1, fillColor:"#ddd", fillOpacity:.6 };
+    /* ---------- Fetch robusto con retry/backoff + fallback ---------- */
+    async function delay(ms){ return new Promise(r=>setTimeout(r, ms)); }
 
-      regionesGeo = L.geoJSON(geoReg, {
-        pane:'pane-regiones',
-        style: f => ({...styleBase, color:"#587fbf", weight:1 }),
-        onEachFeature:(f,layer)=>{
-          const p=f.properties||{}, reg=getProp(p,["REGION","NOM_REG","Región","NAME_1"],"Región");
-          layer.bindTooltip(reg,{sticky:true,opacity:.95});
-          layer.on('mouseover', ()=> layer.setStyle({weight:2}));
-          layer.on('mouseout',  ()=> layer.setStyle({weight:1}));
+    async function safeFetchOnce(url, opts={}){
+      const res = await fetch(url, { cache:'no-cache', ...opts });
+      if(!res.ok) {
+        const text = await res.text().catch(()=>"(sin cuerpo)");
+        throw Object.assign(new Error(`HTTP ${res.status} en ${url}\n${text.slice(0,200)}`), {status:res.status, body:text});
+      }
+      const ct = res.headers.get('content-type') || '';
+      const bodyText = await res.text();
+      if (!/application\/json|geo\+json|json/i.test(ct)) {
+        // A veces GitHub devuelve HTML de rate-limit con 200. Intentamos parsear; si falla, mostramos el inicio.
+        try { return JSON.parse(bodyText); }
+        catch(e){
+          throw new Error(`Contenido no-JSON recibido desde ${url} (ct="${ct}"). Inicio: ${bodyText.slice(0,200)}`);
         }
-      });
+      }
+      try { return JSON.parse(bodyText); }
+      catch(e){ throw new Error(`JSON inválido en ${url}: ${e.message}. Inicio: ${bodyText.slice(0,200)}`); }
+    }
 
-      provinciasGeo = L.geoJSON(geoProv, {
-        pane:'pane-provincias',
-        style: f => ({...styleBase, color:"#333", weight:1 }),
-        onEachFeature:(f,layer)=>{
-          const p=f.properties||{}, prov=getProp(p,["PROVINCIA","NOM_PROV","Provincia","NAME_2","name"],"Provincia");
-          layer.bindTooltip(prov,{sticky:true,opacity:.95});
-          layer.on('mouseover', ()=> layer.setStyle({weight:2}));
-          layer.on('mouseout',  ()=> layer.setStyle({weight:1}));
+    async function safeFetchJSON(paths, {retries=4, baseList=BASES}={}){
+      const jitter = () => Math.floor(200 + Math.random()*300);
+      let lastErr = null;
+
+      for (const base of baseList){
+        for (let attempt=0; attempt<=retries; attempt++){
+          const url = `${base}/${paths}?_=${Date.now()}`; // cache buster light
+          try{
+            log(`GET ${url}`, 'dim');
+            const json = await safeFetchOnce(url);
+            log(`OK ${url}`, 'ok');
+            return json;
+          }catch(err){
+            lastErr = err;
+            const status = err.status || 0;
+            const backoff = Math.min(1500 * Math.pow(1.7, attempt), 6000) + jitter();
+            const retriable = [0, 429, 500, 502, 503, 504].includes(status);
+            log(`Error en ${url}: ${err.message.split('\n')[0]}`, retriable ? 'warn' : 'err');
+            if (attempt < retries && retriable){
+              log(`Reintento ${attempt+1}/${retries} en ${(backoff/1000).toFixed(1)}s`, 'dim');
+              await delay(backoff);
+              continue;
+            }
+            // terminar intentos en este base; pasamos al siguiente base
+            break;
+          }
         }
-      });
+        log(`Fallback al siguiente host…`, 'warn');
+      }
+      throw lastErr || new Error('Fallo de red desconocido');
+    }
 
-      comunasGeo = L.geoJSON(geoCom, {
-        pane:'pane-comunas',
-        style: f => ({...styleBase, color:"#990000", weight:.8 }),
-        onEachFeature:(f,layer)=>{
-          const p=f.properties||{}, com=getProp(p,["COMUNA","NOM_COM","Comuna","name"],"Comuna");
-          layer.bindTooltip(com,{sticky:true,opacity:.95});
-          layer.on('mouseover', ()=> layer.setStyle({weight:1.2}));
-          layer.on('mouseout',  ()=> layer.setStyle({weight:.8}));
-        }
-      });
+    /* ---------- Cargar GeoJSON ---------- */
+    (async function loadGeo(){
+      try{
+        const [geoReg, geoProv, geoCom] = await Promise.all([
+          safeFetchJSON("regiones.json"),
+          safeFetchJSON("provincias.json"),
+          safeFetchJSON("comunas.json")
+        ]);
 
-      updateVisibility();
-      map.on('zoomend', updateVisibility);
-    });
+        const styleBase = { color:"#666", weight:1, fillColor:"#ddd", fillOpacity:.6 };
 
-    // --------- Leer Google Sheet y construir índice ---------
-    d3.csv(SHEET_CSV).then(rows=>{
-      dataRows = rows;
-      construirIndice();
-      poblarDatalistApellidos();
-      document.getElementById('estado').textContent = `Listo. Apellido por defecto: ${apellidoActual}`;
-      actualizarPintado();
-    }).catch(err=>{
-      console.error(err);
-      document.getElementById('estado').textContent = "No se pudo cargar el CSV. Revisa permisos del Sheet.";
-    });
+        regionesGeo = L.geoJSON(geoReg, {
+          pane:'pane-regiones',
+          style: f => ({...styleBase, color:"#587fbf", weight:1 }),
+          onEachFeature:(f,layer)=>{
+            const p=f.properties||{}, reg=getProp(p,["REGION","NOM_REG","Región","NAME_1"],"Región");
+            layer.bindTooltip(reg,{sticky:true,opacity:.95});
+            layer.on('mouseover', ()=> layer.setStyle({weight:2}));
+            layer.on('mouseout',  ()=> layer.setStyle({weight:1}));
+          }
+        });
+
+        provinciasGeo = L.geoJSON(geoProv, {
+          pane:'pane-provincias',
+          style: f => ({...styleBase, color:"#333", weight:1 }),
+          onEachFeature:(f,layer)=>{
+            const p=f.properties||{}, prov=getProp(p,["PROVINCIA","NOM_PROV","Provincia","NAME_2","name"],"Provincia");
+            layer.bindTooltip(prov,{sticky:true,opacity:.95});
+            layer.on('mouseover', ()=> layer.setStyle({weight:2}));
+            layer.on('mouseout',  ()=> layer.setStyle({weight:1}));
+          }
+        });
+
+        comunasGeo = L.geoJSON(geoCom, {
+          pane:'pane-comunas',
+          style: f => ({...styleBase, color:"#990000", weight:.8 }),
+          onEachFeature:(f,layer)=>{
+            const p=f.properties||{}, com=getProp(p,["COMUNA","NOM_COM","Comuna","name"],"Comuna");
+            layer.bindTooltip(com,{sticky:true,opacity:.95});
+            layer.on('mouseover', ()=> layer.setStyle({weight:1.2}));
+            layer.on('mouseout',  ()=> layer.setStyle({weight:.8}));
+          }
+        });
+
+        updateVisibility();
+        map.on('zoomend', updateVisibility);
+        log('GeoJSON cargados y capas listas','ok');
+      }catch(err){
+        log('Error cargando GeoJSON: ' + err.message, 'err');
+        document.getElementById('estado').textContent = 'Error cargando mapas. Revisa logs.';
+      }
+    })();
+
+    /* ---------- Leer Google Sheet y construir índice ---------- */
+    (async function loadCSV(){
+      try{
+        log('Cargando CSV de Google Sheets…','dim');
+        // d3.csv no trae retries; lo envolvemos con fetch previo para verificar 200
+        const res = await fetch(SHEET_CSV, {cache:'no-cache'});
+        if(!res.ok) throw new Error(`HTTP ${res.status} al leer Sheet`);
+        const csvText = await res.text();
+        dataRows = d3.csvParse(csvText);
+        construirIndice();
+        poblarDatalistApellidos();
+        document.getElementById('estado').textContent = `Listo. Apellido por defecto: ${apellidoActual}`;
+        actualizarPintado();
+        log(`CSV cargado. Filas: ${dataRows.length}`,'ok');
+      }catch(err){
+        log('Error cargando CSV: ' + err.message, 'err');
+        document.getElementById('estado').textContent = "No se pudo cargar el CSV. Revisa permisos del Sheet.";
+      }
+    })();
 
     // Índice: apellido → nivel → nombre normalizado → porcentaje (número)
     function construirIndice(){
@@ -254,7 +351,6 @@
         const provNom= norm(getAny(r, ALIASES.prov_name));
         const comNom = norm(getAny(r, ALIASES.com_name));
 
-        // Porcentajes
         const fReg  = parsePct(getAny(r, ALIASES.reg_pct));
         const fProv = parsePct(getAny(r, ALIASES.prov_pct));
         const fCom  = parsePct(getAny(r, ALIASES.com_pct));
@@ -267,27 +363,23 @@
         if(provNom){ indice.provincia[ap][provNom] = fProv; cProv++; }
         if(comNom){  indice.comuna[ap][comNom]     = fCom;  cCom++; }
 
-        // catálogo para autocompletar
         const canon = String(apRaw).trim();
         if(canon){
-          const key = ap; // ya normalizado
+          const key = ap;
           if(!apellidosCanonPorNorm.has(key)) apellidosCanonPorNorm.set(key, canon);
         }
       }
-      // arma lista ordenada de apellidos
       apellidosDisponibles = Array.from(new Set([...apellidosCanonPorNorm.values()]))
         .sort((a,b)=>a.localeCompare(b,'es',{sensitivity:'base'}));
 
-      console.log("Filas procesadas:", dataRows.length, "| reg:", cReg, "prov:", cProv, "com:", cCom);
+      log(`Filas procesadas: ${dataRows.length} | reg:${cReg} prov:${cProv} com:${cCom}`, 'dim');
     }
 
-    // Poblar <datalist> con los apellidos disponibles
     function poblarDatalistApellidos(){
       const dl = document.getElementById('apellidosList');
       dl.innerHTML = apellidosDisponibles.map(a=>`<option value="${a}"></option>`).join('');
     }
 
-    // Valor de una feature según nivel y apellido
     function valorFeature(f, nivel, ap){
       const p=f.properties||{};
       if(nivel==="region"){
@@ -302,7 +394,6 @@
       }
     }
 
-    // Pintado según zoom + leyenda con bins por nivel
     function actualizarPintado(){
       const ap = norm(apellidoActual);
       const z = map.getZoom();
@@ -318,7 +409,7 @@
       const pintar = (geo, nivel)=>{
         if(!geo) return;
         geo.eachLayer(l=>{
-          const v = valorFeature(l.feature, nivel, ap);     // número en %
+          const v = valorFeature(l.feature, nivel, ap);
           const fill = colorByBins(v, pal, bins);
           l.setStyle({ fillColor: fill, fillOpacity: .65 });
           const p=l.feature.properties||{};
@@ -340,7 +431,6 @@
         `Mostrando "${apellidoActual}" por ${nivelActual} (zoom ${z}).`;
     }
 
-    // Visibilidad por zoom
     function updateVisibility(){
       const z = map.getZoom();
       regionesLayer.clearLayers(); provinciasLayer.clearLayers(); comunasLayer.clearLayers();
@@ -358,7 +448,6 @@
       actualizarPintado();
     }
 
-    // Leyenda por nivel
     const legend = L.control({position:'bottomright'});
     legend.onAdd = function(){
       this._div = L.DomUtil.create('div','legend');
@@ -378,7 +467,6 @@
     legend.addTo(map);
     function actualizarLeyenda(){ legend.update(); }
 
-    // Búsqueda por apellido (con validación y coincidencia por prefijo)
     function buscarApellido(){
       const input = document.getElementById('apellidoInput');
       const v = input.value.trim();
@@ -388,7 +476,6 @@
       let canon = apellidosCanonPorNorm.get(key);
 
       if(!canon){
-        // intenta coincidencia por prefijo
         const found = apellidosDisponibles.find(a => norm(a).startsWith(key));
         if(found) canon = found;
       }
