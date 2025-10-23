@@ -22,23 +22,25 @@
     }
     path.leaflet-interactive:focus { outline:none; filter:drop-shadow(0 0 2px rgba(0,0,0,.4)); }
 
-    /* UI búsqueda */
+    /* UI */
     .search-ui{
       position:absolute; top:12px; left:12px; z-index:1000;
       background:#ffffffeb; backdrop-filter: blur(3px);
       border:1px solid #ddd; border-radius:10px; padding:10px 12px;
       box-shadow:0 6px 16px rgba(0,0,0,.08);
       font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-      max-width: min(92vw, 420px);
+      max-width: min(92vw, 460px);
     }
     .search-ui h3{ margin:0 0 6px 0; font-size:14px; font-weight:700; }
-    .search-ui .row{ display:flex; gap:6px; }
-    .search-ui input{ flex:1; padding:6px 8px; font-size:14px; border:1px solid #ccc; border-radius:8px; }
+    .search-ui .row{ display:flex; gap:6px; margin-bottom:6px; }
+    .search-ui input, .search-ui select{
+      flex:1; padding:6px 8px; font-size:14px; border:1px solid #ccc; border-radius:8px;
+    }
     .search-ui button{
       padding:6px 10px; border:0; border-radius:8px; cursor:pointer; font-weight:600;
       background:#0b5ed7; color:#fff;
     }
-    .search-ui small{ display:block; margin-top:6px; color:#555; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .search-ui small{ display:block; margin-top:2px; color:#555; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 
     .legend{
       line-height:16px; color:#333; background:#fff; padding:8px 10px;
@@ -73,7 +75,14 @@
       <input id="apellidoInput" type="text" placeholder="Ej.: Cisternas" list="apellidosList" autocomplete="off" />
       <button id="buscarBtn">Buscar</button>
     </div>
-    <!-- opciones para autocompletar -->
+    <div class="row">
+      <select id="nivelSelect" title="Nivel de visualización">
+        <option value="auto" selected>Auto (según zoom)</option>
+        <option value="region">Región</option>
+        <option value="provincia">Provincia</option>
+        <option value="comuna">Comuna</option>
+      </select>
+    </div>
     <datalist id="apellidosList"></datalist>
     <small id="estado">Cargando datos…</small>
   </div>
@@ -87,100 +96,62 @@
   <div id="map"></div>
 
   <script>
-    /* ---------- Logger simple (pantalla + consola) ---------- */
+    /* ---------- Logger ---------- */
     const $log = document.getElementById('logText');
     const log = (msg, level='dim') => {
       const ts = new Date().toISOString().substring(11,19);
       const line = `[${ts}] ${msg}\n`;
       $log.insertAdjacentText('beforeend', line);
       $log.className = `log-${level}`;
-      if(level==='err') console.error(msg);
-      else if(level==='warn') console.warn(msg);
-      else console.log(msg);
+      if(level==='err') console.error(msg); else if(level==='warn') console.warn(msg); else console.log(msg);
       $log.scrollTop = $log.scrollHeight;
     };
 
-    // ----------------- Configuración general -----------------
+    // ----------------- Config -----------------
     const map = L.map('map', { center: [-35.6751, -71.5430], zoom: 5, minZoom: 4, maxZoom: 12 });
 
-    // Intento 1: GitHub Pages (mejor caché y CORS); Intento 2: Raw (fallback)
     const BASES = [
       "https://crcofre.github.io/mapa-apellidos",
       "https://raw.githubusercontent.com/crcofre/mapa-apellidos/main"
     ];
-
-    // CSV de Google Sheets (asegura permisos "cualquiera con el enlace")
     const SHEET_CSV = "https://docs.google.com/spreadsheets/d/1CKDZkGGO3Rbkd88GFkHYc3f_oFaQkM2RN_ESZU8e898/export?format=csv&gid=24675813";
 
-    // ---- Aliases de columnas ----
     const ALIASES = {
-      reg_pct: [
-        "Frecuencia Regiones","Frecuencia regiones","Frecuencia Región","Frecuencia región",
-        "frecuencia_regiones","frecuencia_region"
-      ],
-      prov_pct: [
-        "Frecuencia provincia","Frecuencia Provincia","frecuencia_provincia"
-      ],
-      com_pct: [
-        "prct_apellido","pcrt_apellidos","Frecuencia Comuna","frecuencia_comuna"
-      ],
-      reg_name: ["region","Region","REGION","Nombre Región","Nombre region"],
+      reg_pct: ["Frecuencia Regiones","Frecuencia regiones","Frecuencia Región","Frecuencia región","frecuencia_regiones","frecuencia_region"],
+      prov_pct:["Frecuencia provincia","Frecuencia Provincia","frecuencia_provincia"],
+      com_pct: ["prct_apellido","pcrt_apellidos","Frecuencia Comuna","frecuencia_comuna"],
+      reg_name:["region","Region","REGION","Nombre Región","Nombre region"],
       prov_name:["provincia","Provincia","PROVINCIA","Nombre Provincia"],
-      com_name: ["comuna","Comuna","COMUNA","Nombre Comuna"],
-      apellido: ["apellido","Apellido","APELLIDO"]
+      com_name:["comuna","Comuna","COMUNA","Nombre Comuna"],
+      apellido:["apellido","Apellido","APELLIDO"]
     };
-    function getAny(row, keys){
-      for(const k of keys){
-        if(Object.prototype.hasOwnProperty.call(row,k)){
-          const v = row[k];
-          if(v!=null && String(v).trim()!=="") return v;
-        }
-      }
-      return "";
-    }
-
-    // Normalización nombres
+    function getAny(row, keys){ for(const k of keys){ if(Object.prototype.hasOwnProperty.call(row,k)){ const v=row[k]; if(v!=null && String(v).trim()!=="") return v; } } return ""; }
     const norm = s => {
       if (!s) return "";
-      let t = String(s)
-        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-        .replace(/\s+/g, " ").trim().toUpperCase();
-      t = t.replace(/^\s*\d+\s*[\.\-]?\s*/, "");
-      t = t
-        .replace(/^(REGION|PROVINCIA|DEPARTAMENTO)\s+(DEL\s+|DE\s+)?/, "")
-        .replace(/^(DEL|DE)\s+/, "");
+      let t = String(s).normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, " ").trim().toUpperCase();
+      t = t.replace(/^\s*\d+\s*[\.\-]?\s*/,"").replace(/^(REGION|PROVINCIA|DEPARTAMENTO)\s+(DEL\s+|DE\s+)?/,"").replace(/^(DEL|DE)\s+/,"");
       return t.trim();
     };
+    const parsePct = x => { if(x==null) return 0; let s=String(x).trim().replace(',','.'); if(s.endsWith('%')) s=s.slice(0,-1); const v=parseFloat(s); return isNaN(v)?0:v; };
 
-    const parsePct = (x) => {
-      if (x == null) return 0;
-      let s = String(x).trim().replace(',', '.');
-      if (s.endsWith('%')) s = s.slice(0, -1);
-      const v = parseFloat(s);
-      return isNaN(v) ? 0 : v;
-    };
-
-    map.createPane('pane-regiones');
-    map.createPane('pane-provincias');
-    map.createPane('pane-comunas');
-
-    const regionesLayer   = L.layerGroup();
-    const provinciasLayer = L.layerGroup();
-    const comunasLayer    = L.layerGroup();
-
+    map.createPane('pane-regiones'); map.createPane('pane-provincias'); map.createPane('pane-comunas');
+    const regionesLayer=L.layerGroup(), provinciasLayer=L.layerGroup(), comunasLayer=L.layerGroup();
     let regionesGeo=null, provinciasGeo=null, comunasGeo=null;
 
-    // Estado
     let dataRows = [];
     let indice = { region:{}, provincia:{}, comuna:{} };
     let apellidoActual = "Cisternas";
-    let nivelActual = "region";  // region | provincia | comuna
 
-    // --- Autocompletado ---
+    // NUEVO: modo de nivel (auto/manual)
+    let nivelMode = 'auto';           // 'auto' | 'manual'
+    let nivelActual = 'region';       // región/provincia/comuna (se decide por zoom si auto)
+    const $nivelSelect = document.getElementById('nivelSelect');
+
+    // Autocomplete
     let apellidosDisponibles = [];
-    const apellidosCanonPorNorm = new Map(); // norm-> forma canónica (como aparece en la hoja)
+    const apellidosCanonPorNorm = new Map();
 
-    // Paletas (7 clases) y cortes
+    // Paletas y bins
     const PALETAS = {
       region:    ["#d7ebff","#badaff","#9cc9ff","#7fb8ff","#62a7ff","#458fff","#2a73e0"],
       provincia: ["#e2f7ee","#c6efdc","#a9e6c9","#8cddb7","#6fc5a0","#4fae85","#2f956b"],
@@ -193,73 +164,42 @@
     };
 
     const getProp = (p, keys, def="—") => { for(const k of keys){ if(p && p[k]!=null && p[k]!=="") return p[k]; } return def; };
-    function colorByBins(v, pal, bins){
-      if (v==null || isNaN(v)) return pal[0];
-      for (let i=0; i<bins.length-1; i++){
-        if (v >= bins[i] && v < bins[i+1]) return pal[i];
-      }
-      return pal[pal.length-1];
-    }
-    function labelsFromBins(bins){
-      const fmt = x => (x===Infinity) ? "∞" : `${(+x).toLocaleString('es-CL',{maximumFractionDigits:2})}%`;
-      const labs = [];
-      for(let i=0;i<bins.length-1;i++){
-        const a = bins[i], b = bins[i+1];
-        labs.push(b===Infinity ? `>${fmt(a)}` : `${fmt(a)}–${fmt(b)}`);
-      }
-      return labs;
-    }
+    function colorByBins(v, pal, bins){ if(v==null||isNaN(v)) return pal[0]; for(let i=0;i<bins.length-1;i++){ if(v>=bins[i] && v<bins[i+1]) return pal[i]; } return pal[pal.length-1]; }
+    function labelsFromBins(bins){ const fmt=x=>(x===Infinity)?"∞":`${(+x).toLocaleString('es-CL',{maximumFractionDigits:2})}%`; const labs=[]; for(let i=0;i<bins.length-1;i++){ const a=bins[i], b=bins[i+1]; labs.push(b===Infinity?`>${fmt(a)}`:`${fmt(a)}–${fmt(b)}`);} return labs; }
 
-    /* ---------- Fetch robusto con retry/backoff + fallback ---------- */
+    /* ---------- Fetch robusto ---------- */
     async function delay(ms){ return new Promise(r=>setTimeout(r, ms)); }
-
     async function safeFetchOnce(url, opts={}){
       const res = await fetch(url, { cache:'no-cache', ...opts });
-      if(!res.ok) {
-        const text = await res.text().catch(()=>"(sin cuerpo)");
-        throw Object.assign(new Error(`HTTP ${res.status} en ${url}\n${text.slice(0,200)}`), {status:res.status, body:text});
-      }
+      if(!res.ok){ const text = await res.text().catch(()=>"(sin cuerpo)"); throw Object.assign(new Error(`HTTP ${res.status} en ${url}\n${text.slice(0,200)}`),{status:res.status, body:text}); }
       const ct = res.headers.get('content-type') || '';
       const bodyText = await res.text();
-      if (!/application\/json|geo\+json|json/i.test(ct)) {
-        // A veces GitHub devuelve HTML de rate-limit con 200. Intentamos parsear; si falla, mostramos el inicio.
-        try { return JSON.parse(bodyText); }
-        catch(e){
-          throw new Error(`Contenido no-JSON recibido desde ${url} (ct="${ct}"). Inicio: ${bodyText.slice(0,200)}`);
-        }
+      if(!/application\/json|geo\+json|json/i.test(ct)){
+        try { return JSON.parse(bodyText); } catch(e){ throw new Error(`Contenido no-JSON desde ${url} (ct="${ct}"). Inicio: ${bodyText.slice(0,200)}`); }
       }
-      try { return JSON.parse(bodyText); }
-      catch(e){ throw new Error(`JSON inválido en ${url}: ${e.message}. Inicio: ${bodyText.slice(0,200)}`); }
+      try { return JSON.parse(bodyText); } catch(e){ throw new Error(`JSON inválido en ${url}: ${e.message}. Inicio: ${bodyText.slice(0,200)}`); }
     }
-
     async function safeFetchJSON(paths, {retries=4, baseList=BASES}={}){
       const jitter = () => Math.floor(200 + Math.random()*300);
-      let lastErr = null;
-
-      for (const base of baseList){
-        for (let attempt=0; attempt<=retries; attempt++){
-          const url = `${base}/${paths}?_=${Date.now()}`; // cache buster light
+      let lastErr=null;
+      for(const base of baseList){
+        for(let attempt=0; attempt<=retries; attempt++){
+          const url = `${base}/${paths}?_=${Date.now()}`;
           try{
-            log(`GET ${url}`, 'dim');
+            log(`GET ${url}`,'dim');
             const json = await safeFetchOnce(url);
-            log(`OK ${url}`, 'ok');
+            log(`OK ${url}`,'ok');
             return json;
           }catch(err){
-            lastErr = err;
-            const status = err.status || 0;
-            const backoff = Math.min(1500 * Math.pow(1.7, attempt), 6000) + jitter();
-            const retriable = [0, 429, 500, 502, 503, 504].includes(status);
-            log(`Error en ${url}: ${err.message.split('\n')[0]}`, retriable ? 'warn' : 'err');
-            if (attempt < retries && retriable){
-              log(`Reintento ${attempt+1}/${retries} en ${(backoff/1000).toFixed(1)}s`, 'dim');
-              await delay(backoff);
-              continue;
-            }
-            // terminar intentos en este base; pasamos al siguiente base
+            lastErr = err; const status = err.status || 0;
+            const backoff = Math.min(1500*Math.pow(1.7,attempt),6000) + jitter();
+            const retriable = [0,429,500,502,503,504].includes(status);
+            log(`Error en ${url}: ${err.message.split('\n')[0]}`, retriable?'warn':'err');
+            if(attempt<retries && retriable){ log(`Reintento ${attempt+1}/${retries} en ${(backoff/1000).toFixed(1)}s`,'dim'); await delay(backoff); continue; }
             break;
           }
         }
-        log(`Fallback al siguiente host…`, 'warn');
+        log(`Fallback al siguiente host…`,'warn');
       }
       throw lastErr || new Error('Fallo de red desconocido');
     }
@@ -309,7 +249,7 @@
         });
 
         updateVisibility();
-        map.on('zoomend', updateVisibility);
+        map.on('zoomend', ()=>{ if(nivelMode==='auto') updateVisibility(); });
         log('GeoJSON cargados y capas listas','ok');
       }catch(err){
         log('Error cargando GeoJSON: ' + err.message, 'err');
@@ -317,11 +257,10 @@
       }
     })();
 
-    /* ---------- Leer Google Sheet y construir índice ---------- */
+    /* ---------- Leer Google Sheet ---------- */
     (async function loadCSV(){
       try{
         log('Cargando CSV de Google Sheets…','dim');
-        // d3.csv no trae retries; lo envolvemos con fetch previo para verificar 200
         const res = await fetch(SHEET_CSV, {cache:'no-cache'});
         if(!res.ok) throw new Error(`HTTP ${res.status} al leer Sheet`);
         const csvText = await res.text();
@@ -337,11 +276,8 @@
       }
     })();
 
-    // Índice: apellido → nivel → nombre normalizado → porcentaje (número)
     function construirIndice(){
       indice = { region:{}, provincia:{}, comuna:{} };
-      let cReg=0, cProv=0, cCom=0;
-
       for(const r of dataRows){
         const apRaw = getAny(r, ALIASES.apellido);
         const ap    = norm(apRaw);
@@ -359,20 +295,15 @@
         if(!indice.provincia[ap]) indice.provincia[ap] = {};
         if(!indice.comuna[ap])    indice.comuna[ap]    = {};
 
-        if(regNom){  indice.region[ap][regNom]     = fReg;  cReg++; }
-        if(provNom){ indice.provincia[ap][provNom] = fProv; cProv++; }
-        if(comNom){  indice.comuna[ap][comNom]     = fCom;  cCom++; }
+        if(regNom)  indice.region[ap][regNom]     = fReg;
+        if(provNom) indice.provincia[ap][provNom] = fProv;
+        if(comNom)  indice.comuna[ap][comNom]     = fCom;
 
         const canon = String(apRaw).trim();
-        if(canon){
-          const key = ap;
-          if(!apellidosCanonPorNorm.has(key)) apellidosCanonPorNorm.set(key, canon);
-        }
+        if(canon){ const key = ap; if(!apellidosCanonPorNorm.has(key)) apellidosCanonPorNorm.set(key, canon); }
       }
       apellidosDisponibles = Array.from(new Set([...apellidosCanonPorNorm.values()]))
         .sort((a,b)=>a.localeCompare(b,'es',{sensitivity:'base'}));
-
-      log(`Filas procesadas: ${dataRows.length} | reg:${cReg} prov:${cProv} com:${cCom}`, 'dim');
     }
 
     function poblarDatalistApellidos(){
@@ -394,16 +325,18 @@
       }
     }
 
+    function computeNivelByZoom(z){ return (z<=6) ? 'region' : (z<=7) ? 'provincia' : 'comuna'; }
+
     function actualizarPintado(){
       const ap = norm(apellidoActual);
-      const z = map.getZoom();
-      if (z <= 6) { nivelActual="region"; }
-      else if (z <= 7) { nivelActual="provincia"; }
-      else { nivelActual="comuna"; }
 
+      // Determinar nivel de trabajo
+      if(nivelMode==='auto'){
+        const z = map.getZoom();
+        nivelActual = computeNivelByZoom(z);
+      }
       const pal  = PALETAS[nivelActual];
       const bins = BINS_BY_LEVEL[nivelActual];
-
       const pctFmt = v => (v==null || isNaN(v)) ? "0%" : `${(+v).toFixed(2).replace('.',',')}%`;
 
       const pintar = (geo, nivel)=>{
@@ -428,40 +361,41 @@
 
       actualizarLeyenda();
       document.getElementById('estado').textContent =
-        `Mostrando "${apellidoActual}" por ${nivelActual} (zoom ${z}).`;
+        `Mostrando "${apellidoActual}" por ${nivelActual}` + (nivelMode==='auto' ? ` (zoom ${map.getZoom()})` : ' (selección manual)');
     }
 
     function updateVisibility(){
-      const z = map.getZoom();
+      // Decide nivel según modo
+      const targetNivel = (nivelMode==='auto') ? computeNivelByZoom(map.getZoom()) : nivelActual;
+
+      // Quita capas actuales
       regionesLayer.clearLayers(); provinciasLayer.clearLayers(); comunasLayer.clearLayers();
       if(map.hasLayer(regionesLayer)) map.removeLayer(regionesLayer);
       if(map.hasLayer(provinciasLayer)) map.removeLayer(provinciasLayer);
       if(map.hasLayer(comunasLayer)) map.removeLayer(comunasLayer);
 
-      if (z <= 6) {
+      // Añade sólo la capa del nivel elegido
+      if (targetNivel === 'region') {
         if(regionesGeo){ regionesLayer.addLayer(regionesGeo); regionesLayer.addTo(map); }
-      } else if (z <= 7) {
+      } else if (targetNivel === 'provincia') {
         if(provinciasGeo){ provinciasLayer.addLayer(provinciasGeo); provinciasLayer.addTo(map); }
       } else {
         if(comunasGeo){ comunasLayer.addLayer(comunasGeo); comunasLayer.addTo(map); }
       }
+
+      // Fija nivelActual coherente y repinta
+      nivelActual = targetNivel;
       actualizarPintado();
     }
 
     const legend = L.control({position:'bottomright'});
-    legend.onAdd = function(){
-      this._div = L.DomUtil.create('div','legend');
-      this.update();
-      return this._div;
-    };
+    legend.onAdd = function(){ this._div = L.DomUtil.create('div','legend'); this.update(); return this._div; };
     legend.update = function(){
       const pal  = PALETAS[nivelActual];
       const bins = BINS_BY_LEVEL[nivelActual];
       const labs = labelsFromBins(bins);
       let html = `<b>Frecuencia (%)</b><br>`;
-      for(let i=0;i<labs.length;i++){
-        html += `<div class="item"><span class="swatch" style="background:${pal[i]}"></span>${labs[i]}</div>`;
-      }
+      for(let i=0;i<labs.length;i++){ html += `<div class="item"><span class="swatch" style="background:${pal[i]}"></span>${labs[i]}</div>`; }
       this._div.innerHTML = html;
     };
     legend.addTo(map);
@@ -474,25 +408,28 @@
 
       const key = norm(v);
       let canon = apellidosCanonPorNorm.get(key);
-
       if(!canon){
         const found = apellidosDisponibles.find(a => norm(a).startsWith(key));
         if(found) canon = found;
       }
-
-      if(canon){
-        apellidoActual = canon;
-        document.getElementById('estado').textContent = `Mostrando "${canon}".`;
-      }else{
-        apellidoActual = v;
-        document.getElementById('estado').textContent = `No encontré coincidencia exacta. Mostrando "${v}" (puede no tener datos).`;
-      }
+      apellidoActual = canon || v;
       actualizarPintado();
     }
 
     document.getElementById('buscarBtn').addEventListener('click', buscarApellido);
-    document.getElementById('apellidoInput').addEventListener('keydown', (e)=>{
-      if(e.key==="Enter") buscarApellido();
+    document.getElementById('apellidoInput').addEventListener('keydown', (e)=>{ if(e.key==="Enter") buscarApellido(); });
+
+    // NUEVO: cambio de nivel manual/auto
+    $nivelSelect.addEventListener('change', ()=>{
+      const v = $nivelSelect.value;
+      if(v === 'auto'){
+        nivelMode = 'auto';
+      }else{
+        nivelMode = 'manual';
+        nivelActual = v; // fuerza nivel
+      }
+      updateVisibility();
+      log(`Nivel set: ${nivelMode==='auto' ? 'Auto' : 'Manual → ' + nivelActual}`, 'ok');
     });
   </script>
 </body>
