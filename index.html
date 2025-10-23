@@ -65,6 +65,27 @@
     .log-warn{ color:#ff9; }
     .log-err{ color:#f99; }
     .log-dim{ color:#aaa; }
+    .option-box{
+  margin-top:6px;
+  padding:8px 10px;
+  border:1px solid #ddd;
+  border-radius:10px;
+  background:#fff;
+  box-shadow:0 2px 6px rgba(0,0,0,.05) inset;
+  display:flex; flex-wrap:wrap; gap:10px;
+  align-items:center;
+}
+.option-box .option-title{
+  font-size:12px; font-weight:700; color:#333; margin-right:6px;
+}
+.option-box .opt{
+  display:flex; align-items:center; gap:6px;
+  padding:2px 6px; border-radius:8px;
+  background:#f7f7f9; border:1px solid #ececf0;
+  cursor:pointer; user-select:none;
+}
+.option-box .opt input{ accent-color:#0b5ed7; }
+
   </style>
 </head>
 <body>
@@ -155,7 +176,7 @@
     // NUEVO: modo de nivel (auto/manual)
     let nivelMode = 'auto';           // 'auto' | 'manual'
     let nivelActual = 'region';       // región/provincia/comuna (se decide por zoom si auto)
-    const $nivelSelect = document.getElementById('nivelSelect');
+    //const $nivelSelect = document.getElementById('nivelSelect');
 
     // Autocomplete
     let apellidosDisponibles = [];
@@ -430,7 +451,7 @@
     document.getElementById('apellidoInput').addEventListener('keydown', (e)=>{ if(e.key==="Enter") buscarApellido(); });
 
     // NUEVO: cambio de nivel manual/auto
-    $nivelSelect.addEventListener('change', ()=>{
+    //$nivelSelect.addEventListener('change', ()=>{
       const v = $nivelSelect.value;
       if(v === 'auto'){
         nivelMode = 'auto';
@@ -441,6 +462,23 @@
       updateVisibility();
       log(`Nivel set: ${nivelMode==='auto' ? 'Auto' : 'Manual → ' + nivelActual}`, 'ok');
     });
+    // Radios del cuadro de opciones
+const $nivelBox = document.getElementById('nivelBox');
+$nivelBox.addEventListener('change', (e)=>{
+  const t = e.target;
+  if (t && t.name === 'nivel') {
+    const v = t.value;
+    if (v === 'auto') {
+      nivelMode = 'auto';
+    } else {
+      nivelMode = 'manual';
+      nivelActual = v; // region | provincia | comuna
+    }
+    updateVisibility();
+    log(`Nivel set: ${nivelMode==='auto' ? 'Auto (zoom)' : 'Manual → ' + nivelActual}`, 'ok');
+  }
+});
+
   </script>
 </body>
 </html>
