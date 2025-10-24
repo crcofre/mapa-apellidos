@@ -59,6 +59,27 @@
     .suggest.hide{ display:none; }
     .suggest .item{ padding:8px 10px; cursor:pointer; }
     .suggest .item:hover{ background:#f2f6ff; }
+
+    /* Quitar borde de foco del contenedor del mapa */
+.leaflet-container:focus,
+.leaflet-container:focus-visible,
+.leaflet-container:focus-within {
+  outline: none !important;
+}
+
+/* Quitar borde de foco de las geometrías SVG */
+.leaflet-container .leaflet-interactive:focus,
+.leaflet-container .leaflet-interactive:focus-visible,
+.leaflet-container .leaflet-overlay-pane svg path.leaflet-interactive:focus {
+  outline: none !important;
+}
+
+/* Controles también sin borde de foco (zoom, etc.) */
+.leaflet-control:focus,
+.leaflet-control:focus-visible {
+  outline: none !important;
+}
+
   </style>
 </head>
 <body>
