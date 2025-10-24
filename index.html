@@ -237,9 +237,17 @@ const BINS_BY_LEVEL = {
       if(nivelActual==="provincia")pintar(provinciasGeo,"provincia");
       if(nivelActual==="comuna")   pintar(comunasGeo,"comuna");
 
-      legend.update();
-      setText('estado', `Mostrando "${apellidoActual || '—'}" por ${nivelActual}` + (nivelMode==='auto' ? ` (zoom ${map.getZoom()})` : ' (manual)'));
-    } 
+const nombresNivel = {
+  region: 'región',
+  provincia: 'provincia',
+  comuna: 'comuna'
+};
+const textoZoom = (nivelMode === 'auto') ? `(zoom ${map.getZoom()})` : '';
+setText(
+  'estado',
+  `Mostrando "${apellidoActual || '—'}" – vista de ${nombresNivel[nivelActual] || nivelActual} ${textoZoom}`.trim()
+);
+
  
     function updateVisibility(){
       const targetNivel = (nivelMode==='auto') ? computeNivelByZoom(map.getZoom()) : nivelActual;
