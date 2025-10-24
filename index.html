@@ -242,10 +242,9 @@ const nombresNivel = {
   provincia: 'provincia',
   comuna: 'comuna'
 };
-const textoZoom = (nivelMode === 'auto') ? `(zoom ${map.getZoom()})` : '';
 setText(
   'estado',
-  `Mostrando "${apellidoActual || '—'}" – vista de ${nombresNivel[nivelActual] || nivelActual} ${textoZoom}`.trim()
+  `Mostrando "${apellidoActual || '—'}" – vista de ${nombresNivel[nivelActual] || nivelActual}`
 );
 
  
