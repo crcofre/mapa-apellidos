@@ -239,7 +239,7 @@ const BINS_BY_LEVEL = {
 
       legend.update();
       setText('estado', `Mostrando "${apellidoActual || '—'}" por ${nivelActual}` + (nivelMode==='auto' ? ` (zoom ${map.getZoom()})` : ' (manual)'));
-    }
+    } 
  
     function updateVisibility(){
       const targetNivel = (nivelMode==='auto') ? computeNivelByZoom(map.getZoom()) : nivelActual;
