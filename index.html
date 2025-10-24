@@ -95,6 +95,7 @@ g:focus, g:focus-visible {
 }
 </style>
 
+
 </head>
 <body>
   <div class="search-ui">
@@ -177,7 +178,7 @@ g:focus, g:focus-visible {
         updateVisibility();
         map.on('zoomend', ()=>{ if(nivelMode==='auto') updateVisibility(); });
         log('GeoJSON cargados y capas listas','ok');
-        setText('estado','Listo. Escribe un apellido y presiona Buscar.');
+        setText('estado','Listo. Escribe un apellido.');
       }catch(err){
         log('Error cargando GeoJSON: '+err.message,'err');
         setText('estado','Error cargando mapas. Revisa logs.');
