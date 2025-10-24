@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mapa de Apellidos - Chile V2</title>
+  <title>Mapa de Apellidos - Chile</title>
 
   <!-- Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -83,11 +83,6 @@
     }                                                                     /* <<< */
   </style>
 </head>
-
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
-
 <body>
   <div class="search-ui">
     <h3>Consulta tu apellido</h3>
@@ -177,18 +172,16 @@
     })();
 
     /* ===== Paletas / bins ===== */
-const PALETAS = {
-  region:    ["#d7ebff","#badaff","#9cc9ff","#7fb8ff","#62a7ff","#458fff","#2a73e0"],
-  provincia: ["#e2f7ee","#c6efdc","#a9e6c9","#8cddb7","#6fc5a0","#4fae85","#2f956b"],
-  comuna:    ["#fde6e9","#fdc9cf","#fdaaae","#fb8b8d","#f25f63","#d84349","#a92d31","#6d171b"] // +1 nivel (más oscuro)
-};
-
-const BINS_BY_LEVEL = {
-  region:   [0, 0.05, 0.10, 0.20, 0.40, 0.80, 1.50, Infinity],
-  provincia:[0, 0.10, 0.20, 0.40, 0.80, 1.20, 2.00, Infinity],
-  comuna:   [0, 0.15, 0.30, 0.60, 1.00, 1.50, 2.50, 4.50, Infinity] // + corte 4,5%
-};
-
+    const PALETAS = {
+      region:    ["#d7ebff","#badaff","#9cc9ff","#7fb8ff","#62a7ff","#458fff","#2a73e0"],
+      provincia: ["#e2f7ee","#c6efdc","#a9e6c9","#8cddb7","#6fc5a0","#4fae85","#2f956b"],
+      comuna:    ["#fde6e9","#fdc9cf","#fdaaae","#fb8b8d","#f25f63","#d84349","#a92d31"]
+    };
+    const BINS_BY_LEVEL = {
+      region:   [0, 0.05, 0.10, 0.20, 0.40, 0.80, 1.50, Infinity],
+      provincia:[0, 0.10, 0.20, 0.40, 0.80, 1.20, 2.00, Infinity],
+      comuna:   [0, 0.15, 0.30, 0.60, 1.00, 1.50, 2.50, Infinity]
+    };
     const colorByBins = (v, pal, bins) => { if(v==null||isNaN(v)) return pal[0]; for(let i=0;i<bins.length-1;i++){ if(v>=bins[i] && v<bins[i+1]) return pal[i]; } return pal[pal.length-1]; };
     const labelsFromBins = (bins) => { const fmt=x=>(x===Infinity)?"∞":`${(+x).toLocaleString('es-CL',{maximumFractionDigits:2})}%`; const labs=[]; for(let i=0;i<bins.length-1;i++){ const a=bins[i], b=bins[i+1]; labs.push(b===Infinity?`>${fmt(a)}`:`${fmt(a)}–${fmt(b)}`);} return labs; };
 
@@ -427,38 +420,34 @@ const BINS_BY_LEVEL = {
         log(`Nivel set: ${nivelMode==='auto' ? 'Auto (zoom)' : 'Manual → ' + nivelActual}`, 'ok');
       }
     });
- <script>
-/* Mover “Nivel de visualización” encima de la leyenda SIN posicionamiento absoluto */
-(function(){
-  const tryPlace = () => {
-    const legendDiv = document.querySelector('.leaflet-bottom.leaflet-right .legend');
-    const legendControl = legendDiv ? legendDiv.closest('.leaflet-control') : null;
-    const corner = document.querySelector('.leaflet-bottom.leaflet-right');
-    const nivel = document.getElementById('nivelBox');
-    if (!legendDiv || !legendControl || !corner || !nivel) return false;
+  </script>
 
-    // Asegura flujo normal (no absoluto) y mismo ancho que la leyenda
-    nivel.classList.remove('fixed-bottom-right');   // <- quitamos la clase que ponía absolute
-    nivel.style.position = 'static';
-    const w = getComputedStyle(legendDiv).width;
-    if (w) nivel.style.width = w;
+  <!-- === Ajustes de ubicación: mover “Nivel de visualización” encima de la leyenda === -->
+  <script>
+    (function(){
+      // Esperamos a que Leaflet inserte la leyenda en la esquina inferior derecha
+      const tryPlace = () => {
+        const legendDiv = document.querySelector('.leaflet-bottom.leaflet-right .legend');
+        const corner = document.querySelector('.leaflet-bottom.leaflet-right');
+        const nivel = document.getElementById('nivelBox');
+        if (!legendDiv || !corner || !nivel) return false;
 
-    // Envuelve "Nivel" en un contenedor de control Leaflet para que herede márgenes/espaciado
-    const ctrl = document.createElement('div');
-    ctrl.className = 'leaflet-control';
-    ctrl.appendChild(nivel);
+        // Movemos el bloque de nivel justo ANTES de la leyenda
+        nivel.classList.add('fixed-bottom-right');
+        // Igualar ancho
+        const w = getComputedStyle(legendDiv).width;
+        if (w) nivel.style.width = w;
 
-    // Inserta el control justo ANTES del control que contiene la leyenda
-    corner.insertBefore(ctrl, legendControl);
-    return true;
-  };
+        // Insertar antes de la leyenda
+        corner.insertBefore(nivel, legendDiv);
+        return true;
+      };
 
-  // Intenta ahora y reintenta un poco por si la leyenda tarda en aparecer
-  if (!tryPlace()){
-    let n=0; const iv = setInterval(()=>{ n++; if (tryPlace() || n>20) clearInterval(iv); }, 100);
-  }
-})();
-</script>
-
+      // Intento inmediato y algunos reintentos por si la leyenda tarda
+      if (!tryPlace()){
+        let n=0; const iv = setInterval(()=>{ n++; if (tryPlace() || n>20) clearInterval(iv); }, 100);
+      }
+    })();
+  </script>
 </body>
 </html>
