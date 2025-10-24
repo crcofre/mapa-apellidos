@@ -252,7 +252,7 @@ const BINS_BY_LEVEL = {
       if(nivelActual==="comuna")   pintar(comunasGeo,"comuna");
 
       legend.update();
-      setText('estado', `Mostrando "${apellidoActual || '—'}" vista de ${nivelActual}` + (nivelMode==='auto' ? ` (zoom ${map.getZoom()})`));
+      setText('estado', `Mostrando "${apellidoActual || '—'}" vista de ${nivelActual}` (zoom ${map.getZoom()})`));
     }
 
     function updateVisibility(){
