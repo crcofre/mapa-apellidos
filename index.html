@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
-
-  <head>
+<head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mapa de Apellidos - Chile</title>
@@ -61,40 +60,6 @@
     .suggest .item{ padding:8px 10px; cursor:pointer; }
     .suggest .item:hover{ background:#f2f6ff; }
   </style>
-    <!-- Ajustes visuales solicitados -->
-<style>
-  /* Ocultar controles de zoom */
-  .leaflet-control-zoom,
-  .mapboxgl-ctrl-zoom,
-  .mapboxgl-ctrl-group,
-  .zoom-controls,
-  #zoom-controls { display: none !important; }
-
-  /* Ocultar logs */
-  #logs, #log, .debug-log, .console-overlay {
-    display: none !important;
-    visibility: hidden !important;
-  }
-
-  /* Ocultar botón Buscar */
-  #buscar-btn, #buscar { display: none !important; }
-
-  /* Igualar ancho entre “Nivel de visualización” y la leyenda */
-  #level-controls, #legend {
-    width: 220px; /* ajusta si tu leyenda usa otro ancho */
-  }
-  #level-controls .title {
-    font-weight: 700;
-    font-size: 13px;
-    margin-bottom: 6px;
-  }
-  #level-controls label {
-    display: block;
-    margin: 4px 0;
-    font-size: 12.5px;
-  }
-</style>
-
 </head>
 <body>
   <div class="search-ui">
@@ -119,17 +84,17 @@
 
   <script>
     /* ===== Logger + errores globales ===== */
-    //const $log = document.getElementById('logText');
-    //const log = (msg, level='dim') => {
-      //const ts = new Date().toISOString().substring(11,19);
-      //$log.insertAdjacentText('beforeend', `\n[${ts}] ${msg}`);
-      //$log.className = `log-${level}`;
-      //if(level==='err') console.error(msg); else if(level==='warn') console.warn(msg); else console.log(msg);
-      //$log.scrollTop = $log.scrollHeight;
-    //};
-    //const setText = (id, txt) => { const el=document.getElementById(id); if(el) el.textContent = txt; };
-    //window.addEventListener('error', e => log(`ERROR: ${e.message}`, 'err'));
-    //window.addEventListener('unhandledrejection', e => log(`PROMISE: ${e.reason}`, 'err'));
+    const $log = document.getElementById('logText');
+    const log = (msg, level='dim') => {
+      const ts = new Date().toISOString().substring(11,19);
+      $log.insertAdjacentText('beforeend', `\n[${ts}] ${msg}`);
+      $log.className = `log-${level}`;
+      if(level==='err') console.error(msg); else if(level==='warn') console.warn(msg); else console.log(msg);
+      $log.scrollTop = $log.scrollHeight;
+    };
+    const setText = (id, txt) => { const el=document.getElementById(id); if(el) el.textContent = txt; };
+    window.addEventListener('error', e => log(`ERROR: ${e.message}`, 'err'));
+    window.addEventListener('unhandledrejection', e => log(`PROMISE: ${e.reason}`, 'err'));
 
     /* ===== Mapa ===== */
     const map = L.map('map', { center: [-35.6751, -71.5430], zoom: 5, minZoom: 4, maxZoom: 12 });
@@ -434,33 +399,5 @@
       }
     });
   </script>
-  <!-- Ajustes funcionales sin tocar el mapa -->
-<script>
-  // Quita controles de zoom y logs si ya se renderizaron
-  (function(){
-    document.querySelectorAll(
-      '.leaflet-control-zoom, .mapboxgl-ctrl-zoom, .mapboxgl-ctrl-group, .zoom-controls, #zoom-controls, #logs, #log, .debug-log, .console-overlay'
-    ).forEach(e => e.remove());
-  })();
-
-  // Mueve “Nivel de visualización” arriba de la leyenda
-  (function(){
-    const legend = document.getElementById('legend') || document.querySelector('.legend');
-    const level = document.getElementById('level-controls') || document.querySelector('.level-controls');
-    if (legend && level && legend.parentNode) {
-      legend.parentNode.insertBefore(level, legend);
-      level.style.display = 'block';
-      const lw = getComputedStyle(legend).width;
-      if (lw) level.style.width = lw;
-    }
-  })();
-
-  // Oculta el botón Buscar (manteniendo la carga automática)
-  (function(){
-    const btn = document.getElementById('buscar-btn') || document.getElementById('buscar');
-    if (btn) btn.style.display = 'none';
-  })();
-</script>
-
 </body>
 </html>
