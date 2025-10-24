@@ -423,31 +423,38 @@
   </script>
 
   <!-- === Ajustes de ubicación: mover “Nivel de visualización” encima de la leyenda === -->
-  <script>
-    (function(){
-      // Esperamos a que Leaflet inserte la leyenda en la esquina inferior derecha
-      const tryPlace = () => {
-        const legendDiv = document.querySelector('.leaflet-bottom.leaflet-right .legend');
-        const corner = document.querySelector('.leaflet-bottom.leaflet-right');
-        const nivel = document.getElementById('nivelBox');
-        if (!legendDiv || !corner || !nivel) return false;
+<script>
+/* Mover “Nivel de visualización” encima de la leyenda SIN posicionamiento absoluto */
+(function(){
+  const tryPlace = () => {
+    const legendDiv = document.querySelector('.leaflet-bottom.leaflet-right .legend');
+    const legendControl = legendDiv ? legendDiv.closest('.leaflet-control') : null;
+    const corner = document.querySelector('.leaflet-bottom.leaflet-right');
+    const nivel = document.getElementById('nivelBox');
+    if (!legendDiv || !legendControl || !corner || !nivel) return false;
 
-        // Movemos el bloque de nivel justo ANTES de la leyenda
-        nivel.classList.add('fixed-bottom-right');
-        // Igualar ancho
-        const w = getComputedStyle(legendDiv).width;
-        if (w) nivel.style.width = w;
+    // Asegura flujo normal (no absoluto) y mismo ancho que la leyenda
+    nivel.classList.remove('fixed-bottom-right');   // <- quitamos la clase que ponía absolute
+    nivel.style.position = 'static';
+    const w = getComputedStyle(legendDiv).width;
+    if (w) nivel.style.width = w;
 
-        // Insertar antes de la leyenda
-        corner.insertBefore(nivel, legendDiv);
-        return true;
-      };
+    // Envuelve "Nivel" en un contenedor de control Leaflet para que herede márgenes/espaciado
+    const ctrl = document.createElement('div');
+    ctrl.className = 'leaflet-control';
+    ctrl.appendChild(nivel);
 
-      // Intento inmediato y algunos reintentos por si la leyenda tarda
-      if (!tryPlace()){
-        let n=0; const iv = setInterval(()=>{ n++; if (tryPlace() || n>20) clearInterval(iv); }, 100);
-      }
-    })();
-  </script>
+    // Inserta el control justo ANTES del control que contiene la leyenda
+    corner.insertBefore(ctrl, legendControl);
+    return true;
+  };
+
+  // Intenta ahora y reintenta un poco por si la leyenda tarda en aparecer
+  if (!tryPlace()){
+    let n=0; const iv = setInterval(()=>{ n++; if (tryPlace() || n>20) clearInterval(iv); }, 100);
+  }
+})();
+</script>
+
 </body>
 </html>
