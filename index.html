@@ -1,223 +1,403 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Mapa de Apellidos en Chile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mapa de Apellidos - Chile</title>
 
-  <!-- Estilos base (ajusta si ya cargas Tailwind/Bootstrap en tu versión) -->
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
   <style>
-    :root {
-      --panel-bg: #fff;
-      --panel-br: 12px;
-      --panel-bd: #e7e7e7;
-      --shadow: 0 6px 20px rgba(0,0,0,.08);
-      --font: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    html, body { height:100%; margin:0; }
+    #map { width:100%; height:100vh; background:#f7f7f7; }
+    .leaflet-tooltip{
+      font-family:"Book Antiqua",serif; font-size:13px; font-weight:bold;
+      color:#000; background:rgba(255,255,255,.9);
+      border:1px solid rgba(0,0,0,.2); border-radius:4px; padding:3px 6px;
     }
-    html, body { height: 100%; margin: 0; font-family: var(--font); color: #111; }
-    #app { height: 100%; position: relative; overflow: hidden; }
-
-    /* Contenedor del mapa (no se toca tu lógica) */
-    #map { position: absolute; inset: 0; }
-
-    /* Panel de búsqueda (se mantiene pero sin botón) */
-    #search-panel {
-      position: absolute; top: 12px; left: 12px; z-index: 500;
-      background: var(--panel-bg); border: 1px solid var(--panel-bd);
-      border-radius: var(--panel-br); box-shadow: var(--shadow);
-      padding: 10px; width: 520px; max-width: calc(100% - 24px);
+    /* UI buscador */
+    .search-ui{
+      position:absolute; top:12px; left:12px; z-index:1000;
+      background:#ffffffeb; border:1px solid #ddd; border-radius:10px; padding:10px 12px;
+      box-shadow:0 6px 16px rgba(0,0,0,.08);
+      font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+      max-width:min(92vw,480px);
     }
-    #search-panel label { display: block; font-weight: 700; margin-bottom: 6px; }
-    #apellido-input {
-      width: 100%; height: 36px; border-radius: 8px; border: 1px solid #d0d7de;
-      padding: 0 10px; font-size: 14px;
-    }
-    /* El botón Buscar se oculta (manteniendo el DOM por si tu script lo consulta) */
-    #buscar-btn { display: none !important; }
+    .search-ui h3{ margin:0 0 6px 0; font-size:14px; font-weight:700; }
+    .search-ui .row{ display:flex; gap:6px; margin-bottom:6px; }
+    .search-ui input{ flex:1; padding:6px 8px; font-size:14px; border:1px solid #ccc; border-radius:8px; }
+    .search-ui button{ padding:6px 10px; border:0; border-radius:8px; cursor:pointer; font-weight:600; background:#0b5ed7; color:#fff; }
+    .search-ui small{ display:block; margin-top:4px; color:#555; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 
-    /* Panel “estado” opcional bajo el buscador */
-    #status-text { margin-top: 8px; font-size: 12px; color: #666; }
+    /* Selector de nivel (radios) */
+    .option-box{ margin-top:6px; padding:8px 10px; border:1px solid #ddd; border-radius:10px; background:#fff;
+      box-shadow:0 2px 6px rgba(0,0,0,.05) inset; display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+    .option-box .option-title{ font-size:12px; font-weight:700; color:#333; margin-right:6px; }
+    .option-box .opt{ display:flex; align-items:center; gap:6px; padding:2px 6px; border-radius:8px; background:#f7f7f9; border:1px solid #ececf0; cursor:pointer; user-select:none; }
+    .option-box .opt input{ accent-color:#0b5ed7; }
 
-    /* Leyenda + Nivel (mismo ancho) */
-    #legend-wrapper {
-      position: absolute; right: 16px; bottom: 16px; z-index: 500;
-      display: flex; flex-direction: column; gap: 10px; align-items: flex-end;
-    }
-    .panel {
-      background: var(--panel-bg); border: 1px solid var(--panel-bd);
-      border-radius: var(--panel-br); box-shadow: var(--shadow);
-      padding: 10px 12px; width: 220px; /* ancho base de la leyenda */
-    }
-    #level-controls.panel { width: 220px; } /* mismo ancho que la leyenda */
-    #level-controls .title { font-weight: 700; margin-bottom: 6px; font-size: 13px; }
-    #level-controls label { display: block; margin: 4px 0; font-size: 12.5px; }
+    /* Leyenda */
+    .legend{ line-height:16px; color:#333; background:#fff; padding:8px 10px; border-radius:8px; border:1px solid #ddd; box-shadow:0 6px 16px rgba(0,0,0,.08);
+      font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif; font-size:12px; }
+    .legend .item{ display:flex; align-items:center; gap:6px; }
+    .legend .swatch{ width:18px; height:12px; border:1px solid #999; }
+    .legend b{ display:block; margin-bottom:4px; }
 
-    /* Ocultar controles de zoom y logs, sin tocar tu mapa */
-    .leaflet-control-zoom,
-    .mapboxgl-ctrl-zoom,
-    .mapboxgl-ctrl-group,
-    .zoom-controls,
-    #zoom-controls { display: none !important; }
-    #logs, #log, .debug-log, .console-overlay { display: none !important; }
+    /* Logs */
+    .log-panel{ position:fixed; right:12px; top:12px; z-index:1100; width:min(38vw,420px); max-height:46vh; overflow:auto;
+      font:12px/1.35 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      background:#111; color:#eaeaea; border:1px solid #333; border-radius:10px; box-shadow:0 6px 16px rgba(0,0,0,.35); }
+    .log-panel header{ position:sticky; top:0; background:#0d0d0d; color:#9ad; padding:6px 8px; font-weight:700; }
+    .log-panel pre{ margin:0; padding:8px; white-space:pre-wrap; word-break:break-word; }
+    .log-ok{ color:#9f9; } .log-warn{ color:#ff9; } .log-err{ color:#f99; } .log-dim{ color:#aaa; }
 
-    /* Quitar outlines en SVG (acuerdo previo) */
-    svg:focus, svg *:focus, svg:focus-visible, svg *:focus-visible { outline: none !important; }
+    /* Sugerencias */
+    .suggest{ position:absolute; z-index:1001; left:12px; top:72px; background:#fff; border:1px solid #ddd; border-radius:10px; box-shadow:0 10px 24px rgba(0,0,0,.15);
+      max-height:260px; overflow:auto; width:min(92vw,480px); }
+    .suggest.hide{ display:none; }
+    .suggest .item{ padding:8px 10px; cursor:pointer; }
+    .suggest .item:hover{ background:#f2f6ff; }
   </style>
-
-  <!-- Si tu archivo original ya incluía librerías (Leaflet, D3, etc.), puedes volver a pegarlas dentro del bloque JS original -->
 </head>
 <body>
-  <div id="app">
-    <!-- Mapa -->
-    <div id="map" aria-label="Mapa de Apellidos"></div>
-
-    <!-- Buscador (sin botón) -->
-    <div id="search-panel" class="panel">
-      <label for="apellido-input">Consulta tu apellido</label>
-      <div style="display:flex; gap:8px; align-items:center;">
-        <input id="apellido-input" type="text" placeholder="Ej: MUÑOZ" autocomplete="off" />
-        <!-- Botón oculto, se deja por compatibilidad con tu JS -->
-        <button id="buscar-btn" type="button">Buscar</button>
-      </div>
-      <div id="status-text"></div>
+  <div class="search-ui">
+    <h3>Consulta tu apellido</h3>
+    <div class="row">
+      <input id="apellidoInput" type="text" placeholder="Ej.: Cisternas / Díaz / Di Bella" autocomplete="off" />
+      <button id="buscarBtn">Buscar</button>
     </div>
-
-    <!-- Leyenda + Nivel (Nivel va arriba de Frecuencia, con mismo ancho) -->
-    <div id="legend-wrapper">
-      <!-- Nivel de visualización (se reubica aquí; radios iguales a tu versión) -->
-      <div id="level-controls" class="panel" style="display: none;">
-        <div class="title">Nivel de visualización</div>
-        <label><input type="radio" name="nivel" value="auto"> Auto (según zoom)</label>
-        <label><input type="radio" name="nivel" value="region"> Región</label>
-        <label><input type="radio" name="nivel" value="provincia"> Provincia</label>
-        <label><input type="radio" name="nivel" value="comuna" checked> Comuna</label>
-      </div>
-
-      <!-- Leyenda de Frecuencia: pega aquí tu leyenda si la tienes inline,
-           o deja este contenedor para que tu JS la inyecte como antes -->
-      <div id="legend" class="panel">
-        <!-- === TU LEYENDA ORIGINAL (FRECUENCIA) SE MANTIENE ===
-             Si tu script la genera dinámicamente, este contenedor conserva el mismo id/class. -->
-        <div id="legend-title" style="font-weight:700;margin-bottom:8px;">Frecuencia (%)</div>
-        <div id="legend-scale">
-          <!-- Si tu leyenda es dinámica, este bloque se reemplaza. Este markup es de respaldo. -->
-          <div style="display:flex;gap:6px;align-items:center;margin:4px 0;"><span style="display:inline-block;width:16px;height:10px;background:#eaf4ef;border:1px solid #cdd;vertical-align:middle;"></span><span style="font-size:12px;">0%–0,1%</span></div>
-          <div style="display:flex;gap:6px;align-items:center;margin:4px 0;"><span style="display:inline-block;width:16px;height:10px;background:#d8efe3;border:1px solid #cdd;"></span><span style="font-size:12px;">0,1%–0,2%</span></div>
-          <div style="display:flex;gap:6px;align-items:center;margin:4px 0;"><span style="display:inline-block;width:16px;height:10px;background:#c4e9d6;border:1px solid #cdd;"></span><span style="font-size:12px;">0,2%–0,4%</span></div>
-          <div style="display:flex;gap:6px;align-items:center;margin:4px 0;"><span style="display:inline-block;width:16px;height:10px;background:#b0e2c8;border:1px solid #cdd;"></span><span style="font-size:12px;">0,4%–0,8%</span></div>
-          <div style="display:flex;gap:6px;align-items:center;margin:4px 0;"><span style="display:inline-block;width:16px;height:10px;background:#9bdbba;border:1px solid #cdd;"></span><span style="font-size:12px;">0,8%–1,2%</span></div>
-          <div style="display:flex;gap:6px;align-items:center;margin:4px 0;"><span style="display:inline-block;width:16px;height:10px;background:#86d4ad;border:1px solid #cdd;"></span><span style="font-size:12px;">1,2%–2%</span></div>
-          <div style="display:flex;gap:6px;align-items:center;margin:4px 0;"><span style="display:inline-block;width:16px;height:10px;background:#71cda0;border:1px solid #cdd;"></span><span style="font-size:12px;">&gt;2%</span></div>
-        </div>
-      </div>
+    <div class="option-box" id="nivelBox">
+      <div class="option-title">Nivel de visualización</div>
+      <label class="opt"><input type="radio" name="nivel" value="auto" checked> Auto (según zoom)</label>
+      <label class="opt"><input type="radio" name="nivel" value="region"> Región</label>
+      <label class="opt"><input type="radio" name="nivel" value="provincia"> Provincia</label>
+      <label class="opt"><input type="radio" name="nivel" value="comuna"> Comuna</label>
     </div>
+    <small id="estado">Cargando mapas…</small>
   </div>
 
-  <!-- =========================
-       BLOQUE JS
-       ========================= -->
+  <div id="suggestBox" class="suggest hide"></div>
+  <div class="log-panel"><header>Logs</header><pre id="logText">[init] esperando…</pre></div>
+  <div id="map"></div>
+
   <script>
-  /* ============================================================
-     === TU JS ORIGINAL (SIN CAMBIOS) ============================
-     Pega aquí TODO el contenido JS de tu index actual (funciones,
-     creación del mapa, carga de shards, listeners, etc.).
-     NO elimines nada. No cambies nombres de funciones ni IDs.
-     ============================================================ */
+    /* ===== Logger + errores globales ===== */
+    const $log = document.getElementById('logText');
+    const log = (msg, level='dim') => {
+      const ts = new Date().toISOString().substring(11,19);
+      $log.insertAdjacentText('beforeend', `\n[${ts}] ${msg}`);
+      $log.className = `log-${level}`;
+      if(level==='err') console.error(msg); else if(level==='warn') console.warn(msg); else console.log(msg);
+      $log.scrollTop = $log.scrollHeight;
+    };
+    const setText = (id, txt) => { const el=document.getElementById(id); if(el) el.textContent = txt; };
+    window.addEventListener('error', e => log(`ERROR: ${e.message}`, 'err'));
+    window.addEventListener('unhandledrejection', e => log(`PROMISE: ${e.reason}`, 'err'));
 
-  // ------------------------------------------------------------
-  // (1) PARCHE NO INTRUSIVO: Ocultar logs y controles de zoom
-  // ------------------------------------------------------------
-  (function(){
-    // Silenciar overlays de log si existen
-    ["logs","log"].forEach(id => { const el = document.getElementById(id); if (el) el.style.display = "none"; });
-    // Quitar controles +/- si quedaron renderizados por la lib
-    const zooms = document.querySelectorAll('.leaflet-control-zoom,.mapboxgl-ctrl-zoom,.mapboxgl-ctrl-group,.zoom-controls,#zoom-controls');
-    zooms.forEach(z => z.parentNode && z.parentNode.removeChild(z));
-  })();
+    /* ===== Mapa ===== */
+    const map = L.map('map', { center: [-35.6751, -71.5430], zoom: 5, minZoom: 4, maxZoom: 12 });
+    map.createPane('pane-regiones'); map.createPane('pane-provincias'); map.createPane('pane-comunas');
 
-  // ------------------------------------------------------------
-  // (2) Mover “Nivel de visualización” sobre la leyenda
-  //     - Si ya existía en otro lugar, lo reubicamos aquí
-  // ------------------------------------------------------------
-  (function(){
-    // Busca radios existentes por nombres/ids típicos de tu versión
-    let level = document.getElementById('level-controls');
-    if (!level) {
-      // Si en tu código original hay un contenedor con los radios (ej. #level, #niveles)
-      level = document.querySelector('#level, #niveles, .level-controls');
-      if (level) {
-        level.id = 'level-controls';
-        level.classList.add('panel');
+    const styleBase = { color:"#666", weight:1, fillColor:"#ddd", fillOpacity:.6 };
+    let regionesGeo=null, provinciasGeo=null, comunasGeo=null;
+    const regionesLayer=L.layerGroup(), provinciasLayer=L.layerGroup(), comunasLayer=L.layerGroup();
+    const getProp = (p, keys, def="—") => { for(const k of keys){ if(p && p[k]!=null && p[k]!=="") return p[k]; } return def; };
+
+    (async function loadGeo(){
+      try{
+        log('GET regiones.json','dim');
+        const reg = await fetch('regiones.json', {cache:'no-cache'}).then(r=>r.json());
+        log('GET provincias.json','dim');
+        const prov = await fetch('provincias.json', {cache:'no-cache'}).then(r=>r.json());
+        log('GET comunas.json','dim');
+        const com  = await fetch('comunas.json', {cache:'no-cache'}).then(r=>r.json());
+
+        regionesGeo = L.geoJSON(reg, {
+          pane:'pane-regiones',
+          style: f => ({...styleBase, color:"#587fbf", weight:1 }),
+          onEachFeature:(f,layer)=>{
+            const p=f.properties||{}, reg=getProp(p,["REGION","NOM_REG","Región","NAME_1"],"Región");
+            layer.bindTooltip(reg,{sticky:true,opacity:.95});
+          }
+        });
+        provinciasGeo = L.geoJSON(prov, {
+          pane:'pane-provincias',
+          style: f => ({...styleBase, color:"#333", weight:1 }),
+          onEachFeature:(f,layer)=>{
+            const p=f.properties||{}, prov=getProp(p,["PROVINCIA","NOM_PROV","Provincia","NAME_2","name"],"Provincia");
+            layer.bindTooltip(prov,{sticky:true,opacity:.95});
+          }
+        });
+        comunasGeo = L.geoJSON(com, {
+          pane:'pane-comunas',
+          style: f => ({...styleBase, color:"#990000", weight:.8 }),
+          onEachFeature:(f,layer)=>{
+            const p=f.properties||{}, com=getProp(p,["COMUNA","NOM_COM","Comuna","name"],"Comuna");
+            layer.bindTooltip(com,{sticky:true,opacity:.95});
+          }
+        });
+
+        updateVisibility();
+        map.on('zoomend', ()=>{ if(nivelMode==='auto') updateVisibility(); });
+        log('GeoJSON cargados y capas listas','ok');
+        setText('estado','Listo. Escribe un apellido y presiona Buscar.');
+      }catch(err){
+        log('Error cargando GeoJSON: '+err.message,'err');
+        setText('estado','Error cargando mapas. Revisa logs.');
+      }
+    })();
+
+    /* ===== Paletas / bins ===== */
+    const PALETAS = {
+      region:    ["#d7ebff","#badaff","#9cc9ff","#7fb8ff","#62a7ff","#458fff","#2a73e0"],
+      provincia: ["#e2f7ee","#c6efdc","#a9e6c9","#8cddb7","#6fc5a0","#4fae85","#2f956b"],
+      comuna:    ["#fde6e9","#fdc9cf","#fdaaae","#fb8b8d","#f25f63","#d84349","#a92d31"]
+    };
+    const BINS_BY_LEVEL = {
+      region:   [0, 0.05, 0.10, 0.20, 0.40, 0.80, 1.50, Infinity],
+      provincia:[0, 0.10, 0.20, 0.40, 0.80, 1.20, 2.00, Infinity],
+      comuna:   [0, 0.15, 0.30, 0.60, 1.00, 1.50, 2.50, Infinity]
+    };
+    const colorByBins = (v, pal, bins) => { if(v==null||isNaN(v)) return pal[0]; for(let i=0;i<bins.length-1;i++){ if(v>=bins[i] && v<bins[i+1]) return pal[i]; } return pal[pal.length-1]; };
+    const labelsFromBins = (bins) => { const fmt=x=>(x===Infinity)?"∞":`${(+x).toLocaleString('es-CL',{maximumFractionDigits:2})}%`; const labs=[]; for(let i=0;i<bins.length-1;i++){ const a=bins[i], b=bins[i+1]; labs.push(b===Infinity?`>${fmt(a)}`:`${fmt(a)}–${fmt(b)}`);} return labs; };
+
+    /* ===== Normalización / slug ===== */
+    const norm = s => {
+      if (!s) return "";
+      let t = String(s).normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, " ").trim().toUpperCase();
+      t = t.replace(/^\s*\d+\s*[\.\-]?\s*/, "").replace(/^(REGION|PROVINCIA|DEPARTAMENTO)\s+(DEL\s+|DE\s+)?/, "").replace(/^(DEL|DE)\s+/, "");
+      return t.trim();
+    };
+    const slugify = s => (s||"").trim().toLowerCase()
+      .normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[’'´`]/g, "").replace(/\s+/g,"-").replace(/-+/g,"-");
+
+    /* ===== Estado / nivel ===== */
+    let apellidoActual = "";
+    let nivelMode = 'auto';     // 'auto' | 'manual'
+    let nivelActual = 'region'; // cuando es manual
+
+    /* ===== Índice corriente ===== */
+    let indice = { region:{}, provincia:{}, comuna:{} };
+    function computeNivelByZoom(z){ return (z<=6) ? 'region' : (z<=7) ? 'provincia' : 'comuna'; }
+
+    function actualizarPintado(){
+      const pal  = PALETAS[nivelActual];
+      const bins = BINS_BY_LEVEL[nivelActual];
+      const pctFmt = v => (v==null || isNaN(v)) ? "0%" : `${(+v).toFixed(2).replace('.',',')}%`;
+
+      const pintar = (geo, nivel)=>{
+        if(!geo) return;
+        geo.eachLayer(l=>{
+          const p=l.feature.properties||{};
+          const key = (nivel==="region")
+            ? norm(getProp(p,["REGION","NOM_REG","Región","NAME_1"],""))
+            : (nivel==="provincia")
+              ? norm(getProp(p,["PROVINCIA","NOM_PROV","Provincia","NAME_2","name"],""))
+              : norm(getProp(p,["COMUNA","NOM_COM","Comuna","name"],""));
+          const v = (indice[nivel]||{})[key];
+          const fill = colorByBins(v, pal, bins);
+          l.setStyle({ fillColor: fill, fillOpacity: .65 });
+
+          const nombre = (nivel==="region")
+            ? getProp(p,["REGION","NOM_REG","Región","NAME_1"],"Región")
+            : (nivel==="provincia")
+              ? getProp(p,["PROVINCIA","NOM_PROV","Provincia","NAME_2","name"],"Provincia")
+              : getProp(p,["COMUNA","NOM_COM","Comuna","name"],"Comuna");
+          l.bindTooltip(`${nombre}<br><small>${apellidoActual || '—'}: <b>${pctFmt(v)}</b></small>`, {sticky:true,opacity:.95});
+        });
+      };
+
+      if(nivelActual==="region")   pintar(regionesGeo,"region");
+      if(nivelActual==="provincia")pintar(provinciasGeo,"provincia");
+      if(nivelActual==="comuna")   pintar(comunasGeo,"comuna");
+
+      legend.update();
+      setText('estado', `Mostrando "${apellidoActual || '—'}" por ${nivelActual}` + (nivelMode==='auto' ? ` (zoom ${map.getZoom()})` : ' (manual)'));
+    }
+
+    function updateVisibility(){
+      const targetNivel = (nivelMode==='auto') ? computeNivelByZoom(map.getZoom()) : nivelActual;
+
+      regionesLayer.clearLayers(); provinciasLayer.clearLayers(); comunasLayer.clearLayers();
+      if(map.hasLayer(regionesLayer)) map.removeLayer(regionesLayer);
+      if(map.hasLayer(provinciasLayer)) map.removeLayer(provinciasLayer);
+      if(map.hasLayer(comunasLayer)) map.removeLayer(comunasLayer);
+
+      if (targetNivel === 'region')      { if(regionesGeo){ regionesLayer.addLayer(regionesGeo); regionesLayer.addTo(map); } }
+      else if (targetNivel === 'provincia'){ if(provinciasGeo){ provinciasLayer.addLayer(provinciasGeo); provinciasLayer.addTo(map); } }
+      else                                { if(comunasGeo){ comunasLayer.addLayer(comunasGeo); comunasLayer.addTo(map); } }
+
+      nivelActual = targetNivel;
+      actualizarPintado();
+    }
+
+    const legend = L.control({position:'bottomright'});
+    legend.onAdd = function(){ this._div = L.DomUtil.create('div','legend'); this.update(); return this._div; };
+    legend.update = function(){
+      const pal  = PALETAS[nivelActual];
+      const bins = BINS_BY_LEVEL[nivelActual];
+      const labs = labelsFromBins(bins);
+      let html = `<b>Frecuencia (%)</b><br>`;
+      for(let i=0;i<labs.length;i++){ html += `<div class="item"><span class="swatch" style="background:${pal[i]}"></span>${labs[i]}</div>`; }
+      this._div.innerHTML = html;
+    };
+    legend.addTo(map);
+
+    /* ===== Manifest + Shards (prioriza data_fixed, cae a data) ===== */
+    (() => {
+      const MANIFEST_URLS = [
+        "data_fixed/apellidos_manifest.json",
+        "data/apellidos_manifest.json"
+      ];
+      const SHARD_BASES = ["data_fixed", "data"];
+
+      const __SHARD_CACHE__ = new Map();
+      let __APELLIDOS_MANIFEST__ = null;
+
+      const sanitizeJSONText = (t) =>
+        t.replace(/\bNaN\b/g, "null")
+         .replace(/\bInfinity\b/g, "null")
+         .replace(/\b-Infinity\b/g, "null");
+
+      async function getApellidosManifest() {
+        if (__APELLIDOS_MANIFEST__) return __APELLIDOS_MANIFEST__;
+        let lastErr = null;
+        for (const baseUrl of MANIFEST_URLS) {
+          const url = `${baseUrl}?_=${Date.now()}`;
+          try {
+            log(`Cargando manifest: ${url}`, "dim");
+            const text = await fetch(url, { cache: "no-store" }).then(r => {
+              if (!r.ok) throw new Error(`HTTP ${r.status}`);
+              return r.text();
+            });
+            __APELLIDOS_MANIFEST__ = JSON.parse(sanitizeJSONText(text));
+            log(`Manifest OK (${Object.keys(__APELLIDOS_MANIFEST__).length} apellidos).`, "ok");
+            return __APELLIDOS_MANIFEST__;
+          } catch (e) {
+            log(`Falló manifest en ${url}: ${e.message}`, "warn");
+            lastErr = e;
+          }
+        }
+        throw lastErr || new Error("No se pudo cargar el manifest");
+      }
+
+      async function loadShard(filename) {
+        if (__SHARD_CACHE__.has(filename)) return __SHARD_CACHE__.get(filename);
+        let lastErr = null;
+        for (const base of SHARD_BASES) {
+          const url = `${base}/${filename}?_=${Date.now()}`;
+          try {
+            log(`Cargando shard: ${url}`, "dim");
+            const text = await fetch(url, { cache: "no-store" }).then(r => {
+              if (!r.ok) throw new Error(`HTTP ${r.status}`);
+              return r.text();
+            });
+            const data = JSON.parse(sanitizeJSONText(text));
+            __SHARD_CACHE__.set(filename, data);
+            log(`Shard OK: ${url}`, "ok");
+            return data;
+          } catch (e) {
+            log(`Falló shard en ${url}: ${e.message}`, "warn");
+            lastErr = e;
+          }
+        }
+        throw lastErr || new Error(`No se pudo cargar ${filename}`);
+      }
+
+      // Expón para uso abajo
+      window.getApellidosManifest = getApellidosManifest;
+      window.loadShard = loadShard;
+    })();
+
+    /* ===== Buscar apellido (manifest + shard) ===== */
+    const $input = document.getElementById('apellidoInput');
+    const $btn   = document.getElementById('buscarBtn');
+    const $sbox  = document.getElementById('suggestBox');
+    function hideSuggest(){ $sbox.classList.add('hide'); $sbox.innerHTML=''; }
+    function showSuggest(items){ if(!items.length){ hideSuggest(); return; } $sbox.innerHTML = items.map(t=>`<div class="item" data-v="${t}">${t}</div>`).join(''); $sbox.classList.remove('hide'); }
+    const pretty = s => s.replace(/-/g,' ').toUpperCase();
+
+    let manifestKeys = null;
+    async function ensureManifestKeys(){ if(manifestKeys) return manifestKeys; const m = await getApellidosManifest(); manifestKeys = Object.keys(m); return manifestKeys; }
+
+    async function fetchApellidoData(apellidoInput){
+      const manifest = await getApellidosManifest();
+      const slug = slugify(apellidoInput);
+      let shardFile = manifest[slug];
+      if(!shardFile){
+        const pref = slug.slice(0,2);
+        shardFile = `apellidos_${pref}.json`;
+        log(`Apellido no explícito en manifest; uso prefijo: ${shardFile}`,'warn');
+      }
+      const shard = await loadShard(shardFile);
+      const obj = shard[slug] || shard[slug.replace(/-/g,' ').replace(/\s+/g,'-')];
+      if(!obj) throw new Error(`No encontré "${apellidoInput}" en ${shardFile}`);
+      return obj;
+    }
+
+    function buildIndiceFromShard(apellidoObj){
+      const out = { region:{}, provincia:{}, comuna:{} };
+      const rows = Array.isArray(apellidoObj.comunas) ? apellidoObj.comunas : [];
+      const num = v => { const n = Number(v); return Number.isFinite(n) ? n : 0; };
+      for (const r of rows){
+        const reg  = norm(r.region);
+        const prov = norm(r.provincia);
+        const com  = norm(r.comuna);
+        const pC = num(r.prct_apellido);
+        const pP = num(r.freq_prov);
+        const pR = num(r.freq_reg);
+        if (com)  out.comuna[com]     = pC;
+        if (prov) out.provincia[prov] = pP;
+        if (reg)  out.region[reg]     = pR;
+      }
+      return out;
+    }
+
+    $input.addEventListener('input', async () => {
+      const q = slugify($input.value);
+      if(q.length < 2){ hideSuggest(); return; }
+      try{
+        const keys = await ensureManifestKeys();
+        const matches = [];
+        for(const k of keys){ if(k.startsWith(q)){ matches.push(k); if(matches.length>=50) break; } }
+        showSuggest(matches.map(pretty));
+      }catch(e){ /* ignore */ }
+    });
+    $sbox.addEventListener('click', (e)=>{
+      const item = e.target.closest('.item'); if(!item) return;
+      $input.value = item.getAttribute('data-v'); hideSuggest(); buscarApellido();
+    });
+    $input.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ hideSuggest(); buscarApellido(); } });
+    $btn.addEventListener('click', ()=>{ hideSuggest(); buscarApellido(); });
+
+    async function buscarApellido(){
+      const raw = ($input.value||'').trim();
+      if(!raw) return;
+      try{
+        const data = await fetchApellidoData(raw);
+        apellidoActual = (data.apellido || raw).toUpperCase();
+        indice = buildIndiceFromShard(data);
+        updateVisibility();
+        log(`Apellido cargado: ${apellidoActual}`,'ok');
+      }catch(err){
+        log(`Error apellido: ${err.message}`,'err');
+        setText('estado', 'No se encontró el apellido. Prueba otra variante.');
       }
     }
-    const legendWrapper = document.getElementById('legend-wrapper');
-    if (level && legendWrapper && !legendWrapper.contains(level)) {
-      legendWrapper.prepend(level);
-    }
-    // Mostrar (por si estaba oculto)
-    if (level) level.style.display = 'block';
-  })();
 
-  // ------------------------------------------------------------
-  // (3) Búsqueda automática (sin botón)
-  //     - Llama a tu función existente para cargar/pintar el apellido.
-  //       NOMBRES POSIBLES: updateMapForSurname / loadSurname / setSurname
-  // ------------------------------------------------------------
-  (function(){
-    // Debounce helper
-    function debounce(fn, ms){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn.apply(this,a), ms); }; }
-
-    // Detecta el input (tu id puede ser otro: ajusto selectores seguros)
-    const input = document.getElementById('apellido-input')
-               || document.getElementById('search-input')
-               || document.querySelector('input[name="apellido"], select[name="apellido"]');
-
-    if (!input) return;
-
-    async function cargar(ap) {
-      if (!ap || !ap.trim()) return;
-      const apellido = ap.trim().toUpperCase();
-
-      // Llamamos a la función que ya usas en tu código
-      if (typeof window.updateMapForSurname === 'function') {
-        await window.updateMapForSurname(apellido);
-      } else if (typeof window.loadSurname === 'function') {
-        await window.loadSurname(apellido);
-      } else if (typeof window.setSurname === 'function') {
-        await window.setSurname(apellido);
-      }
-
-      const status = document.getElementById('status-text');
-      if (status) status.textContent = `Mostrando "${apellido}"`;
-    }
-
-    const onType = debounce(()=>cargar(input.value), 250);
-    input.addEventListener('input', onType);
-    input.addEventListener('change', ()=>cargar(input.value));
-    input.addEventListener('keydown', e => { if (e.key === 'Enter') e.preventDefault(); });
-
-    // Si el input ya trae valor (ej. precargado por querystring), dibuja
-    if (input.value && input.value.trim()) cargar(input.value);
-  })();
-
-  // ------------------------------------------------------------
-  // (4) Cambios de “Nivel de visualización”
-  //     - Mantiene tus nombres; si tu código ya escucha estos radios,
-  //       no hace falta nada. Si no, reemitimos el evento a tus funciones.
-  // ------------------------------------------------------------
-  (function(){
-    const levelBox = document.getElementById('level-controls');
-    if (!levelBox) return;
-
-    levelBox.addEventListener('change', (e)=>{
-      if (e.target && e.target.name === 'nivel') {
-        const v = e.target.value; // 'auto' | 'region' | 'provincia' | 'comuna'
-        // Re-disparamos a tu API si existe:
-        if (typeof window.setLevel === 'function') window.setLevel(v);
-        if (typeof window.updateLevel === 'function') window.updateLevel(v);
+    // Radios de nivel
+    document.getElementById('nivelBox')?.addEventListener('change', (e)=>{
+      const t = e.target;
+      if (t && t.name === 'nivel') {
+        const v = t.value;
+        if (v === 'auto') { nivelMode = 'auto'; }
+        else { nivelMode = 'manual'; nivelActual = v; }
+        updateVisibility();
+        log(`Nivel set: ${nivelMode==='auto' ? 'Auto (zoom)' : 'Manual → ' + nivelActual}`, 'ok');
       }
     });
-  })();
   </script>
 </body>
 </html>
