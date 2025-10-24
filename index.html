@@ -2,423 +2,298 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mapa de Apellidos - Chile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mapa de Apellidos en Chile</title>
 
-  <!-- Leaflet -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!-- Leaflet (por si tu código ya lo usa; si no lo necesitas, puedes quitarlo) -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
 
   <style>
-    html, body { height:100%; margin:0; }
-    #map { width:100%; height:100vh; background:#f7f7f7; }
-    .leaflet-tooltip{
-      font-family:"Book Antiqua",serif; font-size:13px; font-weight:bold;
-      color:#000; background:rgba(255,255,255,.9);
-      border:1px solid rgba(0,0,0,.2); border-radius:4px; padding:3px 6px;
+    :root {
+      --card-bg: #fff;
+      --border: #e7e7e7;
+      --radius: 12px;
+      --shadow: 0 1px 3px rgba(0,0,0,.12);
+      --pad: 10px;
+      --text: #222;
+      --muted: #6b7280;
+      --brand: #2563eb;
     }
-    /* UI buscador */
-    .search-ui{
-      position:absolute; top:12px; left:12px; z-index:1000;
-      background:#ffffffeb; border:1px solid #ddd; border-radius:10px; padding:10px 12px;
-      box-shadow:0 6px 16px rgba(0,0,0,.08);
-      font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-      max-width:min(92vw,480px);
+
+    html, body { height: 100%; margin: 0; color: var(--text); font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji"; }
+    .wrap { max-width: 1200px; margin: 16px auto; padding: 0 12px; }
+
+    /* Panel superior (buscador) */
+    .panel {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 12px;
     }
-    .search-ui h3{ margin:0 0 6px 0; font-size:14px; font-weight:700; }
-    .search-ui .row{ display:flex; gap:6px; margin-bottom:6px; }
-    .search-ui input{ flex:1; padding:6px 8px; font-size:14px; border:1px solid #ccc; border-radius:8px; }
-    .search-ui button{ padding:6px 10px; border:0; border-radius:8px; cursor:pointer; font-weight:600; background:#0b5ed7; color:#fff; }
-    .search-ui small{ display:block; margin-top:4px; color:#555; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    #top-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
 
-    /* Selector de nivel (radios) */
-    .option-box{ margin-top:6px; padding:8px 10px; border:1px solid #ddd; border-radius:10px; background:#fff;
-      box-shadow:0 2px 6px rgba(0,0,0,.05) inset; display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
-    .option-box .option-title{ font-size:12px; font-weight:700; color:#333; margin-right:6px; }
-    .option-box .opt{ display:flex; align-items:center; gap:6px; padding:2px 6px; border-radius:8px; background:#f7f7f9; border:1px solid #ececf0; cursor:pointer; user-select:none; }
-    .option-box .opt input{ accent-color:#0b5ed7; }
+    #search-panel label { display: block; font-weight: 700; margin-bottom: 6px; }
+    #apellido-input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 16px;
+      outline: none;
+    }
+    #apellido-input:focus { border-color: var(--brand); box-shadow: 0 0 0 3px rgba(37, 99, 235, .15); }
 
-    /* Leyenda */
-    .legend{ line-height:16px; color:#333; background:#fff; padding:8px 10px; border-radius:8px; border:1px solid #ddd; box-shadow:0 6px 16px rgba(0,0,0,.08);
-      font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif; font-size:12px; }
-    .legend .item{ display:flex; align-items:center; gap:6px; }
-    .legend .swatch{ width:18px; height:12px; border:1px solid #999; }
-    .legend b{ display:block; margin-bottom:4px; }
+    .hint { color: var(--muted); font-size: 13px; margin-top: 4px; }
 
-    /* Logs */
-    .log-panel{ position:fixed; right:12px; top:12px; z-index:1100; width:min(38vw,420px); max-height:46vh; overflow:auto;
-      font:12px/1.35 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      background:#111; color:#eaeaea; border:1px solid #333; border-radius:10px; box-shadow:0 6px 16px rgba(0,0,0,.35); }
-    .log-panel header{ position:sticky; top:0; background:#0d0d0d; color:#9ad; padding:6px 8px; font-weight:700; }
-    .log-panel pre{ margin:0; padding:8px; white-space:pre-wrap; word-break:break-word; }
-    .log-ok{ color:#9f9; } .log-warn{ color:#ff9; } .log-err{ color:#f99; } .log-dim{ color:#aaa; }
+    /* Layout mapa + lateral derecho (leyenda) */
+    #layout {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 12px;
+    }
+    @media (max-width: 980px) {
+      #layout { grid-template-columns: 1fr; }
+    }
 
-    /* Sugerencias */
-    .suggest{ position:absolute; z-index:1001; left:12px; top:72px; background:#fff; border:1px solid #ddd; border-radius:10px; box-shadow:0 10px 24px rgba(0,0,0,.15);
-      max-height:260px; overflow:auto; width:min(92vw,480px); }
-    .suggest.hide{ display:none; }
-    .suggest .item{ padding:8px 10px; cursor:pointer; }
-    .suggest .item:hover{ background:#f2f6ff; }
+    #map {
+      width: 100%;
+      height: 72vh;
+      min-height: 420px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: #f8fafc;
+    }
 
-    /* Quitar borde de foco del contenedor del mapa */
-.leaflet-container:focus,
-.leaflet-container:focus-visible,
-.leaflet-container:focus-within {
-  outline: none !important;
-}
+    /* Leyenda + nivel de visualización */
+    #legend, .legend, .legend-panel {
+      width: 100%;
+      box-sizing: border-box;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 12px;
+      align-self: start;
+    }
 
-/* Quitar borde de foco de las geometrías SVG */
-.leaflet-container .leaflet-interactive:focus,
-.leaflet-container .leaflet-interactive:focus-visible,
-.leaflet-container .leaflet-overlay-pane svg path.leaflet-interactive:focus {
-  outline: none !important;
-}
+    #level-controls {
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 10px 12px;
+      margin-bottom: 10px;
+      background: #fff;
+      width: 100%;
+      font-size: .92rem;
+    }
+    #level-controls .title {
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    #level-controls .row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px 12px;
+    }
+    #level-controls label {
+      display: flex; align-items: center; gap: 6px; cursor: pointer;
+      user-select: none;
+    }
+    #level-controls input[type="radio"] { accent-color: var(--brand); }
 
-/* Controles también sin borde de foco (zoom, etc.) */
-.leaflet-control:focus,
-.leaflet-control:focus-visible {
-  outline: none !important;
-}
+    /* Leyenda de frecuencia */
+    #legend h3 { margin: 0 0 8px 0; font-size: 16px; }
+    .scale { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+    .box { height: 18px; border-radius: 6px; border: 1px solid rgba(0,0,0,.08); }
+    .lab { font-size: 12px; color: var(--muted); text-align: center; margin-top: 6px; }
 
+    /* Ocultar controles de zoom y posibles overlays de LOGS */
+    .leaflet-control-zoom,
+    .mapboxgl-ctrl-zoom,
+    .zoom-controls,
+    #zoom-controls { display: none !important; }
+
+    #logs, #log, .debug-log, .console-overlay { display: none !important; }
+
+    /* Quitar outlines molestos en SVG, mantener accesibilidad del resto */
+    svg:focus, svg *:focus, svg:focus-visible, svg *:focus-visible { outline: none !important; }
+
+    /* Tooltip de estado bajo el buscador */
+    #status-text { color: var(--muted); font-size: 13px; margin-top: 4px; }
   </style>
 </head>
 <body>
-  <div class="search-ui">
-    <h3>Consulta tu apellido</h3>
-    <div class="row">
-      <input id="apellidoInput" type="text" placeholder="Ej.: Cisternas / Díaz / Di Bella" autocomplete="off" />
-      <button id="buscarBtn">Buscar</button>
+  <div class="wrap">
+
+    <!-- BUSCADOR SIN BOTÓN (auto-ejecuta al escribir o elegir) -->
+    <div id="top-grid">
+      <div id="search-panel" class="panel">
+        <label for="apellido-input">Consulta tu apellido</label>
+        <!-- puede ser input text o select; el JS soporta ambos -->
+        <input id="apellido-input" type="text" placeholder="Ej: PRIETO" autocomplete="off" />
+        <!-- Si prefieres un <select>, reemplaza la línea anterior por:
+        <select id="apellido-input">
+          <option value="">Selecciona tu apellido…</option>
+          <option>PRIETO</option>
+          ...
+        </select>
+        -->
+        <div id="status-text" class="hint">Escribe un apellido y el mapa se actualizará automáticamente.</div>
+      </div>
     </div>
-    <div class="option-box" id="nivelBox">
-      <div class="option-title">Nivel de visualización</div>
-      <label class="opt"><input type="radio" name="nivel" value="auto" checked> Auto (según zoom)</label>
-      <label class="opt"><input type="radio" name="nivel" value="region"> Región</label>
-      <label class="opt"><input type="radio" name="nivel" value="provincia"> Provincia</label>
-      <label class="opt"><input type="radio" name="nivel" value="comuna"> Comuna</label>
+
+    <div id="layout">
+      <div id="map"></div>
+
+      <!-- LADO DERECHO: primero va Nivel de visualización, luego la LEYENDA -->
+      <aside>
+        <!-- Los radios los movemos arriba de la leyenda y con mismo ancho -->
+        <div id="level-controls" style="display:none">
+          <div class="title">Nivel de visualización</div>
+          <div class="row">
+            <label><input type="radio" name="nivel" value="auto"> Auto (según zoom)</label>
+            <label><input type="radio" name="nivel" value="region"> Región</label>
+            <label><input type="radio" name="nivel" value="provincia"> Provincia</label>
+            <label><input type="radio" name="nivel" value="comuna" checked> Comuna</label>
+          </div>
+        </div>
+
+        <div id="legend" class="legend-panel">
+          <h3>Frecuencia</h3>
+          <div class="scale">
+            <div class="box" style="background:#fee5d9"></div>
+            <div class="box" style="background:#fcae91"></div>
+            <div class="box" style="background:#fb6a4a"></div>
+            <div class="box" style="background:#de2d26"></div>
+            <div class="box" style="background:#a50f15"></div>
+          </div>
+          <div class="scale" style="grid-template-columns: repeat(5, 1fr);">
+            <div class="lab">Muy baja</div>
+            <div class="lab">Baja</div>
+            <div class="lab">Media</div>
+            <div class="lab">Alta</div>
+            <div class="lab">Muy alta</div>
+          </div>
+        </div>
+      </aside>
     </div>
-    <small id="estado">Cargando mapas…</small>
   </div>
 
-  <div id="suggestBox" class="suggest hide"></div>
-  <div class="log-panel"><header>Logs</header><pre id="logText">[init] esperando…</pre></div>
-  <div id="map"></div>
-
   <script>
-    /* ===== Logger + errores globales ===== */
-    const $log = document.getElementById('logText');
-    const log = (msg, level='dim') => {
-      const ts = new Date().toISOString().substring(11,19);
-      $log.insertAdjacentText('beforeend', `\n[${ts}] ${msg}`);
-      $log.className = `log-${level}`;
-      if(level==='err') console.error(msg); else if(level==='warn') console.warn(msg); else console.log(msg);
-      $log.scrollTop = $log.scrollHeight;
-    };
-    const setText = (id, txt) => { const el=document.getElementById(id); if(el) el.textContent = txt; };
-    window.addEventListener('error', e => log(`ERROR: ${e.message}`, 'err'));
-    window.addEventListener('unhandledrejection', e => log(`PROMISE: ${e.reason}`, 'err'));
-
-    /* ===== Mapa ===== */
-    const map = L.map('map', { center: [-35.6751, -71.5430], zoom: 5, minZoom: 4, maxZoom: 12 });
-    map.createPane('pane-regiones'); map.createPane('pane-provincias'); map.createPane('pane-comunas');
-
-    const styleBase = { color:"#666", weight:1, fillColor:"#ddd", fillOpacity:.6 };
-    let regionesGeo=null, provinciasGeo=null, comunasGeo=null;
-    const regionesLayer=L.layerGroup(), provinciasLayer=L.layerGroup(), comunasLayer=L.layerGroup();
-    const getProp = (p, keys, def="—") => { for(const k of keys){ if(p && p[k]!=null && p[k]!=="") return p[k]; } return def; };
-
-    (async function loadGeo(){
-      try{
-        log('GET regiones.json','dim');
-        const reg = await fetch('regiones.json', {cache:'no-cache'}).then(r=>r.json());
-        log('GET provincias.json','dim');
-        const prov = await fetch('provincias.json', {cache:'no-cache'}).then(r=>r.json());
-        log('GET comunas.json','dim');
-        const com  = await fetch('comunas.json', {cache:'no-cache'}).then(r=>r.json());
-
-        regionesGeo = L.geoJSON(reg, {
-          pane:'pane-regiones',
-          style: f => ({...styleBase, color:"#587fbf", weight:1 }),
-          onEachFeature:(f,layer)=>{
-            const p=f.properties||{}, reg=getProp(p,["REGION","NOM_REG","Región","NAME_1"],"Región");
-            layer.bindTooltip(reg,{sticky:true,opacity:.95});
-          }
-        });
-        provinciasGeo = L.geoJSON(prov, {
-          pane:'pane-provincias',
-          style: f => ({...styleBase, color:"#333", weight:1 }),
-          onEachFeature:(f,layer)=>{
-            const p=f.properties||{}, prov=getProp(p,["PROVINCIA","NOM_PROV","Provincia","NAME_2","name"],"Provincia");
-            layer.bindTooltip(prov,{sticky:true,opacity:.95});
-          }
-        });
-        comunasGeo = L.geoJSON(com, {
-          pane:'pane-comunas',
-          style: f => ({...styleBase, color:"#990000", weight:.8 }),
-          onEachFeature:(f,layer)=>{
-            const p=f.properties||{}, com=getProp(p,["COMUNA","NOM_COM","Comuna","name"],"Comuna");
-            layer.bindTooltip(com,{sticky:true,opacity:.95});
-          }
-        });
-
-        updateVisibility();
-        map.on('zoomend', ()=>{ if(nivelMode==='auto') updateVisibility(); });
-        log('GeoJSON cargados y capas listas','ok');
-        setText('estado','Listo. Escribe un apellido y presiona Buscar.');
-      }catch(err){
-        log('Error cargando GeoJSON: '+err.message,'err');
-        setText('estado','Error cargando mapas. Revisa logs.');
+    // ===== 1) Silenciar logs en producción (no mostrar overlays ni console.*) =====
+    (function(){
+      const DEBUG = false;
+      if (!DEBUG) {
+        const noop = function(){};
+        ["log","info","warn","debug","table"].forEach(fn => console[fn] = noop);
+        ["logs","log"].forEach(id => { const el = document.getElementById(id); if (el) el.remove(); });
       }
     })();
 
-    /* ===== Paletas / bins ===== */
-    const PALETAS = {
-      region:    ["#d7ebff","#badaff","#9cc9ff","#7fb8ff","#62a7ff","#458fff","#2a73e0"],
-      provincia: ["#e2f7ee","#c6efdc","#a9e6c9","#8cddb7","#6fc5a0","#4fae85","#2f956b"],
-      comuna:    ["#fde6e9","#fdc9cf","#fdaaae","#fb8b8d","#f25f63","#d84349","#a92d31"]
-    };
-    const BINS_BY_LEVEL = {
-      region:   [0, 0.05, 0.10, 0.20, 0.40, 0.80, 1.50, Infinity],
-      provincia:[0, 0.10, 0.20, 0.40, 0.80, 1.20, 2.00, Infinity],
-      comuna:   [0, 0.15, 0.30, 0.60, 1.00, 1.50, 2.50, Infinity]
-    };
-    const colorByBins = (v, pal, bins) => { if(v==null||isNaN(v)) return pal[0]; for(let i=0;i<bins.length-1;i++){ if(v>=bins[i] && v<bins[i+1]) return pal[i]; } return pal[pal.length-1]; };
-    const labelsFromBins = (bins) => { const fmt=x=>(x===Infinity)?"∞":`${(+x).toLocaleString('es-CL',{maximumFractionDigits:2})}%`; const labs=[]; for(let i=0;i<bins.length-1;i++){ const a=bins[i], b=bins[i+1]; labs.push(b===Infinity?`>${fmt(a)}`:`${fmt(a)}–${fmt(b)}`);} return labs; };
+    // ===== 2) Inicializar mapa base (si ya tienes uno, esto no molesta) =====
+    (function initFallbackLeaflet(){
+      if (!window.L) return;
+      if (document.querySelector('.leaflet-container')) return; // ya existe
+      const mapEl = document.getElementById('map');
+      if (!mapEl) return;
 
-    /* ===== Normalización / slug ===== */
-    const norm = s => {
-      if (!s) return "";
-      let t = String(s).normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, " ").trim().toUpperCase();
-      t = t.replace(/^\s*\d+\s*[\.\-]?\s*/, "").replace(/^(REGION|PROVINCIA|DEPARTAMENTO)\s+(DEL\s+|DE\s+)?/, "").replace(/^(DEL|DE)\s+/, "");
-      return t.trim();
-    };
-    const slugify = s => (s||"").trim().toLowerCase()
-      .normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[’'´`]/g, "").replace(/\s+/g,"-").replace(/-+/g,"-");
+      const map = L.map(mapEl, { zoomControl: false, attributionControl: false })
+        .setView([-35.6751, -71.5430], 5); // Chile centro aprox
 
-    /* ===== Estado / nivel ===== */
-    let apellidoActual = "";
-    let nivelMode = 'auto';     // 'auto' | 'manual'
-    let nivelActual = 'region'; // cuando es manual
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 10
+      }).addTo(map);
 
-    /* ===== Índice corriente ===== */
-    let indice = { region:{}, provincia:{}, comuna:{} };
-    function computeNivelByZoom(z){ return (z<=6) ? 'region' : (z<=7) ? 'provincia' : 'comuna'; }
+      // Exponer por si tu código lo quiere reutilizar
+      window._leafletMap = map;
+    })();
 
-    function actualizarPintado(){
-      const pal  = PALETAS[nivelActual];
-      const bins = BINS_BY_LEVEL[nivelActual];
-      const pctFmt = v => (v==null || isNaN(v)) ? "0%" : `${(+v).toFixed(2).replace('.',',')}%`;
+    // ===== 3) Reubicar "Nivel de visualización" arriba de la leyenda =====
+    (function(){
+      const level = document.getElementById('level-controls');
+      const legend = document.getElementById('legend') || document.querySelector('.legend') || document.querySelector('.legend-panel');
+      if (level && legend) {
+        legend.parentNode.insertBefore(level, legend); // queda encima
+        level.style.display = 'block';
+        level.style.width = '100%';
+      }
+    })();
 
-      const pintar = (geo, nivel)=>{
-        if(!geo) return;
-        geo.eachLayer(l=>{
-          const p=l.feature.properties||{};
-          const key = (nivel==="region")
-            ? norm(getProp(p,["REGION","NOM_REG","Región","NAME_1"],""))
-            : (nivel==="provincia")
-              ? norm(getProp(p,["PROVINCIA","NOM_PROV","Provincia","NAME_2","name"],""))
-              : norm(getProp(p,["COMUNA","NOM_COM","Comuna","name"],""));
-          const v = (indice[nivel]||{})[key];
-          const fill = colorByBins(v, pal, bins);
-          l.setStyle({ fillColor: fill, fillOpacity: .65 });
+    // ===== 4) BÚSQUEDA AUTOMÁTICA SIN BOTÓN =====
+    (function(){
+      // Debounce utilitario
+      function debounce(fn, ms){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn.apply(this,a), ms); }; }
 
-          const nombre = (nivel==="region")
-            ? getProp(p,["REGION","NOM_REG","Región","NAME_1"],"Región")
-            : (nivel==="provincia")
-              ? getProp(p,["PROVINCIA","NOM_PROV","Provincia","NAME_2","name"],"Provincia")
-              : getProp(p,["COMUNA","NOM_COM","Comuna","name"],"Comuna");
-          l.bindTooltip(`${nombre}<br><small>${apellidoActual || '—'}: <b>${pctFmt(v)}</b></small>`, {sticky:true,opacity:.95});
-        });
+      // Detectar input o select del apellido
+      const input = document.getElementById('apellido-input') || document.getElementById('search-input') || document.querySelector('input[name="apellido"], select[name="apellido"]');
+      if (!input) return;
+
+      // Función que tu app ya debería tener (no rompemos tu lógica)
+      async function cargarApellido(ap){
+        if (!ap || !String(ap).trim()) return;
+        const apellido = String(ap).trim().toUpperCase();
+
+        // Llama a tu función real si existe
+        if (typeof window.updateMapForSurname === 'function') {
+          await window.updateMapForSurname(apellido);
+        } else if (typeof window.loadSurname === 'function') {
+          await window.loadSurname(apellido);
+        } else {
+          // Fallback: marcador simple para que no quede en blanco total
+          if (window._leafletMap) {
+            // sólo muestra un popup indicativo
+            const m = L.marker([-33.45, -70.6667]).addTo(_leafletMap);
+            m.bindPopup(`Mostrando "<b>${apellido}</b>" (conecta tu función updateMapForSurname).`).openPopup();
+          }
+        }
+
+        const status = document.getElementById('status-text') || document.querySelector('.status-text');
+        if (status) status.textContent = `Mostrando "${apellido}"`;
+      }
+
+      // Si es select, disparar en change; si es input text, en input con debounce
+      const handler = debounce(() => cargarApellido(input.value), 250);
+      input.addEventListener('change', ()=> cargarApellido(input.value));
+      input.addEventListener('input', handler);
+
+      // Cargar si ya viene con valor (por ejemplo, al abrir con ?q=PRIETO)
+      const params = new URLSearchParams(location.search);
+      const q = params.get('q');
+      if (q && !input.value) input.value = q;
+      if (input.value && input.value.trim()) cargarApellido(input.value);
+
+      // Prevenir submit al presionar Enter
+      input.addEventListener('keydown', e => { if (e.key === 'Enter') e.preventDefault(); });
+    })();
+
+    // ===== 5) Desactivar y/o retirar controles de zoom si algún script los crea =====
+    (function(){
+      const killZoomUI = () => {
+        document.querySelectorAll('.leaflet-control-zoom, .mapboxgl-ctrl-zoom, .zoom-controls, #zoom-controls')
+          .forEach(n=> n.remove());
       };
-
-      if(nivelActual==="region")   pintar(regionesGeo,"region");
-      if(nivelActual==="provincia")pintar(provinciasGeo,"provincia");
-      if(nivelActual==="comuna")   pintar(comunasGeo,"comuna");
-
-      legend.update();
-      setText('estado', `Mostrando "${apellidoActual || '—'}" por ${nivelActual}` + (nivelMode==='auto' ? ` (zoom ${map.getZoom()})` : ' (manual)'));
-    }
-
-    function updateVisibility(){
-      const targetNivel = (nivelMode==='auto') ? computeNivelByZoom(map.getZoom()) : nivelActual;
-
-      regionesLayer.clearLayers(); provinciasLayer.clearLayers(); comunasLayer.clearLayers();
-      if(map.hasLayer(regionesLayer)) map.removeLayer(regionesLayer);
-      if(map.hasLayer(provinciasLayer)) map.removeLayer(provinciasLayer);
-      if(map.hasLayer(comunasLayer)) map.removeLayer(comunasLayer);
-
-      if (targetNivel === 'region')      { if(regionesGeo){ regionesLayer.addLayer(regionesGeo); regionesLayer.addTo(map); } }
-      else if (targetNivel === 'provincia'){ if(provinciasGeo){ provinciasLayer.addLayer(provinciasGeo); provinciasLayer.addTo(map); } }
-      else                                { if(comunasGeo){ comunasLayer.addLayer(comunasGeo); comunasLayer.addTo(map); } }
-
-      nivelActual = targetNivel;
-      actualizarPintado();
-    }
-
-    const legend = L.control({position:'bottomright'});
-    legend.onAdd = function(){ this._div = L.DomUtil.create('div','legend'); this.update(); return this._div; };
-    legend.update = function(){
-      const pal  = PALETAS[nivelActual];
-      const bins = BINS_BY_LEVEL[nivelActual];
-      const labs = labelsFromBins(bins);
-      let html = `<b>Frecuencia (%)</b><br>`;
-      for(let i=0;i<labs.length;i++){ html += `<div class="item"><span class="swatch" style="background:${pal[i]}"></span>${labs[i]}</div>`; }
-      this._div.innerHTML = html;
-    };
-    legend.addTo(map);
-
-    /* ===== Manifest + Shards (prioriza data_fixed, cae a data) ===== */
-    (() => {
-      const MANIFEST_URLS = [
-        "data_fixed/apellidos_manifest.json",
-        "data/apellidos_manifest.json"
-      ];
-      const SHARD_BASES = ["data_fixed", "data"];
-
-      const __SHARD_CACHE__ = new Map();
-      let __APELLIDOS_MANIFEST__ = null;
-
-      const sanitizeJSONText = (t) =>
-        t.replace(/\bNaN\b/g, "null")
-         .replace(/\bInfinity\b/g, "null")
-         .replace(/\b-Infinity\b/g, "null");
-
-      async function getApellidosManifest() {
-        if (__APELLIDOS_MANIFEST__) return __APELLIDOS_MANIFEST__;
-        let lastErr = null;
-        for (const baseUrl of MANIFEST_URLS) {
-          const url = `${baseUrl}?_=${Date.now()}`;
-          try {
-            log(`Cargando manifest: ${url}`, "dim");
-            const text = await fetch(url, { cache: "no-store" }).then(r => {
-              if (!r.ok) throw new Error(`HTTP ${r.status}`);
-              return r.text();
-            });
-            __APELLIDOS_MANIFEST__ = JSON.parse(sanitizeJSONText(text));
-            log(`Manifest OK (${Object.keys(__APELLIDOS_MANIFEST__).length} apellidos).`, "ok");
-            return __APELLIDOS_MANIFEST__;
-          } catch (e) {
-            log(`Falló manifest en ${url}: ${e.message}`, "warn");
-            lastErr = e;
-          }
-        }
-        throw lastErr || new Error("No se pudo cargar el manifest");
-      }
-
-      async function loadShard(filename) {
-        if (__SHARD_CACHE__.has(filename)) return __SHARD_CACHE__.get(filename);
-        let lastErr = null;
-        for (const base of SHARD_BASES) {
-          const url = `${base}/${filename}?_=${Date.now()}`;
-          try {
-            log(`Cargando shard: ${url}`, "dim");
-            const text = await fetch(url, { cache: "no-store" }).then(r => {
-              if (!r.ok) throw new Error(`HTTP ${r.status}`);
-              return r.text();
-            });
-            const data = JSON.parse(sanitizeJSONText(text));
-            __SHARD_CACHE__.set(filename, data);
-            log(`Shard OK: ${url}`, "ok");
-            return data;
-          } catch (e) {
-            log(`Falló shard en ${url}: ${e.message}`, "warn");
-            lastErr = e;
-          }
-        }
-        throw lastErr || new Error(`No se pudo cargar ${filename}`);
-      }
-
-      // Expón para uso abajo
-      window.getApellidosManifest = getApellidosManifest;
-      window.loadShard = loadShard;
+      killZoomUI();
+      const obs = new MutationObserver(killZoomUI);
+      obs.observe(document.body, { childList: true, subtree: true });
     })();
-
-    /* ===== Buscar apellido (manifest + shard) ===== */
-    const $input = document.getElementById('apellidoInput');
-    const $btn   = document.getElementById('buscarBtn');
-    const $sbox  = document.getElementById('suggestBox');
-    function hideSuggest(){ $sbox.classList.add('hide'); $sbox.innerHTML=''; }
-    function showSuggest(items){ if(!items.length){ hideSuggest(); return; } $sbox.innerHTML = items.map(t=>`<div class="item" data-v="${t}">${t}</div>`).join(''); $sbox.classList.remove('hide'); }
-    const pretty = s => s.replace(/-/g,' ').toUpperCase();
-
-    let manifestKeys = null;
-    async function ensureManifestKeys(){ if(manifestKeys) return manifestKeys; const m = await getApellidosManifest(); manifestKeys = Object.keys(m); return manifestKeys; }
-
-    async function fetchApellidoData(apellidoInput){
-      const manifest = await getApellidosManifest();
-      const slug = slugify(apellidoInput);
-      let shardFile = manifest[slug];
-      if(!shardFile){
-        const pref = slug.slice(0,2);
-        shardFile = `apellidos_${pref}.json`;
-        log(`Apellido no explícito en manifest; uso prefijo: ${shardFile}`,'warn');
-      }
-      const shard = await loadShard(shardFile);
-      const obj = shard[slug] || shard[slug.replace(/-/g,' ').replace(/\s+/g,'-')];
-      if(!obj) throw new Error(`No encontré "${apellidoInput}" en ${shardFile}`);
-      return obj;
-    }
-
-    function buildIndiceFromShard(apellidoObj){
-      const out = { region:{}, provincia:{}, comuna:{} };
-      const rows = Array.isArray(apellidoObj.comunas) ? apellidoObj.comunas : [];
-      const num = v => { const n = Number(v); return Number.isFinite(n) ? n : 0; };
-      for (const r of rows){
-        const reg  = norm(r.region);
-        const prov = norm(r.provincia);
-        const com  = norm(r.comuna);
-        const pC = num(r.prct_apellido);
-        const pP = num(r.freq_prov);
-        const pR = num(r.freq_reg);
-        if (com)  out.comuna[com]     = pC;
-        if (prov) out.provincia[prov] = pP;
-        if (reg)  out.region[reg]     = pR;
-      }
-      return out;
-    }
-
-    $input.addEventListener('input', async () => {
-      const q = slugify($input.value);
-      if(q.length < 2){ hideSuggest(); return; }
-      try{
-        const keys = await ensureManifestKeys();
-        const matches = [];
-        for(const k of keys){ if(k.startsWith(q)){ matches.push(k); if(matches.length>=50) break; } }
-        showSuggest(matches.map(pretty));
-      }catch(e){ /* ignore */ }
-    });
-    $sbox.addEventListener('click', (e)=>{
-      const item = e.target.closest('.item'); if(!item) return;
-      $input.value = item.getAttribute('data-v'); hideSuggest(); buscarApellido();
-    });
-    $input.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ hideSuggest(); buscarApellido(); } });
-    $btn.addEventListener('click', ()=>{ hideSuggest(); buscarApellido(); });
-
-    async function buscarApellido(){
-      const raw = ($input.value||'').trim();
-      if(!raw) return;
-      try{
-        const data = await fetchApellidoData(raw);
-        apellidoActual = (data.apellido || raw).toUpperCase();
-        indice = buildIndiceFromShard(data);
-        updateVisibility();
-        log(`Apellido cargado: ${apellidoActual}`,'ok');
-      }catch(err){
-        log(`Error apellido: ${err.message}`,'err');
-        setText('estado', 'No se encontró el apellido. Prueba otra variante.');
-      }
-    }
-
-    // Radios de nivel
-    document.getElementById('nivelBox')?.addEventListener('change', (e)=>{
-      const t = e.target;
-      if (t && t.name === 'nivel') {
-        const v = t.value;
-        if (v === 'auto') { nivelMode = 'auto'; }
-        else { nivelMode = 'manual'; nivelActual = v; }
-        updateVisibility();
-        log(`Nivel set: ${nivelMode==='auto' ? 'Auto (zoom)' : 'Manual → ' + nivelActual}`, 'ok');
-      }
-    });
   </script>
 </body>
 </html>
