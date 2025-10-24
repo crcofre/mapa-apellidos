@@ -92,7 +92,7 @@
     </div>
     <div class="option-box" id="nivelBox">
       <div class="option-title">Nivel de visualización</div>
-      <label class="opt"><input type="radio" name="nivel" value="auto" checked> Auto (según zoom)</label>
+      <label class="opt"><input type="radio" name="nivel" value="auto" checked> Auto</label>
       <label class="opt"><input type="radio" name="nivel" value="region"> Región</label>
       <label class="opt"><input type="radio" name="nivel" value="provincia"> Provincia</label>
       <label class="opt"><input type="radio" name="nivel" value="comuna"> Comuna</label>
@@ -238,7 +238,7 @@ const BINS_BY_LEVEL = {
       if(nivelActual==="comuna")   pintar(comunasGeo,"comuna");
 
       legend.update();
-      setText('estado', `Mostrando "${apellidoActual || '—'}" por ${nivelActual}` + (nivelMode==='auto' ? ` (zoom ${map.getZoom()})` : ' (manual)'));
+      setText('estado', `Mostrando "${apellidoActual || '—'}" por ${nivelActual}` + (nivelMode==='auto' ? ` (zoom ${map.getZoom()})`));
     }
 
     function updateVisibility(){
