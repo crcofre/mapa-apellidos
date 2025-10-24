@@ -93,6 +93,77 @@
     window.addEventListener('error', (e)=> log(`ERROR global: ${e.message} @${e.filename}:${e.lineno}`, 'err'));
     window.addEventListener('unhandledrejection', (e)=> log(`PROMISE rechazado: ${e.reason}`, 'err'));
 
+<script>
+// === CARGA DE MANIFEST + SHARDS (prioriza data_fixed, cae a data) ===
+(() => {
+  const MANIFEST_URLS = [
+    "data_fixed/apellidos_manifest.json",
+    "data/apellidos_manifest.json"
+  ];
+  const SHARD_BASES = ["data_fixed", "data"];
+
+  // Cache interno de este bloque
+  const __SHARD_CACHE__ = new Map();
+  let __APELLIDOS_MANIFEST__ = null;
+
+  const sanitizeJSONText = (t) =>
+    t.replace(/\bNaN\b/g, "null")
+     .replace(/\bInfinity\b/g, "null")
+     .replace(/\b-Infinity\b/g, "null");
+
+  async function getApellidosManifest() {
+    if (__APELLIDOS_MANIFEST__) return __APELLIDOS_MANIFEST__;
+    let lastErr = null;
+    for (const baseUrl of MANIFEST_URLS) {
+      const url = `${baseUrl}?_=${Date.now()}`;
+      try {
+        log(`Cargando manifest: ${url}`, "dim");
+        const text = await fetch(url, { cache: "no-store" }).then(r => {
+          if (!r.ok) throw new Error(`HTTP ${r.status}`);
+          return r.text();
+        });
+        __APELLIDOS_MANIFEST__ = JSON.parse(sanitizeJSONText(text));
+        log(`Manifest OK (${Object.keys(__APELLIDOS_MANIFEST__).length} apellidos).`, "ok");
+        return __APELLIDOS_MANIFEST__;
+      } catch (e) {
+        log(`Falló manifest en ${url}: ${e.message}`, "warn");
+        lastErr = e;
+      }
+    }
+    throw lastErr || new Error("No se pudo cargar el manifest en ninguna ruta");
+  }
+
+  async function loadShard(filename) {
+    if (__SHARD_CACHE__.has(filename)) return __SHARD_CACHE__.get(filename);
+    let lastErr = null;
+    for (const base of SHARD_BASES) {
+      const url = `${base}/${filename}?_=${Date.now()}`;
+      try {
+        log(`Cargando shard: ${url}`, "dim");
+        const text = await fetch(url, { cache: "no-store" }).then(r => {
+          if (!r.ok) throw new Error(`HTTP ${r.status}`);
+          return r.text();
+        });
+        const data = JSON.parse(sanitizeJSONText(text));
+        __SHARD_CACHE__.set(filename, data);
+        log(`Shard OK: ${url}`, "ok");
+        return data;
+      } catch (e) {
+        log(`Falló shard en ${url}: ${e.message}`, "warn");
+        lastErr = e;
+      }
+    }
+    throw lastErr || new Error(`No se pudo cargar el shard ${filename} en ninguna ruta`);
+  }
+
+  // Expone funciones al resto del código
+  window.getApellidosManifest = getApellidosManifest;
+  window.loadShard = loadShard;
+})();
+</script>
+
+
+    
     /* ============ Mapa ============ */
     const map = L.map('map', { center: [-35.6751, -71.5430], zoom: 5, minZoom: 4, maxZoom: 12 });
     // PANELES (esto evita el error appendChild undefined)
@@ -271,53 +342,7 @@ const sanitizeJSONText = (t) =>
    .replace(/\b-Infinity\b/g, 'null');
 
 // Carga manifest probando varias ubicaciones
-async function getApellidosManifest() {
-  if (APELLIDOS_MANIFEST) return APELLIDOS_MANIFEST;
 
-  let lastErr = null;
-  for (const baseUrl of MANIFEST_URLS) {
-    const url = `${baseUrl}?_=${Date.now()}`;
-    try {
-      log(`Cargando manifest: ${url}`, 'dim');
-      const text = await fetch(url, { cache: 'no-store' }).then(r => {
-        if (!r.ok) throw new Error(`HTTP ${r.status}`);
-        return r.text();
-      });
-      APELLIDOS_MANIFEST = JSON.parse(sanitizeJSONText(text));
-      log(`Manifest OK (${Object.keys(APELLIDOS_MANIFEST).length} apellidos).`, 'ok');
-      return APELLIDOS_MANIFEST;
-    } catch (e) {
-      log(`Falló manifest en ${url}: ${e.message}`, 'warn');
-      lastErr = e;
-    }
-  }
-  throw lastErr || new Error("No se pudo cargar el manifest en ninguna ruta");
-}
-
-// Carga un shard (apellidos_xx.json) probando primero data_fixed/ y luego data/
-async function loadShard(filename) {
-  if (SHARD_CACHE.has(filename)) return SHARD_CACHE.get(filename);
-
-  let lastErr = null;
-  for (const base of SHARD_BASES) {
-    const url = `${base}/${filename}?_=${Date.now()}`;
-    try {
-      log(`Cargando shard: ${url}`, 'dim');
-      const text = await fetch(url, { cache: 'no-store' }).then(r => {
-        if (!r.ok) throw new Error(`HTTP ${r.status}`);
-        return r.text();
-      });
-      const data = JSON.parse(sanitizeJSONText(text));
-      SHARD_CACHE.set(filename, data);
-      log(`Shard OK: ${url}`, 'ok');
-      return data;
-    } catch (e) {
-      log(`Falló shard en ${url}: ${e.message}`, 'warn');
-      lastErr = e;
-    }
-  }
-  throw lastErr || new Error(`No se pudo cargar el shard ${filename} en ninguna ruta`);
-}
 
 
     async function fetchApellidoData(apellidoInput){
