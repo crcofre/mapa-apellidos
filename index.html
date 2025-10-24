@@ -59,6 +59,28 @@
     .suggest.hide{ display:none; }
     .suggest .item{ padding:8px 10px; cursor:pointer; }
     .suggest .item:hover{ background:#f2f6ff; }
+
+    /* ====================== */
+    /* AJUSTES SOLICITADOS    */
+    /* ====================== */
+
+    /* Ocultar controles de zoom Leaflet */        /* <<< */
+    .leaflet-control-zoom{ display:none !important; } /* <<< */
+
+    /* Ocultar panel de logs (sin tocar lógica) */  /* <<< */
+    .log-panel{ display:none !important; }          /* <<< */
+
+    /* Ocultar botón "Buscar" (la carga es automática al elegir/Enter) */ /* <<< */
+    #buscarBtn{ display:none !important; }          /* <<< */
+
+    /* Caja del nivel cuando se mueva a la esquina inferior-derecha */      /* <<< */
+    #nivelBox.fixed-bottom-right{                                        /* <<< */
+      position: absolute; right: 12px; bottom: 86px; z-index: 1000;      /* <<< */
+      background:#fff; border:1px solid #ddd; border-radius:8px;         /* <<< */
+      padding:8px 10px; box-shadow:0 6px 16px rgba(0,0,0,.08);           /* <<< */
+      font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif; /* <<< */
+      font-size:12px;                                                    /* <<< */
+    }                                                                     /* <<< */
   </style>
 </head>
 <body>
@@ -398,6 +420,34 @@
         log(`Nivel set: ${nivelMode==='auto' ? 'Auto (zoom)' : 'Manual → ' + nivelActual}`, 'ok');
       }
     });
+  </script>
+
+  <!-- === Ajustes de ubicación: mover “Nivel de visualización” encima de la leyenda === -->
+  <script>
+    (function(){
+      // Esperamos a que Leaflet inserte la leyenda en la esquina inferior derecha
+      const tryPlace = () => {
+        const legendDiv = document.querySelector('.leaflet-bottom.leaflet-right .legend');
+        const corner = document.querySelector('.leaflet-bottom.leaflet-right');
+        const nivel = document.getElementById('nivelBox');
+        if (!legendDiv || !corner || !nivel) return false;
+
+        // Movemos el bloque de nivel justo ANTES de la leyenda
+        nivel.classList.add('fixed-bottom-right');
+        // Igualar ancho
+        const w = getComputedStyle(legendDiv).width;
+        if (w) nivel.style.width = w;
+
+        // Insertar antes de la leyenda
+        corner.insertBefore(nivel, legendDiv);
+        return true;
+      };
+
+      // Intento inmediato y algunos reintentos por si la leyenda tarda
+      if (!tryPlace()){
+        let n=0; const iv = setInterval(()=>{ n++; if (tryPlace() || n>20) clearInterval(iv); }, 100);
+      }
+    })();
   </script>
 </body>
 </html>
