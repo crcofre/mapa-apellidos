@@ -17,7 +17,7 @@
       color:#000; background:rgba(255,255,255,.9);
       border:1px solid rgba(0,0,0,.2); border-radius:4px; padding:3px 6px;
     }
-
+    /* UI buscador */
     .search-ui{
       position:absolute; top:12px; left:12px; z-index:1000;
       background:#ffffffeb; border:1px solid #ddd; border-radius:10px; padding:10px 12px;
@@ -31,18 +31,21 @@
     .search-ui button{ padding:6px 10px; border:0; border-radius:8px; cursor:pointer; font-weight:600; background:#0b5ed7; color:#fff; }
     .search-ui small{ display:block; margin-top:4px; color:#555; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 
+    /* Selector de nivel (radios) */
     .option-box{ margin-top:6px; padding:8px 10px; border:1px solid #ddd; border-radius:10px; background:#fff;
       box-shadow:0 2px 6px rgba(0,0,0,.05) inset; display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
     .option-box .option-title{ font-size:12px; font-weight:700; color:#333; margin-right:6px; }
     .option-box .opt{ display:flex; align-items:center; gap:6px; padding:2px 6px; border-radius:8px; background:#f7f7f9; border:1px solid #ececf0; cursor:pointer; user-select:none; }
     .option-box .opt input{ accent-color:#0b5ed7; }
 
+    /* Leyenda */
     .legend{ line-height:16px; color:#333; background:#fff; padding:8px 10px; border-radius:8px; border:1px solid #ddd; box-shadow:0 6px 16px rgba(0,0,0,.08);
       font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif; font-size:12px; }
     .legend .item{ display:flex; align-items:center; gap:6px; }
     .legend .swatch{ width:18px; height:12px; border:1px solid #999; }
     .legend b{ display:block; margin-bottom:4px; }
 
+    /* Logs */
     .log-panel{ position:fixed; right:12px; top:12px; z-index:1100; width:min(38vw,420px); max-height:46vh; overflow:auto;
       font:12px/1.35 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       background:#111; color:#eaeaea; border:1px solid #333; border-radius:10px; box-shadow:0 6px 16px rgba(0,0,0,.35); }
@@ -50,6 +53,7 @@
     .log-panel pre{ margin:0; padding:8px; white-space:pre-wrap; word-break:break-word; }
     .log-ok{ color:#9f9; } .log-warn{ color:#ff9; } .log-err{ color:#f99; } .log-dim{ color:#aaa; }
 
+    /* Sugerencias */
     .suggest{ position:absolute; z-index:1001; left:12px; top:72px; background:#fff; border:1px solid #ddd; border-radius:10px; box-shadow:0 10px 24px rgba(0,0,0,.15);
       max-height:260px; overflow:auto; width:min(92vw,480px); }
     .suggest.hide{ display:none; }
@@ -79,7 +83,7 @@
   <div id="map"></div>
 
   <script>
-    /* ============ Logger + handlers globales ============ */
+    /* ===== Logger + errores globales ===== */
     const $log = document.getElementById('logText');
     const log = (msg, level='dim') => {
       const ts = new Date().toISOString().substring(11,19);
@@ -89,87 +93,12 @@
       $log.scrollTop = $log.scrollHeight;
     };
     const setText = (id, txt) => { const el=document.getElementById(id); if(el) el.textContent = txt; };
+    window.addEventListener('error', e => log(`ERROR: ${e.message}`, 'err'));
+    window.addEventListener('unhandledrejection', e => log(`PROMISE: ${e.reason}`, 'err'));
 
-    window.addEventListener('error', (e)=> log(`ERROR global: ${e.message} @${e.filename}:${e.lineno}`, 'err'));
-    window.addEventListener('unhandledrejection', (e)=> log(`PROMISE rechazado: ${e.reason}`, 'err'));
-
-<script>
-// === CARGA DE MANIFEST + SHARDS (prioriza data_fixed, cae a data) ===
-(() => {
-  const MANIFEST_URLS = [
-    "data_fixed/apellidos_manifest.json",
-    "data/apellidos_manifest.json"
-  ];
-  const SHARD_BASES = ["data_fixed", "data"];
-
-  // Cache interno de este bloque
-  const __SHARD_CACHE__ = new Map();
-  let __APELLIDOS_MANIFEST__ = null;
-
-  const sanitizeJSONText = (t) =>
-    t.replace(/\bNaN\b/g, "null")
-     .replace(/\bInfinity\b/g, "null")
-     .replace(/\b-Infinity\b/g, "null");
-
-  async function getApellidosManifest() {
-    if (__APELLIDOS_MANIFEST__) return __APELLIDOS_MANIFEST__;
-    let lastErr = null;
-    for (const baseUrl of MANIFEST_URLS) {
-      const url = `${baseUrl}?_=${Date.now()}`;
-      try {
-        log(`Cargando manifest: ${url}`, "dim");
-        const text = await fetch(url, { cache: "no-store" }).then(r => {
-          if (!r.ok) throw new Error(`HTTP ${r.status}`);
-          return r.text();
-        });
-        __APELLIDOS_MANIFEST__ = JSON.parse(sanitizeJSONText(text));
-        log(`Manifest OK (${Object.keys(__APELLIDOS_MANIFEST__).length} apellidos).`, "ok");
-        return __APELLIDOS_MANIFEST__;
-      } catch (e) {
-        log(`Falló manifest en ${url}: ${e.message}`, "warn");
-        lastErr = e;
-      }
-    }
-    throw lastErr || new Error("No se pudo cargar el manifest en ninguna ruta");
-  }
-
-  async function loadShard(filename) {
-    if (__SHARD_CACHE__.has(filename)) return __SHARD_CACHE__.get(filename);
-    let lastErr = null;
-    for (const base of SHARD_BASES) {
-      const url = `${base}/${filename}?_=${Date.now()}`;
-      try {
-        log(`Cargando shard: ${url}`, "dim");
-        const text = await fetch(url, { cache: "no-store" }).then(r => {
-          if (!r.ok) throw new Error(`HTTP ${r.status}`);
-          return r.text();
-        });
-        const data = JSON.parse(sanitizeJSONText(text));
-        __SHARD_CACHE__.set(filename, data);
-        log(`Shard OK: ${url}`, "ok");
-        return data;
-      } catch (e) {
-        log(`Falló shard en ${url}: ${e.message}`, "warn");
-        lastErr = e;
-      }
-    }
-    throw lastErr || new Error(`No se pudo cargar el shard ${filename} en ninguna ruta`);
-  }
-
-  // Expone funciones al resto del código
-  window.getApellidosManifest = getApellidosManifest;
-  window.loadShard = loadShard;
-})();
-</script>
-
-
-    
-    /* ============ Mapa ============ */
+    /* ===== Mapa ===== */
     const map = L.map('map', { center: [-35.6751, -71.5430], zoom: 5, minZoom: 4, maxZoom: 12 });
-    // PANELES (esto evita el error appendChild undefined)
-    map.createPane('pane-regiones');
-    map.createPane('pane-provincias');
-    map.createPane('pane-comunas');
+    map.createPane('pane-regiones'); map.createPane('pane-provincias'); map.createPane('pane-comunas');
 
     const styleBase = { color:"#666", weight:1, fillColor:"#ddd", fillOpacity:.6 };
     let regionesGeo=null, provinciasGeo=null, comunasGeo=null;
@@ -220,7 +149,7 @@
       }
     })();
 
-    /* ============ Paletas y bins ============ */
+    /* ===== Paletas / bins ===== */
     const PALETAS = {
       region:    ["#d7ebff","#badaff","#9cc9ff","#7fb8ff","#62a7ff","#458fff","#2a73e0"],
       provincia: ["#e2f7ee","#c6efdc","#a9e6c9","#8cddb7","#6fc5a0","#4fae85","#2f956b"],
@@ -234,7 +163,7 @@
     const colorByBins = (v, pal, bins) => { if(v==null||isNaN(v)) return pal[0]; for(let i=0;i<bins.length-1;i++){ if(v>=bins[i] && v<bins[i+1]) return pal[i]; } return pal[pal.length-1]; };
     const labelsFromBins = (bins) => { const fmt=x=>(x===Infinity)?"∞":`${(+x).toLocaleString('es-CL',{maximumFractionDigits:2})}%`; const labs=[]; for(let i=0;i<bins.length-1;i++){ const a=bins[i], b=bins[i+1]; labs.push(b===Infinity?`>${fmt(a)}`:`${fmt(a)}–${fmt(b)}`);} return labs; };
 
-    /* ============ Normalización y slug ============ */
+    /* ===== Normalización / slug ===== */
     const norm = s => {
       if (!s) return "";
       let t = String(s).normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, " ").trim().toUpperCase();
@@ -244,12 +173,12 @@
     const slugify = s => (s||"").trim().toLowerCase()
       .normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[’'´`]/g, "").replace(/\s+/g,"-").replace(/-+/g,"-");
 
-    /* ============ Estado / nivel ============ */
+    /* ===== Estado / nivel ===== */
     let apellidoActual = "";
     let nivelMode = 'auto';     // 'auto' | 'manual'
     let nivelActual = 'region'; // cuando es manual
 
-    /* ============ Índice corriente ============ */
+    /* ===== Índice corriente ===== */
     let indice = { region:{}, provincia:{}, comuna:{} };
     function computeNivelByZoom(z){ return (z<=6) ? 'region' : (z<=7) ? 'provincia' : 'comuna'; }
 
@@ -316,34 +245,82 @@
     };
     legend.addTo(map);
 
-    /* ============ Manifest + shards en /data (tolerante a NaN) ============ */
-    //const SHARD_CACHE = new Map();
-    //let APELLIDOS_MANIFEST = null;
+    /* ===== Manifest + Shards (prioriza data_fixed, cae a data) ===== */
+    (() => {
+      const MANIFEST_URLS = [
+        "data_fixed/apellidos_manifest.json",
+        "data/apellidos_manifest.json"
+      ];
+      const SHARD_BASES = ["data_fixed", "data"];
 
-    async function // ====== NUEVAS RUTAS (prioridad a data_fixed) ======
-const MANIFEST_URLS = [
-  "data_fixed/apellidos_manifest.json",
-  "data/apellidos_manifest.json"
-];
+      const __SHARD_CACHE__ = new Map();
+      let __APELLIDOS_MANIFEST__ = null;
 
-const SHARD_BASES = [
-  "data_fixed",
-  "data"
-];
+      const sanitizeJSONText = (t) =>
+        t.replace(/\bNaN\b/g, "null")
+         .replace(/\bInfinity\b/g, "null")
+         .replace(/\b-Infinity\b/g, "null");
 
-// Cache
-//const SHARD_CACHE = new Map();
-//let APELLIDOS_MANIFEST = null;
+      async function getApellidosManifest() {
+        if (__APELLIDOS_MANIFEST__) return __APELLIDOS_MANIFEST__;
+        let lastErr = null;
+        for (const baseUrl of MANIFEST_URLS) {
+          const url = `${baseUrl}?_=${Date.now()}`;
+          try {
+            log(`Cargando manifest: ${url}`, "dim");
+            const text = await fetch(url, { cache: "no-store" }).then(r => {
+              if (!r.ok) throw new Error(`HTTP ${r.status}`);
+              return r.text();
+            });
+            __APELLIDOS_MANIFEST__ = JSON.parse(sanitizeJSONText(text));
+            log(`Manifest OK (${Object.keys(__APELLIDOS_MANIFEST__).length} apellidos).`, "ok");
+            return __APELLIDOS_MANIFEST__;
+          } catch (e) {
+            log(`Falló manifest en ${url}: ${e.message}`, "warn");
+            lastErr = e;
+          }
+        }
+        throw lastErr || new Error("No se pudo cargar el manifest");
+      }
 
-// Limpia texto JSON con NaN/Infinity
-const sanitizeJSONText = (t) =>
-  t.replace(/\bNaN\b/g, 'null')
-   .replace(/\bInfinity\b/g, 'null')
-   .replace(/\b-Infinity\b/g, 'null');
+      async function loadShard(filename) {
+        if (__SHARD_CACHE__.has(filename)) return __SHARD_CACHE__.get(filename);
+        let lastErr = null;
+        for (const base of SHARD_BASES) {
+          const url = `${base}/${filename}?_=${Date.now()}`;
+          try {
+            log(`Cargando shard: ${url}`, "dim");
+            const text = await fetch(url, { cache: "no-store" }).then(r => {
+              if (!r.ok) throw new Error(`HTTP ${r.status}`);
+              return r.text();
+            });
+            const data = JSON.parse(sanitizeJSONText(text));
+            __SHARD_CACHE__.set(filename, data);
+            log(`Shard OK: ${url}`, "ok");
+            return data;
+          } catch (e) {
+            log(`Falló shard en ${url}: ${e.message}`, "warn");
+            lastErr = e;
+          }
+        }
+        throw lastErr || new Error(`No se pudo cargar ${filename}`);
+      }
 
-// Carga manifest probando varias ubicaciones
+      // Expón para uso abajo
+      window.getApellidosManifest = getApellidosManifest;
+      window.loadShard = loadShard;
+    })();
 
+    /* ===== Buscar apellido (manifest + shard) ===== */
+    const $input = document.getElementById('apellidoInput');
+    const $btn   = document.getElementById('buscarBtn');
+    const $sbox  = document.getElementById('suggestBox');
+    function hideSuggest(){ $sbox.classList.add('hide'); $sbox.innerHTML=''; }
+    function showSuggest(items){ if(!items.length){ hideSuggest(); return; } $sbox.innerHTML = items.map(t=>`<div class="item" data-v="${t}">${t}</div>`).join(''); $sbox.classList.remove('hide'); }
+    const pretty = s => s.replace(/-/g,' ').toUpperCase();
 
+    let manifestKeys = null;
+    async function ensureManifestKeys(){ if(manifestKeys) return manifestKeys; const m = await getApellidosManifest(); manifestKeys = Object.keys(m); return manifestKeys; }
 
     async function fetchApellidoData(apellidoInput){
       const manifest = await getApellidosManifest();
@@ -352,7 +329,7 @@ const sanitizeJSONText = (t) =>
       if(!shardFile){
         const pref = slug.slice(0,2);
         shardFile = `apellidos_${pref}.json`;
-        log(`Apellido no listado explícitamente; usando shard por prefijo: ${shardFile}`,'warn');
+        log(`Apellido no explícito en manifest; uso prefijo: ${shardFile}`,'warn');
       }
       const shard = await loadShard(shardFile);
       const obj = shard[slug] || shard[slug.replace(/-/g,' ').replace(/\s+/g,'-')];
@@ -364,34 +341,19 @@ const sanitizeJSONText = (t) =>
       const out = { region:{}, provincia:{}, comuna:{} };
       const rows = Array.isArray(apellidoObj.comunas) ? apellidoObj.comunas : [];
       const num = v => { const n = Number(v); return Number.isFinite(n) ? n : 0; };
-
       for (const r of rows){
         const reg  = norm(r.region);
         const prov = norm(r.provincia);
         const com  = norm(r.comuna);
-
-        const pC = num(r.prct_apellido); // comuna
-        const pP = num(r.freq_prov);     // provincia
-        const pR = num(r.freq_reg);      // región
-
+        const pC = num(r.prct_apellido);
+        const pP = num(r.freq_prov);
+        const pR = num(r.freq_reg);
         if (com)  out.comuna[com]     = pC;
-        if (prov) out.provincia[prov] = Math.max(pP, out.provincia[prov] ?? 0);
-        if (reg)  out.region[reg]     = Math.max(pR, out.region[reg] ?? 0);
+        if (prov) out.provincia[prov] = pP;
+        if (reg)  out.region[reg]     = pR;
       }
       return out;
     }
-
-    /* ============ Buscador + sugerencias ============ */
-    const $input = document.getElementById('apellidoInput');
-    const $btn   = document.getElementById('buscarBtn');
-    const $sbox  = document.getElementById('suggestBox');
-    function hideSuggest(){ $sbox.classList.add('hide'); $sbox.innerHTML=''; }
-    function showSuggest(items){ if(!items.length){ hideSuggest(); return; } $sbox.innerHTML = items.map(t=>`<div class="item" data-v="${t}">${t}</div>`).join(''); $sbox.classList.remove('hide'); }
-
-    let manifestKeys = null;
-    async function ensureManifestKeys(){ if(manifestKeys) return manifestKeys; const m = await getApellidosManifest(); manifestKeys = Object.keys(m); return manifestKeys; }
-
-    const pretty = s => s.replace(/-/g,' ').toUpperCase();
 
     $input.addEventListener('input', async () => {
       const q = slugify($input.value);
