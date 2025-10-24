@@ -246,33 +246,79 @@
     legend.addTo(map);
 
     /* ============ Manifest + shards en /data (tolerante a NaN) ============ */
-    const SHARD_CACHE = new Map();
-    let APELLIDOS_MANIFEST = null;
+    //const SHARD_CACHE = new Map();
+    //let APELLIDOS_MANIFEST = null;
 
-    async function getApellidosManifest(){
-      if(APELLIDOS_MANIFEST) return APELLIDOS_MANIFEST;
-      const url = "data/apellidos_manifest.json";
-      log('Cargando manifest de apellidos…','dim');
-      const res = await fetch(url, {cache:'no-store'});
-      if(!res.ok) throw new Error(`No se pudo cargar manifest (${res.status})`);
-      APELLIDOS_MANIFEST = await res.json();
-      log(`Manifest cargado (${Object.keys(APELLIDOS_MANIFEST).length} apellidos).`,'ok');
+    async function // ====== NUEVAS RUTAS (prioridad a data_fixed) ======
+const MANIFEST_URLS = [
+  "data_fixed/apellidos_manifest.json",
+  "data/apellidos_manifest.json"
+];
+
+const SHARD_BASES = [
+  "data_fixed",
+  "data"
+];
+
+// Cache
+const SHARD_CACHE = new Map();
+let APELLIDOS_MANIFEST = null;
+
+// Limpia texto JSON con NaN/Infinity
+const sanitizeJSONText = (t) =>
+  t.replace(/\bNaN\b/g, 'null')
+   .replace(/\bInfinity\b/g, 'null')
+   .replace(/\b-Infinity\b/g, 'null');
+
+// Carga manifest probando varias ubicaciones
+async function getApellidosManifest() {
+  if (APELLIDOS_MANIFEST) return APELLIDOS_MANIFEST;
+
+  let lastErr = null;
+  for (const baseUrl of MANIFEST_URLS) {
+    const url = `${baseUrl}?_=${Date.now()}`;
+    try {
+      log(`Cargando manifest: ${url}`, 'dim');
+      const text = await fetch(url, { cache: 'no-store' }).then(r => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.text();
+      });
+      APELLIDOS_MANIFEST = JSON.parse(sanitizeJSONText(text));
+      log(`Manifest OK (${Object.keys(APELLIDOS_MANIFEST).length} apellidos).`, 'ok');
       return APELLIDOS_MANIFEST;
+    } catch (e) {
+      log(`Falló manifest en ${url}: ${e.message}`, 'warn');
+      lastErr = e;
     }
+  }
+  throw lastErr || new Error("No se pudo cargar el manifest en ninguna ruta");
+}
 
-    async function loadShard(filename){
-      if(SHARD_CACHE.has(filename)) return SHARD_CACHE.get(filename);
-      const url = `data/${filename}`;
-      log(`Cargando shard: ${filename}…`,'dim');
-      const res = await fetch(url, {cache:'no-store'});
-      if(!res.ok) throw new Error(`No se pudo cargar ${filename} (${res.status})`);
-      const raw = await res.text();
-      const cleaned = raw.replace(/\bNaN\b/g,'null').replace(/\bInfinity\b/g,'null').replace(/\b-Infinity\b/g,'null');
-      const data = JSON.parse(cleaned);
+// Carga un shard (apellidos_xx.json) probando primero data_fixed/ y luego data/
+async function loadShard(filename) {
+  if (SHARD_CACHE.has(filename)) return SHARD_CACHE.get(filename);
+
+  let lastErr = null;
+  for (const base of SHARD_BASES) {
+    const url = `${base}/${filename}?_=${Date.now()}`;
+    try {
+      log(`Cargando shard: ${url}`, 'dim');
+      const text = await fetch(url, { cache: 'no-store' }).then(r => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.text();
+      });
+      const data = JSON.parse(sanitizeJSONText(text));
       SHARD_CACHE.set(filename, data);
-      log(`Shard ${filename} cargado.`,'ok');
+      log(`Shard OK: ${url}`, 'ok');
       return data;
+    } catch (e) {
+      log(`Falló shard en ${url}: ${e.message}`, 'warn');
+      lastErr = e;
     }
+  }
+  throw lastErr || new Error(`No se pudo cargar el shard ${filename} en ninguna ruta`);
+}
+
 
     async function fetchApellidoData(apellidoInput){
       const manifest = await getApellidosManifest();
