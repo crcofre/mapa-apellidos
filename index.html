@@ -119,17 +119,17 @@
 
   <script>
     /* ===== Logger + errores globales ===== */
-    const $log = document.getElementById('logText');
-    const log = (msg, level='dim') => {
-      const ts = new Date().toISOString().substring(11,19);
-      $log.insertAdjacentText('beforeend', `\n[${ts}] ${msg}`);
-      $log.className = `log-${level}`;
-      if(level==='err') console.error(msg); else if(level==='warn') console.warn(msg); else console.log(msg);
-      $log.scrollTop = $log.scrollHeight;
-    };
-    const setText = (id, txt) => { const el=document.getElementById(id); if(el) el.textContent = txt; };
-    window.addEventListener('error', e => log(`ERROR: ${e.message}`, 'err'));
-    window.addEventListener('unhandledrejection', e => log(`PROMISE: ${e.reason}`, 'err'));
+    //const $log = document.getElementById('logText');
+    //const log = (msg, level='dim') => {
+      //const ts = new Date().toISOString().substring(11,19);
+      //$log.insertAdjacentText('beforeend', `\n[${ts}] ${msg}`);
+      //$log.className = `log-${level}`;
+      //if(level==='err') console.error(msg); else if(level==='warn') console.warn(msg); else console.log(msg);
+      //$log.scrollTop = $log.scrollHeight;
+    //};
+    //const setText = (id, txt) => { const el=document.getElementById(id); if(el) el.textContent = txt; };
+    //window.addEventListener('error', e => log(`ERROR: ${e.message}`, 'err'));
+    //window.addEventListener('unhandledrejection', e => log(`PROMISE: ${e.reason}`, 'err'));
 
     /* ===== Mapa ===== */
     const map = L.map('map', { center: [-35.6751, -71.5430], zoom: 5, minZoom: 4, maxZoom: 12 });
