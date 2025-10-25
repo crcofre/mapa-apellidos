@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
-<head> 
+<head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mapa de Apellidos - Chile</title>
@@ -17,7 +17,8 @@
       color:#000; background:rgba(255,255,255,.9);
       border:1px solid rgba(0,0,0,.2); border-radius:4px; padding:3px 6px;
     }
-    /* UI buscador */
+
+    /* Panel buscador (arriba-izquierda) */
     .search-ui{
       position:absolute; top:12px; left:12px; z-index:1000;
       background:#ffffffeb; border:1px solid #ddd; border-radius:10px; padding:10px 12px;
@@ -31,7 +32,7 @@
     .search-ui button{ padding:6px 10px; border:0; border-radius:8px; cursor:pointer; font-weight:600; background:#0b5ed7; color:#fff; }
     .search-ui small{ display:block; margin-top:4px; color:#555; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 
-    /* Selector de nivel (radios) */
+    /* Selector de nivel (radios) – estilos del panel original */
     .option-box{ margin-top:6px; padding:8px 10px; border:1px solid #ddd; border-radius:10px; background:#fff;
       box-shadow:0 2px 6px rgba(0,0,0,.05) inset; display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
     .option-box .option-title{ font-size:12px; font-weight:700; color:#333; margin-right:6px; }
@@ -45,13 +46,14 @@
     .legend .swatch{ width:18px; height:12px; border:1px solid #999; }
     .legend b{ display:block; margin-bottom:4px; }
 
-    /* Logs */
+    /* Logs (ocultos) */
     .log-panel{ position:fixed; right:12px; top:12px; z-index:1100; width:min(38vw,420px); max-height:46vh; overflow:auto;
       font:12px/1.35 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      background:#111; color:#eaeaea; border:1px solid #333; border-radius:10px; box-shadow:0 6px 16px rgba(0,0,0,.35); }
+      background:#111; color:#eaeaea; border:1px solid #333; border-radius:10px; box-shadow:0 6px 16px rgba(0,0,0,.35);
+      display:none !important;
+    }
     .log-panel header{ position:sticky; top:0; background:#0d0d0d; color:#9ad; padding:6px 8px; font-weight:700; }
     .log-panel pre{ margin:0; padding:8px; white-space:pre-wrap; word-break:break-word; }
-    .log-ok{ color:#9f9; } .log-warn{ color:#ff9; } .log-err{ color:#f99; } .log-dim{ color:#aaa; }
 
     /* Sugerencias */
     .suggest{ position:absolute; z-index:1001; left:12px; top:72px; background:#fff; border:1px solid #ddd; border-radius:10px; box-shadow:0 10px 24px rgba(0,0,0,.15);
@@ -60,62 +62,40 @@
     .suggest .item{ padding:8px 10px; cursor:pointer; }
     .suggest .item:hover{ background:#f2f6ff; }
 
-    /* ====================== */
-    /* AJUSTES SOLICITADOS    */
-    /* ====================== */
+    /* Ocultar controles de zoom y botón Buscar */
+    .leaflet-control-zoom{ display:none !important; }
+    #buscarBtn{ display:none !important; }
 
-    /* Ocultar controles de zoom Leaflet */        /* <<< */
-    .leaflet-control-zoom{ display:none !important; } /* <<< */
-
-    /* Ocultar panel de logs (sin tocar lógica) */  /* <<< */
-    .log-panel{ display:none !important; }          /* <<< */
-
-    /* Ocultar botón "Buscar" (la carga es automática al elegir/Enter) */ /* <<< */
-    #buscarBtn{ display:none !important; }          /* <<< */
-
-    /* Caja del nivel cuando se mueva a la esquina inferior-derecha */      /* <<< */
-    #nivelBox.fixed-bottom-right{                                        /* <<< */
-      position: absolute; right: 12px; bottom: 86px; z-index: 1000;      /* <<< */
-      background:#fff; border:1px solid #ddd; border-radius:8px;         /* <<< */
-      padding:8px 10px; box-shadow:0 6px 16px rgba(0,0,0,.08);           /* <<< */
-      font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif; /* <<< */
-      font-size:12px;                                                    /* <<< */
-    }                                                                     /* <<< */
+    /* Botonera CTA que va encima del control de “Nivel de visualización” */
+    .cta-box{
+      background:#fff; border:1px solid #ddd; border-radius:10px; padding:8px; margin-bottom:8px;
+      box-shadow:0 6px 16px rgba(0,0,0,.08); font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+    }
+    .cta-box a{
+      display:block; text-decoration:none; padding:8px 10px; border-radius:8px; margin-bottom:8px; text-align:center;
+      font-weight:600;
+    }
+    .cta-box a:first-child{ background:#0b5ed7; color:#fff; }
+    .cta-box a:last-child{ border:1px solid #ccc; color:#111; background:#fff; }
+    .cta-box a:last-child:hover{ background:#f7f7f9; }
   </style>
-  <style>
-/* Quita el rectángulo de enfoque en SVG sin afectar la accesibilidad del resto del sitio */
-svg:focus,
-svg *:focus,
-svg:focus-visible,
-svg *:focus-visible {
-  outline: none !important;
-}
-path:focus, path:focus-visible,
-g:focus, g:focus-visible {
-  outline: none !important;
-}
-</style>
-
 </head>
 <body>
+  <!-- Panel “Consulta tu apellido” (arriba-izquierda) -->
   <div class="search-ui">
     <h3>Consulta tu apellido</h3>
     <div class="row">
       <input id="apellidoInput" type="text" placeholder="Ej.: Cisternas / Díaz / Di Bella" autocomplete="off" />
       <button id="buscarBtn">Buscar</button>
     </div>
-    <div class="option-box" id="nivelBox">
-      <div class="option-title">Nivel de visualización</div>
-      <label class="opt"><input type="radio" name="nivel" value="auto" checked> Auto</label>
-      <label class="opt"><input type="radio" name="nivel" value="region"> Región</label>
-      <label class="opt"><input type="radio" name="nivel" value="provincia"> Provincia</label>
-      <label class="opt"><input type="radio" name="nivel" value="comuna"> Comuna</label>
-    </div>
+    <!-- El nivel se mostrará abajo-derecha; aquí mantenemos sólo el estado -->
     <small id="estado">Cargando mapas…</small>
   </div>
 
   <div id="suggestBox" class="suggest hide"></div>
   <div class="log-panel"><header>Logs</header><pre id="logText">[init] esperando…</pre></div>
+
+  <!-- Mapa -->
   <div id="map"></div>
 
   <script>
@@ -123,10 +103,14 @@ g:focus, g:focus-visible {
     const $log = document.getElementById('logText');
     const log = (msg, level='dim') => {
       const ts = new Date().toISOString().substring(11,19);
-      $log.insertAdjacentText('beforeend', `\n[${ts}] ${msg}`);
-      $log.className = `log-${level}`;
-      if(level==='err') console.error(msg); else if(level==='warn') console.warn(msg); else console.log(msg);
-      $log.scrollTop = $log.scrollHeight;
+      if ($log) {
+        $log.insertAdjacentText('beforeend', `\n[${ts}] ${msg}`);
+        $log.className = `log-${level}`;
+        $log.scrollTop = $log.scrollHeight;
+      }
+      if(level==='err') console.error(msg);
+      else if(level==='warn') console.warn(msg);
+      else console.log(msg);
     };
     const setText = (id, txt) => { const el=document.getElementById(id); if(el) el.textContent = txt; };
     window.addEventListener('error', e => log(`ERROR: ${e.message}`, 'err'));
@@ -186,18 +170,16 @@ g:focus, g:focus-visible {
     })();
 
     /* ===== Paletas / bins ===== */
-const PALETAS = {
-  region:    ["#d7ebff","#badaff","#9cc9ff","#7fb8ff","#62a7ff","#458fff","#2a73e0"],
-  provincia: ["#e2f7ee","#c6efdc","#a9e6c9","#8cddb7","#6fc5a0","#4fae85","#2f956b"],
-  comuna:    ["#fde6e9","#fdc9cf","#fdaaae","#fb8b8d","#f25f63","#d84349","#a92d31","#6d171b"] // +1 nivel (más oscuro)
-};
-
-const BINS_BY_LEVEL = {
-  region:   [0, 0.05, 0.10, 0.20, 0.40, 0.80, 1.50, Infinity],
-  provincia:[0, 0.10, 0.20, 0.40, 0.80, 1.20, 2.00, Infinity],
-  comuna:   [0, 0.15, 0.30, 0.60, 1.00, 1.50, 2.50, 4.50, Infinity] // + corte 4,5%
-};
-
+    const PALETAS = {
+      region:    ["#d7ebff","#badaff","#9cc9ff","#7fb8ff","#62a7ff","#458fff","#2a73e0"],
+      provincia: ["#e2f7ee","#c6efdc","#a9e6c9","#8cddb7","#6fc5a0","#4fae85","#2f956b"],
+      comuna:    ["#fde6e9","#fdc9cf","#fdaaae","#fb8b8d","#f25f63","#d84349","#a92d31","#6d171b"]
+    };
+    const BINS_BY_LEVEL = {
+      region:   [0, 0.05, 0.10, 0.20, 0.40, 0.80, 1.50, Infinity],
+      provincia:[0, 0.10, 0.20, 0.40, 0.80, 1.20, 2.00, Infinity],
+      comuna:   [0, 0.15, 0.30, 0.60, 1.00, 1.50, 2.50, 4.50, Infinity]
+    };
     const colorByBins = (v, pal, bins) => { if(v==null||isNaN(v)) return pal[0]; for(let i=0;i<bins.length-1;i++){ if(v>=bins[i] && v<bins[i+1]) return pal[i]; } return pal[pal.length-1]; };
     const labelsFromBins = (bins) => { const fmt=x=>(x===Infinity)?"∞":`${(+x).toLocaleString('es-CL',{maximumFractionDigits:2})}%`; const labs=[]; for(let i=0;i<bins.length-1;i++){ const a=bins[i], b=bins[i+1]; labs.push(b===Infinity?`>${fmt(a)}`:`${fmt(a)}–${fmt(b)}`);} return labs; };
 
@@ -220,47 +202,43 @@ const BINS_BY_LEVEL = {
     let indice = { region:{}, provincia:{}, comuna:{} };
     function computeNivelByZoom(z){ return (z<=6) ? 'region' : (z<=7) ? 'provincia' : 'comuna'; }
 
-function actualizarPintado(){
-  const pal  = PALETAS[nivelActual];
-  const bins = BINS_BY_LEVEL[nivelActual];
-  const pctFmt = v => (v==null || isNaN(v)) ? "0%" : `${(+v).toFixed(2).replace('.',',')}%`;
+    function actualizarPintado(){
+      const pal  = PALETAS[nivelActual];
+      const bins = BINS_BY_LEVEL[nivelActual];
+      const pctFmt = v => (v==null || isNaN(v)) ? "0%" : `${(+v).toFixed(2).replace('.',',')}%`;
 
-  const pintar = (geo, nivel)=>{
-    if(!geo) return;
-    geo.eachLayer(l=>{
-      const p=l.feature.properties||{};
-      const key = (nivel==="region")
-        ? norm(getProp(p,["REGION","NOM_REG","Región","NAME_1"],""))
-        : (nivel==="provincia")
-          ? norm(getProp(p,["PROVINCIA","NOM_PROV","Provincia","NAME_2","name"],""))
-          : norm(getProp(p,["COMUNA","NOM_COM","Comuna","name"],""));
-      const v = (indice[nivel]||{})[key];
-      const fill = colorByBins(v, pal, bins);
-      l.setStyle({ fillColor: fill, fillOpacity: .65 });
+      const pintar = (geo, nivel)=>{
+        if(!geo) return;
+        geo.eachLayer(l=>{
+          const p=l.feature.properties||{};
+          const key = (nivel==="region")
+            ? norm(getProp(p,["REGION","NOM_REG","Región","NAME_1"],""))
+            : (nivel==="provincia")
+              ? norm(getProp(p,["PROVINCIA","NOM_PROV","Provincia","NAME_2","name"],""))
+              : norm(getProp(p,["COMUNA","NOM_COM","Comuna","name"],""));
+          const v = (indice[nivel]||{})[key];
+          const fill = colorByBins(v, pal, bins);
+          l.setStyle({ fillColor: fill, fillOpacity: .65 });
 
-      const nombre = (nivel==="region")
-        ? getProp(p,["REGION","NOM_REG","Región","NAME_1"],"Región")
-        : (nivel==="provincia")
-          ? getProp(p,["PROVINCIA","NOM_PROV","Provincia","NAME_2","name"],"Provincia")
-          : getProp(p,["COMUNA","NOM_COM","Comuna","name"],"Comuna");
-      l.bindTooltip(`${nombre}<br><small>${apellidoActual || '—'}: <b>${pctFmt(v)}</b></small>`, {sticky:true,opacity:.95});
-    });
-  };
+          const nombre = (nivel==="region")
+            ? getProp(p,["REGION","NOM_REG","Región","NAME_1"],"Región")
+            : (nivel==="provincia")
+              ? getProp(p,["PROVINCIA","NOM_PROV","Provincia","NAME_2","name"],"Provincia")
+              : getProp(p,["COMUNA","NOM_COM","Comuna","name"],"Comuna");
+          l.bindTooltip(`${nombre}<br><small>${apellidoActual || '—'}: <b>${pctFmt(v)}</b></small>`, {sticky:true,opacity:.95});
+        });
+      };
 
-  if(nivelActual==="region")   pintar(regionesGeo,"region");
-  if(nivelActual==="provincia")pintar(provinciasGeo,"provincia");
-  if(nivelActual==="comuna")   pintar(comunasGeo,"comuna");
+      if(nivelActual==="region")   pintar(regionesGeo,"region");
+      if(nivelActual==="provincia")pintar(provinciasGeo,"provincia");
+      if(nivelActual==="comuna")   pintar(comunasGeo,"comuna");
 
-  // actualiza leyenda
-  legend.update();
+      // Actualiza leyenda y texto de estado
+      legend.update();
+      const nombresNivel = { region:'región', provincia:'provincia', comuna:'comuna' };
+      setText('estado', `Mostrando "${apellidoActual || '—'}" – vista de ${nombresNivel[nivelActual] || nivelActual}`);
+    }
 
-  // texto de estado (sin zoom ni "(manual)")
-  const nombresNivel = { region:'región', provincia:'provincia', comuna:'comuna' };
-  setText('estado', `Mostrando "${apellidoActual || '—'}" – vista de ${nombresNivel[nivelActual] || nivelActual}`);
-}
-
-
- 
     function updateVisibility(){
       const targetNivel = (nivelMode==='auto') ? computeNivelByZoom(map.getZoom()) : nivelActual;
 
@@ -277,6 +255,7 @@ function actualizarPintado(){
       actualizarPintado();
     }
 
+    /* ===== Leyenda ===== */
     const legend = L.control({position:'bottomright'});
     legend.onAdd = function(){ this._div = L.DomUtil.create('div','legend'); this.update(); return this._div; };
     legend.update = function(){
@@ -289,7 +268,7 @@ function actualizarPintado(){
     };
     legend.addTo(map);
 
-    /* ===== Manifest + Shards (prioriza data_fixed, cae a data) ===== */
+    /* ===== Manifest + Shards ===== */
     (() => {
       const MANIFEST_URLS = [
         "data_fixed/apellidos_manifest.json",
@@ -350,7 +329,6 @@ function actualizarPintado(){
         throw lastErr || new Error(`No se pudo cargar ${filename}`);
       }
 
-      // Expón para uso abajo
       window.getApellidosManifest = getApellidosManifest;
       window.loadShard = loadShard;
     })();
@@ -431,52 +409,49 @@ function actualizarPintado(){
       }
     }
 
-    // Radios de nivel
-    document.getElementById('nivelBox')?.addEventListener('change', (e)=>{
-      const t = e.target;
-      if (t && t.name === 'nivel') {
-        const v = t.value;
-        if (v === 'auto') { nivelMode = 'auto'; }
-        else { nivelMode = 'manual'; nivelActual = v; }
-        updateVisibility();
-        log(`Nivel set: ${nivelMode==='auto' ? 'Auto (zoom)' : 'Manual → ' + nivelActual}`, 'ok');
-      }
-    });
+    // Radios de nivel (el control se muestra abajo-derecha, arriba de la leyenda)
+    // Creamos el panel y lo insertamos como control Leaflet para que no tape la leyenda.
+    (function mountLevelAndCtas(){
+      const corner = document.querySelector('.leaflet-bottom.leaflet-right');
+      if (!corner) { setTimeout(mountLevelAndCtas, 100); return; }
+
+      // --- Botonera CTA ---
+      const cta = document.createElement('div');
+      cta.className = 'leaflet-control';
+      cta.innerHTML = `
+        <div class="cta-box">
+          <a href="https://www.apellidos.cl/investigacion-genealogica" target="_blank" rel="noopener">Estudio Genealógico</a>
+          <a href="https://www.apellidos.cl/diploma" target="_blank" rel="noopener">Diploma del Apellido</a>
+        </div>
+      `;
+      corner.appendChild(cta);
+
+      // --- Panel de “Nivel de visualización” (radios) ---
+      const nivelBox = document.createElement('div');
+      nivelBox.className = 'leaflet-control';
+      nivelBox.innerHTML = `
+        <div class="option-box" id="nivelBox">
+          <div class="option-title">Nivel de visualización</div>
+          <label class="opt"><input type="radio" name="nivel" value="auto" checked> Auto</label>
+          <label class="opt"><input type="radio" name="nivel" value="region"> Región</label>
+          <label class="opt"><input type="radio" name="nivel" value="provincia"> Provincia</label>
+          <label class="opt"><input type="radio" name="nivel" value="comuna"> Comuna</label>
+        </div>
+      `;
+      corner.appendChild(nivelBox);
+
+      // Listeners para los radios
+      nivelBox.addEventListener('change', (e)=>{
+        const t = e.target;
+        if (t && t.name === 'nivel') {
+          const v = t.value;
+          if (v === 'auto') { nivelMode = 'auto'; }
+          else { nivelMode = 'manual'; nivelActual = v; }
+          updateVisibility();
+          log(`Nivel set: ${nivelMode==='auto' ? 'Auto (zoom)' : 'Manual → ' + nivelActual}`, 'ok');
+        }
+      });
+    })();
   </script>
-
-  <!-- === Ajustes de ubicación: mover “Nivel de visualización” encima de la leyenda === -->
-<script>
-/* Mover “Nivel de visualización” encima de la leyenda SIN posicionamiento absoluto */
-(function(){
-  const tryPlace = () => {
-    const legendDiv = document.querySelector('.leaflet-bottom.leaflet-right .legend');
-    const legendControl = legendDiv ? legendDiv.closest('.leaflet-control') : null;
-    const corner = document.querySelector('.leaflet-bottom.leaflet-right');
-    const nivel = document.getElementById('nivelBox');
-    if (!legendDiv || !legendControl || !corner || !nivel) return false;
-
-    // Asegura flujo normal (no absoluto) y mismo ancho que la leyenda
-    nivel.classList.remove('fixed-bottom-right');   // <- quitamos la clase que ponía absolute
-    nivel.style.position = 'static';
-    const w = getComputedStyle(legendDiv).width;
-    if (w) nivel.style.width = w;
-
-    // Envuelve "Nivel" en un contenedor de control Leaflet para que herede márgenes/espaciado
-    const ctrl = document.createElement('div');
-    ctrl.className = 'leaflet-control';
-    ctrl.appendChild(nivel);
-
-    // Inserta el control justo ANTES del control que contiene la leyenda
-    corner.insertBefore(ctrl, legendControl);
-    return true;
-  };
-
-  // Intenta ahora y reintenta un poco por si la leyenda tarda en aparecer
-  if (!tryPlace()){
-    let n=0; const iv = setInterval(()=>{ n++; if (tryPlace() || n>20) clearInterval(iv); }, 100);
-  }
-})();
-</script>
-
 </body>
 </html>
