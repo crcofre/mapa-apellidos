@@ -56,11 +56,14 @@
     .log-panel pre{ margin:0; padding:8px; white-space:pre-wrap; word-break:break-word; }
 
     /* Sugerencias */
-    .suggest{ position:absolute; z-index:1001; right:12px; top:72px; background:#fff; border:1px solid #ddd; border-radius:10px; box-shadow:0 10px 24px rgba(0,0,0,.15);
-      max-height:260px; overflow:auto; width:min(92vw,480px); }
-    .suggest.hide{ display:none; }
-    .suggest .item{ padding:8px 10px; cursor:pointer; }
-    .suggest .item:hover{ background:#f2f6ff; }
+.suggest{
+  position:absolute; z-index:1001;
+  right:12px; left:auto; top:72px;  /* <- ahora a la derecha */
+  background:#fff; border:1px solid #ddd; border-radius:10px; box-shadow:0 10px 24px rgba(0,0,0,.15);
+  max-height:260px; overflow:auto; width:min(92vw,480px);
+}
+.suggest.hide{ display:none; }
+
 
     /* Ocultar controles de zoom y botón Buscar */
     .leaflet-control-zoom{ display:none !important; }
@@ -408,6 +411,30 @@
         setText('estado', 'No se encontró el apellido. Prueba otra variante.');
       }
     }
+// Coloca la caja de sugerencias justo debajo del panel .search-ui (arriba-derecha)
+function placeSuggest() {
+  const box = document.querySelector('.search-ui');
+  if (!box || !$sbox) return;
+  const r = box.getBoundingClientRect();
+  // Anclaje por la derecha y debajo del panel
+  $sbox.style.left = 'auto';
+  $sbox.style.right = (window.innerWidth - r.right + 12) + 'px'; // mismo margen que el panel
+  $sbox.style.top = (r.bottom + 6 + window.scrollY) + 'px';      // 6px debajo del panel
+  $sbox.style.width = Math.min(r.width, 480) + 'px';
+}
+
+// Llamar cada vez que se muestran sugerencias y en eventos de tamaño
+const _origShowSuggest = showSuggest;
+showSuggest = function(items){
+  if(!items.length){ hideSuggest(); return; }
+  $sbox.innerHTML = items.map(t=>`<div class="item" data-v="${t}">${t}</div>`).join('');
+  placeSuggest();
+  $sbox.classList.remove('hide');
+};
+
+// Reposicionar cuando cambia el tamaño o el usuario vuelve al input
+window.addEventListener('resize', placeSuggest);
+$input.addEventListener('focus', placeSuggest);
 
     // Radios de nivel (el control se muestra abajo-derecha, arriba de la leyenda)
     // Creamos el panel y lo insertamos como control Leaflet para que no tape la leyenda.
