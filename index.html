@@ -18,21 +18,21 @@
       border:1px solid rgba(0,0,0,.2); border-radius:4px; padding:3px 6px;
     }
 
-    /* Panel buscador (arriba-derecha) */
+    /* Panel buscador (arriba-izquierda) */
     .search-ui{
-      position:absolute; top:12px; right:12px; left:auto; z-index:1000;
+      position:absolute; top:12px; left:12px; z-index:1000;
       background:#ffffffeb; border:1px solid #ddd; border-radius:10px; padding:10px 12px;
       box-shadow:0 6px 16px rgba(0,0,0,.08);
       font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
       max-width:min(92vw,480px);
     }
-    .search-ui h3{ margin:0 0 6px 0; font-size:14px; font-weight:700; text-align:right; }
+    .search-ui h3{ margin:0 0 6px 0; font-size:14px; font-weight:700; }
     .search-ui .row{ display:flex; gap:6px; margin-bottom:6px; }
     .search-ui input{ flex:1; padding:6px 8px; font-size:14px; border:1px solid #ccc; border-radius:8px; }
     .search-ui button{ padding:6px 10px; border:0; border-radius:8px; cursor:pointer; font-weight:600; background:#0b5ed7; color:#fff; }
-    .search-ui small{ display:block; margin-top:4px; color:#555; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; text-align:right; }
+    .search-ui small{ display:block; margin-top:4px; color:#555; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 
-    /* Radios de nivel */
+    /* Selector de nivel (radios) – estilos del panel original */
     .option-box{ margin-top:6px; padding:8px 10px; border:1px solid #ddd; border-radius:10px; background:#fff;
       box-shadow:0 2px 6px rgba(0,0,0,.05) inset; display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
     .option-box .option-title{ font-size:12px; font-weight:700; color:#333; margin-right:6px; }
@@ -46,44 +46,56 @@
     .legend .swatch{ width:18px; height:12px; border:1px solid #999; }
     .legend b{ display:block; margin-bottom:4px; }
 
-    /* Logs (visibles; si quieres ocultarlos más tarde, pon display:none) */
+    /* Logs (ocultos) */
     .log-panel{ position:fixed; right:12px; top:12px; z-index:1100; width:min(38vw,420px); max-height:46vh; overflow:auto;
       font:12px/1.35 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      background:#111; color:#eaeaea; border:1px solid #333; border-radius:10px; box-shadow:0 6px 16px rgba(0,0,0,.35); }
+      background:#111; color:#eaeaea; border:1px solid #333; border-radius:10px; box-shadow:0 6px 16px rgba(0,0,0,.35);
+      display:none !important;
+    }
     .log-panel header{ position:sticky; top:0; background:#0d0d0d; color:#9ad; padding:6px 8px; font-weight:700; }
     .log-panel pre{ margin:0; padding:8px; white-space:pre-wrap; word-break:break-word; }
-    .log-ok{ color:#9f9; } .log-warn{ color:#ff9; } .log-err{ color:#f99; } .log-dim{ color:#aaa; }
 
-    /* Sugerencias (debajo del panel, a la derecha) */
-    .suggest{ position:absolute; z-index:1001; right:12px; left:auto; top:72px; background:#fff; border:1px solid #ddd; border-radius:10px; box-shadow:0 10px 24px rgba(0,0,0,.15);
+    /* Sugerencias */
+    .suggest{ position:absolute; z-index:1001; left:12px; top:72px; background:#fff; border:1px solid #ddd; border-radius:10px; box-shadow:0 10px 24px rgba(0,0,0,.15);
       max-height:260px; overflow:auto; width:min(92vw,480px); }
     .suggest.hide{ display:none; }
     .suggest .item{ padding:8px 10px; cursor:pointer; }
     .suggest .item:hover{ background:#f2f6ff; }
+
+    /* Ocultar controles de zoom y botón Buscar */
+    .leaflet-control-zoom{ display:none !important; }
+    #buscarBtn{ display:none !important; }
+
+    /* Botonera CTA que va encima del control de “Nivel de visualización” */
+    .cta-box{
+      background:#fff; border:1px solid #ddd; border-radius:10px; padding:8px; margin-bottom:8px;
+      box-shadow:0 6px 16px rgba(0,0,0,.08); font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+    }
+    .cta-box a{
+      display:block; text-decoration:none; padding:8px 10px; border-radius:8px; margin-bottom:8px; text-align:center;
+      font-weight:600;
+    }
+    .cta-box a:first-child{ background:#0b5ed7; color:#fff; }
+    .cta-box a:last-child{ border:1px solid #ccc; color:#111; background:#fff; }
+    .cta-box a:last-child:hover{ background:#f7f7f9; }
   </style>
 </head>
 <body>
+  <!-- Panel “Consulta tu apellido” (arriba-izquierda) -->
   <div class="search-ui">
     <h3>Consulta tu apellido</h3>
     <div class="row">
       <input id="apellidoInput" type="text" placeholder="Ej.: Cisternas / Díaz / Di Bella" autocomplete="off" />
       <button id="buscarBtn">Buscar</button>
     </div>
-
-    <div class="option-box" id="nivelBox">
-      <div class="option-title">Nivel de visualización</div>
-      <label class="opt"><input type="radio" name="nivel" value="auto" checked> Auto (según zoom)</label>
-      <label class="opt"><input type="radio" name="nivel" value="region"> Región</label>
-      <label class="opt"><input type="radio" name="nivel" value="provincia"> Provincia</label>
-      <label class="opt"><input type="radio" name="nivel" value="comuna"> Comuna</label>
-    </div>
-
+    <!-- El nivel se mostrará abajo-derecha; aquí mantenemos sólo el estado -->
     <small id="estado">Cargando mapas…</small>
   </div>
 
   <div id="suggestBox" class="suggest hide"></div>
   <div class="log-panel"><header>Logs</header><pre id="logText">[init] esperando…</pre></div>
 
+  <!-- Mapa -->
   <div id="map"></div>
 
   <script>
@@ -96,8 +108,8 @@
         $log.className = `log-${level}`;
         $log.scrollTop = $log.scrollHeight;
       }
-      if (level==='err') console.error(msg);
-      else if (level==='warn') console.warn(msg);
+      if(level==='err') console.error(msg);
+      else if(level==='warn') console.warn(msg);
       else console.log(msg);
     };
     const setText = (id, txt) => { const el=document.getElementById(id); if(el) el.textContent = txt; };
@@ -111,7 +123,7 @@
     const styleBase = { color:"#666", weight:1, fillColor:"#ddd", fillOpacity:.6 };
     let regionesGeo=null, provinciasGeo=null, comunasGeo=null;
     const regionesLayer=L.layerGroup(), provinciasLayer=L.layerGroup(), comunasLayer=L.layerGroup();
-    const getProp = (p, keys, def="—") => { for (const k of keys){ if(p && p[k]!=null && p[k]!=="") return p[k]; } return def; };
+    const getProp = (p, keys, def="—") => { for(const k of keys){ if(p && p[k]!=null && p[k]!=="") return p[k]; } return def; };
 
     (async function loadGeo(){
       try{
@@ -124,25 +136,23 @@
 
         regionesGeo = L.geoJSON(reg, {
           pane:'pane-regiones',
-          style: () => ({...styleBase, color:"#587fbf", weight:1 }),
+          style: f => ({...styleBase, color:"#587fbf", weight:1 }),
           onEachFeature:(f,layer)=>{
             const p=f.properties||{}, reg=getProp(p,["REGION","NOM_REG","Región","NAME_1"],"Región");
             layer.bindTooltip(reg,{sticky:true,opacity:.95});
           }
         });
-
         provinciasGeo = L.geoJSON(prov, {
           pane:'pane-provincias',
-          style: () => ({...styleBase, color:"#333", weight:1 }),
+          style: f => ({...styleBase, color:"#333", weight:1 }),
           onEachFeature:(f,layer)=>{
             const p=f.properties||{}, prov=getProp(p,["PROVINCIA","NOM_PROV","Provincia","NAME_2","name"],"Provincia");
             layer.bindTooltip(prov,{sticky:true,opacity:.95});
           }
         });
-
         comunasGeo = L.geoJSON(com, {
           pane:'pane-comunas',
-          style: () => ({...styleBase, color:"#990000", weight:.8 }),
+          style: f => ({...styleBase, color:"#990000", weight:.8 }),
           onEachFeature:(f,layer)=>{
             const p=f.properties||{}, com=getProp(p,["COMUNA","NOM_COM","Comuna","name"],"Comuna");
             layer.bindTooltip(com,{sticky:true,opacity:.95});
@@ -152,7 +162,7 @@
         updateVisibility();
         map.on('zoomend', ()=>{ if(nivelMode==='auto') updateVisibility(); });
         log('GeoJSON cargados y capas listas','ok');
-        setText('estado','Listo. Escribe un apellido y presiona Buscar.');
+        setText('estado','Listo. Escribe un apellido.');
       }catch(err){
         log('Error cargando GeoJSON: '+err.message,'err');
         setText('estado','Error cargando mapas. Revisa logs.');
@@ -163,29 +173,15 @@
     const PALETAS = {
       region:    ["#d7ebff","#badaff","#9cc9ff","#7fb8ff","#62a7ff","#458fff","#2a73e0"],
       provincia: ["#e2f7ee","#c6efdc","#a9e6c9","#8cddb7","#6fc5a0","#4fae85","#2f956b"],
-      comuna:    ["#fde6e9","#fdc9cf","#fdaaae","#fb8b8d","#f25f63","#d84349","#a92d31"]
+      comuna:    ["#fde6e9","#fdc9cf","#fdaaae","#fb8b8d","#f25f63","#d84349","#a92d31","#6d171b"]
     };
     const BINS_BY_LEVEL = {
       region:   [0, 0.05, 0.10, 0.20, 0.40, 0.80, 1.50, Infinity],
       provincia:[0, 0.10, 0.20, 0.40, 0.80, 1.20, 2.00, Infinity],
-      comuna:   [0, 0.15, 0.30, 0.60, 1.00, 1.50, 2.50, Infinity]
+      comuna:   [0, 0.15, 0.30, 0.60, 1.00, 1.50, 2.50, 4.50, Infinity]
     };
-    const colorByBins = (v, pal, bins) => {
-      if (v==null || isNaN(v)) return pal[0];
-      for (let i=0; i<bins.length-1; i++){
-        if (v>=bins[i] && v<bins[i+1]) return pal[i];
-      }
-      return pal[pal.length-1];
-    };
-    const labelsFromBins = (bins) => {
-      const fmt = x => (x===Infinity) ? "∞" : `${(+x).toLocaleString('es-CL',{maximumFractionDigits:2})}%`;
-      const labs = [];
-      for (let i=0; i<bins.length-1; i++){
-        const a=bins[i], b=bins[i+1];
-        labs.push(b===Infinity ? `>${fmt(a)}` : `${fmt(a)}–${fmt(b)}`);
-      }
-      return labs;
-    };
+    const colorByBins = (v, pal, bins) => { if(v==null||isNaN(v)) return pal[0]; for(let i=0;i<bins.length-1;i++){ if(v>=bins[i] && v<bins[i+1]) return pal[i]; } return pal[pal.length-1]; };
+    const labelsFromBins = (bins) => { const fmt=x=>(x===Infinity)?"∞":`${(+x).toLocaleString('es-CL',{maximumFractionDigits:2})}%`; const labs=[]; for(let i=0;i<bins.length-1;i++){ const a=bins[i], b=bins[i+1]; labs.push(b===Infinity?`>${fmt(a)}`:`${fmt(a)}–${fmt(b)}`);} return labs; };
 
     /* ===== Normalización / slug ===== */
     const norm = s => {
@@ -237,9 +233,11 @@
       if(nivelActual==="provincia")pintar(provinciasGeo,"provincia");
       if(nivelActual==="comuna")   pintar(comunasGeo,"comuna");
 
+      // Actualiza leyenda y texto de estado
       legend.update();
-      setText('estado', `Mostrando "${apellidoActual || '—'}" por ${nivelActual}` + (nivelMode==='auto' ? ` (zoom ${map.getZoom()})` : ' (manual)'));
-    }  /* <-- cierre correcto de actualizarPintado() */
+      const nombresNivel = { region:'región', provincia:'provincia', comuna:'comuna' };
+      setText('estado', `Mostrando "${apellidoActual || '—'}" – vista de ${nombresNivel[nivelActual] || nivelActual}`);
+    }
 
     function updateVisibility(){
       const targetNivel = (nivelMode==='auto') ? computeNivelByZoom(map.getZoom()) : nivelActual;
@@ -259,19 +257,13 @@
 
     /* ===== Leyenda ===== */
     const legend = L.control({position:'bottomright'});
-    legend.onAdd = function(){
-      this._div = L.DomUtil.create('div','legend');
-      this.update();
-      return this._div;
-    };
+    legend.onAdd = function(){ this._div = L.DomUtil.create('div','legend'); this.update(); return this._div; };
     legend.update = function(){
       const pal  = PALETAS[nivelActual];
       const bins = BINS_BY_LEVEL[nivelActual];
       const labs = labelsFromBins(bins);
       let html = `<b>Frecuencia (%)</b><br>`;
-      for(let i=0;i<labs.length;i++){
-        html += `<div class="item"><span class="swatch" style="background:${pal[i]}"></span>${labs[i]}</div>`;
-      }
+      for(let i=0;i<labs.length;i++){ html += `<div class="item"><span class="swatch" style="background:${pal[i]}"></span>${labs[i]}</div>`; }
       this._div.innerHTML = html;
     };
     legend.addTo(map);
@@ -341,26 +333,16 @@
       window.loadShard = loadShard;
     })();
 
-    /* ===== Buscar apellido (manifest + shard) + sugerencias ===== */
+    /* ===== Buscar apellido (manifest + shard) ===== */
     const $input = document.getElementById('apellidoInput');
     const $btn   = document.getElementById('buscarBtn');
     const $sbox  = document.getElementById('suggestBox');
-
     function hideSuggest(){ $sbox.classList.add('hide'); $sbox.innerHTML=''; }
-    function showSuggest(items){
-      if(!items.length){ hideSuggest(); return; }
-      $sbox.innerHTML = items.map(t=>`<div class="item" data-v="${t}">${t}</div>`).join('');
-      $sbox.classList.remove('hide');
-    }
+    function showSuggest(items){ if(!items.length){ hideSuggest(); return; } $sbox.innerHTML = items.map(t=>`<div class="item" data-v="${t}">${t}</div>`).join(''); $sbox.classList.remove('hide'); }
     const pretty = s => s.replace(/-/g,' ').toUpperCase();
 
     let manifestKeys = null;
-    async function ensureManifestKeys(){
-      if(manifestKeys) return manifestKeys;
-      const m = await getApellidosManifest();
-      manifestKeys = Object.keys(m);
-      return manifestKeys;
-    }
+    async function ensureManifestKeys(){ if(manifestKeys) return manifestKeys; const m = await getApellidosManifest(); manifestKeys = Object.keys(m); return manifestKeys; }
 
     async function fetchApellidoData(apellidoInput){
       const manifest = await getApellidosManifest();
@@ -395,27 +377,20 @@
       return out;
     }
 
-    // Autocompletar
     $input.addEventListener('input', async () => {
       const q = slugify($input.value);
       if(q.length < 2){ hideSuggest(); return; }
       try{
         const keys = await ensureManifestKeys();
         const matches = [];
-        for(const k of keys){
-          if(k.startsWith(q)){ matches.push(k); if(matches.length>=50) break; }
-        }
+        for(const k of keys){ if(k.startsWith(q)){ matches.push(k); if(matches.length>=50) break; } }
         showSuggest(matches.map(pretty));
       }catch(e){ /* ignore */ }
     });
-
     $sbox.addEventListener('click', (e)=>{
       const item = e.target.closest('.item'); if(!item) return;
-      $input.value = item.getAttribute('data-v');
-      hideSuggest();
-      buscarApellido();
+      $input.value = item.getAttribute('data-v'); hideSuggest(); buscarApellido();
     });
-
     $input.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ hideSuggest(); buscarApellido(); } });
     $btn.addEventListener('click', ()=>{ hideSuggest(); buscarApellido(); });
 
@@ -434,17 +409,49 @@
       }
     }
 
-    // Radios de nivel
-    document.getElementById('nivelBox')?.addEventListener('change', (e)=>{
-      const t = e.target;
-      if (t && t.name === 'nivel') {
-        const v = t.value;
-        if (v === 'auto') { nivelMode = 'auto'; }
-        else { nivelMode = 'manual'; nivelActual = v; }
-        updateVisibility();
-        log(`Nivel set: ${nivelMode==='auto' ? 'Auto (zoom)' : 'Manual → ' + nivelActual}`, 'ok');
-      }
-    });
+    // Radios de nivel (el control se muestra abajo-derecha, arriba de la leyenda)
+    // Creamos el panel y lo insertamos como control Leaflet para que no tape la leyenda.
+    (function mountLevelAndCtas(){
+      const corner = document.querySelector('.leaflet-bottom.leaflet-right');
+      if (!corner) { setTimeout(mountLevelAndCtas, 100); return; }
+
+      // --- Botonera CTA ---
+      const cta = document.createElement('div');
+      cta.className = 'leaflet-control';
+      cta.innerHTML = `
+        <div class="cta-box">
+          <a href="https://www.apellidos.cl/investigacion-genealogica" target="_blank" rel="noopener">Estudio Genealógico</a>
+          <a href="https://www.apellidos.cl/diploma" target="_blank" rel="noopener">Diploma del Apellido</a>
+        </div>
+      `;
+      corner.appendChild(cta);
+
+      // --- Panel de “Nivel de visualización” (radios) ---
+      const nivelBox = document.createElement('div');
+      nivelBox.className = 'leaflet-control';
+      nivelBox.innerHTML = `
+        <div class="option-box" id="nivelBox">
+          <div class="option-title">Nivel de visualización</div>
+          <label class="opt"><input type="radio" name="nivel" value="auto" checked> Auto</label>
+          <label class="opt"><input type="radio" name="nivel" value="region"> Región</label>
+          <label class="opt"><input type="radio" name="nivel" value="provincia"> Provincia</label>
+          <label class="opt"><input type="radio" name="nivel" value="comuna"> Comuna</label>
+        </div>
+      `;
+      corner.appendChild(nivelBox);
+
+      // Listeners para los radios
+      nivelBox.addEventListener('change', (e)=>{
+        const t = e.target;
+        if (t && t.name === 'nivel') {
+          const v = t.value;
+          if (v === 'auto') { nivelMode = 'auto'; }
+          else { nivelMode = 'manual'; nivelActual = v; }
+          updateVisibility();
+          log(`Nivel set: ${nivelMode==='auto' ? 'Auto (zoom)' : 'Manual → ' + nivelActual}`, 'ok');
+        }
+      });
+    })();
   </script>
 </body>
 </html>
