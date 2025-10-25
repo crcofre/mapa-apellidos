@@ -82,6 +82,10 @@
       font-size:12px;                                                    /* <<< */
     }                                                                     /* <<< */
   </style>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+
 </head>
 <body>
   <div class="search-ui">
@@ -114,7 +118,17 @@
       if(level==='err') console.error(msg); else if(level==='warn') console.warn(msg); else console.log(msg);
       $log.scrollTop = $log.scrollHeight;
     };
-    const setText = (id, txt) => { const el=document.getElementById(id); if(el) el.textContent = txt; };
+    const nombresNivel = {
+  region: 'región',
+  provincia: 'provincia',
+  comuna: 'comuna'
+};
+const textoZoom = (nivelMode === 'auto') ? `(zoom ${map.getZoom()})` : '';
+setText(
+  'estado',
+  `Mostrando "${apellidoActual || '—'}" – vista de ${nombresNivel[nivelActual] || nivelActual} ${textoZoom}`.trim()
+);
+
     window.addEventListener('error', e => log(`ERROR: ${e.message}`, 'err'));
     window.addEventListener('unhandledrejection', e => log(`PROMISE: ${e.reason}`, 'err'));
 
@@ -236,9 +250,31 @@
       if(nivelActual==="provincia")pintar(provinciasGeo,"provincia");
       if(nivelActual==="comuna")   pintar(comunasGeo,"comuna");
 
-      legend.update();
-      setText('estado', `Mostrando "${apellidoActual || '—'}" por ${nivelActual}` + (nivelMode==='auto' ? ` (zoom ${map.getZoom()})` : ' (manual)'));
-    }
+     
+  legend.update();
+
+  const nombresNivel = { region:'región', provincia:'provincia', comuna:'comuna' };
+  const textoZoom = (nivelMode === 'auto') ? `(zoom ${map.getZoom()})` : '';
+  const nombresNivel = {
+  region: 'región',
+  provincia: 'provincia',
+  comuna: 'comuna'
+};
+const textoZoom = (nivelMode === 'auto') ? `(zoom ${map.getZoom()})` : '';
+const nombresNivel = {
+  region: 'región',
+  provincia: 'provincia',
+  comuna: 'comuna'
+};
+setText(
+  'estado',
+  `Mostrando "${apellidoActual || '—'}" – vista de ${nombresNivel[nivelActual] || nivelActual}`
+);
+
+);
+
+}
+
 
     function updateVisibility(){
       const targetNivel = (nivelMode==='auto') ? computeNivelByZoom(map.getZoom()) : nivelActual;
