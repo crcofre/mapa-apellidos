@@ -46,6 +46,85 @@
     .legend .swatch{ width:18px; height:12px; border:1px solid #999; }
     .legend b{ display:block; margin-bottom:4px; }
 
+    /* === Colocar "Nivel de visualización" encima de la leyenda
+       y crear los dos botones abajo a la derecha === */
+
+(function mountControls(){
+  const nivelBox = document.getElementById('nivelBox');
+
+  // Crea la botonera inferior (dos botones en fila)
+  function ensureCTABottom(){
+    const corner = document.querySelector('.leaflet-bottom.leaflet-right');
+    if (!corner) return false;
+
+    // Si ya existe, no duplicar
+    if (document.getElementById('ctaBottomControl')) return true;
+
+    const ctrl = document.createElement('div');
+    ctrl.className = 'leaflet-control';
+    ctrl.id = 'ctaBottomControl';
+    ctrl.innerHTML = `
+      <div class="cta-bottom">
+        <a class="primary" href="https://www.apellidos.cl/investigacion-genealogica" target="_blank" rel="noopener">Estudio Genealógico</a>
+        <a href="https://www.apellidos.cl/diploma" target="_blank" rel="noopener">Diploma del Apellido</a>
+      </div>`;
+    corner.appendChild(ctrl);
+    return true;
+  }
+
+  // Mueve el nivel encima de la leyenda y le iguala el ancho
+  function placeNivelAboveLegend(){
+    if (!nivelBox) return false;
+    const legendDiv = document.querySelector('.leaflet-bottom.leaflet-right .legend');
+    if (!legendDiv) return false;
+
+    const legendControl = legendDiv.closest('.leaflet-control');
+    const corner = document.querySelector('.leaflet-bottom.leaflet-right');
+    if (!legendControl || !corner) return false;
+
+    // Si el nivel aún no está montado como control, créalo y ponlo antes de la leyenda
+    let nivelCtrl = document.getElementById('nivelControl');
+    if (!nivelCtrl){
+      nivelCtrl = document.createElement('div');
+      nivelCtrl.className = 'leaflet-control';
+      nivelCtrl.id = 'nivelControl';
+      // prepara estilos para "como leyenda"
+      nivelBox.classList.add('as-legend', 'option-box');
+      nivelCtrl.appendChild(nivelBox);
+      corner.insertBefore(nivelCtrl, legendControl);
+    } else {
+      // ya existe; asegúrate que quede antes de la leyenda
+      if (nivelCtrl.nextSibling !== legendControl){
+        corner.insertBefore(nivelCtrl, legendControl);
+      }
+    }
+
+    // Igualar ancho al de la leyenda
+    const w = getComputedStyle(legendDiv).width;
+    if (w) nivelBox.style.width = w;
+
+    return true;
+  }
+
+  // Llamar ahora y en reintentos cortos por si la leyenda tarda
+  let tries = 0;
+  const iv = setInterval(()=>{
+    const okNivel = placeNivelAboveLegend();
+    const okCTA   = ensureCTABottom();
+    if ((okNivel && okCTA) || ++tries > 25) clearInterval(iv);
+  }, 120);
+
+  // También re-ajusta ancho cuando la leyenda se actualiza
+  const _legendUpdate = legend.update.bind(legend);
+  legend.update = function(){
+    _legendUpdate();
+    placeNivelAboveLegend();
+  };
+
+  // Recalcular en resize para mantener alineación/ancho
+  window.addEventListener('resize', placeNivelAboveLegend);
+})();
+
     /* Logs (ocultos) */
     .log-panel{ position:fixed; right:12px; top:12px; z-index:1100; width:min(38vw,420px); max-height:46vh; overflow:auto;
       font:12px/1.35 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
@@ -81,6 +160,45 @@
     .cta-box a:first-child{ background:#0b5ed7; color:#fff; }
     .cta-box a:last-child{ border:1px solid #ccc; color:#111; background:#fff; }
     .cta-box a:last-child:hover{ background:#f7f7f9; }
+
+    /* Panel de Nivel con mismo ancho de la leyenda */
+#nivelBox.as-legend {
+  width: 100%;                /* el ancho real lo igualamos por JS */
+  box-sizing: border-box;
+}
+
+/* Botonera inferior (dos botones lado a lado) */
+.cta-bottom {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-end;
+  background:#fff;
+  border:1px solid #ddd;
+  border-radius:10px;
+  padding:8px;
+  box-shadow:0 6px 16px rgba(0,0,0,.08);
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+}
+.cta-bottom a{
+  text-decoration:none;
+  display:inline-block;
+  padding:8px 12px;
+  border-radius:8px;
+  font-weight:600;
+  border:1px solid #ccc;
+  background:#fff;
+  color:#111;
+}
+.cta-bottom a.primary{
+  border-color:transparent;
+  background:#0b5ed7;
+  color:#fff;
+}
+.cta-bottom a:hover{ background:#f7f7f9; }
+.cta-bottom a.primary:hover{ filter:brightness(0.95); }
+
+    
   </style>
 </head>
 <body>
