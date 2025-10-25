@@ -49,12 +49,16 @@
     /* Logs (ocultos) */
     .log-panel{ display:none !important; }
 
-    /* Sugerencias */
-    .suggest{ position:absolute; z-index:1001; right:12px; top:72px; background:#fff; border:1px solid #ddd; border-radius:10px; box-shadow:0 10px 24px rgba(0,0,0,.15);
-      max-height:260px; overflow:auto; width:min(92vw,480px); }
-    .suggest.hide{ display:none; }
-    .suggest .item{ padding:8px 10px; cursor:pointer; }
-    .suggest .item:hover{ background:#f2f6ff; }
+   /* La lista de sugerencias justo bajo el panel, a la derecha */
+.suggest{
+  position:absolute; z-index:1001;
+  right:12px; left:auto; top:72px;
+  background:#fff; border:1px solid #ddd; border-radius:10px;
+  box-shadow:0 10px 24px rgba(0,0,0,.15);
+  max-height:260px; overflow:auto; width:min(92vw,480px);
+}
+.suggest.hide{ display:none; }
+
 
     /* Ocultar controles de zoom y botón Buscar */
     .leaflet-control-zoom{ display:none !important; }
@@ -198,6 +202,61 @@
     function hideSuggest(){$sbox.classList.add('hide');$sbox.innerHTML='';}
     function showSuggest(items){if(!items.length){hideSuggest();return;}$sbox.innerHTML=items.map(t=>`<div class="item" data-v="${t}">${t}</div>`).join('');$sbox.classList.remove('hide');}
     $sbox.addEventListener('click',e=>{const item=e.target.closest('.item');if(!item)return;$input.value=item.getAttribute('data-v');hideSuggest();});
+
+    // --- SUGERENCIAS DE APELLIDOS (autocompletar) ---
+const pretty = s => s.replace(/-/g,' ').toUpperCase();
+
+let manifestKeys = null;
+async function ensureManifestKeys(){
+  if (manifestKeys) return manifestKeys;
+  const m = await getApellidosManifest();        // ya existe en tu código
+  manifestKeys = Object.keys(m);
+  return manifestKeys;
+}
+
+function hideSuggest(){
+  $sbox.classList.add('hide');
+  $sbox.innerHTML = '';
+}
+
+function showSuggest(items){
+  if (!items.length){ hideSuggest(); return; }
+  $sbox.innerHTML = items.map(t=>`<div class="item" data-v="${t}">${t}</div>`).join('');
+  $sbox.classList.remove('hide');
+}
+
+// Al escribir, mostrar sugerencias
+$input.addEventListener('input', async () => {
+  const q = slugify($input.value);               // ya tienes slugify
+  if (q.length < 2){ hideSuggest(); return; }
+  try{
+    const keys = await ensureManifestKeys();
+    const matches = [];
+    for (const k of keys){
+      if (k.startsWith(q)){ matches.push(k); if (matches.length >= 50) break; }
+    }
+    showSuggest(matches.map(pretty));
+  } catch(e){ /* silencioso */ }
+});
+
+// Click en una sugerencia => completa y busca
+$sbox.addEventListener('click', (e)=>{
+  const item = e.target.closest('.item');
+  if (!item) return;
+  $input.value = item.getAttribute('data-v');
+  hideSuggest();
+  // Si quieres que además cargue de inmediato:
+  if (typeof buscarApellido === 'function') buscarApellido();
+});
+
+// Enter en el input => buscar (y ocultar lista)
+$input.addEventListener('keydown', (e)=>{
+  if (e.key === 'Enter'){
+    hideSuggest();
+    if (typeof buscarApellido === 'function') buscarApellido();
+  }
+});
+
   </script>
 </body>
 </html>
