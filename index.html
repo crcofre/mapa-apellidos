@@ -198,7 +198,8 @@
 .cta-bottom a:hover{ background:#f7f7f9; }
 .cta-bottom a.primary:hover{ filter:brightness(0.95); }
 
-    
+    .log-panel { display: none !important; }
+
   </style>
 </head>
 <body>
@@ -597,6 +598,90 @@ $input.addEventListener('focus', placeSuggest);
         }
       });
     })();
+    /* ===== Reubicar panel de nivel y botones ===== */
+(function(){
+  // Mueve "Nivel de visualización" encima de la leyenda
+  function placeNivelBox() {
+    const nivel = document.getElementById("nivelBox");
+    const legend = document.querySelector(".leaflet-bottom.leaflet-right .legend");
+    const corner = document.querySelector(".leaflet-bottom.leaflet-right");
+    if (!nivel || !legend || !corner) return;
+
+    // crea un contenedor estilo leaflet-control si no existe
+    let nivelCtrl = document.getElementById("nivelControl");
+    if (!nivelCtrl) {
+      nivelCtrl = document.createElement("div");
+      nivelCtrl.id = "nivelControl";
+      nivelCtrl.className = "leaflet-control";
+      nivelCtrl.appendChild(nivel);
+      corner.insertBefore(nivelCtrl, legend.closest(".leaflet-control"));
+    }
+    // iguala el ancho con la leyenda
+    const w = getComputedStyle(legend).width;
+    if (w) nivel.style.width = w;
+  }
+
+  // Botones inferiores
+  function addBottomButtons() {
+    const corner = document.querySelector(".leaflet-bottom.leaflet-right");
+    if (!corner || document.getElementById("bottomBtns")) return;
+    const ctrl = document.createElement("div");
+    ctrl.className = "leaflet-control";
+    ctrl.id = "bottomBtns";
+    ctrl.innerHTML = `
+      <div class="cta-bottom">
+        <a class="primary" href="https://www.apellidos.cl/investigacion-genealogica" target="_blank">Estudio Genealógico</a>
+        <a href="https://www.apellidos.cl/diploma" target="_blank">Diploma del Apellido</a>
+      </div>`;
+    corner.appendChild(ctrl);
+  }
+
+  // CSS directo para los botones
+  const style = document.createElement("style");
+  style.textContent = `
+  .cta-bottom {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: flex-end;
+    background:#fff;
+    border:1px solid #ddd;
+    border-radius:10px;
+    padding:8px;
+    box-shadow:0 6px 16px rgba(0,0,0,.08);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  }
+  .cta-bottom a {
+    text-decoration:none;
+    display:inline-block;
+    padding:8px 12px;
+    border-radius:8px;
+    font-weight:600;
+    border:1px solid #ccc;
+    background:#fff;
+    color:#111;
+  }
+  .cta-bottom a.primary {
+    border-color:transparent;
+    background:#0b5ed7;
+    color:#fff;
+  }
+  .cta-bottom a:hover{ background:#f7f7f9; }
+  .cta-bottom a.primary:hover{ filter:brightness(0.95); }`;
+  document.head.appendChild(style);
+
+  // Ejecuta cuando cargue el mapa
+  let tries = 0;
+  const iv = setInterval(() => {
+    placeNivelBox();
+    addBottomButtons();
+    if (++tries > 20) clearInterval(iv);
+  }, 150);
+
+  // reajusta si cambia tamaño
+  window.addEventListener("resize", placeNivelBox);
+})();
+
   </script>
 </body>
 </html>
