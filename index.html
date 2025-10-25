@@ -65,7 +65,7 @@
     ctrl.id = 'ctaBottomControl';
     ctrl.innerHTML = `
       <div class="cta-bottom">
-        <a class="primary" href="https://www.apellidos.cl/investigacion-genealogica" target="_blank" rel="noopener">Estudio Genealógico</a>
+        <a class="primary" href="https://www.apellidos.cl/investigacion-genealogica" target="_blank" rel="noopener">Estudio Familiar</a>
         <a href="https://www.apellidos.cl/diploma" target="_blank" rel="noopener">Diploma del Apellido</a>
       </div>`;
     corner.appendChild(ctrl);
@@ -396,6 +396,37 @@
       if(nivelActual==="provincia")pintar(provinciasGeo,"provincia");
       if(nivelActual==="comuna")   pintar(comunasGeo,"comuna");
 
+// --- Manejo robusto del "Nivel de visualización" ---
+function syncNivelRadios(){
+  const auto = document.querySelector('input[name="nivel"][value="auto"]');
+  const r    = document.querySelector(`input[name="nivel"][value="${nivelActual}"]`);
+  if (nivelMode === 'auto') { if (auto) auto.checked = true; }
+  else { if (r) r.checked = true; }
+}
+
+document.addEventListener('change', function(e){
+  const t = e.target;
+  if (!t || t.name !== 'nivel') return;  // ignorar otros cambios
+  const v = t.value;
+  if (v === 'auto') { 
+    nivelMode = 'auto';
+  } else {
+    nivelMode = 'manual';
+    nivelActual = v;  // 'region' | 'provincia' | 'comuna'
+  }
+  updateVisibility();
+  syncNivelRadios();
+  log(`Nivel set: ${nivelMode==='auto' ? 'Auto' : 'Manual → ' + nivelActual}`, 'ok');
+}, { passive: true });
+
+// Asegura coherencia cada vez que cambiamos visibilidad por zoom/auto
+const _updateVisibility = updateVisibility;
+updateVisibility = function(){
+  _updateVisibility();
+  syncNivelRadios();
+};
+
+      
       // Actualiza leyenda y texto de estado
       legend.update();
       const nombresNivel = { region:'región', provincia:'provincia', comuna:'comuna' };
