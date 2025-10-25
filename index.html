@@ -206,46 +206,45 @@ const BINS_BY_LEVEL = {
     let indice = { region:{}, provincia:{}, comuna:{} };
     function computeNivelByZoom(z){ return (z<=6) ? 'region' : (z<=7) ? 'provincia' : 'comuna'; }
 
-    function actualizarPintado(){
-      const pal  = PALETAS[nivelActual];
-      const bins = BINS_BY_LEVEL[nivelActual];
-      const pctFmt = v => (v==null || isNaN(v)) ? "0%" : `${(+v).toFixed(2).replace('.',',')}%`;
+function actualizarPintado(){
+  const pal  = PALETAS[nivelActual];
+  const bins = BINS_BY_LEVEL[nivelActual];
+  const pctFmt = v => (v==null || isNaN(v)) ? "0%" : `${(+v).toFixed(2).replace('.',',')}%`;
 
-      const pintar = (geo, nivel)=>{
-        if(!geo) return;
-        geo.eachLayer(l=>{
-          const p=l.feature.properties||{};
-          const key = (nivel==="region")
-            ? norm(getProp(p,["REGION","NOM_REG","Región","NAME_1"],""))
-            : (nivel==="provincia")
-              ? norm(getProp(p,["PROVINCIA","NOM_PROV","Provincia","NAME_2","name"],""))
-              : norm(getProp(p,["COMUNA","NOM_COM","Comuna","name"],""));
-          const v = (indice[nivel]||{})[key];
-          const fill = colorByBins(v, pal, bins);
-          l.setStyle({ fillColor: fill, fillOpacity: .65 });
+  const pintar = (geo, nivel)=>{
+    if(!geo) return;
+    geo.eachLayer(l=>{
+      const p=l.feature.properties||{};
+      const key = (nivel==="region")
+        ? norm(getProp(p,["REGION","NOM_REG","Región","NAME_1"],""))
+        : (nivel==="provincia")
+          ? norm(getProp(p,["PROVINCIA","NOM_PROV","Provincia","NAME_2","name"],""))
+          : norm(getProp(p,["COMUNA","NOM_COM","Comuna","name"],""));
+      const v = (indice[nivel]||{})[key];
+      const fill = colorByBins(v, pal, bins);
+      l.setStyle({ fillColor: fill, fillOpacity: .65 });
 
-          const nombre = (nivel==="region")
-            ? getProp(p,["REGION","NOM_REG","Región","NAME_1"],"Región")
-            : (nivel==="provincia")
-              ? getProp(p,["PROVINCIA","NOM_PROV","Provincia","NAME_2","name"],"Provincia")
-              : getProp(p,["COMUNA","NOM_COM","Comuna","name"],"Comuna");
-          l.bindTooltip(`${nombre}<br><small>${apellidoActual || '—'}: <b>${pctFmt(v)}</b></small>`, {sticky:true,opacity:.95});
-        });
-      };
+      const nombre = (nivel==="region")
+        ? getProp(p,["REGION","NOM_REG","Región","NAME_1"],"Región")
+        : (nivel==="provincia")
+          ? getProp(p,["PROVINCIA","NOM_PROV","Provincia","NAME_2","name"],"Provincia")
+          : getProp(p,["COMUNA","NOM_COM","Comuna","name"],"Comuna");
+      l.bindTooltip(`${nombre}<br><small>${apellidoActual || '—'}: <b>${pctFmt(v)}</b></small>`, {sticky:true,opacity:.95});
+    });
+  };
 
-      if(nivelActual==="region")   pintar(regionesGeo,"region");
-      if(nivelActual==="provincia")pintar(provinciasGeo,"provincia");
-      if(nivelActual==="comuna")   pintar(comunasGeo,"comuna");
+  if(nivelActual==="region")   pintar(regionesGeo,"region");
+  if(nivelActual==="provincia")pintar(provinciasGeo,"provincia");
+  if(nivelActual==="comuna")   pintar(comunasGeo,"comuna");
 
-const nombresNivel = {
-  region: 'región',
-  provincia: 'provincia',
-  comuna: 'comuna'
-};
-setText(
-  'estado',
-  `Mostrando "${apellidoActual || '—'}" – vista de ${nombresNivel[nivelActual] || nivelActual}`
-);  
+  // actualiza leyenda
+  legend.update();
+
+  // texto de estado (sin zoom ni "(manual)")
+  const nombresNivel = { region:'región', provincia:'provincia', comuna:'comuna' };
+  setText('estado', `Mostrando "${apellidoActual || '—'}" – vista de ${nombresNivel[nivelActual] || nivelActual}`);
+}
+
 
  
     function updateVisibility(){
