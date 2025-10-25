@@ -18,13 +18,25 @@
       border:1px solid rgba(0,0,0,.2); border-radius:4px; padding:3px 6px;
     }
     /* UI buscador */
-    .search-ui{
-      position:absolute; top:12px; left:12px; z-index:1000;
-      background:#ffffffeb; border:1px solid #ddd; border-radius:10px; padding:10px 12px;
-      box-shadow:0 6px 16px rgba(0,0,0,.08);
-      font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-      max-width:min(92vw,480px);
-    }
+/* Antes
+.search-ui{
+  position:absolute; top:12px; left:12px; z-index:1000;
+  ...
+}
+*/
+
+/* Después: arriba-derecha */
+.search-ui{
+  position:absolute; top:12px; right:12px; left:auto; z-index:1000;
+  background:#ffffffeb; border:1px solid #ddd; border-radius:10px; padding:10px 12px;
+  box-shadow:0 6px 16px rgba(0,0,0,.08);
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  max-width:min(92vw,480px);
+}
+/* (opcional, para que se vea más ordenado a la derecha) */
+.search-ui h3{ text-align:right; }
+.search-ui small{ text-align:right; }
+
     .search-ui h3{ margin:0 0 6px 0; font-size:14px; font-weight:700; }
     .search-ui .row{ display:flex; gap:6px; margin-bottom:6px; }
     .search-ui input{ flex:1; padding:6px 8px; font-size:14px; border:1px solid #ccc; border-radius:8px; }
@@ -54,11 +66,19 @@
     .log-ok{ color:#9f9; } .log-warn{ color:#ff9; } .log-err{ color:#f99; } .log-dim{ color:#aaa; }
 
     /* Sugerencias */
-    .suggest{ position:absolute; z-index:1001; left:12px; top:72px; background:#fff; border:1px solid #ddd; border-radius:10px; box-shadow:0 10px 24px rgba(0,0,0,.15);
-      max-height:260px; overflow:auto; width:min(92vw,480px); }
-    .suggest.hide{ display:none; }
-    .suggest .item{ padding:8px 10px; cursor:pointer; }
-    .suggest .item:hover{ background:#f2f6ff; }
+/* Antes
+.suggest{ position:absolute; z-index:1001; left:12px; top:72px; ... }
+*/
+
+/* Después: alineado con el panel a la derecha */
+.suggest{
+  position:absolute; z-index:1001;
+  right:12px; left:auto; top:72px;
+  background:#fff; border:1px solid #ddd; border-radius:10px; box-shadow:0 10px 24px rgba(0,0,0,.15);
+  max-height:260px; overflow:auto; width:min(92vw,480px);
+}
+.suggest.hide{ display:none; }
+
   </style>
 </head>
 <body>
