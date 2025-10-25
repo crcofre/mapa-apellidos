@@ -202,6 +202,45 @@
 /* Ocultar créditos de Leaflet */
 .leaflet-control-attribution { display: none !important; }
 
+/* ======== Ajustes finos de interfaz ======== */
+
+/* Compactar panel de búsqueda */
+.search-ui {
+  padding: 8px 10px !important;
+  line-height: 1.2;
+}
+.search-ui h3 {
+  margin-bottom: 4px !important;
+}
+.search-ui .row {
+  margin-bottom: 4px !important;
+}
+.search-ui input {
+  padding: 5px 6px !important;
+  font-size: 13px !important;
+}
+.search-ui small {
+  display: none !important; /* Quita "Mostrando" o "Listo..." */
+}
+
+/* Reducir espaciado entre radios del nivel */
+#nivelBox label.opt {
+  margin: 0 !important;
+  padding: 1px 6px !important;
+}
+#nivelBox {
+  line-height: 1.1 !important;
+  padding: 6px 8px !important;
+  margin-bottom: 4px !important; /* menos espacio con Frecuencia (%) */
+}
+
+/* Alinear todo más compacto */
+.legend {
+  margin-top: 2px !important;
+}
+
+
+  
   </style>
 </head>
 <body>
@@ -360,7 +399,7 @@
       // Actualiza leyenda y texto de estado
       legend.update();
       const nombresNivel = { region:'región', provincia:'provincia', comuna:'comuna' };
-      setText('estado', `Mostrando "${apellidoActual || '—'}" – vista de ${nombresNivel[nivelActual] || nivelActual}`);
+      setText('estado', `"${apellidoActual || '—'}" – vista de ${nombresNivel[nivelActual] || nivelActual}`);
     }
 
     function updateVisibility(){
