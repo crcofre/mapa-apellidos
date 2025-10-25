@@ -17,31 +17,20 @@
       color:#000; background:rgba(255,255,255,.9);
       border:1px solid rgba(0,0,0,.2); border-radius:4px; padding:3px 6px;
     }
-    /* UI buscador */
-/* Antes
-.search-ui{
-  position:absolute; top:12px; left:12px; z-index:1000;
-  ...
-}
-*/
 
-/* Después: arriba-derecha */
-.search-ui{
-  position:absolute; top:12px; right:12px; left:auto; z-index:1000;
-  background:#ffffffeb; border:1px solid #ddd; border-radius:10px; padding:10px 12px;
-  box-shadow:0 6px 16px rgba(0,0,0,.08);
-  font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-  max-width:min(92vw,480px);
-}
-/* (opcional, para que se vea más ordenado a la derecha) */
-.search-ui h3{ text-align:right; }
-.search-ui small{ text-align:right; }
-
-    .search-ui h3{ margin:0 0 6px 0; font-size:14px; font-weight:700; }
+    /* UI buscador (arriba-derecha) */
+    .search-ui{
+      position:absolute; top:12px; right:12px; left:auto; z-index:1000;
+      background:#ffffffeb; border:1px solid #ddd; border-radius:10px; padding:10px 12px;
+      box-shadow:0 6px 16px rgba(0,0,0,.08);
+      font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+      max-width:min(92vw,480px);
+    }
+    .search-ui h3{ margin:0 0 6px 0; font-size:14px; font-weight:700; text-align:right; }
     .search-ui .row{ display:flex; gap:6px; margin-bottom:6px; }
     .search-ui input{ flex:1; padding:6px 8px; font-size:14px; border:1px solid #ccc; border-radius:8px; }
     .search-ui button{ padding:6px 10px; border:0; border-radius:8px; cursor:pointer; font-weight:600; background:#0b5ed7; color:#fff; }
-    .search-ui small{ display:block; margin-top:4px; color:#555; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .search-ui small{ display:block; margin-top:4px; color:#555; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; text-align:right; }
 
     /* Selector de nivel (radios) */
     .option-box{ margin-top:6px; padding:8px 10px; border:1px solid #ddd; border-radius:10px; background:#fff;
@@ -57,7 +46,7 @@
     .legend .swatch{ width:18px; height:12px; border:1px solid #999; }
     .legend b{ display:block; margin-bottom:4px; }
 
-    /* Logs */
+    /* Logs (puedes ocultarlos luego si quieres) */
     .log-panel{ position:fixed; right:12px; top:12px; z-index:1100; width:min(38vw,420px); max-height:46vh; overflow:auto;
       font:12px/1.35 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       background:#111; color:#eaeaea; border:1px solid #333; border-radius:10px; box-shadow:0 6px 16px rgba(0,0,0,.35); }
@@ -65,20 +54,12 @@
     .log-panel pre{ margin:0; padding:8px; white-space:pre-wrap; word-break:break-word; }
     .log-ok{ color:#9f9; } .log-warn{ color:#ff9; } .log-err{ color:#f99; } .log-dim{ color:#aaa; }
 
-    /* Sugerencias */
-/* Antes
-.suggest{ position:absolute; z-index:1001; left:12px; top:72px; ... }
-*/
-
-/* Después: alineado con el panel a la derecha */
-.suggest{
-  position:absolute; z-index:1001;
-  right:12px; left:auto; top:72px;
-  background:#fff; border:1px solid #ddd; border-radius:10px; box-shadow:0 10px 24px rgba(0,0,0,.15);
-  max-height:260px; overflow:auto; width:min(92vw,480px);
-}
-.suggest.hide{ display:none; }
-
+    /* Sugerencias (debajo del panel, a la derecha) */
+    .suggest{ position:absolute; z-index:1001; right:12px; left:auto; top:72px; background:#fff; border:1px solid #ddd; border-radius:10px; box-shadow:0 10px 24px rgba(0,0,0,.15);
+      max-height:260px; overflow:auto; width:min(92vw,480px); }
+    .suggest.hide{ display:none; }
+    .suggest .item{ padding:8px 10px; cursor:pointer; }
+    .suggest .item:hover{ background:#f2f6ff; }
   </style>
 </head>
 <body>
@@ -107,10 +88,12 @@
     const $log = document.getElementById('logText');
     const log = (msg, level='dim') => {
       const ts = new Date().toISOString().substring(11,19);
-      $log.insertAdjacentText('beforeend', `\n[${ts}] ${msg}`);
-      $log.className = `log-${level}`;
+      if ($log) {
+        $log.insertAdjacentText('beforeend', `\n[${ts}] ${msg}`);
+        $log.className = `log-${level}`;
+        $log.scrollTop = $log.scrollHeight;
+      }
       if(level==='err') console.error(msg); else if(level==='warn') console.warn(msg); else console.log(msg);
-      $log.scrollTop = $log.scrollHeight;
     };
     const setText = (id, txt) => { const el=document.getElementById(id); if(el) el.textContent = txt; };
     window.addEventListener('error', e => log(`ERROR: ${e.message}`, 'err'));
@@ -181,7 +164,15 @@
       comuna:   [0, 0.15, 0.30, 0.60, 1.00, 1.50, 2.50, Infinity]
     };
     const colorByBins = (v, pal, bins) => { if(v==null||isNaN(v)) return pal[0]; for(let i=0;i<bins.length-1;i++){ if(v>=bins[i] && v<bins[i+1]) return pal[i]; } return pal[pal.length-1]; };
-    const labelsFromBins = (bins) => { const fmt=x=>(x===Infinity)?"∞":`${(+x).toLocaleString('es-CL',{maximumFractionDigits:2})}%`; const labs=[]; for(let i=0;i<bins.length-1;i++){ const a=bins[i], b=bins[i+1]; labs.push(b===Infinity?`>${fmt(a)}`:`${fmt(a)}–${fmt(b)}`);} return labs; };
+    const labelsFromBins = (bins) => {
+      const fmt = x => (x===Infinity) ? "∞" : `${(+x).toLocaleString('es-CL',{maximumFractionDigits:2})}%`;
+      const labs = [];
+      for(let i=0;i<bins.length-1;i++){
+        const a=bins[i], b=bins[i+1];
+        labs.push(b===Infinity ? `>${fmt(a)}` : `${fmt(a)}–${fmt(b)}`);
+      }
+      return labs;
+    };
 
     /* ===== Normalización / slug ===== */
     const norm = s => {
