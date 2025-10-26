@@ -71,6 +71,16 @@
     /* Ocultar logs y atribución Leaflet */
     .log-panel{ display:none !important; }
     .leaflet-control-attribution { display:none !important; }
+    
+    /* Quitar rectángulos negros (focus) al hacer clic en el mapa */
+#map:focus { outline: none !important; }
+.leaflet-interactive:focus { outline: none !important; }
+.leaflet-container a:focus { outline: none !important; }
+.leaflet-container *:focus { outline: none !important; }
+
+/* En móviles: quitar destello al tocar */
+.leaflet-container { -webkit-tap-highlight-color: transparent; }
+
   </style>
 </head>
 <body>
