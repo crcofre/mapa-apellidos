@@ -71,30 +71,36 @@
     /* Ocultar logs y atribución Leaflet */
     .log-panel{ display:none !important; }
     .leaflet-control-attribution { display:none !important; }
-    
-    /* Quitar rectángulos negros (focus) al hacer clic en el mapa */
-#map:focus { outline: none !important; }
-.leaflet-interactive:focus { outline: none !important; }
-.leaflet-container a:focus { outline: none !important; }
-.leaflet-container *:focus { outline: none !important; }
 
-/* En móviles: quitar destello al tocar */
-.leaflet-container { -webkit-tap-highlight-color: transparent; }
+    /* ===== Estilo y transición del botón "Diploma del Apellido" ===== */
+    .cta-bottom a#btnDiploma{
+      transition: background-color .3s ease, color .3s ease, border-color .3s ease;
+      background:#fff; color:#111; border-color:#ccc;
+    }
+    .cta-bottom a#btnDiploma.is-available{
+      background:#e53935; color:#fff; border-color:#e53935;
+    }
 
+    /* Quitar rectángulos negros (focus) */
+    #map:focus { outline: none !important; }
+    .leaflet-interactive:focus { outline: none !important; }
+    .leaflet-container a:focus { outline: none !important; }
+    .leaflet-container *:focus { outline: none !important; }
+    .leaflet-container { -webkit-tap-highlight-color: transparent; }
   </style>
 </head>
 <body>
   <div class="search-ui">
     <h3>Consulta tu apellido</h3>
     <div class="row">
-  <input id="apellidoInput" type="text" placeholder="Ej.: Cisternas / Díaz / Di Bella" autocomplete="off" />
-</div>
+      <input id="apellidoInput" type="text" placeholder="Ej.: Cisternas / Díaz / Di Bella" autocomplete="off" />
+      <!-- Botón Buscar eliminado si así lo tenías; si existe, puedes quitarlo -->
+    </div>
 
-
-    <!-- ESTE bloque existe aquí solo como plantilla; lo reubicamos sobre la leyenda por JS -->
+    <!-- Este bloque se reubica sobre la leyenda por JS -->
     <div class="option-box" id="nivelBox">
       <div class="option-title">Nivel de visualización</div>
-      <label class="opt"><input type="radio" name="nivel" value="auto" checked> Auto</label>
+      <label class="opt"><input type="radio" name="nivel" value="auto" checked> Auto (según zoom)</label>
       <label class="opt"><input type="radio" name="nivel" value="region"> Región</label>
       <label class="opt"><input type="radio" name="nivel" value="provincia"> Provincia</label>
       <label class="opt"><input type="radio" name="nivel" value="comuna"> Comuna</label>
@@ -105,7 +111,6 @@
 
   <div id="suggestBox" class="suggest hide"></div>
   <div class="log-panel"><header>Logs</header><pre id="logText">[init] esperando…</pre></div>
-
   <div id="map"></div>
 
   <script>
@@ -155,7 +160,6 @@
           }
         });
 
-        // Montar controles: nivel encima de la leyenda y botones abajo-derecha
         mountLevelAboveLegend();
         mountBottomButtons();
 
@@ -172,20 +176,18 @@
       }
     })();
 
-
-    
     /* ===== Paletas / bins ===== */
     const PALETAS = {
       region:    ["#d7ebff","#badaff","#9cc9ff","#7fb8ff","#62a7ff","#458fff","#2a73e0"],
       provincia: ["#e2f7ee","#c6efdc","#a9e6c9","#8cddb7","#6fc5a0","#4fae85","#2f956b"],
-      comuna: ["#fde6e9","#fdc9cf","#fdaaae","#fb8b8d","#f25f63","#d84349","#a92d31","#6d171b"]
-
+      comuna:    ["#fde6e9","#fdc9cf","#fdaaae","#fb8b8d","#f25f63","#d84349","#a92d31"] /* si usas corte 4,5% agrega un octavo color y otro bin */
     };
     const BINS_BY_LEVEL = {
       region:   [0, 0.05, 0.10, 0.20, 0.40, 0.80, 1.50, Infinity],
       provincia:[0, 0.10, 0.20, 0.40, 0.80, 1.20, 2.00, Infinity],
-      comuna: [0, 0.15, 0.30, 0.60, 1.00, 1.50, 2.50, 4.50, Infinity]
-
+      comuna:   [0, 0.15, 0.30, 0.60, 1.00, 1.50, 2.50, Infinity]
+      /* Si ya añadiste el corte 4.5% en tu versión, deja: [0,0.15,0.30,0.60,1.00,1.50,2.50,4.50,Infinity]
+         y en PALETAS.comuna agrega "#6d171b" al final */
     };
     const colorByBins = (v, pal, bins) => { if(v==null||isNaN(v)) return pal[0]; for(let i=0;i<bins.length-1;i++){ if(v>=bins[i] && v<bins[i+1]) return pal[i]; } return pal[pal.length-1]; };
     const labelsFromBins = (bins) => {
@@ -207,8 +209,8 @@
 
     /* ===== Estado / nivel ===== */
     let apellidoActual = "";
-    let nivelMode = 'auto';     // 'auto' | 'manual'
-    let nivelActual = 'region'; // cuando es manual/auto
+    let nivelMode = 'auto';
+    let nivelActual = 'region';
 
     /* ===== Índice corriente ===== */
     let indice = { region:{}, provincia:{}, comuna:{} };
@@ -233,13 +235,11 @@
           const v = (indice[nivel]||{})[key];
           const fill = colorByBins(v, pal, bins);
 
-          // Evitar setStyle redundantes
           const opt = l.options || {};
           if (opt.fillColor !== fill || opt.fillOpacity !== 0.65) {
             l.setStyle({ fillColor: fill, fillOpacity: .65 });
           }
 
-          // Reutilizar tooltip
           const nombre = (nivel==="region")
             ? getProp(p,["REGION","NOM_REG","Región","NAME_1"],"Región")
             : (nivel==="provincia")
@@ -258,7 +258,6 @@
       if(nivelActual==="provincia")pintar(provinciasGeo,"provincia");
       if(nivelActual==="comuna")   pintar(comunasGeo,"comuna");
 
-      // Actualiza leyenda solo si cambia el nivel
       if (legend._lastLevel !== nivelActual) {
         legend.update();
         legend._lastLevel = nivelActual;
@@ -305,22 +304,19 @@
     };
     legend.addTo(map);
 
-    /* ===== Reubicar "Nivel de visualización" sobre la leyenda (mismo ancho) ===== */
+    /* ===== Reubicar Nivel sobre la leyenda ===== */
     function mountLevelAboveLegend(){
       const nivel = document.getElementById('nivelBox');
       const legendDiv = document.querySelector('.leaflet-bottom.leaflet-right .legend');
       const corner = document.querySelector('.leaflet-bottom.leaflet-right');
       if (!nivel || !legendDiv || !corner) return;
-      // envolver como control Leaflet y ubicar ANTES de la leyenda
       const ctrl = document.createElement('div');
       ctrl.className = 'leaflet-control';
       ctrl.id = 'nivelControl';
       ctrl.appendChild(nivel);
       corner.insertBefore(ctrl, legendDiv.closest('.leaflet-control'));
-      // igualar ancho
       const w = getComputedStyle(legendDiv).width;
       if (w) nivel.style.width = w;
-      // reajustar cuando la leyenda se actualiza o cambia el tamaño
       const _upd = legend.update.bind(legend);
       legend.update = function(){ _upd(); const w = getComputedStyle(legendDiv).width; if (w) nivel.style.width = w; };
       window.addEventListener('resize', ()=>{ const w2 = getComputedStyle(legendDiv).width; if (w2) nivel.style.width = w2; });
@@ -336,65 +332,53 @@
       ctrl.innerHTML = `
         <div class="cta-bottom">
           <a class="primary" href="https://www.apellidos.cl/investigacion-genealogica" target="_blank" rel="noopener">Estudio Genealógico</a>
-          <a href="https://www.apellidos.cl/diploma" target="_blank" rel="noopener">Diploma del Apellido</a>
+          <a id="btnDiploma" href="https://www.apellidos.cl/diploma" target="_blank" rel="noopener">Diploma del Apellido</a>
         </div>`;
       corner.appendChild(ctrl);
     }
 
-    /* ===== Manifest + Shards ===== */
-    (() => {
-      const MANIFEST_URLS = [
-        "data_fixed/apellidos_manifest.json",
-        "data/apellidos_manifest.json"
+    /* ===== Lista de apellidos con diploma =====
+       - Se intenta cargar apellidos_diploma.json (raíz o data_fixed/).
+       - Si no existe, se usa el arreglo embebido (puedes llenarlo con tus apellidos).
+    */
+    const APELLIDOS_DIPLOMA_EMBED = [
+      /* Ejemplos / prueba:
+      "RUIZ","PRieto","DÍAZ","LESANA"
+      */
+    ];
+    const DIP_SET = new Set();
+
+    (async function loadDiplomaList(){
+      const tryUrls = [
+        'apellidos_diploma.json',
+        'data_fixed/apellidos_diploma.json'
       ];
-      const SHARD_BASES = ["data_fixed", "data"];
-      const __SHARD_CACHE__ = new Map();
-      let __APELLIDOS_MANIFEST__ = null;
-      const sanitizeJSONText = (t) =>
-        t.replace(/\bNaN\b/g, "null").replace(/\bInfinity\b/g, "null").replace(/\b-Infinity\b/g, "null");
-
-      async function getApellidosManifest() {
-        if (__APELLIDOS_MANIFEST__) return __APELLIDOS_MANIFEST__;
-        let lastErr = null;
-        for (const baseUrl of MANIFEST_URLS) {
-          const url = `${baseUrl}?_=${Date.now()}`;
-          try {
-            const text = await fetch(url, { cache: "no-store" }).then(r => {
-              if (!r.ok) throw new Error(`HTTP ${r.status}`);
-              return r.text();
-            });
-            __APELLIDOS_MANIFEST__ = JSON.parse(sanitizeJSONText(text));
-            return __APELLIDOS_MANIFEST__;
-          } catch (e) { lastErr = e; }
-        }
-        throw lastErr || new Error("No se pudo cargar el manifest");
+      let ok = false;
+      for (const u of tryUrls){
+        try{
+          const r = await fetch(u, {cache:'no-store'});
+          if (r.ok){
+            const arr = await r.json();
+            if (Array.isArray(arr)) { arr.forEach(a=>DIP_SET.add(norm(a))); ok = true; break; }
+          }
+        }catch(e){/* ignora y prueba siguiente */ }
       }
-
-      async function loadShard(filename) {
-        if (__SHARD_CACHE__.has(filename)) return __SHARD_CACHE__.get(filename);
-        let lastErr = null;
-        for (const base of SHARD_BASES) {
-          const url = `${base}/${filename}?_=${Date.now()}`;
-          try {
-            const text = await fetch(url, { cache: "no-store" }).then(r => {
-              if (!r.ok) throw new Error(`HTTP ${r.status}`);
-              return r.text();
-            });
-            const data = JSON.parse(sanitizeJSONText(text));
-            __SHARD_CACHE__.set(filename, data);
-            return data;
-          } catch (e) { lastErr = e; }
-        }
-        throw lastErr || new Error(`No se pudo cargar ${filename}`);
-      }
-
-      window.getApellidosManifest = getApellidosManifest;
-      window.loadShard = loadShard;
+      if (!ok) { APELLIDOS_DIPLOMA_EMBED.forEach(a=>DIP_SET.add(norm(a))); }
     })();
+
+    function updateDiplomaButton(apellidoRaw){
+      const btn = document.getElementById('btnDiploma');
+      if (!btn) return;
+      const n = norm(apellidoRaw||'');
+      if (n && DIP_SET.has(n)) {
+        btn.classList.add('is-available');
+      } else {
+        btn.classList.remove('is-available');
+      }
+    }
 
     /* ===== Autocompletar y búsqueda ===== */
     const $input = document.getElementById('apellidoInput');
-    const $btn   = document.getElementById('buscarBtn');
     const $sbox  = document.getElementById('suggestBox');
 
     function hideSuggest(){ $sbox.classList.add('hide'); $sbox.innerHTML=''; }
@@ -414,7 +398,36 @@
     const pretty = s => s.replace(/-/g,' ').toUpperCase();
 
     let manifestKeys = null;
+    async function getApellidosManifest(){
+      if (window.__APELLIDOS_MANIFEST__) return window.__APELLIDOS_MANIFEST__;
+      const MANIFEST_URLS = ["data_fixed/apellidos_manifest.json","data/apellidos_manifest.json"];
+      let lastErr=null;
+      for (const u of MANIFEST_URLS){
+        try{
+          const txt = await fetch(`${u}?_=${Date.now()}`, {cache:'no-store'}).then(r=>r.text());
+          window.__APELLIDOS_MANIFEST__ = JSON.parse(txt.replace(/\bNaN\b/g,"null").replace(/\bInfinity\b/g,"null").replace(/\b-Infinity\b/g,"null"));
+          return window.__APELLIDOS_MANIFEST__;
+        }catch(e){ lastErr=e; }
+      }
+      throw lastErr || new Error("No se pudo cargar el manifest");
+    }
     async function ensureManifestKeys(){ if(manifestKeys) return manifestKeys; const m = await getApellidosManifest(); manifestKeys = Object.keys(m); return manifestKeys; }
+
+    async function loadShard(filename){
+      if (!window.__SHARD_CACHE__) window.__SHARD_CACHE__ = new Map();
+      if (window.__SHARD_CACHE__.has(filename)) return window.__SHARD_CACHE__.get(filename);
+      const SHARD_BASES = ["data_fixed","data"];
+      let lastErr=null;
+      for (const base of SHARD_BASES){
+        try{
+          const txt = await fetch(`${base}/${filename}?_=${Date.now()}`, {cache:'no-store'}).then(r=>r.text());
+          const data = JSON.parse(txt.replace(/\bNaN\b/g,"null").replace(/\bInfinity\b/g,"null").replace(/\b-Infinity\b/g,"null"));
+          window.__SHARD_CACHE__.set(filename, data);
+          return data;
+        }catch(e){ lastErr=e; }
+      }
+      throw lastErr || new Error(`No se pudo cargar ${filename}`);
+    }
 
     async function fetchApellidoData(apellidoInput){
       const manifest = await getApellidosManifest();
@@ -447,6 +460,7 @@
 
     $input.addEventListener('input', async () => {
       const q = slugify($input.value);
+      updateDiplomaButton($input.value); // vuelve a blanco si se borra o cambia
       if(q.length < 2){ hideSuggest(); return; }
       try{
         const keys = await ensureManifestKeys();
@@ -461,7 +475,6 @@
       $input.value = item.getAttribute('data-v'); hideSuggest(); buscarApellido();
     });
     $input.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ hideSuggest(); buscarApellido(); } });
-    // $btn.addEventListener('click', ()=>{ hideSuggest(); buscarApellido(); });
 
     async function buscarApellido(){
       const raw = ($input.value||'').trim();
@@ -472,12 +485,14 @@
         indice = buildIndiceFromShard(data);
         needsRepaint = true;
         updateVisibility(true);
+        updateDiplomaButton(apellidoActual); // activa rojo si corresponde
       }catch(err){
         setText('estado', 'No se encontró el apellido. Prueba otra variante.');
+        updateDiplomaButton(''); // vuelve a blanco
       }
     }
 
-    // Radios de nivel (rápidos, sin repintar de más)
+    // Radios de nivel (rápidos)
     document.addEventListener('change', (e)=>{
       const t = e.target;
       if (!t || t.name !== 'nivel') return;
