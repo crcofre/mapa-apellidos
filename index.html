@@ -114,7 +114,7 @@
     <!-- Este bloque se reubica sobre la leyenda por JS -->
     <div class="option-box" id="nivelBox">
       <div class="option-title">Nivel de visualización</div>
-      <label class="opt"><input type="radio" name="nivel" value="auto" checked> Auto (según zoom)</label>
+      <label class="opt"><input type="radio" name="nivel" value="auto" checked> Auto</label>
       <label class="opt"><input type="radio" name="nivel" value="region"> Región</label>
       <label class="opt"><input type="radio" name="nivel" value="provincia"> Provincia</label>
       <label class="opt"><input type="radio" name="nivel" value="comuna"> Comuna</label>
@@ -194,12 +194,12 @@
     const PALETAS = {
       region:    ["#d7ebff","#badaff","#9cc9ff","#7fb8ff","#62a7ff","#458fff","#2a73e0"],
       provincia: ["#e2f7ee","#c6efdc","#a9e6c9","#8cddb7","#6fc5a0","#4fae85","#2f956b"],
-      comuna:    ["#fde6e9","#fdc9cf","#fdaaae","#fb8b8d","#f25f63","#d84349","#a92d31"] /* si usas corte 4,5% agrega un octavo color y otro bin */
+      comuna:    ["#fde6e9","#fdc9cf","#fdaaae","#fb8b8d","#f25f63","#d84349","#a92d31","#6d171b"] /* si usas corte 4,5% agrega un octavo color y otro bin */
     };
     const BINS_BY_LEVEL = {
       region:   [0, 0.05, 0.10, 0.20, 0.40, 0.80, 1.50, Infinity],
       provincia:[0, 0.10, 0.20, 0.40, 0.80, 1.20, 2.00, Infinity],
-      comuna:   [0, 0.15, 0.30, 0.60, 1.00, 1.50, 2.50, Infinity]
+      comuna:   [0, 0.15, 0.30, 0.60, 1.00, 1.50, 2.50, 4.50, Infinity]
       /* Si ya añadiste el corte 4.5% en tu versión, deja: [0,0.15,0.30,0.60,1.00,1.50,2.50,4.50,Infinity]
          y en PALETAS.comuna agrega "#6d171b" al final */
     };
