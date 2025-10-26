@@ -126,6 +126,18 @@
   line-height: 1.2;
 }
 
+    /* === Separar el control "Visualización" del buscador === */
+.leaflet-top.leaflet-right .leaflet-control + .leaflet-control {
+  margin-top: 12px !important;  /* separa los bloques en desktop */
+}
+
+/* Si se desea un poco más de espacio en pantallas grandes */
+@media (min-width: 992px) {
+  .leaflet-top.leaflet-right .leaflet-control + .leaflet-control {
+    margin-top: 14px !important;
+  }
+}
+
     
   </style>
 </head>
