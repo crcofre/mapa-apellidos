@@ -114,16 +114,6 @@
 /* Ocultar el bloque original hasta que se mueva sobre la leyenda */
 #nivelBox{ display:none; }
 
-    /* Bloque compacto para "Comuna top" (mismo look que Nivel) */
-.info-box{
-  margin-top:6px; padding:8px 10px; border:1px solid #ddd; border-radius:10px;
-  background:#fff; box-shadow:0 2px 6px rgba(0,0,0,.05) inset;
-  font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif; font-size:13px;
-}
-.info-box .title{ font-size:12px; font-weight:700; color:#333; margin-bottom:4px; }
-
-
-    
   </style>
 </head>
 <body>
@@ -291,49 +281,6 @@
           } else {
             l.bindTooltip(html, {sticky:true,opacity:.95});
           }
-
-function updateTopComuna(){
-  const box = document.getElementById('topComunaBox');
-  if (!box) return;
-
-  const entries = Object.entries(indice?.comuna || {});
-  if (!apellidoActual || !entries.length){
-    box.style.display = 'none';
-    box.querySelector('.value').textContent = '—';
-    return;
-  }
-
-  // Encuentra la comuna con mayor porcentaje
-  let topKey = null, topVal = -1;
-  for (const [k,v] of entries){
-    const val = Number(v) || 0;
-    if (val > topVal){ topVal = val; topKey = k; }
-  }
-  if (topVal <= 0 || !topKey){
-    box.style.display = 'none';
-    box.querySelector('.value').textContent = '—';
-    return;
-  }
-
-  const nombreBonito = getComunaDisplayName(topKey);
-  const pct = `${topVal.toFixed(2).replace('.',',')}%`;
-  box.querySelector('.value').textContent = `${nombreBonito}: ${pct}`;
-  box.style.display = 'block';
-}
-
-          
-          /* ===== Índice de nombre de comuna para mostrar con acentos ===== */
-const __COMUNA_NAME_BY_NORM__ = new Map();
-function ensureComunaNameIndex(){
-  if (__COMUNA_NAME_BY_NORM__.size || !comunasGeo) return;
-  comunasGeo.eachLayer(l=>{
-    const p=l.feature.properties||{};
-    const nombre = getProp(p,["COMUNA","NOM_COM","Comuna","name"],"Comuna");
-    __COMUNA_NAME_BY_NORM__.set(norm(nombre), nombre);
-  });
-}
-function getComunaDisplayName(nKey){ ensureComunaNameIndex(); return __COMUNA_NAME_BY_NORM__.get(nKey) || nKey; }
-
         });
       };
 
@@ -388,58 +335,24 @@ function getComunaDisplayName(nKey){ ensureComunaNameIndex(); return __COMUNA_NA
     legend.addTo(map);
 
     /* ===== Reubicar Nivel sobre la leyenda ===== */
-   /* ===== Reubicar Nivel sobre la leyenda + insertar “Comuna top” ===== */
-function mountLevelAboveLegend(){
-  const nivel    = document.getElementById('nivelBox');
-  const legendDiv= document.querySelector('.leaflet-bottom.leaflet-right .legend');
-  const corner   = document.querySelector('.leaflet-bottom.leaflet-right');
-  if (!nivel || !legendDiv || !corner) return;
+    function mountLevelAboveLegend(){
+      const nivel = document.getElementById('nivelBox');
+      const legendDiv = document.querySelector('.leaflet-bottom.leaflet-right .legend');
+      const corner = document.querySelector('.leaflet-bottom.leaflet-right');
+      if (!nivel || !legendDiv || !corner) return;
+      const ctrl = document.createElement('div');
+      ctrl.className = 'leaflet-control';
+      ctrl.id = 'nivelControl';
+      ctrl.appendChild(nivel);
+      corner.insertBefore(ctrl, legendDiv.closest('.leaflet-control'));
+      nivel.style.display = 'block';   // ← deja de estar oculto una vez reubicado
 
-  const legendControl = legendDiv.closest('.leaflet-control');
-
-  /* --- 1) Crear (si no existe) el bloque “Comuna top” --- */
-  let topCtrl = document.getElementById('topComunaControl');
-  if (!topCtrl){
-    topCtrl = document.createElement('div');
-    topCtrl.className = 'leaflet-control';
-    topCtrl.id = 'topComunaControl';
-    topCtrl.innerHTML = `
-      <div class="info-box" id="topComunaBox" style="display:none">
-        <div class="title">Comuna top</div>
-        <div class="value">—</div>
-      </div>
-    `;
-    // Inserta *encima* de la leyenda
-    corner.insertBefore(topCtrl, legendControl);
-  }
-
-  /* --- 2) Mover el bloque “Nivel de visualización” --- */
-  let ctrl = document.getElementById('nivelControl');
-  if (!ctrl){
-    ctrl = document.createElement('div');
-    ctrl.className = 'leaflet-control';
-    ctrl.id = 'nivelControl';
-    ctrl.appendChild(nivel);
-    // Inserta entre “Comuna top” y la leyenda
-    corner.insertBefore(ctrl, legendControl);
-  }
-  nivel.style.display = 'block'; // si estaba oculto al inicio
-
-  /* --- 3) Igualar anchos a la leyenda y mantenerlos en resize/updates --- */
-  const syncWidths = ()=>{
-    const w = getComputedStyle(legendDiv).width;
-    if (w){
-      nivel.style.width = w;
-      const tb = document.getElementById('topComunaBox');
-      if (tb) tb.style.width = w;
+      const w = getComputedStyle(legendDiv).width;
+      if (w) nivel.style.width = w;
+      const _upd = legend.update.bind(legend);
+      legend.update = function(){ _upd(); const w = getComputedStyle(legendDiv).width; if (w) nivel.style.width = w; };
+      window.addEventListener('resize', ()=>{ const w2 = getComputedStyle(legendDiv).width; if (w2) nivel.style.width = w2; });
     }
-  };
-  syncWidths();
-
-  const _upd = legend.update.bind(legend);
-  legend.update = function(){ _upd(); syncWidths(); };
-  window.addEventListener('resize', syncWidths);
-}
 
     /* ===== Botones inferiores (abajo-derecha) ===== */
     function mountBottomButtons(){
@@ -548,49 +461,16 @@ function mountLevelAboveLegend(){
       throw lastErr || new Error(`No se pudo cargar ${filename}`);
     }
 
-    <script>
-/* REEMPLAZA SOLO ESTA FUNCIÓN */
-async function fetchApellidoData(apellidoInput){
-  const manifest = await getApellidosManifest().catch(()=>null);
-  const slug = slugify(apellidoInput);
-
-  // 1) Lista de candidatos de shard (manifest si existe + prefijos 2,1,3 letras)
-  const candidates = [];
-  if (manifest && manifest[slug]) candidates.push(manifest[slug]);
-
-  const p2 = slug.slice(0,2);
-  const p1 = slug.slice(0,1);
-  const p3 = slug.slice(0,3);
-  const tryFiles = [
-    `apellidos_${p2}.json`,
-    `apellidos_${p1}.json`,
-    `apellidos_${p3}.json`
-  ];
-  for (const f of tryFiles){ if(!candidates.includes(f)) candidates.push(f); }
-
-  // 2) Variantes de clave para buscar dentro del shard
-  const keyVariants = [
-    slug,
-    slug.replace(/-/g, ' '),
-    slug.replace(/\s+/g, '-')
-  ];
-
-  // 3) Intenta en orden hasta encontrar el objeto del apellido
-  let lastErr = null;
-  for (const file of candidates){
-    try{
-      const shard = await loadShard(file);
-      for (const k of keyVariants){
-        if (shard && shard[k]) return shard[k];
-      }
-    }catch(e){ lastErr = e; }
-  }
-
-  // 4) Si no se encontró en ningún shard:
-  throw new Error(`No encontré "${apellidoInput}"`);
-}
-</script>
-
+    async function fetchApellidoData(apellidoInput){
+      const manifest = await getApellidosManifest();
+      const slug = slugify(apellidoInput);
+      let shardFile = manifest[slug];
+      if(!shardFile){ const pref = slug.slice(0,2); shardFile = `apellidos_${pref}.json`; }
+      const shard = await loadShard(shardFile);
+      const obj = shard[slug] || shard[slug.replace(/-/g,' ').replace(/\s+/g,'-')];
+      if(!obj) throw new Error(`No encontré "${apellidoInput}" en ${shardFile}`);
+      return obj;
+    }
 
     function buildIndiceFromShard(apellidoObj){
       const out = { region:{}, provincia:{}, comuna:{} };
@@ -637,13 +517,9 @@ async function fetchApellidoData(apellidoInput){
         indice = buildIndiceFromShard(data);
         needsRepaint = true;
         updateVisibility(true);
-        updateTopComuna();
-
         updateDiplomaButton(apellidoActual); // activa rojo si corresponde
       }catch(err){
         setText('estado', 'No se encontró el apellido. Prueba otra variante.');
-        updateTopComuna();  // la ocultará
-
         updateDiplomaButton(''); // vuelve a blanco
       }
     }
