@@ -162,27 +162,22 @@
   }
 }
 
-    /* --- Ajuste de posición de los botones inferiores (solo escritorio) --- */
-@media (min-width: 992px) {
-  .cta-bottom {
-    transform: translateX(-130px);  /* mueve hacia la izquierda */
-  }
-}
-.cta-bottom {
-  transform: translate(-90px, 8px);
-}
 
 
-/* --- Reubicar botones a la izquierda en escritorio --- */
+/* === Reubicar botones solo en escritorio (estable) === */
 @media (min-width: 992px) {
-  .cta-bottom {
-    position: absolute !important;
+  .cta-bottom{
+    position: fixed !important;   /* anclado al viewport del iframe */
+    left: 30px !important;        /* muévelos más/menos a la izquierda */
+    bottom: 24px !important;      /* separación inferior */
     right: auto !important;
-    left: 30px !important;     /* controla qué tan a la izquierda quieres */
-    bottom: 25px !important;   /* conserva la separación inferior */
     transform: none !important;
+    z-index: 10000 !important;    /* por encima de las leyendas */
+    display: inline-flex;         /* por si pierde el layout */
+    gap: 10px;                    /* espacio entre botones */
   }
 }
+
 
     
   </style>
