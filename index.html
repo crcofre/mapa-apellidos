@@ -101,6 +101,14 @@
     .leaflet-container a:focus { outline: none !important; }
     .leaflet-container *:focus { outline: none !important; }
     .leaflet-container { -webkit-tap-highlight-color: transparent; }
+
+    /* Anti-parpadeo inicial */
+.search-ui{ opacity:0; transition:opacity .2s ease; }
+.app-ready .search-ui{ opacity:1; }
+
+/* Ocultar el bloque original hasta que se mueva sobre la leyenda */
+#nivelBox{ display:none; }
+
   </style>
 </head>
 <body>
@@ -185,6 +193,8 @@
           }
         });
         setText('estado','Listo. Escribe un apellido.');
+        document.documentElement.classList.add('app-ready'); // ← hace visible el panel
+
       }catch(err){
         setText('estado','Error cargando mapas.');
       }
@@ -329,6 +339,8 @@
       ctrl.id = 'nivelControl';
       ctrl.appendChild(nivel);
       corner.insertBefore(ctrl, legendDiv.closest('.leaflet-control'));
+      nivel.style.display = 'block';   // ← deja de estar oculto una vez reubicado
+
       const w = getComputedStyle(legendDiv).width;
       if (w) nivel.style.width = w;
       const _upd = legend.update.bind(legend);
