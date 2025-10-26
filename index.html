@@ -103,8 +103,13 @@
     .leaflet-container { -webkit-tap-highlight-color: transparent; }
 
     /* Anti-parpadeo inicial */
-.search-ui{ opacity:0; transition:opacity .2s ease; }
-.app-ready .search-ui{ opacity:1; }
+/* Mostrar el panel desde el inicio (para ver "Cargando mapas…") */
+.search-ui{ opacity:1; }
+
+/* Ocultar SOLO el bloque "Nivel de visualización" hasta que se reubique */
+#nivelBox{ display:none; }
+.app-ready #nivelBox{ display:block; }
+
 
 /* Ocultar el bloque original hasta que se mueva sobre la leyenda */
 #nivelBox{ display:none; }
