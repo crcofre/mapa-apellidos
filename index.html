@@ -164,19 +164,19 @@
 
 
 
-/* === Reubicar botones solo en escritorio (estable) === */
+/* Botones: mantener abajo, corridos un poco hacia la izquierda (solo escritorio) */
 @media (min-width: 992px) {
   .cta-bottom{
     position: fixed !important;   /* anclado al viewport del iframe */
-    left: 10px !important;        /* muévelos más/menos a la izquierda */
+    right: 260px !important;      /* DESPLAZAMIENTO desde el borde derecho */
     bottom: 24px !important;      /* separación inferior */
-    right: auto !important;
     transform: none !important;
-    z-index: 10000 !important;    /* por encima de las leyendas */
-    display: inline-flex;         /* por si pierde el layout */
-    gap: 10px;                    /* espacio entre botones */
+    z-index: 10000 !important;
+    display: inline-flex;
+    gap: 10px;
   }
 }
+
 
 
     
