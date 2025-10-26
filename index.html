@@ -165,11 +165,23 @@
     /* --- Ajuste de posición de los botones inferiores (solo escritorio) --- */
 @media (min-width: 992px) {
   .cta-bottom {
-    transform: translateX(-2000px);  /* mueve hacia la izquierda */
+    transform: translateX(-130px);  /* mueve hacia la izquierda */
   }
 }
 .cta-bottom {
   transform: translate(-90px, 8px);
+}
+
+
+/* --- Reubicar botones a la izquierda en escritorio --- */
+@media (min-width: 992px) {
+  .cta-bottom {
+    position: absolute !important;
+    right: auto !important;
+    left: 30px !important;     /* controla qué tan a la izquierda quieres */
+    bottom: 25px !important;   /* conserva la separación inferior */
+    transform: none !important;
+  }
 }
 
     
