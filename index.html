@@ -9,6 +9,29 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
+/* --- Separar controles de Leaflet del buscador (solo escritorio) --- */
+@media (min-width: 992px) {
+  /* Empuja toda la columna de controles a la derecha */
+  .leaflet-top.leaflet-right {
+    margin-top: 88px !important;   /* ajusta entre 80–110px según tu header/buscador */
+  }
+}
+
+/* En tablets/móvil no movemos nada (ya se ve bien) */
+@media (max-width: 991.98px) {
+  .leaflet-top.leaflet-right {
+    margin-top: 0 !important;
+  }
+}
+
+/* Si prefieres mover SOLO el panel "Visualización" (id #nivelBox), usa esto: */
+@media (min-width: 992px) {
+  #nivelBox {
+    margin-top: 12px !important;   /* separación entre buscador y "Visualización" */
+  }
+}
+
+  
   <style>
     html, body { height:100%; margin:0; }
     #map { width:100%; height:100vh; background:#f7f7f7; }
