@@ -629,40 +629,52 @@ showSuggest = function(items){
 window.addEventListener('resize', placeSuggest);
 $input.addEventListener('focus', placeSuggest);
 
-    // Radios de nivel (el control se muestra abajo-derecha, arriba de la leyenda)
-    // Creamos el panel y lo insertamos como control Leaflet para que no tape la leyenda.
-    (function mountLevelAndCtas(){
-      const corner = document.querySelector('.leaflet-bottom.leaflet-right');
-      if (!corner) { setTimeout(mountLevelAndCtas, 100); return; }
+// Radios de nivel (el control se muestra abajo-derecha, arriba de la leyenda)
+// Creamos el panel y lo insertamos como control Leaflet para que no tape la leyenda.
+(function mountLevelAndCtas(){
+  const corner = document.querySelector('.leaflet-bottom.leaflet-right');
+  if (!corner) { setTimeout(mountLevelAndCtas, 100); return; }
 
+  // ✅ Evitar duplicados si ya existe el panel
+  if (document.getElementById('nivelBox')) return;
 
+  // --- Panel de “Nivel de visualización” (radios) ---
+  const nivelBox = document.createElement('div');
+  nivelBox.className = 'leaflet-control';
+  nivelBox.innerHTML = `
+    <div class="option-box" id="nivelBox">
+      <div class="option-title">Nivel de visualización</div>
+      <label class="opt"><input type="radio" name="nivel" value="auto" checked> Auto</label>
+      <label class="opt"><input type="radio" name="nivel" value="region"> Región</label>
+      <label class="opt"><input type="radio" name="nivel" value="provincia"> Provincia</label>
+      <label class="opt"><input type="radio" name="nivel" value="comuna"> Comuna</label>
+    </div>
+  `;
+  corner.appendChild(nivelBox);
 
-      // --- Panel de “Nivel de visualización” (radios) ---
-      const nivelBox = document.createElement('div');
-      nivelBox.className = 'leaflet-control';
-      nivelBox.innerHTML = `
-        <div class="option-box" id="nivelBox">
-          <div class="option-title">Nivel de visualización</div>
-          <label class="opt"><input type="radio" name="nivel" value="auto" checked> Auto</label>
-          <label class="opt"><input type="radio" name="nivel" value="region"> Región</label>
-          <label class="opt"><input type="radio" name="nivel" value="provincia"> Provincia</label>
-          <label class="opt"><input type="radio" name="nivel" value="comuna"> Comuna</label>
-        </div>
-      `;
-      corner.appendChild(nivelBox);
+  // --- Listeners para los radios (versión optimizada y rápida) ---
+  nivelBox.addEventListener('change', (e)=>{
+    const t = e.target;
+    if (!t || t.name !== 'nivel') return;
 
-      // Listeners para los radios
-      nivelBox.addEventListener('change', (e)=>{
-        const t = e.target;
-        if (t && t.name === 'nivel') {
-          const v = t.value;
-          if (v === 'auto') { nivelMode = 'auto'; }
-          else { nivelMode = 'manual'; nivelActual = v; }
-          updateVisibility();
-          log(`Nivel set: ${nivelMode==='auto' ? 'Auto (zoom)' : 'Manual → ' + nivelActual}`, 'ok');
-        }
-      });
-    })();
+    const v = t.value;
+    if (v === 'auto') {
+      // Solo actualiza si realmente cambió a "auto"
+      if (nivelMode !== 'auto') {
+        nivelMode = 'auto';
+        updateVisibility(); // repinta/ajusta solo una vez
+      }
+    } else {
+      // v es 'region' | 'provincia' | 'comuna'
+      if (nivelMode !== 'manual' || nivelActual !== v) {
+        nivelMode = 'manual';
+        nivelActual = v;
+        updateVisibility(); // repinta/ajusta solo si cambió
+      }
+    }
+  });
+})();
+
     /* ===== Reubicar panel de nivel y botones ===== */
 (function(){
   // Mueve "Nivel de visualización" encima de la leyenda
