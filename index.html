@@ -550,6 +550,17 @@
         }
       }
     }, { passive:true });
+    /* Evitar que el bloque "Visualización" se pegue al buscador en desktop */
+@media (min-width: 992px) {
+  .leaflet-top.leaflet-right .leaflet-control {
+    margin-bottom: 4px !important; /* seguimos compacto */
+  }
+  /* deja un espacio extra SOLO cuando un control viene después de otro */
+  .leaflet-top.leaflet-right .leaflet-control + .leaflet-control {
+    margin-top: 10px !important;
+  }
+}
+
   </script>
 </body>
 </html>
