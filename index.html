@@ -18,13 +18,13 @@
       border:1px solid rgba(0,0,0,.2); border-radius:4px; padding:3px 6px;
     }
 
-    /* Panel buscador (arriba-derecha; no cambiamos posiciones) */
+    /* Panel buscador (arriba-derecha) */
     .search-ui{
       position:absolute; top:12px; right:12px; left:auto; z-index:1000;
       background:#ffffffeb; border:1px solid #ddd; border-radius:10px; padding:10px 12px;
       box-shadow:0 6px 16px rgba(0,0,0,.08);
       font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-      max-width:min(92vw,480px);
+      max-width:min(92vw,520px);
     }
     .search-ui h3{ margin:0 0 6px 0; font-size:14px; font-weight:700; text-align:right; }
     .search-ui .row{ display:flex; gap:6px; margin-bottom:6px; }
@@ -32,13 +32,13 @@
     .search-ui button{ padding:6px 10px; border:0; border-radius:8px; cursor:pointer; font-weight:600; background:#0b5ed7; color:#fff; }
     .search-ui small{ display:block; margin-top:4px; color:#555; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; text-align:right; }
 
-    /* Radios de nivel */
+    /* Radios de nivel (el bloque lo movemos encima de la leyenda por JS) */
     .option-box{ margin-top:6px; padding:8px 10px; border:1px solid #ddd; border-radius:10px; background:#fff;
       box-shadow:0 2px 6px rgba(0,0,0,.05) inset; display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
     .option-box .option-title{ font-size:12px; font-weight:700; color:#333; margin-right:6px; }
     .option-box .opt{ display:flex; align-items:center; gap:6px; padding:2px 6px; border-radius:8px; background:#f7f7f9; border:1px solid #ececf0; cursor:pointer; user-select:none; }
     .option-box .opt input{ accent-color:#0b5ed7; }
-    .leaflet-control { pointer-events: auto !important; } /* asegurar clics */
+    .leaflet-control { pointer-events: auto !important; }
 
     /* Leyenda */
     .legend{ line-height:16px; color:#333; background:#fff; padding:8px 10px; border-radius:8px; border:1px solid #ddd; box-shadow:0 6px 16px rgba(0,0,0,.08);
@@ -49,14 +49,28 @@
 
     /* Sugerencias (debajo del panel, a la derecha) */
     .suggest{ position:absolute; z-index:1001; right:12px; left:auto; top:72px; background:#fff; border:1px solid #ddd; border-radius:10px; box-shadow:0 10px 24px rgba(0,0,0,.15);
-      max-height:260px; overflow:auto; width:min(92vw,480px); }
+      max-height:260px; overflow:auto; width:min(92vw,520px); }
     .suggest.hide{ display:none; }
     .suggest .item{ padding:8px 10px; cursor:pointer; }
     .suggest .item:hover{ background:#f2f6ff; }
 
-    /* Ocultar panel de logs y atribución Leaflet */
+    /* Botones inferiores (abajo-derecha, lado a lado) */
+    .cta-bottom {
+      display:flex; gap:10px; align-items:center; justify-content:flex-end;
+      background:#fff; border:1px solid #ddd; border-radius:10px; padding:8px;
+      box-shadow:0 6px 16px rgba(0,0,0,.08);
+      font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+    }
+    .cta-bottom a{
+      text-decoration:none; display:inline-block; padding:8px 12px; border-radius:8px;
+      font-weight:600; border:1px solid #ccc; background:#fff; color:#111;
+    }
+    .cta-bottom a.primary{ border-color:transparent; background:#0b5ed7; color:#fff; }
+    .cta-bottom a:hover{ background:#f7f7f9; } .cta-bottom a.primary:hover{ filter:brightness(.95); }
+
+    /* Ocultar logs y atribución Leaflet */
     .log-panel{ display:none !important; }
-    .leaflet-control-attribution { display: none !important; }
+    .leaflet-control-attribution { display:none !important; }
   </style>
 </head>
 <body>
@@ -67,6 +81,7 @@
       <button id="buscarBtn">Buscar</button>
     </div>
 
+    <!-- ESTE bloque existe aquí solo como plantilla; lo reubicamos sobre la leyenda por JS -->
     <div class="option-box" id="nivelBox">
       <div class="option-title">Nivel de visualización</div>
       <label class="opt"><input type="radio" name="nivel" value="auto" checked> Auto (según zoom)</label>
@@ -84,13 +99,9 @@
   <div id="map"></div>
 
   <script>
-    /* ===== Logger silenciado (sin consola ni panel) ===== */
-    const $log = document.getElementById('logText');
-    const log = ()=>{}; // no-op
+    /* ===== Logger silenciado ===== */
+    const log = ()=>{};
     const setText = (id, txt) => { const el=document.getElementById(id); if(el) el.textContent = txt; };
-    // (mantenemos handlers de error, pero sin spam)
-    window.addEventListener('error', e => {});
-    window.addEventListener('unhandledrejection', e => {});
 
     /* ===== Mapa ===== */
     const map = L.map('map', { center: [-35.6751, -71.5430], zoom: 5, minZoom: 4, maxZoom: 12 });
@@ -113,41 +124,41 @@
           pane:'pane-regiones',
           style: () => ({...styleBase, color:"#587fbf", weight:1 }),
           onEachFeature:(f,layer)=>{
-            const p=f.properties||{}, regNom=getProp(p,["REGION","NOM_REG","Región","NAME_1"],"Región");
-            layer.bindTooltip(regNom,{sticky:true,opacity:.95});
+            const p=f.properties||{}, nom=getProp(p,["REGION","NOM_REG","Región","NAME_1"],"Región");
+            layer.bindTooltip(nom,{sticky:true,opacity:.95});
           }
         });
         provinciasGeo = L.geoJSON(prov, {
           pane:'pane-provincias',
           style: () => ({...styleBase, color:"#333", weight:1 }),
           onEachFeature:(f,layer)=>{
-            const p=f.properties||{}, provNom=getProp(p,["PROVINCIA","NOM_PROV","Provincia","NAME_2","name"],"Provincia");
-            layer.bindTooltip(provNom,{sticky:true,opacity:.95});
+            const p=f.properties||{}, nom=getProp(p,["PROVINCIA","NOM_PROV","Provincia","NAME_2","name"],"Provincia");
+            layer.bindTooltip(nom,{sticky:true,opacity:.95});
           }
         });
         comunasGeo = L.geoJSON(com, {
           pane:'pane-comunas',
           style: () => ({...styleBase, color:"#990000", weight:.8 }),
           onEachFeature:(f,layer)=>{
-            const p=f.properties||{}, comNom=getProp(p,["COMUNA","NOM_COM","Comuna","name"],"Comuna");
-            layer.bindTooltip(comNom,{sticky:true,opacity:.95});
+            const p=f.properties||{}, nom=getProp(p,["COMUNA","NOM_COM","Comuna","name"],"Comuna");
+            layer.bindTooltip(nom,{sticky:true,opacity:.95});
           }
         });
 
-        // Primera visualización
+        // Montar controles: nivel encima de la leyenda y botones abajo-derecha
+        mountLevelAboveLegend();
+        mountBottomButtons();
+
         updateVisibility(true);
         map.on('zoomend', ()=>{
           if(nivelMode==='auto'){
-            const newLevel = computeNivelByZoom(map.getZoom());
-            if (newLevel !== nivelActual){
-              nivelActual = newLevel;
-              updateVisibility(true);
-            }
+            const lvl = computeNivelByZoom(map.getZoom());
+            if (lvl !== nivelActual){ nivelActual = lvl; updateVisibility(true); }
           }
         });
         setText('estado','Listo. Escribe un apellido.');
       }catch(err){
-        setText('estado','Error cargando mapas. Revisa conexión.');
+        setText('estado','Error cargando mapas.');
       }
     })();
 
@@ -183,13 +194,12 @@
     /* ===== Estado / nivel ===== */
     let apellidoActual = "";
     let nivelMode = 'auto';     // 'auto' | 'manual'
-    let nivelActual = 'region'; // cuando es manual o auto según zoom
+    let nivelActual = 'region'; // cuando es manual/auto
 
     /* ===== Índice corriente ===== */
     let indice = { region:{}, provincia:{}, comuna:{} };
-    function computeNivelByZoom(z){ return (z<=6) ? 'region' : (z<=7) ? 'provincia' : 'comuna'; }
+    const computeNivelByZoom = z => (z<=6) ? 'region' : (z<=7) ? 'provincia' : 'comuna';
 
-    // Señal para repintado eficiente
     let needsRepaint = true;
 
     function actualizarPintado(){
@@ -209,13 +219,13 @@
           const v = (indice[nivel]||{})[key];
           const fill = colorByBins(v, pal, bins);
 
-          // ⏱ Evita setStyle si ya está con ese color/opacity
+          // Evitar setStyle redundantes
           const opt = l.options || {};
           if (opt.fillColor !== fill || opt.fillOpacity !== 0.65) {
             l.setStyle({ fillColor: fill, fillOpacity: .65 });
           }
 
-          // ⏱ No recrees tooltip: solo actualiza contenido si ya existe
+          // Reutilizar tooltip
           const nombre = (nivel==="region")
             ? getProp(p,["REGION","NOM_REG","Región","NAME_1"],"Región")
             : (nivel==="provincia")
@@ -240,7 +250,6 @@
         legend._lastLevel = nivelActual;
       }
 
-      // Estado limpio (sin “Mostrando”)
       const nombresNivel = { region:'región', provincia:'provincia', comuna:'comuna' };
       setText('estado', `"${apellidoActual || '—'}" – vista de ${nombresNivel[nivelActual] || nivelActual}`);
 
@@ -250,13 +259,11 @@
     function updateVisibility(force=false){
       const targetNivel = (nivelMode==='auto') ? computeNivelByZoom(map.getZoom()) : nivelActual;
 
-      // Si no cambia nivel y no es forzado, solo repinta (rápido)
       if (!force && targetNivel === nivelActual) {
         if (needsRepaint) actualizarPintado();
         return;
       }
 
-      // Limpia solo lo necesario
       regionesLayer.clearLayers(); provinciasLayer.clearLayers(); comunasLayer.clearLayers();
       if (map.hasLayer(regionesLayer))  map.removeLayer(regionesLayer);
       if (map.hasLayer(provinciasLayer))map.removeLayer(provinciasLayer);
@@ -284,6 +291,42 @@
     };
     legend.addTo(map);
 
+    /* ===== Reubicar "Nivel de visualización" sobre la leyenda (mismo ancho) ===== */
+    function mountLevelAboveLegend(){
+      const nivel = document.getElementById('nivelBox');
+      const legendDiv = document.querySelector('.leaflet-bottom.leaflet-right .legend');
+      const corner = document.querySelector('.leaflet-bottom.leaflet-right');
+      if (!nivel || !legendDiv || !corner) return;
+      // envolver como control Leaflet y ubicar ANTES de la leyenda
+      const ctrl = document.createElement('div');
+      ctrl.className = 'leaflet-control';
+      ctrl.id = 'nivelControl';
+      ctrl.appendChild(nivel);
+      corner.insertBefore(ctrl, legendDiv.closest('.leaflet-control'));
+      // igualar ancho
+      const w = getComputedStyle(legendDiv).width;
+      if (w) nivel.style.width = w;
+      // reajustar cuando la leyenda se actualiza o cambia el tamaño
+      const _upd = legend.update.bind(legend);
+      legend.update = function(){ _upd(); const w = getComputedStyle(legendDiv).width; if (w) nivel.style.width = w; };
+      window.addEventListener('resize', ()=>{ const w2 = getComputedStyle(legendDiv).width; if (w2) nivel.style.width = w2; });
+    }
+
+    /* ===== Botones inferiores (abajo-derecha) ===== */
+    function mountBottomButtons(){
+      const corner = document.querySelector('.leaflet-bottom.leaflet-right');
+      if (!corner || document.getElementById('ctaBottomControl')) return;
+      const ctrl = document.createElement('div');
+      ctrl.className = 'leaflet-control';
+      ctrl.id = 'ctaBottomControl';
+      ctrl.innerHTML = `
+        <div class="cta-bottom">
+          <a class="primary" href="https://www.apellidos.cl/investigacion-genealogica" target="_blank" rel="noopener">Estudio Genealógico</a>
+          <a href="https://www.apellidos.cl/diploma" target="_blank" rel="noopener">Diploma del Apellido</a>
+        </div>`;
+      corner.appendChild(ctrl);
+    }
+
     /* ===== Manifest + Shards ===== */
     (() => {
       const MANIFEST_URLS = [
@@ -291,14 +334,10 @@
         "data/apellidos_manifest.json"
       ];
       const SHARD_BASES = ["data_fixed", "data"];
-
       const __SHARD_CACHE__ = new Map();
       let __APELLIDOS_MANIFEST__ = null;
-
       const sanitizeJSONText = (t) =>
-        t.replace(/\bNaN\b/g, "null")
-         .replace(/\bInfinity\b/g, "null")
-         .replace(/\b-Infinity\b/g, "null");
+        t.replace(/\bNaN\b/g, "null").replace(/\bInfinity\b/g, "null").replace(/\b-Infinity\b/g, "null");
 
       async function getApellidosManifest() {
         if (__APELLIDOS_MANIFEST__) return __APELLIDOS_MANIFEST__;
@@ -312,9 +351,7 @@
             });
             __APELLIDOS_MANIFEST__ = JSON.parse(sanitizeJSONText(text));
             return __APELLIDOS_MANIFEST__;
-          } catch (e) {
-            lastErr = e;
-          }
+          } catch (e) { lastErr = e; }
         }
         throw lastErr || new Error("No se pudo cargar el manifest");
       }
@@ -332,9 +369,7 @@
             const data = JSON.parse(sanitizeJSONText(text));
             __SHARD_CACHE__.set(filename, data);
             return data;
-          } catch (e) {
-            lastErr = e;
-          }
+          } catch (e) { lastErr = e; }
         }
         throw lastErr || new Error(`No se pudo cargar ${filename}`);
       }
@@ -343,7 +378,7 @@
       window.loadShard = loadShard;
     })();
 
-    /* ===== Buscar apellido (manifest + shard) + sugerencias ===== */
+    /* ===== Autocompletar y búsqueda ===== */
     const $input = document.getElementById('apellidoInput');
     const $btn   = document.getElementById('buscarBtn');
     const $sbox  = document.getElementById('suggestBox');
@@ -353,14 +388,13 @@
       if(!items.length){ hideSuggest(); return; }
       $sbox.innerHTML = items.map(t=>`<div class="item" data-v="${t}">${t}</div>`).join('');
       $sbox.classList.remove('hide');
-      // Posicionar bajo el panel (robusto)
       const box = document.querySelector('.search-ui');
       if (box) {
         const r = box.getBoundingClientRect();
         $sbox.style.left = 'auto';
         $sbox.style.right = (window.innerWidth - r.right + 12) + 'px';
         $sbox.style.top = (r.bottom + 6 + window.scrollY) + 'px';
-        $sbox.style.width = Math.min(r.width, 480) + 'px';
+        $sbox.style.width = Math.min(r.width, 520) + 'px';
       }
     }
     const pretty = s => s.replace(/-/g,' ').toUpperCase();
@@ -372,10 +406,7 @@
       const manifest = await getApellidosManifest();
       const slug = slugify(apellidoInput);
       let shardFile = manifest[slug];
-      if(!shardFile){
-        const pref = slug.slice(0,2);
-        shardFile = `apellidos_${pref}.json`;
-      }
+      if(!shardFile){ const pref = slug.slice(0,2); shardFile = `apellidos_${pref}.json`; }
       const shard = await loadShard(shardFile);
       const obj = shard[slug] || shard[slug.replace(/-/g,' ').replace(/\s+/g,'-')];
       if(!obj) throw new Error(`No encontré "${apellidoInput}" en ${shardFile}`);
@@ -400,7 +431,6 @@
       return out;
     }
 
-    // Autocompletar
     $input.addEventListener('input', async () => {
       const q = slugify($input.value);
       if(q.length < 2){ hideSuggest(); return; }
@@ -411,7 +441,6 @@
         showSuggest(matches.map(pretty));
       }catch(e){ /* ignore */ }
     });
-    window.addEventListener('resize', ()=>{ if(!$sbox.classList.contains('hide')) showSuggest($sbox.textContent.split('\n')); });
 
     $sbox.addEventListener('click', (e)=>{
       const item = e.target.closest('.item'); if(!item) return;
@@ -428,13 +457,13 @@
         apellidoActual = (data.apellido || raw).toUpperCase();
         indice = buildIndiceFromShard(data);
         needsRepaint = true;
-        updateVisibility(true); // fuerza solo cuando cambia el índice
+        updateVisibility(true);
       }catch(err){
         setText('estado', 'No se encontró el apellido. Prueba otra variante.');
       }
     }
 
-    // Radios de nivel (versión optimizada)
+    // Radios de nivel (rápidos, sin repintar de más)
     document.addEventListener('change', (e)=>{
       const t = e.target;
       if (!t || t.name !== 'nivel') return;
@@ -443,9 +472,7 @@
         if (nivelMode !== 'auto') { nivelMode = 'auto'; updateVisibility(true); }
       } else {
         if (nivelMode !== 'manual' || nivelActual !== v) {
-          nivelMode = 'manual';
-          nivelActual = v;
-          updateVisibility(true);
+          nivelMode = 'manual'; nivelActual = v; updateVisibility(true);
         }
       }
     }, { passive:true });
