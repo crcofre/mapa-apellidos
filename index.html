@@ -548,16 +548,49 @@ function mountLevelAboveLegend(){
       throw lastErr || new Error(`No se pudo cargar ${filename}`);
     }
 
-    async function fetchApellidoData(apellidoInput){
-      const manifest = await getApellidosManifest();
-      const slug = slugify(apellidoInput);
-      let shardFile = manifest[slug];
-      if(!shardFile){ const pref = slug.slice(0,2); shardFile = `apellidos_${pref}.json`; }
-      const shard = await loadShard(shardFile);
-      const obj = shard[slug] || shard[slug.replace(/-/g,' ').replace(/\s+/g,'-')];
-      if(!obj) throw new Error(`No encontré "${apellidoInput}" en ${shardFile}`);
-      return obj;
-    }
+    <script>
+/* REEMPLAZA SOLO ESTA FUNCIÓN */
+async function fetchApellidoData(apellidoInput){
+  const manifest = await getApellidosManifest().catch(()=>null);
+  const slug = slugify(apellidoInput);
+
+  // 1) Lista de candidatos de shard (manifest si existe + prefijos 2,1,3 letras)
+  const candidates = [];
+  if (manifest && manifest[slug]) candidates.push(manifest[slug]);
+
+  const p2 = slug.slice(0,2);
+  const p1 = slug.slice(0,1);
+  const p3 = slug.slice(0,3);
+  const tryFiles = [
+    `apellidos_${p2}.json`,
+    `apellidos_${p1}.json`,
+    `apellidos_${p3}.json`
+  ];
+  for (const f of tryFiles){ if(!candidates.includes(f)) candidates.push(f); }
+
+  // 2) Variantes de clave para buscar dentro del shard
+  const keyVariants = [
+    slug,
+    slug.replace(/-/g, ' '),
+    slug.replace(/\s+/g, '-')
+  ];
+
+  // 3) Intenta en orden hasta encontrar el objeto del apellido
+  let lastErr = null;
+  for (const file of candidates){
+    try{
+      const shard = await loadShard(file);
+      for (const k of keyVariants){
+        if (shard && shard[k]) return shard[k];
+      }
+    }catch(e){ lastErr = e; }
+  }
+
+  // 4) Si no se encontró en ningún shard:
+  throw new Error(`No encontré "${apellidoInput}"`);
+}
+</script>
+
 
     function buildIndiceFromShard(apellidoObj){
       const out = { region:{}, provincia:{}, comuna:{} };
