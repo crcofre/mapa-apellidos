@@ -77,9 +77,9 @@
   <div class="search-ui">
     <h3>Consulta tu apellido</h3>
     <div class="row">
-      <input id="apellidoInput" type="text" placeholder="Ej.: Cisternas / Díaz / Di Bella" autocomplete="off" />
-      <button id="buscarBtn">Buscar</button>
-    </div>
+  <input id="apellidoInput" type="text" placeholder="Ej.: Cisternas / Díaz / Di Bella" autocomplete="off" />
+</div>
+
 
     <!-- ESTE bloque existe aquí solo como plantilla; lo reubicamos sobre la leyenda por JS -->
     <div class="option-box" id="nivelBox">
@@ -447,7 +447,7 @@
       $input.value = item.getAttribute('data-v'); hideSuggest(); buscarApellido();
     });
     $input.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ hideSuggest(); buscarApellido(); } });
-    $btn.addEventListener('click', ()=>{ hideSuggest(); buscarApellido(); });
+    // $btn.addEventListener('click', ()=>{ hideSuggest(); buscarApellido(); });
 
     async function buscarApellido(){
       const raw = ($input.value||'').trim();
