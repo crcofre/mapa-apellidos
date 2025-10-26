@@ -149,10 +149,11 @@
     const regionesLayer=L.layerGroup(), provinciasLayer=L.layerGroup(), comunasLayer=L.layerGroup();
     const getProp = (p, keys, def="—") => { for(const k of keys){ if(p && p[k]!=null && p[k]!=="") return p[k]; } return def; };
 
-    setText('estado','Cargando mapas…');
+    
 
     (async function loadGeo(){
       try{
+        setText('estado','Cargando mapas…');
         const reg = await fetch('regiones.json', {cache:'no-cache'}).then(r=>r.json());
         const prov = await fetch('provincias.json', {cache:'no-cache'}).then(r=>r.json());
         const com  = await fetch('comunas.json', {cache:'no-cache'}).then(r=>r.json());
