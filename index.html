@@ -18,26 +18,27 @@
       border:1px solid rgba(0,0,0,.2); border-radius:4px; padding:3px 6px;
     }
 
-    /* Panel buscador (arriba-izquierda) */
+    /* Panel buscador (arriba-derecha; no cambiamos posiciones) */
     .search-ui{
-      position:absolute; top:12px; right:12px; z-index:1000;
+      position:absolute; top:12px; right:12px; left:auto; z-index:1000;
       background:#ffffffeb; border:1px solid #ddd; border-radius:10px; padding:10px 12px;
       box-shadow:0 6px 16px rgba(0,0,0,.08);
       font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
       max-width:min(92vw,480px);
     }
-    .search-ui h3{ text-align:right; } 
+    .search-ui h3{ margin:0 0 6px 0; font-size:14px; font-weight:700; text-align:right; }
     .search-ui .row{ display:flex; gap:6px; margin-bottom:6px; }
-    .search-ui input{ flex:1; padding:6px 8px; font-size:14px; border:1px solid #ccc; border-radius:6px; }
+    .search-ui input{ flex:1; padding:6px 8px; font-size:14px; border:1px solid #ccc; border-radius:8px; }
     .search-ui button{ padding:6px 10px; border:0; border-radius:8px; cursor:pointer; font-weight:600; background:#0b5ed7; color:#fff; }
-    .search-ui small{ text-align:left; }
+    .search-ui small{ display:block; margin-top:4px; color:#555; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; text-align:right; }
 
-    /* Selector de nivel (radios) – estilos del panel original */
+    /* Radios de nivel */
     .option-box{ margin-top:6px; padding:8px 10px; border:1px solid #ddd; border-radius:10px; background:#fff;
       box-shadow:0 2px 6px rgba(0,0,0,.05) inset; display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
     .option-box .option-title{ font-size:12px; font-weight:700; color:#333; margin-right:6px; }
     .option-box .opt{ display:flex; align-items:center; gap:6px; padding:2px 6px; border-radius:8px; background:#f7f7f9; border:1px solid #ececf0; cursor:pointer; user-select:none; }
     .option-box .opt input{ accent-color:#0b5ed7; }
+    .leaflet-control { pointer-events: auto !important; } /* asegurar clics */
 
     /* Leyenda */
     .legend{ line-height:16px; color:#333; background:#fff; padding:8px 10px; border-radius:8px; border:1px solid #ddd; box-shadow:0 6px 16px rgba(0,0,0,.08);
@@ -46,240 +47,50 @@
     .legend .swatch{ width:18px; height:12px; border:1px solid #999; }
     .legend b{ display:block; margin-bottom:4px; }
 
-    /* === Colocar "Nivel de visualización" encima de la leyenda
-       y crear los dos botones abajo a la derecha === */
+    /* Sugerencias (debajo del panel, a la derecha) */
+    .suggest{ position:absolute; z-index:1001; right:12px; left:auto; top:72px; background:#fff; border:1px solid #ddd; border-radius:10px; box-shadow:0 10px 24px rgba(0,0,0,.15);
+      max-height:260px; overflow:auto; width:min(92vw,480px); }
+    .suggest.hide{ display:none; }
+    .suggest .item{ padding:8px 10px; cursor:pointer; }
+    .suggest .item:hover{ background:#f2f6ff; }
 
-(function mountControls(){
-  const nivelBox = document.getElementById('nivelBox');
-
-  // Crea la botonera inferior (dos botones en fila)
-  function ensureCTABottom(){
-    const corner = document.querySelector('.leaflet-bottom.leaflet-right');
-    if (!corner) return false;
-
-    // Si ya existe, no duplicar
-    if (document.getElementById('ctaBottomControl')) return true;
-
-    const ctrl = document.createElement('div');
-    ctrl.className = 'leaflet-control';
-    ctrl.id = 'ctaBottomControl';
-    ctrl.innerHTML = `
-      <div class="cta-bottom">
-        <a class="primary" href="https://www.apellidos.cl/investigacion-genealogica" target="_blank" rel="noopener">Estudio Familiar</a>
-        <a href="https://www.apellidos.cl/diploma" target="_blank" rel="noopener">Diploma del Apellido</a>
-      </div>`;
-    corner.appendChild(ctrl);
-    return true;
-  }
-
-  // Mueve el nivel encima de la leyenda y le iguala el ancho
-  function placeNivelAboveLegend(){
-    if (!nivelBox) return false;
-    const legendDiv = document.querySelector('.leaflet-bottom.leaflet-right .legend');
-    if (!legendDiv) return false;
-
-    const legendControl = legendDiv.closest('.leaflet-control');
-    const corner = document.querySelector('.leaflet-bottom.leaflet-right');
-    if (!legendControl || !corner) return false;
-
-    // Si el nivel aún no está montado como control, créalo y ponlo antes de la leyenda
-    let nivelCtrl = document.getElementById('nivelControl');
-    if (!nivelCtrl){
-      nivelCtrl = document.createElement('div');
-      nivelCtrl.className = 'leaflet-control';
-      nivelCtrl.id = 'nivelControl';
-      // prepara estilos para "como leyenda"
-      nivelBox.classList.add('as-legend', 'option-box');
-      nivelCtrl.appendChild(nivelBox);
-      corner.insertBefore(nivelCtrl, legendControl);
-    } else {
-      // ya existe; asegúrate que quede antes de la leyenda
-      if (nivelCtrl.nextSibling !== legendControl){
-        corner.insertBefore(nivelCtrl, legendControl);
-      }
-    }
-
-    // Igualar ancho al de la leyenda
-    const w = getComputedStyle(legendDiv).width;
-    if (w) nivelBox.style.width = w;
-
-    return true;
-  }
-
-  // Llamar ahora y en reintentos cortos por si la leyenda tarda
-  let tries = 0;
-  const iv = setInterval(()=>{
-    const okNivel = placeNivelAboveLegend();
-    const okCTA   = ensureCTABottom();
-    if ((okNivel && okCTA) || ++tries > 25) clearInterval(iv);
-  }, 120);
-
-  // También re-ajusta ancho cuando la leyenda se actualiza
-  const _legendUpdate = legend.update.bind(legend);
-  legend.update = function(){
-    _legendUpdate();
-    placeNivelAboveLegend();
-  };
-
-  // Recalcular en resize para mantener alineación/ancho
-  window.addEventListener('resize', placeNivelAboveLegend);
-})();
-
-    /* Logs (ocultos) */
-    .log-panel{ position:fixed; right:12px; top:12px; z-index:1100; width:min(38vw,420px); max-height:46vh; overflow:auto;
-      font:12px/1.35 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      background:#111; color:#eaeaea; border:1px solid #333; border-radius:10px; box-shadow:0 6px 16px rgba(0,0,0,.35);
-      display:none !important;
-    }
-    .log-panel header{ position:sticky; top:0; background:#0d0d0d; color:#9ad; padding:6px 8px; font-weight:700; }
-    .log-panel pre{ margin:0; padding:8px; white-space:pre-wrap; word-break:break-word; }
-
-    /* Sugerencias */
-.suggest{
-  position:absolute; z-index:1001;
-  right:12px; left:auto; top:72px;  /* <- ahora a la derecha */
-  background:#fff; border:1px solid #ddd; border-radius:10px; box-shadow:0 10px 24px rgba(0,0,0,.15);
-  max-height:260px; overflow:auto; width:min(92vw,480px);
-}
-.suggest.hide{ display:none; }
-
-
-    /* Ocultar controles de zoom y botón Buscar */
-    .leaflet-control-zoom{ display:none !important; }
-    #buscarBtn{ display:none !important; }
-
-    /* Botonera CTA que va encima del control de “Nivel de visualización” */
-    .cta-box{
-      background:#fff; border:1px solid #ddd; border-radius:10px; padding:8px; margin-bottom:8px;
-      box-shadow:0 6px 16px rgba(0,0,0,.08); font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-    }
-    .cta-box a{
-      display:block; text-decoration:none; padding:8px 10px; border-radius:8px; margin-bottom:8px; text-align:center;
-      font-weight:600;
-    }
-    .cta-box a:first-child{ background:#0b5ed7; color:#fff; }
-    .cta-box a:last-child{ border:1px solid #ccc; color:#111; background:#fff; }
-    .cta-box a:last-child:hover{ background:#f7f7f9; }
-
-    /* Panel de Nivel con mismo ancho de la leyenda */
-#nivelBox.as-legend {
-  width: 100%;                /* el ancho real lo igualamos por JS */
-  box-sizing: border-box;
-}
-
-/* Botonera inferior (dos botones lado a lado) */
-.cta-bottom {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  justify-content: flex-end;
-  background:#fff;
-  border:1px solid #ddd;
-  border-radius:10px;
-  padding:8px;
-  box-shadow:0 6px 16px rgba(0,0,0,.08);
-  font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-}
-.cta-bottom a{
-  text-decoration:none;
-  display:inline-block;
-  padding:8px 12px;
-  border-radius:8px;
-  font-weight:600;
-  border:1px solid #ccc;
-  background:#fff;
-  color:#111;
-}
-.cta-bottom a.primary{
-  border-color:transparent;
-  background:#0b5ed7;
-  color:#fff;
-}
-.cta-bottom a:hover{ background:#f7f7f9; }
-.cta-bottom a.primary:hover{ filter:brightness(0.95); }
-
-    .log-panel { display: none !important; }
-/* Ocultar créditos de Leaflet */
-.leaflet-control-attribution { display: none !important; }
-
-/* ======== Ajustes finos de interfaz ======== */
-
-/* Compactar panel de búsqueda */
-.search-ui {
-  padding: 8px 10px !important;
-  line-height: 1.2;
-}
-.search-ui h3 {
-  margin-bottom: 4px !important;
-}
-.search-ui .row {
-  margin-bottom: 4px !important;
-}
-.search-ui input {
-  padding: 5px 6px !important;
-  font-size: 13px !important;
-}
-/*.search-ui small {/*
-/*  display: none !important; /* Quita "Mostrando" o "Listo..." */
-/*}
-
-/* Reducir espaciado entre radios del nivel */
-#nivelBox label.opt {
-  margin: 0 !important;
-  padding: 1px 6px !important;
-}
-#nivelBox {
-  line-height: 1.1 !important;
-  padding: 6px 8px !important;
-  margin-bottom: 4px !important; /* menos espacio con Frecuencia (%) */
-}
-
-/* Alinear todo más compacto */
-.legend {
-  margin-top: 2px !important;
-}
-
-/* Asegura que los radios sean clickeables aunque se muevan */
-.leaflet-control { pointer-events: auto !important; }
-
-  
+    /* Ocultar panel de logs y atribución Leaflet */
+    .log-panel{ display:none !important; }
+    .leaflet-control-attribution { display: none !important; }
   </style>
 </head>
 <body>
-  <!-- Panel “Consulta tu apellido” (arriba-izquierda) -->
   <div class="search-ui">
     <h3>Consulta tu apellido</h3>
     <div class="row">
-      <input id="apellidoInput" type="text" placeholder="Ej.: Cisternas / Díaz / Zamorano" autocomplete="off" />
+      <input id="apellidoInput" type="text" placeholder="Ej.: Cisternas / Díaz / Di Bella" autocomplete="off" />
       <button id="buscarBtn">Buscar</button>
     </div>
-    <!-- El nivel se mostrará abajo-derecha; aquí mantenemos sólo el estado -->
+
+    <div class="option-box" id="nivelBox">
+      <div class="option-title">Nivel de visualización</div>
+      <label class="opt"><input type="radio" name="nivel" value="auto" checked> Auto (según zoom)</label>
+      <label class="opt"><input type="radio" name="nivel" value="region"> Región</label>
+      <label class="opt"><input type="radio" name="nivel" value="provincia"> Provincia</label>
+      <label class="opt"><input type="radio" name="nivel" value="comuna"> Comuna</label>
+    </div>
+
     <small id="estado">Cargando mapas…</small>
   </div>
 
   <div id="suggestBox" class="suggest hide"></div>
   <div class="log-panel"><header>Logs</header><pre id="logText">[init] esperando…</pre></div>
 
-  <!-- Mapa -->
   <div id="map"></div>
 
   <script>
-    /* ===== Logger + errores globales ===== */
+    /* ===== Logger silenciado (sin consola ni panel) ===== */
     const $log = document.getElementById('logText');
-    const log = (msg, level='dim') => {
-      const ts = new Date().toISOString().substring(11,19);
-      if ($log) {
-        $log.insertAdjacentText('beforeend', `\n[${ts}] ${msg}`);
-        $log.className = `log-${level}`;
-        $log.scrollTop = $log.scrollHeight;
-      }
-      if(level==='err') console.error(msg);
-      else if(level==='warn') console.warn(msg);
-      else console.log(msg);
-    };
+    const log = ()=>{}; // no-op
     const setText = (id, txt) => { const el=document.getElementById(id); if(el) el.textContent = txt; };
-    window.addEventListener('error', e => log(`ERROR: ${e.message}`, 'err'));
-    window.addEventListener('unhandledrejection', e => log(`PROMISE: ${e.reason}`, 'err'));
+    // (mantenemos handlers de error, pero sin spam)
+    window.addEventListener('error', e => {});
+    window.addEventListener('unhandledrejection', e => {});
 
     /* ===== Mapa ===== */
     const map = L.map('map', { center: [-35.6751, -71.5430], zoom: 5, minZoom: 4, maxZoom: 12 });
@@ -290,47 +101,53 @@
     const regionesLayer=L.layerGroup(), provinciasLayer=L.layerGroup(), comunasLayer=L.layerGroup();
     const getProp = (p, keys, def="—") => { for(const k of keys){ if(p && p[k]!=null && p[k]!=="") return p[k]; } return def; };
 
+    setText('estado','Cargando mapas…');
+
     (async function loadGeo(){
       try{
-        log('GET regiones.json','dim');
         const reg = await fetch('regiones.json', {cache:'no-cache'}).then(r=>r.json());
-        log('GET provincias.json','dim');
         const prov = await fetch('provincias.json', {cache:'no-cache'}).then(r=>r.json());
-        log('GET comunas.json','dim');
         const com  = await fetch('comunas.json', {cache:'no-cache'}).then(r=>r.json());
 
         regionesGeo = L.geoJSON(reg, {
           pane:'pane-regiones',
-          style: f => ({...styleBase, color:"#587fbf", weight:1 }),
+          style: () => ({...styleBase, color:"#587fbf", weight:1 }),
           onEachFeature:(f,layer)=>{
-            const p=f.properties||{}, reg=getProp(p,["REGION","NOM_REG","Región","NAME_1"],"Región");
-            layer.bindTooltip(reg,{sticky:true,opacity:.95});
+            const p=f.properties||{}, regNom=getProp(p,["REGION","NOM_REG","Región","NAME_1"],"Región");
+            layer.bindTooltip(regNom,{sticky:true,opacity:.95});
           }
         });
         provinciasGeo = L.geoJSON(prov, {
           pane:'pane-provincias',
-          style: f => ({...styleBase, color:"#333", weight:1 }),
+          style: () => ({...styleBase, color:"#333", weight:1 }),
           onEachFeature:(f,layer)=>{
-            const p=f.properties||{}, prov=getProp(p,["PROVINCIA","NOM_PROV","Provincia","NAME_2","name"],"Provincia");
-            layer.bindTooltip(prov,{sticky:true,opacity:.95});
+            const p=f.properties||{}, provNom=getProp(p,["PROVINCIA","NOM_PROV","Provincia","NAME_2","name"],"Provincia");
+            layer.bindTooltip(provNom,{sticky:true,opacity:.95});
           }
         });
         comunasGeo = L.geoJSON(com, {
           pane:'pane-comunas',
-          style: f => ({...styleBase, color:"#990000", weight:.8 }),
+          style: () => ({...styleBase, color:"#990000", weight:.8 }),
           onEachFeature:(f,layer)=>{
-            const p=f.properties||{}, com=getProp(p,["COMUNA","NOM_COM","Comuna","name"],"Comuna");
-            layer.bindTooltip(com,{sticky:true,opacity:.95});
+            const p=f.properties||{}, comNom=getProp(p,["COMUNA","NOM_COM","Comuna","name"],"Comuna");
+            layer.bindTooltip(comNom,{sticky:true,opacity:.95});
           }
         });
 
-        updateVisibility();
-        map.on('zoomend', ()=>{ if(nivelMode==='auto') updateVisibility(); });
-        log('GeoJSON cargados y capas listas','ok');
+        // Primera visualización
+        updateVisibility(true);
+        map.on('zoomend', ()=>{
+          if(nivelMode==='auto'){
+            const newLevel = computeNivelByZoom(map.getZoom());
+            if (newLevel !== nivelActual){
+              nivelActual = newLevel;
+              updateVisibility(true);
+            }
+          }
+        });
         setText('estado','Listo. Escribe un apellido.');
       }catch(err){
-        log('Error cargando GeoJSON: '+err.message,'err');
-        setText('estado','Error cargando mapas. Revisa logs.');
+        setText('estado','Error cargando mapas. Revisa conexión.');
       }
     })();
 
@@ -338,15 +155,20 @@
     const PALETAS = {
       region:    ["#d7ebff","#badaff","#9cc9ff","#7fb8ff","#62a7ff","#458fff","#2a73e0"],
       provincia: ["#e2f7ee","#c6efdc","#a9e6c9","#8cddb7","#6fc5a0","#4fae85","#2f956b"],
-      comuna:    ["#fde6e9","#fdc9cf","#fdaaae","#fb8b8d","#f25f63","#d84349","#a92d31","#6d171b"]
+      comuna:    ["#fde6e9","#fdc9cf","#fdaaae","#fb8b8d","#f25f63","#d84349","#a92d31"]
     };
     const BINS_BY_LEVEL = {
       region:   [0, 0.05, 0.10, 0.20, 0.40, 0.80, 1.50, Infinity],
       provincia:[0, 0.10, 0.20, 0.40, 0.80, 1.20, 2.00, Infinity],
-      comuna:   [0, 0.15, 0.30, 0.60, 1.00, 1.50, 2.50, 4.50, Infinity]
+      comuna:   [0, 0.15, 0.30, 0.60, 1.00, 1.50, 2.50, Infinity]
     };
     const colorByBins = (v, pal, bins) => { if(v==null||isNaN(v)) return pal[0]; for(let i=0;i<bins.length-1;i++){ if(v>=bins[i] && v<bins[i+1]) return pal[i]; } return pal[pal.length-1]; };
-    const labelsFromBins = (bins) => { const fmt=x=>(x===Infinity)?"∞":`${(+x).toLocaleString('es-CL',{maximumFractionDigits:2})}%`; const labs=[]; for(let i=0;i<bins.length-1;i++){ const a=bins[i], b=bins[i+1]; labs.push(b===Infinity?`>${fmt(a)}`:`${fmt(a)}–${fmt(b)}`);} return labs; };
+    const labelsFromBins = (bins) => {
+      const fmt = x => (x===Infinity) ? "∞" : `${(+x).toLocaleString('es-CL',{maximumFractionDigits:2})}%`;
+      const labs = [];
+      for(let i=0;i<bins.length-1;i++){ const a=bins[i], b=bins[i+1]; labs.push(b===Infinity?`>${fmt(a)}`:`${fmt(a)}–${fmt(b)}`); }
+      return labs;
+    };
 
     /* ===== Normalización / slug ===== */
     const norm = s => {
@@ -361,11 +183,14 @@
     /* ===== Estado / nivel ===== */
     let apellidoActual = "";
     let nivelMode = 'auto';     // 'auto' | 'manual'
-    let nivelActual = 'region'; // cuando es manual
+    let nivelActual = 'region'; // cuando es manual o auto según zoom
 
     /* ===== Índice corriente ===== */
     let indice = { region:{}, provincia:{}, comuna:{} };
     function computeNivelByZoom(z){ return (z<=6) ? 'region' : (z<=7) ? 'provincia' : 'comuna'; }
+
+    // Señal para repintado eficiente
+    let needsRepaint = true;
 
     function actualizarPintado(){
       const pal  = PALETAS[nivelActual];
@@ -383,14 +208,25 @@
               : norm(getProp(p,["COMUNA","NOM_COM","Comuna","name"],""));
           const v = (indice[nivel]||{})[key];
           const fill = colorByBins(v, pal, bins);
-          l.setStyle({ fillColor: fill, fillOpacity: .65 });
 
+          // ⏱ Evita setStyle si ya está con ese color/opacity
+          const opt = l.options || {};
+          if (opt.fillColor !== fill || opt.fillOpacity !== 0.65) {
+            l.setStyle({ fillColor: fill, fillOpacity: .65 });
+          }
+
+          // ⏱ No recrees tooltip: solo actualiza contenido si ya existe
           const nombre = (nivel==="region")
             ? getProp(p,["REGION","NOM_REG","Región","NAME_1"],"Región")
             : (nivel==="provincia")
               ? getProp(p,["PROVINCIA","NOM_PROV","Provincia","NAME_2","name"],"Provincia")
               : getProp(p,["COMUNA","NOM_COM","Comuna","name"],"Comuna");
-          l.bindTooltip(`${nombre}<br><small>${apellidoActual || '—'}: <b>${pctFmt(v)}</b></small>`, {sticky:true,opacity:.95});
+          const html = `${nombre}<br><small>${apellidoActual || '—'}: <b>${pctFmt(v)}</b></small>`;
+          if (l.getTooltip()) {
+            if (l.getTooltip().getContent() !== html) l.getTooltip().setContent(html);
+          } else {
+            l.bindTooltip(html, {sticky:true,opacity:.95});
+          }
         });
       };
 
@@ -398,62 +234,46 @@
       if(nivelActual==="provincia")pintar(provinciasGeo,"provincia");
       if(nivelActual==="comuna")   pintar(comunasGeo,"comuna");
 
-// --- Manejo robusto del "Nivel de visualización" ---
-function syncNivelRadios(){
-  const auto = document.querySelector('input[name="nivel"][value="auto"]');
-  const r    = document.querySelector(`input[name="nivel"][value="${nivelActual}"]`);
-  if (nivelMode === 'auto') { if (auto) auto.checked = true; }
-  else { if (r) r.checked = true; }
-}
+      // Actualiza leyenda solo si cambia el nivel
+      if (legend._lastLevel !== nivelActual) {
+        legend.update();
+        legend._lastLevel = nivelActual;
+      }
 
-document.addEventListener('change', function(e){
-  const t = e.target;
-  if (!t || t.name !== 'nivel') return;  // ignorar otros cambios
-  const v = t.value;
-  if (v === 'auto') { 
-    nivelMode = 'auto';
-  } else {
-    nivelMode = 'manual';
-    nivelActual = v;  // 'region' | 'provincia' | 'comuna'
-  }
-  updateVisibility();
-  syncNivelRadios();
-  log(`Nivel set: ${nivelMode==='auto' ? 'Auto' : 'Manual → ' + nivelActual}`, 'ok');
-}, { passive: true });
-
-// Asegura coherencia cada vez que cambiamos visibilidad por zoom/auto
-const _updateVisibility = updateVisibility;
-updateVisibility = function(){
-  _updateVisibility();
-  syncNivelRadios();
-};
-
-      
-      // Actualiza leyenda y texto de estado
-      legend.update();
+      // Estado limpio (sin “Mostrando”)
       const nombresNivel = { region:'región', provincia:'provincia', comuna:'comuna' };
       setText('estado', `"${apellidoActual || '—'}" – vista de ${nombresNivel[nivelActual] || nivelActual}`);
+
+      needsRepaint = false;
     }
 
-    function updateVisibility(){
+    function updateVisibility(force=false){
       const targetNivel = (nivelMode==='auto') ? computeNivelByZoom(map.getZoom()) : nivelActual;
 
+      // Si no cambia nivel y no es forzado, solo repinta (rápido)
+      if (!force && targetNivel === nivelActual) {
+        if (needsRepaint) actualizarPintado();
+        return;
+      }
+
+      // Limpia solo lo necesario
       regionesLayer.clearLayers(); provinciasLayer.clearLayers(); comunasLayer.clearLayers();
-      if(map.hasLayer(regionesLayer)) map.removeLayer(regionesLayer);
-      if(map.hasLayer(provinciasLayer)) map.removeLayer(provinciasLayer);
-      if(map.hasLayer(comunasLayer)) map.removeLayer(comunasLayer);
+      if (map.hasLayer(regionesLayer))  map.removeLayer(regionesLayer);
+      if (map.hasLayer(provinciasLayer))map.removeLayer(provinciasLayer);
+      if (map.hasLayer(comunasLayer))   map.removeLayer(comunasLayer);
 
       if (targetNivel === 'region')      { if(regionesGeo){ regionesLayer.addLayer(regionesGeo); regionesLayer.addTo(map); } }
       else if (targetNivel === 'provincia'){ if(provinciasGeo){ provinciasLayer.addLayer(provinciasGeo); provinciasLayer.addTo(map); } }
       else                                { if(comunasGeo){ comunasLayer.addLayer(comunasGeo); comunasLayer.addTo(map); } }
 
       nivelActual = targetNivel;
+      needsRepaint = true;
       actualizarPintado();
     }
 
     /* ===== Leyenda ===== */
     const legend = L.control({position:'bottomright'});
-    legend.onAdd = function(){ this._div = L.DomUtil.create('div','legend'); this.update(); return this._div; };
+    legend.onAdd = function(){ this._div = L.DomUtil.create('div','legend'); this.update(); this._lastLevel = nivelActual; return this._div; };
     legend.update = function(){
       const pal  = PALETAS[nivelActual];
       const bins = BINS_BY_LEVEL[nivelActual];
@@ -486,16 +306,13 @@ updateVisibility = function(){
         for (const baseUrl of MANIFEST_URLS) {
           const url = `${baseUrl}?_=${Date.now()}`;
           try {
-            log(`Cargando manifest: ${url}`, "dim");
             const text = await fetch(url, { cache: "no-store" }).then(r => {
               if (!r.ok) throw new Error(`HTTP ${r.status}`);
               return r.text();
             });
             __APELLIDOS_MANIFEST__ = JSON.parse(sanitizeJSONText(text));
-            log(`Manifest OK (${Object.keys(__APELLIDOS_MANIFEST__).length} apellidos).`, "ok");
             return __APELLIDOS_MANIFEST__;
           } catch (e) {
-            log(`Falló manifest en ${url}: ${e.message}`, "warn");
             lastErr = e;
           }
         }
@@ -508,17 +325,14 @@ updateVisibility = function(){
         for (const base of SHARD_BASES) {
           const url = `${base}/${filename}?_=${Date.now()}`;
           try {
-            log(`Cargando shard: ${url}`, "dim");
             const text = await fetch(url, { cache: "no-store" }).then(r => {
               if (!r.ok) throw new Error(`HTTP ${r.status}`);
               return r.text();
             });
             const data = JSON.parse(sanitizeJSONText(text));
             __SHARD_CACHE__.set(filename, data);
-            log(`Shard OK: ${url}`, "ok");
             return data;
           } catch (e) {
-            log(`Falló shard en ${url}: ${e.message}`, "warn");
             lastErr = e;
           }
         }
@@ -529,12 +343,26 @@ updateVisibility = function(){
       window.loadShard = loadShard;
     })();
 
-    /* ===== Buscar apellido (manifest + shard) ===== */
+    /* ===== Buscar apellido (manifest + shard) + sugerencias ===== */
     const $input = document.getElementById('apellidoInput');
     const $btn   = document.getElementById('buscarBtn');
     const $sbox  = document.getElementById('suggestBox');
+
     function hideSuggest(){ $sbox.classList.add('hide'); $sbox.innerHTML=''; }
-    function showSuggest(items){ if(!items.length){ hideSuggest(); return; } $sbox.innerHTML = items.map(t=>`<div class="item" data-v="${t}">${t}</div>`).join(''); $sbox.classList.remove('hide'); }
+    function showSuggest(items){
+      if(!items.length){ hideSuggest(); return; }
+      $sbox.innerHTML = items.map(t=>`<div class="item" data-v="${t}">${t}</div>`).join('');
+      $sbox.classList.remove('hide');
+      // Posicionar bajo el panel (robusto)
+      const box = document.querySelector('.search-ui');
+      if (box) {
+        const r = box.getBoundingClientRect();
+        $sbox.style.left = 'auto';
+        $sbox.style.right = (window.innerWidth - r.right + 12) + 'px';
+        $sbox.style.top = (r.bottom + 6 + window.scrollY) + 'px';
+        $sbox.style.width = Math.min(r.width, 480) + 'px';
+      }
+    }
     const pretty = s => s.replace(/-/g,' ').toUpperCase();
 
     let manifestKeys = null;
@@ -547,7 +375,6 @@ updateVisibility = function(){
       if(!shardFile){
         const pref = slug.slice(0,2);
         shardFile = `apellidos_${pref}.json`;
-        log(`Apellido no explícito en manifest; uso prefijo: ${shardFile}`,'warn');
       }
       const shard = await loadShard(shardFile);
       const obj = shard[slug] || shard[slug.replace(/-/g,' ').replace(/\s+/g,'-')];
@@ -573,6 +400,7 @@ updateVisibility = function(){
       return out;
     }
 
+    // Autocompletar
     $input.addEventListener('input', async () => {
       const q = slugify($input.value);
       if(q.length < 2){ hideSuggest(); return; }
@@ -583,6 +411,8 @@ updateVisibility = function(){
         showSuggest(matches.map(pretty));
       }catch(e){ /* ignore */ }
     });
+    window.addEventListener('resize', ()=>{ if(!$sbox.classList.contains('hide')) showSuggest($sbox.textContent.split('\n')); });
+
     $sbox.addEventListener('click', (e)=>{
       const item = e.target.closest('.item'); if(!item) return;
       $input.value = item.getAttribute('data-v'); hideSuggest(); buscarApellido();
@@ -597,168 +427,28 @@ updateVisibility = function(){
         const data = await fetchApellidoData(raw);
         apellidoActual = (data.apellido || raw).toUpperCase();
         indice = buildIndiceFromShard(data);
-        updateVisibility();
-        log(`Apellido cargado: ${apellidoActual}`,'ok');
+        needsRepaint = true;
+        updateVisibility(true); // fuerza solo cuando cambia el índice
       }catch(err){
-        log(`Error apellido: ${err.message}`,'err');
         setText('estado', 'No se encontró el apellido. Prueba otra variante.');
       }
     }
-// Coloca la caja de sugerencias justo debajo del panel .search-ui (arriba-derecha)
-function placeSuggest() {
-  const box = document.querySelector('.search-ui');
-  if (!box || !$sbox) return;
-  const r = box.getBoundingClientRect();
-  // Anclaje por la derecha y debajo del panel
-  $sbox.style.left = 'auto';
-  $sbox.style.right = (window.innerWidth - r.right + 12) + 'px'; // mismo margen que el panel
-  $sbox.style.top = (r.bottom + 6 + window.scrollY) + 'px';      // 6px debajo del panel
-  $sbox.style.width = Math.min(r.width, 480) + 'px';
-}
 
-// Llamar cada vez que se muestran sugerencias y en eventos de tamaño
-const _origShowSuggest = showSuggest;
-showSuggest = function(items){
-  if(!items.length){ hideSuggest(); return; }
-  $sbox.innerHTML = items.map(t=>`<div class="item" data-v="${t}">${t}</div>`).join('');
-  placeSuggest();
-  $sbox.classList.remove('hide');
-};
-
-// Reposicionar cuando cambia el tamaño o el usuario vuelve al input
-window.addEventListener('resize', placeSuggest);
-$input.addEventListener('focus', placeSuggest);
-
-// Radios de nivel (el control se muestra abajo-derecha, arriba de la leyenda)
-// Creamos el panel y lo insertamos como control Leaflet para que no tape la leyenda.
-(function mountLevelAndCtas(){
-  const corner = document.querySelector('.leaflet-bottom.leaflet-right');
-  if (!corner) { setTimeout(mountLevelAndCtas, 100); return; }
-
-  // ✅ Evitar duplicados si ya existe el panel
-  if (document.getElementById('nivelBox')) return;
-
-  // --- Panel de “Nivel de visualización” (radios) ---
-  const nivelBox = document.createElement('div');
-  nivelBox.className = 'leaflet-control';
-  nivelBox.innerHTML = `
-    <div class="option-box" id="nivelBox">
-      <div class="option-title">Nivel de visualización</div>
-      <label class="opt"><input type="radio" name="nivel" value="auto" checked> Auto</label>
-      <label class="opt"><input type="radio" name="nivel" value="region"> Región</label>
-      <label class="opt"><input type="radio" name="nivel" value="provincia"> Provincia</label>
-      <label class="opt"><input type="radio" name="nivel" value="comuna"> Comuna</label>
-    </div>
-  `;
-  corner.appendChild(nivelBox);
-
-  // --- Listeners para los radios (versión optimizada y rápida) ---
-  nivelBox.addEventListener('change', (e)=>{
-    const t = e.target;
-    if (!t || t.name !== 'nivel') return;
-
-    const v = t.value;
-    if (v === 'auto') {
-      // Solo actualiza si realmente cambió a "auto"
-      if (nivelMode !== 'auto') {
-        nivelMode = 'auto';
-        updateVisibility(); // repinta/ajusta solo una vez
+    // Radios de nivel (versión optimizada)
+    document.addEventListener('change', (e)=>{
+      const t = e.target;
+      if (!t || t.name !== 'nivel') return;
+      const v = t.value;
+      if (v === 'auto') {
+        if (nivelMode !== 'auto') { nivelMode = 'auto'; updateVisibility(true); }
+      } else {
+        if (nivelMode !== 'manual' || nivelActual !== v) {
+          nivelMode = 'manual';
+          nivelActual = v;
+          updateVisibility(true);
+        }
       }
-    } else {
-      // v es 'region' | 'provincia' | 'comuna'
-      if (nivelMode !== 'manual' || nivelActual !== v) {
-        nivelMode = 'manual';
-        nivelActual = v;
-        updateVisibility(); // repinta/ajusta solo si cambió
-      }
-    }
-  });
-})();
-
-    /* ===== Reubicar panel de nivel y botones ===== */
-(function(){
-  // Mueve "Nivel de visualización" encima de la leyenda
-  function placeNivelBox() {
-    const nivel = document.getElementById("nivelBox");
-    const legend = document.querySelector(".leaflet-bottom.leaflet-right .legend");
-    const corner = document.querySelector(".leaflet-bottom.leaflet-right");
-    if (!nivel || !legend || !corner) return;
-
-    // crea un contenedor estilo leaflet-control si no existe
-    let nivelCtrl = document.getElementById("nivelControl");
-    if (!nivelCtrl) {
-      nivelCtrl = document.createElement("div");
-      nivelCtrl.id = "nivelControl";
-      nivelCtrl.className = "leaflet-control";
-      nivelCtrl.appendChild(nivel);
-      corner.insertBefore(nivelCtrl, legend.closest(".leaflet-control"));
-    }
-    // iguala el ancho con la leyenda
-    const w = getComputedStyle(legend).width;
-    if (w) nivel.style.width = w;
-  }
-
-  // Botones inferiores
-  function addBottomButtons() {
-    const corner = document.querySelector(".leaflet-bottom.leaflet-right");
-    if (!corner || document.getElementById("bottomBtns")) return;
-    const ctrl = document.createElement("div");
-    ctrl.className = "leaflet-control";
-    ctrl.id = "bottomBtns";
-    ctrl.innerHTML = `
-      <div class="cta-bottom">
-        <a class="primary" href="https://www.apellidos.cl/investigacion-genealogica" target="_blank">Estudio Genealógico</a>
-        <a href="https://www.apellidos.cl/diploma" target="_blank">Diploma del Apellido</a>
-      </div>`;
-    corner.appendChild(ctrl);
-  }
-
-  // CSS directo para los botones
-  const style = document.createElement("style");
-  style.textContent = `
-  .cta-bottom {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    justify-content: flex-end;
-    background:#fff;
-    border:1px solid #ddd;
-    border-radius:10px;
-    padding:8px;
-    box-shadow:0 6px 16px rgba(0,0,0,.08);
-    font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-  }
-  .cta-bottom a {
-    text-decoration:none;
-    display:inline-block;
-    padding:8px 12px;
-    border-radius:8px;
-    font-weight:600;
-    border:1px solid #ccc;
-    background:#fff;
-    color:#111;
-  }
-  .cta-bottom a.primary {
-    border-color:transparent;
-    background:#0b5ed7;
-    color:#fff;
-  }
-  .cta-bottom a:hover{ background:#f7f7f9; }
-  .cta-bottom a.primary:hover{ filter:brightness(0.95); }`;
-  document.head.appendChild(style);
-
-  // Ejecuta cuando cargue el mapa
-  let tries = 0;
-  const iv = setInterval(() => {
-    placeNivelBox();
-    addBottomButtons();
-    if (++tries > 20) clearInterval(iv);
-  }, 150);
-
-  // reajusta si cambia tamaño
-  window.addEventListener("resize", placeNivelBox);
-})();
-
+    }, { passive:true });
   </script>
 </body>
 </html>
