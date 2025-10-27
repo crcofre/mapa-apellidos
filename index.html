@@ -310,7 +310,7 @@
 
     /* ===== Índice corriente ===== */
     let indice = { region:{}, provincia:{}, comuna:{} };
-    const computeNivelByZoom = z => (z<=6) ? 'region' : (z<=7) ? 'provincia' : 'comuna';
+    const computeNivelByZoom = z => (z<=5) ? 'region' : (z<=6) ? 'provincia' : 'comuna';
 
     let needsRepaint = true;
 
