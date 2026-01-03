@@ -308,6 +308,29 @@
     let nivelMode = 'auto';
     let nivelActual = 'region';
 
+    /* ===== Puente con apellidos.cl (postMessage) ===== */
+const PARENT_ORIGIN = "https://www.apellidos.cl";
+
+function notifyApellidoToParent(ap) {
+  const apellido = (ap || "").toString().trim();
+  if (!apellido) return;
+  try {
+    window.parent.postMessage(
+      { type: "apellido_selected", apellido },
+      PARENT_ORIGIN
+    );
+  } catch (e) {}
+}
+
+// Responder cuando el padre solicite el apellido actual
+window.addEventListener("message", (event) => {
+  if (event.origin !== PARENT_ORIGIN) return;
+  const data = event.data || {};
+  if (data.type === "request_apellido") {
+    notifyApellidoToParent(apellidoActual || document.getElementById("apellidoInput")?.value || "");
+  }
+});
+
     /* ===== Índice corriente ===== */
     let indice = { region:{}, provincia:{}, comuna:{} };
     const computeNivelByZoom = z => (z<=5) ? 'region' : (z<=6) ? 'provincia' : 'comuna';
@@ -570,7 +593,7 @@
 
     $sbox.addEventListener('click', (e)=>{
       const item = e.target.closest('.item'); if(!item) return;
-      $input.value = item.getAttribute('data-v'); hideSuggest(); buscarApellido();
+      $input.value = item.getAttribute('data-v'); hideSuggest(); notifyApellidoToParent($input.value); buscarApellido();
     });
     $input.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ hideSuggest(); buscarApellido(); } });
 
@@ -584,6 +607,9 @@
         needsRepaint = true;
         updateVisibility(true);
         updateDiplomaButton(apellidoActual); // activa rojo si corresponde
+        
+        notifyApellidoToParent(apellidoActual);
+
       }catch(err){
         setText('estado', 'No se encontró el apellido. Prueba otra variante.');
         updateDiplomaButton(''); // vuelve a blanco
