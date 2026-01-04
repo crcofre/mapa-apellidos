@@ -145,8 +145,9 @@ function main() {
       if (!s) continue;
 
       const p2 = pref2(slug);
-      if (!grouped2.has(p2)) grouped2.set(p2, {});
-      grouped2.get(p2)[slugFromKey(slug)] = s;
+      if (!grouped2.has(p2)) grouped2.set(p2, []);
+      grouped2.get(p2).push(s);
+
     }
   }
 
@@ -159,29 +160,53 @@ function main() {
   ensureDir(OUT_2);
   ensureDir(OUT_3);
 
-  for (const [p2, obj] of grouped2.entries()) {
+  for (const [p2, items2] of grouped2.entries()) {
     const outFile2 = path.join(OUT_2, `apellidos_${p2}.json`);
-    const size = bytesOfJSON(obj);
-
+  
+    // (opcional) orden consistente
+    items2.sort((a, b) => (a.slug || "").localeCompare(b.slug || ""));
+  
+    const payload2 = { items: items2 };
+    const size = bytesOfJSON(payload2);
+  
     if (size <= MAX_BYTES) {
-      writePrettyJSON(outFile2, obj);
+      writePrettyJSON(outFile2, payload2);
       continue;
     }
 
+
     // Si es muy grande, lo dividimos por pref3
-    splitPrefixes.push(p2);
+splitPrefixes.push(p2);
 
-    const grouped3 = new Map(); // pref3 -> { slug: summary }
-    for (const [slug, summary] of Object.entries(obj)) {
-      const p3 = pref3(slug);
-      if (!grouped3.has(p3)) grouped3.set(p3, {});
-      grouped3.get(p3)[slug] = summary;
-    }
+const grouped3 = new Map(); // pref3 -> array de summaries
 
-    for (const [p3, obj3] of grouped3.entries()) {
-      const outFile3 = path.join(OUT_3, `apellidos_${p3}.json`);
-      writePrettyJSON(outFile3, obj3);
-    }
+for (const summary of items2) {
+  const p3 = pref3(summary.slug);
+  if (!grouped3.has(p3)) grouped3.set(p3, []);
+  grouped3.get(p3).push(summary);
+}
+
+for (const [p3, items3] of grouped3.entries()) {
+  items3.sort((a, b) => (a.slug || "").localeCompare(b.slug || ""));
+  const outFile3 = path.join(OUT_3, `apellidos_${p3}.json`);
+  writePrettyJSON(outFile3, { items: items3 });
+}
+
+  
+  for (const [p3, items] of grouped3.entries()) {
+    // orden alfabético (opcional pero recomendado)
+    items.sort((a, b) => a.slug.localeCompare(b.slug));
+  
+    const outFile3 = path.join(OUT_3, `apellidos_${p3}.json`);
+  
+    // MUY IMPORTANTE: sin pretty print para ahorrar tamaño
+    fs.writeFileSync(
+      outFile3,
+      JSON.stringify({ items }),
+      "utf8"
+    );
+  }
+
   }
 
   // 3) Guardar lista de prefijos divididos
