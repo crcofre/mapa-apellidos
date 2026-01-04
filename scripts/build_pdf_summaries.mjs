@@ -11,7 +11,7 @@ const OUT_2 = path.join(OUT_DIR, "2");
 const OUT_3 = path.join(OUT_DIR, "3");
 
 // Límite seguro bajo 2MB (Make). Dejamos margen.
-const MAX_BYTES = 1_900_000;
+const MAX_BYTES = 1_750_000;
 
 // Top N
 const TOP_N = 5;
@@ -112,7 +112,8 @@ function bytesOfJSON(obj) {
 }
 
 function writePrettyJSON(file, obj) {
-  fs.writeFileSync(file, JSON.stringify(obj, null, 2), "utf8");
+  // Minificado para mantener tamaño bajo 2MB para Make
+  fs.writeFileSync(file, JSON.stringify(obj), "utf8");
 }
 
 function main() {
