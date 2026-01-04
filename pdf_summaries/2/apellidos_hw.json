@@ -105,7 +105,7 @@
         "pct_region": 0.000332
       }
     ],
-    "updated_at": "2026-01-04T21:11:16.637Z"
+    "updated_at": "2026-01-04T21:13:03.491Z"
   },
   "hwarts": {
     "apellido": "HWARTS",
@@ -170,7 +170,7 @@
         "pct_region": 0.00112
       }
     ],
-    "updated_at": "2026-01-04T21:11:16.637Z"
+    "updated_at": "2026-01-04T21:13:03.491Z"
   },
   "hwitt": {
     "apellido": "HWITT",
@@ -235,7 +235,7 @@
         "pct_region": 0.001089
       }
     ],
-    "updated_at": "2026-01-04T21:11:16.637Z"
+    "updated_at": "2026-01-04T21:13:03.491Z"
   },
   "hwu": {
     "apellido": "HWU",
@@ -267,6 +267,6 @@
         "pct_region": 0.0005
       }
     ],
-    "updated_at": "2026-01-04T21:11:16.637Z"
+    "updated_at": "2026-01-04T21:13:03.491Z"
   }
 }

@@ -29,7 +29,7 @@
         "pct_region": 0.000332
       }
     ],
-    "updated_at": "2026-01-04T21:11:16.767Z"
+    "updated_at": "2026-01-04T21:13:03.621Z"
   },
   "l-eveque": {
     "apellido": "L'EVEQUE",
@@ -61,7 +61,7 @@
         "pct_region": 0.001026
       }
     ],
-    "updated_at": "2026-01-04T21:11:16.767Z"
+    "updated_at": "2026-01-04T21:13:03.621Z"
   },
   "l-homme": {
     "apellido": "L'HOMME",
@@ -112,7 +112,7 @@
         "pct_region": 0.000422
       }
     ],
-    "updated_at": "2026-01-04T21:11:16.767Z"
+    "updated_at": "2026-01-04T21:13:03.621Z"
   },
   "l-huillier": {
     "apellido": "L'HUILLIER",
@@ -215,7 +215,7 @@
         "pct_region": 0.000348
       }
     ],
-    "updated_at": "2026-01-04T21:11:16.767Z"
+    "updated_at": "2026-01-04T21:13:03.621Z"
   },
   "l-huissier": {
     "apellido": "L'HUISSIER",
@@ -323,7 +323,7 @@
         "pct_region": 0.001698
       }
     ],
-    "updated_at": "2026-01-04T21:11:16.767Z"
+    "updated_at": "2026-01-04T21:13:03.622Z"
   },
   "l-oisseau": {
     "apellido": "L'OISSEAU",
@@ -355,6 +355,6 @@
         "pct_region": 0.003277
       }
     ],
-    "updated_at": "2026-01-04T21:11:16.767Z"
+    "updated_at": "2026-01-04T21:13:03.622Z"
   }
 }

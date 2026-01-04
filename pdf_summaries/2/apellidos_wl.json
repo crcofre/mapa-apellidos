@@ -84,7 +84,7 @@
         "pct_region": 0.001787
       }
     ],
-    "updated_at": "2026-01-04T21:11:18.272Z"
+    "updated_at": "2026-01-04T21:13:05.195Z"
   },
   "wlack": {
     "apellido": "WLACK",
@@ -176,7 +176,7 @@
         "pct_region": 0.000348
       }
     ],
-    "updated_at": "2026-01-04T21:11:18.272Z"
+    "updated_at": "2026-01-04T21:13:05.195Z"
   },
   "wladdimiro": {
     "apellido": "WLADDIMIRO",
@@ -279,7 +279,7 @@
         "pct_region": 0.000514
       }
     ],
-    "updated_at": "2026-01-04T21:11:18.272Z"
+    "updated_at": "2026-01-04T21:13:05.196Z"
   },
   "wlassowsky": {
     "apellido": "WLASSOWSKY",
@@ -311,7 +311,7 @@
         "pct_region": 0.000786
       }
     ],
-    "updated_at": "2026-01-04T21:11:18.272Z"
+    "updated_at": "2026-01-04T21:13:05.196Z"
   },
   "wlikens": {
     "apellido": "WLIKENS",
@@ -343,7 +343,7 @@
         "pct_region": 0.000438
       }
     ],
-    "updated_at": "2026-01-04T21:11:18.272Z"
+    "updated_at": "2026-01-04T21:13:05.196Z"
   },
   "wlodawsky": {
     "apellido": "WLODAWSKY",
@@ -402,6 +402,6 @@
         "pct_region": 0.000984
       }
     ],
-    "updated_at": "2026-01-04T21:11:18.272Z"
+    "updated_at": "2026-01-04T21:13:05.196Z"
   }
 }

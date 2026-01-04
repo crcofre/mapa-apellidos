@@ -29,7 +29,7 @@
         "pct_region": 0.000995
       }
     ],
-    "updated_at": "2026-01-04T21:11:15.901Z"
+    "updated_at": "2026-01-04T21:13:02.767Z"
   },
   "caks": {
     "apellido": "CAKS",
@@ -61,7 +61,7 @@
         "pct_region": 0.016911
       }
     ],
-    "updated_at": "2026-01-04T21:11:15.901Z"
+    "updated_at": "2026-01-04T21:13:02.767Z"
   },
   "cakus": {
     "apellido": "CAKUS",
@@ -93,6 +93,6 @@
         "pct_region": 0.000786
       }
     ],
-    "updated_at": "2026-01-04T21:11:15.901Z"
+    "updated_at": "2026-01-04T21:13:02.767Z"
   }
 }

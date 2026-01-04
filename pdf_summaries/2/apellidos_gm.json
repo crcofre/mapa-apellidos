@@ -29,7 +29,7 @@
         "pct_region": 0.000689
       }
     ],
-    "updated_at": "2026-01-04T21:11:16.462Z"
+    "updated_at": "2026-01-04T21:13:03.320Z"
   },
   "gmelin": {
     "apellido": "GMELIN",
@@ -69,7 +69,7 @@
         "pct_region": 0.000583
       }
     ],
-    "updated_at": "2026-01-04T21:11:16.462Z"
+    "updated_at": "2026-01-04T21:13:03.320Z"
   },
   "gmur": {
     "apellido": "GMUR",
@@ -120,6 +120,6 @@
         "pct_region": 0.000587
       }
     ],
-    "updated_at": "2026-01-04T21:11:16.462Z"
+    "updated_at": "2026-01-04T21:13:03.320Z"
   }
 }

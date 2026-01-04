@@ -48,7 +48,7 @@
         "pct_region": 0.000497
       }
     ],
-    "updated_at": "2026-01-04T21:11:16.350Z"
+    "updated_at": "2026-01-04T21:13:03.208Z"
   },
   "fjellerad": {
     "apellido": "FJELLERAD",
@@ -80,7 +80,7 @@
         "pct_region": 0.000572
       }
     ],
-    "updated_at": "2026-01-04T21:11:16.350Z"
+    "updated_at": "2026-01-04T21:13:03.208Z"
   },
   "fjellman": {
     "apellido": "FJELLMAN",
@@ -112,6 +112,6 @@
         "pct_region": 0.000294
       }
     ],
-    "updated_at": "2026-01-04T21:11:16.350Z"
+    "updated_at": "2026-01-04T21:13:03.208Z"
   }
 }

@@ -29,7 +29,7 @@
         "pct_region": 0.000742
       }
     ],
-    "updated_at": "2026-01-04T21:11:16.739Z"
+    "updated_at": "2026-01-04T21:13:03.594Z"
   },
   "kjellberg": {
     "apellido": "KJELLBERG",
@@ -80,7 +80,7 @@
         "pct_region": 0.000976
       }
     ],
-    "updated_at": "2026-01-04T21:11:16.739Z"
+    "updated_at": "2026-01-04T21:13:03.594Z"
   },
   "kjellbom": {
     "apellido": "KJELLBOM",
@@ -112,7 +112,7 @@
         "pct_region": 0.000294
       }
     ],
-    "updated_at": "2026-01-04T21:11:16.739Z"
+    "updated_at": "2026-01-04T21:13:03.594Z"
   },
   "kjolby": {
     "apellido": "KJOLBY",
@@ -144,7 +144,7 @@
         "pct_region": 0.001015
       }
     ],
-    "updated_at": "2026-01-04T21:11:16.739Z"
+    "updated_at": "2026-01-04T21:13:03.594Z"
   },
   "kjoller": {
     "apellido": "KJOLLER",
@@ -176,6 +176,6 @@
         "pct_region": 0.000294
       }
     ],
-    "updated_at": "2026-01-04T21:11:16.739Z"
+    "updated_at": "2026-01-04T21:13:03.594Z"
   }
 }

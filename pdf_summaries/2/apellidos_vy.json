@@ -105,7 +105,7 @@
         "pct_region": 0.007083
       }
     ],
-    "updated_at": "2026-01-04T21:11:18.241Z"
+    "updated_at": "2026-01-04T21:13:05.164Z"
   },
   "vymazal": {
     "apellido": "VYMAZAL",
@@ -175,7 +175,7 @@
         "pct_region": 0.000699
       }
     ],
-    "updated_at": "2026-01-04T21:11:18.241Z"
+    "updated_at": "2026-01-04T21:13:05.164Z"
   },
   "vymeister": {
     "apellido": "VYMEISTER",
@@ -226,7 +226,7 @@
         "pct_region": 0.000422
       }
     ],
-    "updated_at": "2026-01-04T21:11:18.241Z"
+    "updated_at": "2026-01-04T21:13:05.164Z"
   },
   "vyt": {
     "apellido": "VYT",
@@ -258,6 +258,6 @@
         "pct_region": 0.00121
       }
     ],
-    "updated_at": "2026-01-04T21:11:18.242Z"
+    "updated_at": "2026-01-04T21:13:05.164Z"
   }
 }

@@ -29,7 +29,7 @@
         "pct_region": 0.002349
       }
     ],
-    "updated_at": "2026-01-04T21:11:16.269Z"
+    "updated_at": "2026-01-04T21:13:03.130Z"
   },
   "eom": {
     "apellido": "EOM",
@@ -96,7 +96,7 @@
         "pct_region": 0.000399
       }
     ],
-    "updated_at": "2026-01-04T21:11:16.269Z"
+    "updated_at": "2026-01-04T21:13:03.130Z"
   },
   "eonet": {
     "apellido": "EONET",
@@ -128,6 +128,6 @@
         "pct_region": 0.000587
       }
     ],
-    "updated_at": "2026-01-04T21:11:16.269Z"
+    "updated_at": "2026-01-04T21:13:03.130Z"
   }
 }
