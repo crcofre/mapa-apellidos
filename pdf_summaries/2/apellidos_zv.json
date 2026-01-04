@@ -1,0 +1,198 @@
+{
+  "zvaighaft": {
+    "apellido": "ZVAIGHAFT",
+    "slug": "zvaighaft",
+    "total_personas": 5,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "ÑUÑOA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.001521
+      },
+      {
+        "rank": 2,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.000742
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001071
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001071
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.336Z"
+  },
+  "zveigelt": {
+    "apellido": "ZVEIGELT",
+    "slug": "zveigelt",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000587
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000587
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000587
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.336Z"
+  },
+  "zveli": {
+    "apellido": "ZVELI",
+    "slug": "zveli",
+    "total_personas": 2,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "COLINA",
+        "provincia": "CHACABUCO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.001106
+      },
+      {
+        "rank": 2,
+        "comuna": "SANTIAGO",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000294
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CHACABUCO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001106
+      },
+      {
+        "rank": 2,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000294
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000464
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.336Z"
+  },
+  "zverev": {
+    "apellido": "ZVEREV",
+    "slug": "zverev",
+    "total_personas": 3,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.000742
+      },
+      {
+        "rank": 2,
+        "comuna": "SAN BERNARDO",
+        "provincia": "MAIPO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000438
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000742
+      },
+      {
+        "rank": 2,
+        "provincia": "MAIPO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000438
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000603
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.336Z"
+  },
+  "zvietcovich": {
+    "apellido": "ZVIETCOVICH",
+    "slug": "zvietcovich",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "MACUL",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000987
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000987
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000987
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.336Z"
+  }
+}

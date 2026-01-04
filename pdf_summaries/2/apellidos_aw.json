@@ -1,0 +1,598 @@
+{
+  "awad": {
+    "apellido": "AWAD",
+    "slug": "awad",
+    "total_personas": 439,
+    "n_comunas": 40,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "VITACURA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 63,
+        "pct_comuna": 0.07054
+      },
+      {
+        "rank": 2,
+        "comuna": "LO BARNECHEA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 49,
+        "pct_comuna": 0.059273
+      },
+      {
+        "rank": 3,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 87,
+        "pct_comuna": 0.03228
+      },
+      {
+        "rank": 4,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 48,
+        "pct_comuna": 0.028193
+      },
+      {
+        "rank": 5,
+        "comuna": "YUNGAY",
+        "provincia": "DIGUILLÍN",
+        "region": "16. REGION DE ÑUBLE",
+        "personas": 3,
+        "pct_comuna": 0.018382
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "DIGUILLÍN",
+        "region": "16. REGION DE ÑUBLE",
+        "pct_provincia": 0.018382
+      },
+      {
+        "rank": 2,
+        "provincia": "ITATA",
+        "region": "16. REGION DE ÑUBLE",
+        "pct_provincia": 0.016995
+      },
+      {
+        "rank": 3,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.013289
+      },
+      {
+        "rank": 4,
+        "provincia": "PETORCA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.011482
+      },
+      {
+        "rank": 5,
+        "provincia": "CHACABUCO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.009951
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "16. REGION DE ÑUBLE",
+        "pct_region": 0.018015
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.011479
+      },
+      {
+        "rank": 3,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.005157
+      },
+      {
+        "rank": 4,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.002794
+      },
+      {
+        "rank": 5,
+        "region": "07. REGION DEL MAULE",
+        "pct_region": 0.002227
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.523Z"
+  },
+  "awala": {
+    "apellido": "AWALA",
+    "slug": "awala",
+    "total_personas": 3,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "SANTIAGO",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.000588
+      },
+      {
+        "rank": 2,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000587
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000588
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000588
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.523Z"
+  },
+  "awale": {
+    "apellido": "AWALE",
+    "slug": "awale",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "SANTIAGO",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000294
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000294
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000294
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.523Z"
+  },
+  "awan": {
+    "apellido": "AWAN",
+    "slug": "awan",
+    "total_personas": 2,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "ALTO HOSPICIO",
+        "provincia": "IQUIQUE",
+        "region": "01. REGION DE TARAPACA",
+        "personas": 1,
+        "pct_comuna": 0.001704
+      },
+      {
+        "rank": 2,
+        "comuna": "LO PRADO",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.001125
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "IQUIQUE",
+        "region": "01. REGION DE TARAPACA",
+        "pct_provincia": 0.001704
+      },
+      {
+        "rank": 2,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001125
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "01. REGION DE TARAPACA",
+        "pct_region": 0.001704
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001125
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.523Z"
+  },
+  "awata": {
+    "apellido": "AWATA",
+    "slug": "awata",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "MOSTAZAL",
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "personas": 1,
+        "pct_comuna": 0.004766
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_provincia": 0.004766
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_region": 0.004766
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.523Z"
+  },
+  "awe": {
+    "apellido": "AWE",
+    "slug": "awe",
+    "total_personas": 20,
+    "n_comunas": 9,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "MARIQUINA",
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 6,
+        "pct_comuna": 0.031591
+      },
+      {
+        "rank": 2,
+        "comuna": "SANTO DOMINGO",
+        "provincia": "SAN ANTONIO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 2,
+        "pct_comuna": 0.017339
+      },
+      {
+        "rank": 3,
+        "comuna": "LLANQUIHUE",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 2,
+        "pct_comuna": 0.012362
+      },
+      {
+        "rank": 4,
+        "comuna": "VALDIVIA",
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 3,
+        "pct_comuna": 0.002164
+      },
+      {
+        "rank": 5,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.001175
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SAN ANTONIO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.017339
+      },
+      {
+        "rank": 2,
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.012362
+      },
+      {
+        "rank": 3,
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "pct_provincia": 0.00571
+      },
+      {
+        "rank": 4,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000621
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.017339
+      },
+      {
+        "rank": 2,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.012362
+      },
+      {
+        "rank": 3,
+        "region": "14. REGION DE LOS RIOS",
+        "pct_region": 0.00571
+      },
+      {
+        "rank": 4,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000621
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.523Z"
+  },
+  "aweida": {
+    "apellido": "AWEIDA",
+    "slug": "aweida",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "OSORNO",
+        "provincia": "OSORNO",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 1,
+        "pct_comuna": 0.000699
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "OSORNO",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.000699
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.000699
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.523Z"
+  },
+  "awerkin": {
+    "apellido": "AWERKIN",
+    "slug": "awerkin",
+    "total_personas": 16,
+    "n_comunas": 5,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "ALGARROBO",
+        "provincia": "SAN ANTONIO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 1,
+        "pct_comuna": 0.007257
+      },
+      {
+        "rank": 2,
+        "comuna": "RECOLETA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 7,
+        "pct_comuna": 0.004906
+      },
+      {
+        "rank": 3,
+        "comuna": "INDEPENDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.003631
+      },
+      {
+        "rank": 4,
+        "comuna": "PUENTE ALTO",
+        "provincia": "CORDILLERA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 4,
+        "pct_comuna": 0.001001
+      },
+      {
+        "rank": 5,
+        "comuna": "LA FLORIDA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000325
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SAN ANTONIO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.007257
+      },
+      {
+        "rank": 2,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.002065
+      },
+      {
+        "rank": 3,
+        "provincia": "CORDILLERA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001001
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.007257
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001609
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.523Z"
+  },
+  "awner": {
+    "apellido": "AWNER",
+    "slug": "awner",
+    "total_personas": 2,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.000742
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000742
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000742
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.523Z"
+  },
+  "awnetwant": {
+    "apellido": "AWNETWANT",
+    "slug": "awnetwant",
+    "total_personas": 8,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LO BARNECHEA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.003629
+      },
+      {
+        "rank": 2,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 5,
+        "pct_comuna": 0.001855
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.002272
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.002272
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.523Z"
+  },
+  "awwad": {
+    "apellido": "AWWAD",
+    "slug": "awwad",
+    "total_personas": 7,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "RENGO",
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "personas": 4,
+        "pct_comuna": 0.008231
+      },
+      {
+        "rank": 2,
+        "comuna": "MAIPU",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.00077
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_provincia": 0.008231
+      },
+      {
+        "rank": 2,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.00077
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_region": 0.008231
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.00077
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.523Z"
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "ma": {
+    "apellido": "MA",
+    "slug": "ma",
+    "total_personas": 210,
+    "n_comunas": 40,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "COLCHANE",
+        "provincia": "TAMARUGAL",
+        "region": "01. REGION DE TARAPACA",
+        "personas": 1,
+        "pct_comuna": 0.028877
+      },
+      {
+        "rank": 2,
+        "comuna": "IQUIQUE",
+        "provincia": "IQUIQUE",
+        "region": "01. REGION DE TARAPACA",
+        "personas": 38,
+        "pct_comuna": 0.022679
+      },
+      {
+        "rank": 3,
+        "comuna": "SANTIAGO",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 41,
+        "pct_comuna": 0.012049
+      },
+      {
+        "rank": 4,
+        "comuna": "CERRILLOS",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 7,
+        "pct_comuna": 0.010365
+      },
+      {
+        "rank": 5,
+        "comuna": "SAN ANTONIO",
+        "provincia": "SAN ANTONIO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 5,
+        "pct_comuna": 0.006374
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "TAMARUGAL",
+        "region": "01. REGION DE TARAPACA",
+        "pct_provincia": 0.028877
+      },
+      {
+        "rank": 2,
+        "provincia": "IQUIQUE",
+        "region": "01. REGION DE TARAPACA",
+        "pct_provincia": 0.017681
+      },
+      {
+        "rank": 3,
+        "provincia": "SAN ANTONIO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.006374
+      },
+      {
+        "rank": 4,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.003597
+      },
+      {
+        "rank": 5,
+        "provincia": "CORDILLERA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.003502
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "01. REGION DE TARAPACA",
+        "pct_region": 0.017849
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.003534
+      },
+      {
+        "rank": 3,
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_region": 0.002057
+      },
+      {
+        "rank": 4,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.00158
+      },
+      {
+        "rank": 5,
+        "region": "14. REGION DE LOS RIOS",
+        "pct_region": 0.001443
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:17.001Z"
+  }
+}

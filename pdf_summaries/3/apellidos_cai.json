@@ -1,0 +1,6845 @@
+{
+  "cai": {
+    "apellido": "CAI",
+    "slug": "cai",
+    "total_personas": 139,
+    "n_comunas": 32,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "IQUIQUE",
+        "provincia": "IQUIQUE",
+        "region": "01. REGION DE TARAPACA",
+        "personas": 21,
+        "pct_comuna": 0.012533
+      },
+      {
+        "rank": 2,
+        "comuna": "SANTIAGO",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 36,
+        "pct_comuna": 0.010579
+      },
+      {
+        "rank": 3,
+        "comuna": "CERRILLOS",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 7,
+        "pct_comuna": 0.010365
+      },
+      {
+        "rank": 4,
+        "comuna": "CAUQUENES",
+        "provincia": "CAUQUENES",
+        "region": "07. REGION DEL MAULE",
+        "personas": 2,
+        "pct_comuna": 0.005318
+      },
+      {
+        "rank": 5,
+        "comuna": "CHILLAN",
+        "provincia": "DIGUILLÍN",
+        "region": "16. REGION DE ÑUBLE",
+        "personas": 8,
+        "pct_comuna": 0.005238
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "IQUIQUE",
+        "region": "01. REGION DE TARAPACA",
+        "pct_provincia": 0.012533
+      },
+      {
+        "rank": 2,
+        "provincia": "CAUQUENES",
+        "region": "07. REGION DEL MAULE",
+        "pct_provincia": 0.005318
+      },
+      {
+        "rank": 3,
+        "provincia": "DIGUILLÍN",
+        "region": "16. REGION DE ÑUBLE",
+        "pct_provincia": 0.005238
+      },
+      {
+        "rank": 4,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.003064
+      },
+      {
+        "rank": 5,
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_provincia": 0.002695
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "01. REGION DE TARAPACA",
+        "pct_region": 0.012533
+      },
+      {
+        "rank": 2,
+        "region": "07. REGION DEL MAULE",
+        "pct_region": 0.005318
+      },
+      {
+        "rank": 3,
+        "region": "16. REGION DE ÑUBLE",
+        "pct_region": 0.005238
+      },
+      {
+        "rank": 4,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.002936
+      },
+      {
+        "rank": 5,
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_region": 0.001998
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.899Z"
+  },
+  "caiado": {
+    "apellido": "CAIADO",
+    "slug": "caiado",
+    "total_personas": 2,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LO BARNECHEA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.00121
+      },
+      {
+        "rank": 2,
+        "comuna": "OSORNO",
+        "provincia": "OSORNO",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 1,
+        "pct_comuna": 0.000699
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.00121
+      },
+      {
+        "rank": 2,
+        "provincia": "OSORNO",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.000699
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.00121
+      },
+      {
+        "rank": 2,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.000699
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.899Z"
+  },
+  "caiafa": {
+    "apellido": "CAIAFA",
+    "slug": "caiafa",
+    "total_personas": 4,
+    "n_comunas": 3,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CURACAVI",
+        "provincia": "MELIPILLA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.007592
+      },
+      {
+        "rank": 2,
+        "comuna": "COQUIMBO",
+        "provincia": "ELQUI",
+        "region": "04. REGION DE COQUIMBO",
+        "personas": 1,
+        "pct_comuna": 0.000596
+      },
+      {
+        "rank": 3,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000371
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "MELIPILLA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.007592
+      },
+      {
+        "rank": 2,
+        "provincia": "ELQUI",
+        "region": "04. REGION DE COQUIMBO",
+        "pct_provincia": 0.000596
+      },
+      {
+        "rank": 3,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000371
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001014
+      },
+      {
+        "rank": 2,
+        "region": "04. REGION DE COQUIMBO",
+        "pct_region": 0.000596
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.899Z"
+  },
+  "caiani": {
+    "apellido": "CAIANI",
+    "slug": "caiani",
+    "total_personas": 16,
+    "n_comunas": 6,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PEDRO AGUIRRE CERDA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.00322
+      },
+      {
+        "rank": 2,
+        "comuna": "ESTACION CENTRAL",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.002358
+      },
+      {
+        "rank": 3,
+        "comuna": "SANTIAGO",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 7,
+        "pct_comuna": 0.002057
+      },
+      {
+        "rank": 4,
+        "comuna": "CERRILLOS",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.001481
+      },
+      {
+        "rank": 5,
+        "comuna": "INDEPENDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.00121
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001454
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001454
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.899Z"
+  },
+  "caiazzo": {
+    "apellido": "CAIAZZO",
+    "slug": "caiazzo",
+    "total_personas": 8,
+    "n_comunas": 6,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "INDEPENDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.00121
+      },
+      {
+        "rank": 2,
+        "comuna": "IQUIQUE",
+        "provincia": "IQUIQUE",
+        "region": "01. REGION DE TARAPACA",
+        "personas": 2,
+        "pct_comuna": 0.001194
+      },
+      {
+        "rank": 3,
+        "comuna": "PEÑALOLEN",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000522
+      },
+      {
+        "rank": 4,
+        "comuna": "PUENTE ALTO",
+        "provincia": "CORDILLERA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.0005
+      },
+      {
+        "rank": 5,
+        "comuna": "VIÑA DEL MAR",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 1,
+        "pct_comuna": 0.000332
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "IQUIQUE",
+        "region": "01. REGION DE TARAPACA",
+        "pct_provincia": 0.001194
+      },
+      {
+        "rank": 2,
+        "provincia": "CORDILLERA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.0005
+      },
+      {
+        "rank": 3,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000488
+      },
+      {
+        "rank": 4,
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.000332
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "01. REGION DE TARAPACA",
+        "pct_region": 0.001194
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000493
+      },
+      {
+        "rank": 3,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.000332
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.899Z"
+  },
+  "caiban": {
+    "apellido": "CAIBAN",
+    "slug": "caiban",
+    "total_personas": 2,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CABRERO",
+        "provincia": "BIOBÍO",
+        "region": "08. REGION DEL BIOBIO",
+        "personas": 2,
+        "pct_comuna": 0.007967
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "BIOBÍO",
+        "region": "08. REGION DEL BIOBIO",
+        "pct_provincia": 0.007967
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "08. REGION DEL BIOBIO",
+        "pct_region": 0.007967
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.899Z"
+  },
+  "caibul": {
+    "apellido": "CAIBUL",
+    "slug": "caibul",
+    "total_personas": 76,
+    "n_comunas": 10,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "SAN GREGORIO",
+        "provincia": "MAGALLANES",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "personas": 4,
+        "pct_comuna": 0.411946
+      },
+      {
+        "rank": 2,
+        "comuna": "PRIMAVERA",
+        "provincia": "TIERRA DEL FUEGO",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "personas": 1,
+        "pct_comuna": 0.074571
+      },
+      {
+        "rank": 3,
+        "comuna": "CASTRO",
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 27,
+        "pct_comuna": 0.065227
+      },
+      {
+        "rank": 4,
+        "comuna": "CHAITEN",
+        "provincia": "PALENA",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 2,
+        "pct_comuna": 0.038692
+      },
+      {
+        "rank": 5,
+        "comuna": "PUNTA ARENAS",
+        "provincia": "MAGALLANES",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "personas": 33,
+        "pct_comuna": 0.026933
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "TIERRA DEL FUEGO",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_provincia": 0.074571
+      },
+      {
+        "rank": 2,
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.058677
+      },
+      {
+        "rank": 3,
+        "provincia": "PALENA",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.038692
+      },
+      {
+        "rank": 4,
+        "provincia": "MAGALLANES",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_provincia": 0.02996
+      },
+      {
+        "rank": 5,
+        "provincia": "OSORNO",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.002794
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_region": 0.03044
+      },
+      {
+        "rank": 2,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.009409
+      },
+      {
+        "rank": 3,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000274
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.899Z"
+  },
+  "caica": {
+    "apellido": "CAICA",
+    "slug": "caica",
+    "total_personas": 139,
+    "n_comunas": 21,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LA CRUZ",
+        "provincia": "QUILLOTA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 18,
+        "pct_comuna": 0.110233
+      },
+      {
+        "rank": 2,
+        "comuna": "PUTAENDO",
+        "provincia": "SAN FELIPE DE ACONCAGUA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 12,
+        "pct_comuna": 0.085446
+      },
+      {
+        "rank": 3,
+        "comuna": "CALERA",
+        "provincia": "QUILLOTA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 19,
+        "pct_comuna": 0.042241
+      },
+      {
+        "rank": 4,
+        "comuna": "LA LIGUA",
+        "provincia": "PETORCA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 10,
+        "pct_comuna": 0.033133
+      },
+      {
+        "rank": 5,
+        "comuna": "DOÑIHUE",
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "personas": 4,
+        "pct_comuna": 0.021711
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SAN FELIPE DE ACONCAGUA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.032211
+      },
+      {
+        "rank": 2,
+        "provincia": "QUILLOTA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.031952
+      },
+      {
+        "rank": 3,
+        "provincia": "PETORCA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.024886
+      },
+      {
+        "rank": 4,
+        "provincia": "MELIPILLA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.018979
+      },
+      {
+        "rank": 5,
+        "provincia": "SAN ANTONIO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.008382
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.011025
+      },
+      {
+        "rank": 2,
+        "region": "15. REGION DE ARICA Y PARINACOTA",
+        "pct_region": 0.006109
+      },
+      {
+        "rank": 3,
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_region": 0.003757
+      },
+      {
+        "rank": 4,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.00221
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.899Z"
+  },
+  "caicay": {
+    "apellido": "CAICAY",
+    "slug": "caicay",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "RECOLETA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000701
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000701
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000701
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.899Z"
+  },
+  "caicea": {
+    "apellido": "CAICEA",
+    "slug": "caicea",
+    "total_personas": 52,
+    "n_comunas": 8,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "QUILPUE",
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 39,
+        "pct_comuna": 0.029007
+      },
+      {
+        "rank": 2,
+        "comuna": "CASABLANCA",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 3,
+        "pct_comuna": 0.013352
+      },
+      {
+        "rank": 3,
+        "comuna": "PETORCA",
+        "provincia": "PETORCA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 1,
+        "pct_comuna": 0.010569
+      },
+      {
+        "rank": 4,
+        "comuna": "SANTA JUANA",
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "personas": 1,
+        "pct_comuna": 0.007677
+      },
+      {
+        "rank": 5,
+        "comuna": "QUILLOTA",
+        "provincia": "QUILLOTA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 4,
+        "pct_comuna": 0.005299
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.017597
+      },
+      {
+        "rank": 2,
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.013352
+      },
+      {
+        "rank": 3,
+        "provincia": "PETORCA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.010569
+      },
+      {
+        "rank": 4,
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "pct_provincia": 0.007677
+      },
+      {
+        "rank": 5,
+        "provincia": "QUILLOTA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.005299
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.014395
+      },
+      {
+        "rank": 2,
+        "region": "08. REGION DEL BIOBIO",
+        "pct_region": 0.007677
+      },
+      {
+        "rank": 3,
+        "region": "07. REGION DEL MAULE",
+        "pct_region": 0.002641
+      },
+      {
+        "rank": 4,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001029
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.899Z"
+  },
+  "caicedo": {
+    "apellido": "CAICEDO",
+    "slug": "caicedo",
+    "total_personas": 952,
+    "n_comunas": 82,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "ANTOFAGASTA",
+        "provincia": "ANTOFAGASTA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "personas": 188,
+        "pct_comuna": 0.065517
+      },
+      {
+        "rank": 2,
+        "comuna": "TOCOPILLA",
+        "provincia": "TOCOPILLA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "personas": 9,
+        "pct_comuna": 0.040296
+      },
+      {
+        "rank": 3,
+        "comuna": "SANTIAGO",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 130,
+        "pct_comuna": 0.038204
+      },
+      {
+        "rank": 4,
+        "comuna": "CALLE LARGA",
+        "provincia": "LOS ANDES",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 4,
+        "pct_comuna": 0.03495
+      },
+      {
+        "rank": 5,
+        "comuna": "CALAMA",
+        "provincia": "EL LOA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "personas": 39,
+        "pct_comuna": 0.029471
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "ANTOFAGASTA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_provincia": 0.063538
+      },
+      {
+        "rank": 2,
+        "provincia": "TOCOPILLA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_provincia": 0.040296
+      },
+      {
+        "rank": 3,
+        "provincia": "EL LOA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_provincia": 0.029471
+      },
+      {
+        "rank": 4,
+        "provincia": "COPIAPÓ",
+        "region": "03. REGION DE ATACAMA",
+        "pct_provincia": 0.018705
+      },
+      {
+        "rank": 5,
+        "provincia": "IQUIQUE",
+        "region": "01. REGION DE TARAPACA",
+        "pct_provincia": 0.018123
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_region": 0.052419
+      },
+      {
+        "rank": 2,
+        "region": "03. REGION DE ATACAMA",
+        "pct_region": 0.018374
+      },
+      {
+        "rank": 3,
+        "region": "01. REGION DE TARAPACA",
+        "pct_region": 0.017629
+      },
+      {
+        "rank": 4,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.009523
+      },
+      {
+        "rank": 5,
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_region": 0.009247
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.899Z"
+  },
+  "caiceo": {
+    "apellido": "CAICEO",
+    "slug": "caiceo",
+    "total_personas": 372,
+    "n_comunas": 40,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CALLE LARGA",
+        "provincia": "LOS ANDES",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 41,
+        "pct_comuna": 0.358235
+      },
+      {
+        "rank": 2,
+        "comuna": "SAN ESTEBAN",
+        "provincia": "LOS ANDES",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 36,
+        "pct_comuna": 0.235587
+      },
+      {
+        "rank": 3,
+        "comuna": "LOS ANDES",
+        "provincia": "LOS ANDES",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 54,
+        "pct_comuna": 0.096482
+      },
+      {
+        "rank": 4,
+        "comuna": "CURICO",
+        "provincia": "CURICÓ",
+        "region": "07. REGION DEL MAULE",
+        "personas": 44,
+        "pct_comuna": 0.037348
+      },
+      {
+        "rank": 5,
+        "comuna": "SANTA MARIA",
+        "provincia": "SAN FELIPE DE ACONCAGUA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 3,
+        "pct_comuna": 0.024746
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "LOS ANDES",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.144306
+      },
+      {
+        "rank": 2,
+        "provincia": "CURICÓ",
+        "region": "07. REGION DEL MAULE",
+        "pct_provincia": 0.037348
+      },
+      {
+        "rank": 3,
+        "provincia": "SAN FELIPE DE ACONCAGUA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.024746
+      },
+      {
+        "rank": 4,
+        "provincia": "CHACABUCO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.023218
+      },
+      {
+        "rank": 5,
+        "provincia": "QUILLOTA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.013249
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "07. REGION DEL MAULE",
+        "pct_region": 0.037348
+      },
+      {
+        "rank": 2,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.018397
+      },
+      {
+        "rank": 3,
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_region": 0.004445
+      },
+      {
+        "rank": 4,
+        "region": "04. REGION DE COQUIMBO",
+        "pct_region": 0.004125
+      },
+      {
+        "rank": 5,
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_region": 0.004055
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.899Z"
+  },
+  "caices": {
+    "apellido": "CAICES",
+    "slug": "caices",
+    "total_personas": 32,
+    "n_comunas": 10,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "SAN MIGUEL",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 7,
+        "pct_comuna": 0.006661
+      },
+      {
+        "rank": 2,
+        "comuna": "ÑUÑOA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 5,
+        "pct_comuna": 0.002536
+      },
+      {
+        "rank": 3,
+        "comuna": "VITACURA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.002239
+      },
+      {
+        "rank": 4,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 6,
+        "pct_comuna": 0.002226
+      },
+      {
+        "rank": 5,
+        "comuna": "LA FLORIDA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 5,
+        "pct_comuna": 0.001626
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001601
+      },
+      {
+        "rank": 2,
+        "provincia": "ARICA",
+        "region": "15. REGION DE ARICA Y PARINACOTA",
+        "pct_provincia": 0.000555
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001601
+      },
+      {
+        "rank": 2,
+        "region": "15. REGION DE ARICA Y PARINACOTA",
+        "pct_region": 0.000555
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.899Z"
+  },
+  "caicha": {
+    "apellido": "CAICHA",
+    "slug": "caicha",
+    "total_personas": 15,
+    "n_comunas": 9,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "EL MONTE",
+        "provincia": "TALAGANTE",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.007189
+      },
+      {
+        "rank": 2,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 4,
+        "pct_comuna": 0.002349
+      },
+      {
+        "rank": 3,
+        "comuna": "EL BOSQUE",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.001453
+      },
+      {
+        "rank": 4,
+        "comuna": "VALDIVIA",
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 2,
+        "pct_comuna": 0.001443
+      },
+      {
+        "rank": 5,
+        "comuna": "QUILLOTA",
+        "provincia": "QUILLOTA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 1,
+        "pct_comuna": 0.001325
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "TALAGANTE",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.007189
+      },
+      {
+        "rank": 2,
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "pct_provincia": 0.001443
+      },
+      {
+        "rank": 3,
+        "provincia": "QUILLOTA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.001325
+      },
+      {
+        "rank": 4,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.00088
+      },
+      {
+        "rank": 5,
+        "provincia": "IQUIQUE",
+        "region": "01. REGION DE TARAPACA",
+        "pct_provincia": 0.000597
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "14. REGION DE LOS RIOS",
+        "pct_region": 0.001443
+      },
+      {
+        "rank": 2,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.001325
+      },
+      {
+        "rank": 3,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001047
+      },
+      {
+        "rank": 4,
+        "region": "01. REGION DE TARAPACA",
+        "pct_region": 0.000597
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.899Z"
+  },
+  "caichac": {
+    "apellido": "CAICHAC",
+    "slug": "caichac",
+    "total_personas": 9,
+    "n_comunas": 5,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PIRQUE",
+        "provincia": "CORDILLERA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.004416
+      },
+      {
+        "rank": 2,
+        "comuna": "LA REINA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.003277
+      },
+      {
+        "rank": 3,
+        "comuna": "ÑUÑOA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.001521
+      },
+      {
+        "rank": 4,
+        "comuna": "VALDIVIA",
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 1,
+        "pct_comuna": 0.000721
+      },
+      {
+        "rank": 5,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000587
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CORDILLERA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.004416
+      },
+      {
+        "rank": 2,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001525
+      },
+      {
+        "rank": 3,
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "pct_provincia": 0.000721
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001661
+      },
+      {
+        "rank": 2,
+        "region": "14. REGION DE LOS RIOS",
+        "pct_region": 0.000721
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.899Z"
+  },
+  "caicheo": {
+    "apellido": "CAICHEO",
+    "slug": "caicheo",
+    "total_personas": 1073,
+    "n_comunas": 61,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "QUINCHAO",
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 57,
+        "pct_comuna": 0.605739
+      },
+      {
+        "rank": 2,
+        "comuna": "DALCAHUE",
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 48,
+        "pct_comuna": 0.381013
+      },
+      {
+        "rank": 3,
+        "comuna": "HUALAIHUE",
+        "provincia": "PALENA",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 32,
+        "pct_comuna": 0.368155
+      },
+      {
+        "rank": 4,
+        "comuna": "ANCUD",
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 138,
+        "pct_comuna": 0.355258
+      },
+      {
+        "rank": 5,
+        "comuna": "CASTRO",
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 141,
+        "pct_comuna": 0.340629
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.296598
+      },
+      {
+        "rank": 2,
+        "provincia": "ÚLTIMA ESPERANZA",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_provincia": 0.204918
+      },
+      {
+        "rank": 3,
+        "provincia": "PALENA",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.191906
+      },
+      {
+        "rank": 4,
+        "provincia": "ANTÁRTICA CHILENA",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_provincia": 0.154719
+      },
+      {
+        "rank": 5,
+        "provincia": "MAGALLANES",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_provincia": 0.096569
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_region": 0.113217
+      },
+      {
+        "rank": 2,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.108283
+      },
+      {
+        "rank": 3,
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "pct_region": 0.048035
+      },
+      {
+        "rank": 4,
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_region": 0.012846
+      },
+      {
+        "rank": 5,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.005304
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.899Z"
+  },
+  "caichihua": {
+    "apellido": "CAICHIHUA",
+    "slug": "caichihua",
+    "total_personas": 2,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000587
+      },
+      {
+        "rank": 2,
+        "comuna": "ANTOFAGASTA",
+        "provincia": "ANTOFAGASTA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "personas": 1,
+        "pct_comuna": 0.000348
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000587
+      },
+      {
+        "rank": 2,
+        "provincia": "ANTOFAGASTA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_provincia": 0.000348
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000587
+      },
+      {
+        "rank": 2,
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_region": 0.000348
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.899Z"
+  },
+  "caickay": {
+    "apellido": "CAICKAY",
+    "slug": "caickay",
+    "total_personas": 2,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "SAN FELIPE",
+        "provincia": "SAN FELIPE DE ACONCAGUA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 1,
+        "pct_comuna": 0.001665
+      },
+      {
+        "rank": 2,
+        "comuna": "VALPARAISO",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 1,
+        "pct_comuna": 0.000345
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SAN FELIPE DE ACONCAGUA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.001665
+      },
+      {
+        "rank": 2,
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.000345
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.000571
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.899Z"
+  },
+  "caico": {
+    "apellido": "CAICO",
+    "slug": "caico",
+    "total_personas": 633,
+    "n_comunas": 46,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CALBUCO",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 221,
+        "pct_comuna": 0.681909
+      },
+      {
+        "rank": 2,
+        "comuna": "PUERTO VARAS",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 80,
+        "pct_comuna": 0.189009
+      },
+      {
+        "rank": 3,
+        "comuna": "RIO VERDE",
+        "provincia": "MAGALLANES",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "personas": 1,
+        "pct_comuna": 0.11325
+      },
+      {
+        "rank": 4,
+        "comuna": "PUQUELDON",
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 5,
+        "pct_comuna": 0.112562
+      },
+      {
+        "rank": 5,
+        "comuna": "LLANQUIHUE",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 13,
+        "pct_comuna": 0.080351
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.12831
+      },
+      {
+        "rank": 2,
+        "provincia": "",
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "pct_provincia": 0.02864
+      },
+      {
+        "rank": 3,
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.028099
+      },
+      {
+        "rank": 4,
+        "provincia": "MAGALLANES",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_provincia": 0.021068
+      },
+      {
+        "rank": 5,
+        "provincia": "ÚLTIMA ESPERANZA",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_provincia": 0.017614
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.079741
+      },
+      {
+        "rank": 2,
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "pct_region": 0.02864
+      },
+      {
+        "rank": 3,
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_region": 0.020531
+      },
+      {
+        "rank": 4,
+        "region": "14. REGION DE LOS RIOS",
+        "pct_region": 0.008868
+      },
+      {
+        "rank": 5,
+        "region": "16. REGION DE ÑUBLE",
+        "pct_region": 0.006377
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.899Z"
+  },
+  "caicompai": {
+    "apellido": "CAICOMPAI",
+    "slug": "caicompai",
+    "total_personas": 75,
+    "n_comunas": 15,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CURACAUTIN",
+        "provincia": "MALLECO",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "personas": 19,
+        "pct_comuna": 0.089614
+      },
+      {
+        "rank": 2,
+        "comuna": "LAMPA",
+        "provincia": "CHACABUCO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 12,
+        "pct_comuna": 0.020126
+      },
+      {
+        "rank": 3,
+        "comuna": "PORVENIR",
+        "provincia": "TIERRA DEL FUEGO",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "personas": 1,
+        "pct_comuna": 0.016236
+      },
+      {
+        "rank": 4,
+        "comuna": "PUNTA ARENAS",
+        "provincia": "MAGALLANES",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "personas": 14,
+        "pct_comuna": 0.011426
+      },
+      {
+        "rank": 5,
+        "comuna": "SAN RAMON",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 4,
+        "pct_comuna": 0.00489
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "MALLECO",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_provincia": 0.089614
+      },
+      {
+        "rank": 2,
+        "provincia": "CHACABUCO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.020126
+      },
+      {
+        "rank": 3,
+        "provincia": "TIERRA DEL FUEGO",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_provincia": 0.016236
+      },
+      {
+        "rank": 4,
+        "provincia": "MAGALLANES",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_provincia": 0.011426
+      },
+      {
+        "rank": 5,
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_provincia": 0.004087
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_region": 0.043791
+      },
+      {
+        "rank": 2,
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_region": 0.011656
+      },
+      {
+        "rank": 3,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.003752
+      },
+      {
+        "rank": 4,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.002062
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caicompay": {
+    "apellido": "CAICOMPAY",
+    "slug": "caicompay",
+    "total_personas": 25,
+    "n_comunas": 6,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "QUINCHAO",
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 6,
+        "pct_comuna": 0.063762
+      },
+      {
+        "rank": 2,
+        "comuna": "QUEMCHI",
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 2,
+        "pct_comuna": 0.022058
+      },
+      {
+        "rank": 3,
+        "comuna": "OSORNO",
+        "provincia": "OSORNO",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 9,
+        "pct_comuna": 0.006287
+      },
+      {
+        "rank": 4,
+        "comuna": "HUALQUI",
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "personas": 1,
+        "pct_comuna": 0.004872
+      },
+      {
+        "rank": 5,
+        "comuna": "PUNTA ARENAS",
+        "provincia": "MAGALLANES",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "personas": 4,
+        "pct_comuna": 0.003265
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.043297
+      },
+      {
+        "rank": 2,
+        "provincia": "OSORNO",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.006287
+      },
+      {
+        "rank": 3,
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "pct_provincia": 0.004872
+      },
+      {
+        "rank": 4,
+        "provincia": "MAGALLANES",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_provincia": 0.003265
+      },
+      {
+        "rank": 5,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000882
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.010517
+      },
+      {
+        "rank": 2,
+        "region": "08. REGION DEL BIOBIO",
+        "pct_region": 0.004872
+      },
+      {
+        "rank": 3,
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_region": 0.003265
+      },
+      {
+        "rank": 4,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000882
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caiconte": {
+    "apellido": "CAICONTE",
+    "slug": "caiconte",
+    "total_personas": 107,
+    "n_comunas": 13,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CAMARONES",
+        "provincia": "ARICA",
+        "region": "15. REGION DE ARICA Y PARINACOTA",
+        "personas": 2,
+        "pct_comuna": 0.058962
+      },
+      {
+        "rank": 2,
+        "comuna": "ARICA",
+        "provincia": "ARICA",
+        "region": "15. REGION DE ARICA Y PARINACOTA",
+        "personas": 57,
+        "pct_comuna": 0.031656
+      },
+      {
+        "rank": 3,
+        "comuna": "SAN PEDRO DE ATACAMA",
+        "provincia": "EL LOA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "personas": 2,
+        "pct_comuna": 0.027801
+      },
+      {
+        "rank": 4,
+        "comuna": "SAN FELIPE",
+        "provincia": "SAN FELIPE DE ACONCAGUA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 4,
+        "pct_comuna": 0.006658
+      },
+      {
+        "rank": 5,
+        "comuna": "ANTOFAGASTA",
+        "provincia": "ANTOFAGASTA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "personas": 17,
+        "pct_comuna": 0.005924
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "ARICA",
+        "region": "15. REGION DE ARICA Y PARINACOTA",
+        "pct_provincia": 0.032161
+      },
+      {
+        "rank": 2,
+        "provincia": "SAN FELIPE DE ACONCAGUA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.006658
+      },
+      {
+        "rank": 3,
+        "provincia": "ANTOFAGASTA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_provincia": 0.005924
+      },
+      {
+        "rank": 4,
+        "provincia": "EL LOA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_provincia": 0.005734
+      },
+      {
+        "rank": 5,
+        "provincia": "IQUIQUE",
+        "region": "01. REGION DE TARAPACA",
+        "pct_provincia": 0.002387
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "15. REGION DE ARICA Y PARINACOTA",
+        "pct_region": 0.032161
+      },
+      {
+        "rank": 2,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.006658
+      },
+      {
+        "rank": 3,
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_region": 0.005862
+      },
+      {
+        "rank": 4,
+        "region": "01. REGION DE TARAPACA",
+        "pct_region": 0.002387
+      },
+      {
+        "rank": 5,
+        "region": "08. REGION DEL BIOBIO",
+        "pct_region": 0.001989
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caicos": {
+    "apellido": "CAICOS",
+    "slug": "caicos",
+    "total_personas": 10,
+    "n_comunas": 3,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "TALCAHUANO",
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "personas": 6,
+        "pct_comuna": 0.004534
+      },
+      {
+        "rank": 2,
+        "comuna": "CONCEPCION",
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "personas": 3,
+        "pct_comuna": 0.001492
+      },
+      {
+        "rank": 3,
+        "comuna": "RECOLETA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000701
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "pct_provincia": 0.0027
+      },
+      {
+        "rank": 2,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000701
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "08. REGION DEL BIOBIO",
+        "pct_region": 0.0027
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000701
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caicumpay": {
+    "apellido": "CAICUMPAY",
+    "slug": "caicumpay",
+    "total_personas": 7,
+    "n_comunas": 3,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "MAFIL",
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 2,
+        "pct_comuna": 0.027952
+      },
+      {
+        "rank": 2,
+        "comuna": "ANCUD",
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 4,
+        "pct_comuna": 0.010297
+      },
+      {
+        "rank": 3,
+        "comuna": "FRUTILLAR",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 1,
+        "pct_comuna": 0.00596
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "pct_provincia": 0.027952
+      },
+      {
+        "rank": 2,
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.010297
+      },
+      {
+        "rank": 3,
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.00596
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "14. REGION DE LOS RIOS",
+        "pct_region": 0.027952
+      },
+      {
+        "rank": 2,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.008989
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caidane": {
+    "apellido": "CAIDANE",
+    "slug": "caidane",
+    "total_personas": 63,
+    "n_comunas": 11,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "O'HIGGINS",
+        "provincia": "CAPITÁN PRAT",
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "personas": 4,
+        "pct_comuna": 0.505689
+      },
+      {
+        "rank": 2,
+        "comuna": "QUINCHAO",
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 15,
+        "pct_comuna": 0.159405
+      },
+      {
+        "rank": 3,
+        "comuna": "RIO VERDE",
+        "provincia": "MAGALLANES",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "personas": 1,
+        "pct_comuna": 0.11325
+      },
+      {
+        "rank": 4,
+        "comuna": "AISEN",
+        "provincia": "",
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "personas": 11,
+        "pct_comuna": 0.048701
+      },
+      {
+        "rank": 5,
+        "comuna": "COCHRANE",
+        "provincia": "CAPITÁN PRAT",
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "personas": 1,
+        "pct_comuna": 0.029551
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CAPITÁN PRAT",
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "pct_provincia": 0.11976
+      },
+      {
+        "rank": 2,
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.034392
+      },
+      {
+        "rank": 3,
+        "provincia": "MAGALLANES",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_provincia": 0.017017
+      },
+      {
+        "rank": 4,
+        "provincia": "",
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "pct_provincia": 0.015622
+      },
+      {
+        "rank": 5,
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.001608
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "pct_region": 0.02099
+      },
+      {
+        "rank": 2,
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_region": 0.017017
+      },
+      {
+        "rank": 3,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.009098
+      },
+      {
+        "rank": 4,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.00075
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caifal": {
+    "apellido": "CAIFAL",
+    "slug": "caifal",
+    "total_personas": 190,
+    "n_comunas": 28,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "FREIRE",
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "personas": 47,
+        "pct_comuna": 0.205734
+      },
+      {
+        "rank": 2,
+        "comuna": "MELIPEUCO",
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "personas": 12,
+        "pct_comuna": 0.153139
+      },
+      {
+        "rank": 3,
+        "comuna": "CUNCO",
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "personas": 11,
+        "pct_comuna": 0.054997
+      },
+      {
+        "rank": 4,
+        "comuna": "LUMACO",
+        "provincia": "MALLECO",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "personas": 5,
+        "pct_comuna": 0.053856
+      },
+      {
+        "rank": 5,
+        "comuna": "OLIVAR",
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "personas": 3,
+        "pct_comuna": 0.024008
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "MALLECO",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_provincia": 0.053856
+      },
+      {
+        "rank": 2,
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_provincia": 0.027303
+      },
+      {
+        "rank": 3,
+        "provincia": "DIGUILLÍN",
+        "region": "16. REGION DE ÑUBLE",
+        "pct_provincia": 0.023949
+      },
+      {
+        "rank": 4,
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_provincia": 0.008883
+      },
+      {
+        "rank": 5,
+        "provincia": "CARDENAL CARO",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_provincia": 0.006299
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_region": 0.027923
+      },
+      {
+        "rank": 2,
+        "region": "16. REGION DE ÑUBLE",
+        "pct_region": 0.023949
+      },
+      {
+        "rank": 3,
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_region": 0.00875
+      },
+      {
+        "rank": 4,
+        "region": "14. REGION DE LOS RIOS",
+        "pct_region": 0.003247
+      },
+      {
+        "rank": 5,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.002236
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caifante": {
+    "apellido": "CAIFANTE",
+    "slug": "caifante",
+    "total_personas": 6,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "VILLARRICA",
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "personas": 5,
+        "pct_comuna": 0.0091
+      },
+      {
+        "rank": 2,
+        "comuna": "CAUQUENES",
+        "provincia": "CAUQUENES",
+        "region": "07. REGION DEL MAULE",
+        "personas": 1,
+        "pct_comuna": 0.002659
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_provincia": 0.0091
+      },
+      {
+        "rank": 2,
+        "provincia": "CAUQUENES",
+        "region": "07. REGION DEL MAULE",
+        "pct_provincia": 0.002659
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_region": 0.0091
+      },
+      {
+        "rank": 2,
+        "region": "07. REGION DEL MAULE",
+        "pct_region": 0.002659
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caifil": {
+    "apellido": "CAIFIL",
+    "slug": "caifil",
+    "total_personas": 122,
+    "n_comunas": 16,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "MARIQUINA",
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 76,
+        "pct_comuna": 0.400147
+      },
+      {
+        "rank": 2,
+        "comuna": "MAFIL",
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 8,
+        "pct_comuna": 0.11181
+      },
+      {
+        "rank": 3,
+        "comuna": "YERBAS BUENAS",
+        "provincia": "LINARES",
+        "region": "07. REGION DEL MAULE",
+        "personas": 2,
+        "pct_comuna": 0.013481
+      },
+      {
+        "rank": 4,
+        "comuna": "COLINA",
+        "provincia": "CHACABUCO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 7,
+        "pct_comuna": 0.007739
+      },
+      {
+        "rank": 5,
+        "comuna": "VALDIVIA",
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 8,
+        "pct_comuna": 0.005771
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "pct_provincia": 0.055836
+      },
+      {
+        "rank": 2,
+        "provincia": "LINARES",
+        "region": "07. REGION DEL MAULE",
+        "pct_provincia": 0.013481
+      },
+      {
+        "rank": 3,
+        "provincia": "CHACABUCO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.007739
+      },
+      {
+        "rank": 4,
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_provincia": 0.004904
+      },
+      {
+        "rank": 5,
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_provincia": 0.001688
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "14. REGION DE LOS RIOS",
+        "pct_region": 0.055836
+      },
+      {
+        "rank": 2,
+        "region": "07. REGION DEL MAULE",
+        "pct_region": 0.013481
+      },
+      {
+        "rank": 3,
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_region": 0.004904
+      },
+      {
+        "rank": 4,
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_region": 0.001688
+      },
+      {
+        "rank": 5,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001422
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caifual": {
+    "apellido": "CAIFUAL",
+    "slug": "caifual",
+    "total_personas": 52,
+    "n_comunas": 11,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PERQUENCO",
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "personas": 11,
+        "pct_comuna": 0.161267
+      },
+      {
+        "rank": 2,
+        "comuna": "FREIRE",
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "personas": 19,
+        "pct_comuna": 0.083169
+      },
+      {
+        "rank": 3,
+        "comuna": "QUEILEN",
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 1,
+        "pct_comuna": 0.01581
+      },
+      {
+        "rank": 4,
+        "comuna": "MELIPEUCO",
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "personas": 1,
+        "pct_comuna": 0.012762
+      },
+      {
+        "rank": 5,
+        "comuna": "NUEVA IMPERIAL",
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "personas": 2,
+        "pct_comuna": 0.006517
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.01581
+      },
+      {
+        "rank": 2,
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_provincia": 0.01311
+      },
+      {
+        "rank": 3,
+        "provincia": "OSORNO",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.002794
+      },
+      {
+        "rank": 4,
+        "provincia": "MAIPO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001327
+      },
+      {
+        "rank": 5,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001026
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_region": 0.01311
+      },
+      {
+        "rank": 2,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.003345
+      },
+      {
+        "rank": 3,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001075
+      },
+      {
+        "rank": 4,
+        "region": "08. REGION DEL BIOBIO",
+        "pct_region": 0.000688
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caig": {
+    "apellido": "CAIG",
+    "slug": "caig",
+    "total_personas": 4,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CONCEPCION",
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "personas": 4,
+        "pct_comuna": 0.001989
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "pct_provincia": 0.001989
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "08. REGION DEL BIOBIO",
+        "pct_region": 0.001989
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caignard": {
+    "apellido": "CAIGNARD",
+    "slug": "caignard",
+    "total_personas": 40,
+    "n_comunas": 14,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "VALPARAISO",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 16,
+        "pct_comuna": 0.005515
+      },
+      {
+        "rank": 2,
+        "comuna": "CASABLANCA",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 1,
+        "pct_comuna": 0.004451
+      },
+      {
+        "rank": 3,
+        "comuna": "QUILPUE",
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 4,
+        "pct_comuna": 0.002975
+      },
+      {
+        "rank": 4,
+        "comuna": "SAN JAVIER",
+        "provincia": "LINARES",
+        "region": "07. REGION DEL MAULE",
+        "personas": 1,
+        "pct_comuna": 0.002548
+      },
+      {
+        "rank": 5,
+        "comuna": "VIÑA DEL MAR",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 5,
+        "pct_comuna": 0.001659
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.003583
+      },
+      {
+        "rank": 2,
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.002975
+      },
+      {
+        "rank": 3,
+        "provincia": "LINARES",
+        "region": "07. REGION DEL MAULE",
+        "pct_provincia": 0.002548
+      },
+      {
+        "rank": 4,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000801
+      },
+      {
+        "rank": 5,
+        "provincia": "CORDILLERA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.00025
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.003474
+      },
+      {
+        "rank": 2,
+        "region": "07. REGION DEL MAULE",
+        "pct_region": 0.002548
+      },
+      {
+        "rank": 3,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000685
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caigual": {
+    "apellido": "CAIGUAL",
+    "slug": "caigual",
+    "total_personas": 3,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "OSORNO",
+        "provincia": "OSORNO",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 3,
+        "pct_comuna": 0.002096
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "OSORNO",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.002096
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.002096
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caiguan": {
+    "apellido": "CAIGUAN",
+    "slug": "caiguan",
+    "total_personas": 561,
+    "n_comunas": 47,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PUYEHUE",
+        "provincia": "OSORNO",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 39,
+        "pct_comuna": 0.336294
+      },
+      {
+        "rank": 2,
+        "comuna": "SAN JUAN DE LA COSTA",
+        "provincia": "OSORNO",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 22,
+        "pct_comuna": 0.268391
+      },
+      {
+        "rank": 3,
+        "comuna": "SAN PABLO",
+        "provincia": "OSORNO",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 22,
+        "pct_comuna": 0.21594
+      },
+      {
+        "rank": 4,
+        "comuna": "OSORNO",
+        "provincia": "OSORNO",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 186,
+        "pct_comuna": 0.129923
+      },
+      {
+        "rank": 5,
+        "comuna": "PUERTO OCTAY",
+        "provincia": "OSORNO",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 6,
+        "pct_comuna": 0.066489
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "OSORNO",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.135493
+      },
+      {
+        "rank": 2,
+        "provincia": "RANCO",
+        "region": "14. REGION DE LOS RIOS",
+        "pct_provincia": 0.045465
+      },
+      {
+        "rank": 3,
+        "provincia": "MAGALLANES",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_provincia": 0.035911
+      },
+      {
+        "rank": 4,
+        "provincia": "PALENA",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.02301
+      },
+      {
+        "rank": 5,
+        "provincia": "",
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "pct_provincia": 0.014752
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.058888
+      },
+      {
+        "rank": 2,
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_region": 0.035911
+      },
+      {
+        "rank": 3,
+        "region": "14. REGION DE LOS RIOS",
+        "pct_region": 0.031875
+      },
+      {
+        "rank": 4,
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "pct_region": 0.014752
+      },
+      {
+        "rank": 5,
+        "region": "08. REGION DEL BIOBIO",
+        "pct_region": 0.013008
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caiguante": {
+    "apellido": "CAIGUANTE",
+    "slug": "caiguante",
+    "total_personas": 4,
+    "n_comunas": 3,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LAGO RANCO",
+        "provincia": "RANCO",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 1,
+        "pct_comuna": 0.010579
+      },
+      {
+        "rank": 2,
+        "comuna": "QUILPUE",
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 2,
+        "pct_comuna": 0.001488
+      },
+      {
+        "rank": 3,
+        "comuna": "VALDIVIA",
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 1,
+        "pct_comuna": 0.000721
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "RANCO",
+        "region": "14. REGION DE LOS RIOS",
+        "pct_provincia": 0.010579
+      },
+      {
+        "rank": 2,
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.001488
+      },
+      {
+        "rank": 3,
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "pct_provincia": 0.000721
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.001488
+      },
+      {
+        "rank": 2,
+        "region": "14. REGION DE LOS RIOS",
+        "pct_region": 0.001351
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caiguara": {
+    "apellido": "CAIGUARA",
+    "slug": "caiguara",
+    "total_personas": 3,
+    "n_comunas": 3,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CONSTITUCION",
+        "provincia": "TALCA",
+        "region": "07. REGION DEL MAULE",
+        "personas": 1,
+        "pct_comuna": 0.0025
+      },
+      {
+        "rank": 2,
+        "comuna": "PUNTA ARENAS",
+        "provincia": "MAGALLANES",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "personas": 1,
+        "pct_comuna": 0.000816
+      },
+      {
+        "rank": 3,
+        "comuna": "ESTACION CENTRAL",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000786
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "TALCA",
+        "region": "07. REGION DEL MAULE",
+        "pct_provincia": 0.0025
+      },
+      {
+        "rank": 2,
+        "provincia": "MAGALLANES",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_provincia": 0.000816
+      },
+      {
+        "rank": 3,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000786
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "07. REGION DEL MAULE",
+        "pct_region": 0.0025
+      },
+      {
+        "rank": 2,
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_region": 0.000816
+      },
+      {
+        "rank": 3,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000786
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caiguin": {
+    "apellido": "CAIGUIN",
+    "slug": "caiguin",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "QUELLON",
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 1,
+        "pct_comuna": 0.004381
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.004381
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.004381
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caihuan": {
+    "apellido": "CAIHUAN",
+    "slug": "caihuan",
+    "total_personas": 134,
+    "n_comunas": 25,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "RIO BUENO",
+        "provincia": "RANCO",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 24,
+        "pct_comuna": 0.07794
+      },
+      {
+        "rank": 2,
+        "comuna": "FRESIA",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 8,
+        "pct_comuna": 0.065397
+      },
+      {
+        "rank": 3,
+        "comuna": "PAILLACO",
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 6,
+        "pct_comuna": 0.031154
+      },
+      {
+        "rank": 4,
+        "comuna": "PUYEHUE",
+        "provincia": "OSORNO",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 2,
+        "pct_comuna": 0.017246
+      },
+      {
+        "rank": 5,
+        "comuna": "EL TABO",
+        "provincia": "SAN ANTONIO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 2,
+        "pct_comuna": 0.016763
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "RANCO",
+        "region": "14. REGION DE LOS RIOS",
+        "pct_provincia": 0.07794
+      },
+      {
+        "rank": 2,
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.031499
+      },
+      {
+        "rank": 3,
+        "provincia": "SAN ANTONIO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.016763
+      },
+      {
+        "rank": 4,
+        "provincia": "TIERRA DEL FUEGO",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_provincia": 0.016236
+      },
+      {
+        "rank": 5,
+        "provincia": "OSORNO",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.012484
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.016763
+      },
+      {
+        "rank": 2,
+        "region": "14. REGION DE LOS RIOS",
+        "pct_region": 0.016431
+      },
+      {
+        "rank": 3,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.0133
+      },
+      {
+        "rank": 4,
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_region": 0.011656
+      },
+      {
+        "rank": 5,
+        "region": "08. REGION DEL BIOBIO",
+        "pct_region": 0.011604
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caihuante": {
+    "apellido": "CAIHUANTE",
+    "slug": "caihuante",
+    "total_personas": 90,
+    "n_comunas": 12,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LAGO RANCO",
+        "provincia": "RANCO",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 26,
+        "pct_comuna": 0.275045
+      },
+      {
+        "rank": 2,
+        "comuna": "FUTRONO",
+        "provincia": "RANCO",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 38,
+        "pct_comuna": 0.259616
+      },
+      {
+        "rank": 3,
+        "comuna": "LOS LAGOS",
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 5,
+        "pct_comuna": 0.026221
+      },
+      {
+        "rank": 4,
+        "comuna": "PAILLACO",
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 2,
+        "pct_comuna": 0.010385
+      },
+      {
+        "rank": 5,
+        "comuna": "PADRE LAS CASAS",
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "personas": 2,
+        "pct_comuna": 0.003398
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "RANCO",
+        "region": "14. REGION DE LOS RIOS",
+        "pct_provincia": 0.108616
+      },
+      {
+        "rank": 2,
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "pct_provincia": 0.006217
+      },
+      {
+        "rank": 3,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001925
+      },
+      {
+        "rank": 4,
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.001608
+      },
+      {
+        "rank": 5,
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_provincia": 0.001352
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "14. REGION DE LOS RIOS",
+        "pct_region": 0.032096
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001925
+      },
+      {
+        "rank": 3,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.001608
+      },
+      {
+        "rank": 4,
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_region": 0.001352
+      },
+      {
+        "rank": 5,
+        "region": "08. REGION DEL BIOBIO",
+        "pct_region": 0.000614
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caihuara": {
+    "apellido": "CAIHUARA",
+    "slug": "caihuara",
+    "total_personas": 13,
+    "n_comunas": 3,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CALAMA",
+        "provincia": "EL LOA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "personas": 11,
+        "pct_comuna": 0.008312
+      },
+      {
+        "rank": 2,
+        "comuna": "IQUIQUE",
+        "provincia": "IQUIQUE",
+        "region": "01. REGION DE TARAPACA",
+        "personas": 1,
+        "pct_comuna": 0.000597
+      },
+      {
+        "rank": 3,
+        "comuna": "ANTOFAGASTA",
+        "provincia": "ANTOFAGASTA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "personas": 1,
+        "pct_comuna": 0.000348
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "EL LOA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_provincia": 0.008312
+      },
+      {
+        "rank": 2,
+        "provincia": "IQUIQUE",
+        "region": "01. REGION DE TARAPACA",
+        "pct_provincia": 0.000597
+      },
+      {
+        "rank": 3,
+        "provincia": "ANTOFAGASTA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_provincia": 0.000348
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_region": 0.002862
+      },
+      {
+        "rank": 2,
+        "region": "01. REGION DE TARAPACA",
+        "pct_region": 0.000597
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caihuari": {
+    "apellido": "CAIHUARI",
+    "slug": "caihuari",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CONCHALI",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000843
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000843
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000843
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caihueque": {
+    "apellido": "CAIHUEQUE",
+    "slug": "caihueque",
+    "total_personas": 10,
+    "n_comunas": 3,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LAUTARO",
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "personas": 3,
+        "pct_comuna": 0.008759
+      },
+      {
+        "rank": 2,
+        "comuna": "EL BOSQUE",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 5,
+        "pct_comuna": 0.003632
+      },
+      {
+        "rank": 3,
+        "comuna": "PUENTE ALTO",
+        "provincia": "CORDILLERA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.0005
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_provincia": 0.008759
+      },
+      {
+        "rank": 2,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.003632
+      },
+      {
+        "rank": 3,
+        "provincia": "CORDILLERA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.0005
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_region": 0.008759
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001303
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caihuin": {
+    "apellido": "CAIHUIN",
+    "slug": "caihuin",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "QUINCHAO",
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 1,
+        "pct_comuna": 0.010627
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.010627
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.010627
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "cailean": {
+    "apellido": "CAILEAN",
+    "slug": "cailean",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "MAIPU",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000257
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000257
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000257
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caileo": {
+    "apellido": "CAILEO",
+    "slug": "caileo",
+    "total_personas": 778,
+    "n_comunas": 43,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LOS MUERMOS",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 86,
+        "pct_comuna": 0.526348
+      },
+      {
+        "rank": 2,
+        "comuna": "MAULLIN",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 66,
+        "pct_comuna": 0.42821
+      },
+      {
+        "rank": 3,
+        "comuna": "ANCUD",
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 143,
+        "pct_comuna": 0.36813
+      },
+      {
+        "rank": 4,
+        "comuna": "CHAITEN",
+        "provincia": "PALENA",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 15,
+        "pct_comuna": 0.290192
+      },
+      {
+        "rank": 5,
+        "comuna": "FRESIA",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 34,
+        "pct_comuna": 0.277937
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "PALENA",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.210526
+      },
+      {
+        "rank": 2,
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.167962
+      },
+      {
+        "rank": 3,
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.103476
+      },
+      {
+        "rank": 4,
+        "provincia": "CHACABUCO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.077151
+      },
+      {
+        "rank": 5,
+        "provincia": "",
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "pct_provincia": 0.072901
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.087544
+      },
+      {
+        "rank": 2,
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "pct_region": 0.070892
+      },
+      {
+        "rank": 3,
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_region": 0.030296
+      },
+      {
+        "rank": 4,
+        "region": "07. REGION DEL MAULE",
+        "pct_region": 0.01171
+      },
+      {
+        "rank": 5,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.005442
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caillagua": {
+    "apellido": "CAILLAGUA",
+    "slug": "caillagua",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LO BARNECHEA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.00121
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.00121
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.00121
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caillahua": {
+    "apellido": "CAILLAHUA",
+    "slug": "caillahua",
+    "total_personas": 3,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "SANTIAGO",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.000588
+      },
+      {
+        "rank": 2,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000371
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000492
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000492
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caillat": {
+    "apellido": "CAILLAT",
+    "slug": "caillat",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "SANTIAGO",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000294
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000294
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000294
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caillaud": {
+    "apellido": "CAILLAUD",
+    "slug": "caillaud",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000587
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000587
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000587
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caillaux": {
+    "apellido": "CAILLAUX",
+    "slug": "caillaux",
+    "total_personas": 29,
+    "n_comunas": 8,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 8,
+        "pct_comuna": 0.002968
+      },
+      {
+        "rank": 2,
+        "comuna": "ÑUÑOA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 4,
+        "pct_comuna": 0.002028
+      },
+      {
+        "rank": 3,
+        "comuna": "MAIPU",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 7,
+        "pct_comuna": 0.001796
+      },
+      {
+        "rank": 4,
+        "comuna": "LA SERENA",
+        "provincia": "ELQUI",
+        "region": "04. REGION DE COQUIMBO",
+        "personas": 3,
+        "pct_comuna": 0.001716
+      },
+      {
+        "rank": 5,
+        "comuna": "IQUIQUE",
+        "provincia": "IQUIQUE",
+        "region": "01. REGION DE TARAPACA",
+        "personas": 2,
+        "pct_comuna": 0.001194
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001971
+      },
+      {
+        "rank": 2,
+        "provincia": "ELQUI",
+        "region": "04. REGION DE COQUIMBO",
+        "pct_provincia": 0.001716
+      },
+      {
+        "rank": 3,
+        "provincia": "IQUIQUE",
+        "region": "01. REGION DE TARAPACA",
+        "pct_provincia": 0.001194
+      },
+      {
+        "rank": 4,
+        "provincia": "ARICA",
+        "region": "15. REGION DE ARICA Y PARINACOTA",
+        "pct_provincia": 0.001111
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001971
+      },
+      {
+        "rank": 2,
+        "region": "04. REGION DE COQUIMBO",
+        "pct_region": 0.001716
+      },
+      {
+        "rank": 3,
+        "region": "01. REGION DE TARAPACA",
+        "pct_region": 0.001194
+      },
+      {
+        "rank": 4,
+        "region": "15. REGION DE ARICA Y PARINACOTA",
+        "pct_region": 0.001111
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "cailleaux": {
+    "apellido": "CAILLEAUX",
+    "slug": "cailleaux",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CONCEPCION",
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "personas": 1,
+        "pct_comuna": 0.000497
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "pct_provincia": 0.000497
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "08. REGION DEL BIOBIO",
+        "pct_region": 0.000497
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "cailler": {
+    "apellido": "CAILLER",
+    "slug": "cailler",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LA FLORIDA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000325
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000325
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000325
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caillet": {
+    "apellido": "CAILLET",
+    "slug": "caillet",
+    "total_personas": 103,
+    "n_comunas": 25,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CURACAVI",
+        "provincia": "MELIPILLA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 20,
+        "pct_comuna": 0.075916
+      },
+      {
+        "rank": 2,
+        "comuna": "MARIA PINTO",
+        "provincia": "MELIPILLA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 5,
+        "pct_comuna": 0.043497
+      },
+      {
+        "rank": 3,
+        "comuna": "LOS VILOS",
+        "provincia": "CHOAPA",
+        "region": "04. REGION DE COQUIMBO",
+        "personas": 2,
+        "pct_comuna": 0.010949
+      },
+      {
+        "rank": 4,
+        "comuna": "RENCA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 12,
+        "pct_comuna": 0.01028
+      },
+      {
+        "rank": 5,
+        "comuna": "CASTRO",
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 3,
+        "pct_comuna": 0.007247
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "MELIPILLA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.066068
+      },
+      {
+        "rank": 2,
+        "provincia": "CHOAPA",
+        "region": "04. REGION DE COQUIMBO",
+        "pct_provincia": 0.010949
+      },
+      {
+        "rank": 3,
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.007247
+      },
+      {
+        "rank": 4,
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.007103
+      },
+      {
+        "rank": 5,
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.007088
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "04. REGION DE COQUIMBO",
+        "pct_region": 0.010949
+      },
+      {
+        "rank": 2,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.007167
+      },
+      {
+        "rank": 3,
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_region": 0.006754
+      },
+      {
+        "rank": 4,
+        "region": "16. REGION DE ÑUBLE",
+        "pct_region": 0.004452
+      },
+      {
+        "rank": 5,
+        "region": "08. REGION DEL BIOBIO",
+        "pct_region": 0.003592
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caillol": {
+    "apellido": "CAILLOL",
+    "slug": "caillol",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CONCEPCION",
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "personas": 1,
+        "pct_comuna": 0.000497
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "pct_provincia": 0.000497
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "08. REGION DEL BIOBIO",
+        "pct_region": 0.000497
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "cailloma": {
+    "apellido": "CAILLOMA",
+    "slug": "cailloma",
+    "total_personas": 3,
+    "n_comunas": 3,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LA REINA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.001092
+      },
+      {
+        "rank": 2,
+        "comuna": "LA PINTANA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000719
+      },
+      {
+        "rank": 3,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000371
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.0006
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.0006
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "cailly": {
+    "apellido": "CAILLY",
+    "slug": "cailly",
+    "total_personas": 75,
+    "n_comunas": 11,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "COPIAPO",
+        "provincia": "COPIAPÓ",
+        "region": "03. REGION DE ATACAMA",
+        "personas": 37,
+        "pct_comuna": 0.029845
+      },
+      {
+        "rank": 2,
+        "comuna": "LA CISTERNA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 14,
+        "pct_comuna": 0.016818
+      },
+      {
+        "rank": 3,
+        "comuna": "EL QUISCO",
+        "provincia": "SAN ANTONIO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 1,
+        "pct_comuna": 0.007256
+      },
+      {
+        "rank": 4,
+        "comuna": "ISLA DE MAIPO",
+        "provincia": "TALAGANTE",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.003576
+      },
+      {
+        "rank": 5,
+        "comuna": "LA SERENA",
+        "provincia": "ELQUI",
+        "region": "04. REGION DE COQUIMBO",
+        "personas": 5,
+        "pct_comuna": 0.00286
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "COPIAPÓ",
+        "region": "03. REGION DE ATACAMA",
+        "pct_provincia": 0.029845
+      },
+      {
+        "rank": 2,
+        "provincia": "SAN ANTONIO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.007256
+      },
+      {
+        "rank": 3,
+        "provincia": "TALAGANTE",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.003576
+      },
+      {
+        "rank": 4,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.003048
+      },
+      {
+        "rank": 5,
+        "provincia": "ELQUI",
+        "region": "04. REGION DE COQUIMBO",
+        "pct_provincia": 0.00286
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "03. REGION DE ATACAMA",
+        "pct_region": 0.029845
+      },
+      {
+        "rank": 2,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.007256
+      },
+      {
+        "rank": 3,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.003064
+      },
+      {
+        "rank": 4,
+        "region": "04. REGION DE COQUIMBO",
+        "pct_region": 0.002625
+      },
+      {
+        "rank": 5,
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_region": 0.001045
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "cailotto": {
+    "apellido": "CAILOTTO",
+    "slug": "cailotto",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "REQUINOA",
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "personas": 1,
+        "pct_comuna": 0.004343
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_provincia": 0.004343
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_region": 0.004343
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caimalquen": {
+    "apellido": "CAIMALQUEN",
+    "slug": "caimalquen",
+    "total_personas": 23,
+    "n_comunas": 3,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LA CRUZ",
+        "provincia": "QUILLOTA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 4,
+        "pct_comuna": 0.024496
+      },
+      {
+        "rank": 2,
+        "comuna": "CONCON",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 4,
+        "pct_comuna": 0.010142
+      },
+      {
+        "rank": 3,
+        "comuna": "VALPARAISO",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 15,
+        "pct_comuna": 0.00517
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "QUILLOTA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.024496
+      },
+      {
+        "rank": 2,
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.005765
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.006649
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caiman": {
+    "apellido": "CAIMAN",
+    "slug": "caiman",
+    "total_personas": 63,
+    "n_comunas": 5,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CALBUCO",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 46,
+        "pct_comuna": 0.141936
+      },
+      {
+        "rank": 2,
+        "comuna": "PUNTA ARENAS",
+        "provincia": "MAGALLANES",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "personas": 11,
+        "pct_comuna": 0.008978
+      },
+      {
+        "rank": 3,
+        "comuna": "ANCUD",
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 3,
+        "pct_comuna": 0.007723
+      },
+      {
+        "rank": 4,
+        "comuna": "TALCAHUANO",
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "personas": 2,
+        "pct_comuna": 0.001511
+      },
+      {
+        "rank": 5,
+        "comuna": "PUERTO MONTT",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 1,
+        "pct_comuna": 0.000536
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.021464
+      },
+      {
+        "rank": 2,
+        "provincia": "MAGALLANES",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_provincia": 0.008978
+      },
+      {
+        "rank": 3,
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.007723
+      },
+      {
+        "rank": 4,
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "pct_provincia": 0.001511
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.019393
+      },
+      {
+        "rank": 2,
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_region": 0.008978
+      },
+      {
+        "rank": 3,
+        "region": "08. REGION DEL BIOBIO",
+        "pct_region": 0.001511
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caimanque": {
+    "apellido": "CAIMANQUE",
+    "slug": "caimanque",
+    "total_personas": 1291,
+    "n_comunas": 73,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "VALLENAR",
+        "provincia": "HUASCO",
+        "region": "03. REGION DE ATACAMA",
+        "personas": 101,
+        "pct_comuna": 0.221837
+      },
+      {
+        "rank": 2,
+        "comuna": "MEJILLONES",
+        "provincia": "ANTOFAGASTA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "personas": 22,
+        "pct_comuna": 0.219233
+      },
+      {
+        "rank": 3,
+        "comuna": "FREIRINA",
+        "provincia": "HUASCO",
+        "region": "03. REGION DE ATACAMA",
+        "personas": 13,
+        "pct_comuna": 0.215983
+      },
+      {
+        "rank": 4,
+        "comuna": "MONTE PATRIA",
+        "provincia": "LIMARÍ",
+        "region": "04. REGION DE COQUIMBO",
+        "personas": 57,
+        "pct_comuna": 0.20339
+      },
+      {
+        "rank": 5,
+        "comuna": "MARIA ELENA",
+        "provincia": "TOCOPILLA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "personas": 12,
+        "pct_comuna": 0.188383
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "HUASCO",
+        "region": "03. REGION DE ATACAMA",
+        "pct_provincia": 0.201811
+      },
+      {
+        "rank": 2,
+        "provincia": "TOCOPILLA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_provincia": 0.181153
+      },
+      {
+        "rank": 3,
+        "provincia": "LIMARÍ",
+        "region": "04. REGION DE COQUIMBO",
+        "pct_provincia": 0.120835
+      },
+      {
+        "rank": 4,
+        "provincia": "ELQUI",
+        "region": "04. REGION DE COQUIMBO",
+        "pct_provincia": 0.103535
+      },
+      {
+        "rank": 5,
+        "provincia": "COPIAPÓ",
+        "region": "03. REGION DE ATACAMA",
+        "pct_provincia": 0.055338
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "04. REGION DE COQUIMBO",
+        "pct_region": 0.099027
+      },
+      {
+        "rank": 2,
+        "region": "03. REGION DE ATACAMA",
+        "pct_region": 0.089803
+      },
+      {
+        "rank": 3,
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_region": 0.046523
+      },
+      {
+        "rank": 4,
+        "region": "01. REGION DE TARAPACA",
+        "pct_region": 0.025419
+      },
+      {
+        "rank": 5,
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_region": 0.023829
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caimanquen": {
+    "apellido": "CAIMANQUEN",
+    "slug": "caimanquen",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "SAN BERNARDO",
+        "provincia": "MAIPO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000438
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "MAIPO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000438
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000438
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caimapo": {
+    "apellido": "CAIMAPO",
+    "slug": "caimapo",
+    "total_personas": 309,
+    "n_comunas": 19,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "ANCUD",
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 156,
+        "pct_comuna": 0.401596
+      },
+      {
+        "rank": 2,
+        "comuna": "CHILE CHICO",
+        "provincia": "GENERAL CARRERA",
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "personas": 19,
+        "pct_comuna": 0.2943
+      },
+      {
+        "rank": 3,
+        "comuna": "COIHAIQUE",
+        "provincia": "",
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "personas": 24,
+        "pct_comuna": 0.044257
+      },
+      {
+        "rank": 4,
+        "comuna": "PUERTO MONTT",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 48,
+        "pct_comuna": 0.025728
+      },
+      {
+        "rank": 5,
+        "comuna": "PURRANQUE",
+        "provincia": "OSORNO",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 5,
+        "pct_comuna": 0.025148
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "GENERAL CARRERA",
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "pct_provincia": 0.2943
+      },
+      {
+        "rank": 2,
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.159123
+      },
+      {
+        "rank": 3,
+        "provincia": "",
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "pct_provincia": 0.044257
+      },
+      {
+        "rank": 4,
+        "provincia": "OSORNO",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.025148
+      },
+      {
+        "rank": 5,
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.024755
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "pct_region": 0.070858
+      },
+      {
+        "rank": 2,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.0674
+      },
+      {
+        "rank": 3,
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_region": 0.015837
+      },
+      {
+        "rank": 4,
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_region": 0.015359
+      },
+      {
+        "rank": 5,
+        "region": "01. REGION DE TARAPACA",
+        "pct_region": 0.002387
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caimapu": {
+    "apellido": "CAIMAPU",
+    "slug": "caimapu",
+    "total_personas": 96,
+    "n_comunas": 13,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LLANQUIHUE",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 28,
+        "pct_comuna": 0.173064
+      },
+      {
+        "rank": 2,
+        "comuna": "PALENA",
+        "provincia": "PALENA",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 2,
+        "pct_comuna": 0.084674
+      },
+      {
+        "rank": 3,
+        "comuna": "LOS MUERMOS",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 6,
+        "pct_comuna": 0.036722
+      },
+      {
+        "rank": 4,
+        "comuna": "PUERTO MONTT",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 30,
+        "pct_comuna": 0.01608
+      },
+      {
+        "rank": 5,
+        "comuna": "PUERTO VARAS",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 6,
+        "pct_comuna": 0.014176
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "PALENA",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.084674
+      },
+      {
+        "rank": 2,
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.024845
+      },
+      {
+        "rank": 3,
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.012872
+      },
+      {
+        "rank": 4,
+        "provincia": "",
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "pct_provincia": 0.011064
+      },
+      {
+        "rank": 5,
+        "provincia": "IQUIQUE",
+        "region": "01. REGION DE TARAPACA",
+        "pct_provincia": 0.00179
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.017148
+      },
+      {
+        "rank": 2,
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "pct_region": 0.011064
+      },
+      {
+        "rank": 3,
+        "region": "01. REGION DE TARAPACA",
+        "pct_region": 0.00179
+      },
+      {
+        "rank": 4,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000943
+      },
+      {
+        "rank": 5,
+        "region": "15. REGION DE ARICA Y PARINACOTA",
+        "pct_region": 0.000555
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caimary": {
+    "apellido": "CAIMARY",
+    "slug": "caimary",
+    "total_personas": 2,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "VITACURA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.002239
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.002239
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.002239
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caime": {
+    "apellido": "CAIME",
+    "slug": "caime",
+    "total_personas": 7,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LA UNION",
+        "provincia": "RANCO",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 5,
+        "pct_comuna": 0.013984
+      },
+      {
+        "rank": 2,
+        "comuna": "SANTIAGO",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.000588
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "RANCO",
+        "region": "14. REGION DE LOS RIOS",
+        "pct_provincia": 0.013984
+      },
+      {
+        "rank": 2,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000588
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "14. REGION DE LOS RIOS",
+        "pct_region": 0.013984
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000588
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caimen": {
+    "apellido": "CAIMEN",
+    "slug": "caimen",
+    "total_personas": 14,
+    "n_comunas": 3,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "GORBEA",
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "personas": 4,
+        "pct_comuna": 0.025544
+      },
+      {
+        "rank": 2,
+        "comuna": "LA UNION",
+        "provincia": "RANCO",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 7,
+        "pct_comuna": 0.019578
+      },
+      {
+        "rank": 3,
+        "comuna": "SAN BERNARDO",
+        "provincia": "MAIPO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.001315
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_provincia": 0.025544
+      },
+      {
+        "rank": 2,
+        "provincia": "RANCO",
+        "region": "14. REGION DE LOS RIOS",
+        "pct_provincia": 0.019578
+      },
+      {
+        "rank": 3,
+        "provincia": "MAIPO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001315
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_region": 0.025544
+      },
+      {
+        "rank": 2,
+        "region": "14. REGION DE LOS RIOS",
+        "pct_region": 0.019578
+      },
+      {
+        "rank": 3,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001315
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caimi": {
+    "apellido": "CAIMI",
+    "slug": "caimi",
+    "total_personas": 43,
+    "n_comunas": 9,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "OLMUE",
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 3,
+        "pct_comuna": 0.018286
+      },
+      {
+        "rank": 2,
+        "comuna": "NAVIDAD",
+        "provincia": "CARDENAL CARO",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "personas": 1,
+        "pct_comuna": 0.014269
+      },
+      {
+        "rank": 3,
+        "comuna": "CONCON",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 4,
+        "pct_comuna": 0.010142
+      },
+      {
+        "rank": 4,
+        "comuna": "VIÑA DEL MAR",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 23,
+        "pct_comuna": 0.007632
+      },
+      {
+        "rank": 5,
+        "comuna": "LA REINA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 4,
+        "pct_comuna": 0.004369
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.018286
+      },
+      {
+        "rank": 2,
+        "provincia": "CARDENAL CARO",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_provincia": 0.014269
+      },
+      {
+        "rank": 3,
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.007922
+      },
+      {
+        "rank": 4,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001496
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_region": 0.014269
+      },
+      {
+        "rank": 2,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.008398
+      },
+      {
+        "rank": 3,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001496
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caimilla": {
+    "apellido": "CAIMILLA",
+    "slug": "caimilla",
+    "total_personas": 281,
+    "n_comunas": 21,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CALBUCO",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 98,
+        "pct_comuna": 0.302385
+      },
+      {
+        "rank": 2,
+        "comuna": "LLANQUIHUE",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 23,
+        "pct_comuna": 0.14216
+      },
+      {
+        "rank": 3,
+        "comuna": "PUERTO VARAS",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 44,
+        "pct_comuna": 0.103955
+      },
+      {
+        "rank": 4,
+        "comuna": "NATALES",
+        "provincia": "ÚLTIMA ESPERANZA",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "personas": 13,
+        "pct_comuna": 0.057246
+      },
+      {
+        "rank": 5,
+        "comuna": "LA UNION",
+        "provincia": "RANCO",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 9,
+        "pct_comuna": 0.025172
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.071706
+      },
+      {
+        "rank": 2,
+        "provincia": "ÚLTIMA ESPERANZA",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_provincia": 0.057246
+      },
+      {
+        "rank": 3,
+        "provincia": "RANCO",
+        "region": "14. REGION DE LOS RIOS",
+        "pct_provincia": 0.025172
+      },
+      {
+        "rank": 4,
+        "provincia": "OSORNO",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.01486
+      },
+      {
+        "rank": 5,
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_provincia": 0.013132
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.06922
+      },
+      {
+        "rank": 2,
+        "region": "14. REGION DE LOS RIOS",
+        "pct_region": 0.025172
+      },
+      {
+        "rank": 3,
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_region": 0.015837
+      },
+      {
+        "rank": 4,
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_region": 0.013132
+      },
+      {
+        "rank": 5,
+        "region": "07. REGION DEL MAULE",
+        "pct_region": 0.005681
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caimites": {
+    "apellido": "CAIMITES",
+    "slug": "caimites",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "QUILICURA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000715
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000715
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000715
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "cain": {
+    "apellido": "CAIN",
+    "slug": "cain",
+    "total_personas": 31,
+    "n_comunas": 5,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PANGUIPULLI",
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 24,
+        "pct_comuna": 0.068112
+      },
+      {
+        "rank": 2,
+        "comuna": "RENAICO",
+        "provincia": "MALLECO",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "personas": 1,
+        "pct_comuna": 0.010115
+      },
+      {
+        "rank": 3,
+        "comuna": "VILLARRICA",
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "personas": 1,
+        "pct_comuna": 0.00182
+      },
+      {
+        "rank": 4,
+        "comuna": "PUERTO MONTT",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 3,
+        "pct_comuna": 0.001608
+      },
+      {
+        "rank": 5,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.001175
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "pct_provincia": 0.068112
+      },
+      {
+        "rank": 2,
+        "provincia": "MALLECO",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_provincia": 0.010115
+      },
+      {
+        "rank": 3,
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_provincia": 0.00182
+      },
+      {
+        "rank": 4,
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.001608
+      },
+      {
+        "rank": 5,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001175
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "14. REGION DE LOS RIOS",
+        "pct_region": 0.068112
+      },
+      {
+        "rank": 2,
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_region": 0.003085
+      },
+      {
+        "rank": 3,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.001608
+      },
+      {
+        "rank": 4,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001175
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caineiro": {
+    "apellido": "CAINEIRO",
+    "slug": "caineiro",
+    "total_personas": 3,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PIRQUE",
+        "provincia": "CORDILLERA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.008832
+      },
+      {
+        "rank": 2,
+        "comuna": "OVALLE",
+        "provincia": "LIMARÍ",
+        "region": "04. REGION DE COQUIMBO",
+        "personas": 1,
+        "pct_comuna": 0.001089
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CORDILLERA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.008832
+      },
+      {
+        "rank": 2,
+        "provincia": "LIMARÍ",
+        "region": "04. REGION DE COQUIMBO",
+        "pct_provincia": 0.001089
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.008832
+      },
+      {
+        "rank": 2,
+        "region": "04. REGION DE COQUIMBO",
+        "pct_region": 0.001089
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "cainelli": {
+    "apellido": "CAINELLI",
+    "slug": "cainelli",
+    "total_personas": 3,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CURICO",
+        "provincia": "CURICÓ",
+        "region": "07. REGION DEL MAULE",
+        "personas": 3,
+        "pct_comuna": 0.002546
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CURICÓ",
+        "region": "07. REGION DEL MAULE",
+        "pct_provincia": 0.002546
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "07. REGION DEL MAULE",
+        "pct_region": 0.002546
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "cainzo": {
+    "apellido": "CAINZO",
+    "slug": "cainzo",
+    "total_personas": 2,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "MONTE PATRIA",
+        "provincia": "LIMARÍ",
+        "region": "04. REGION DE COQUIMBO",
+        "personas": 1,
+        "pct_comuna": 0.003568
+      },
+      {
+        "rank": 2,
+        "comuna": "INDEPENDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.00121
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "LIMARÍ",
+        "region": "04. REGION DE COQUIMBO",
+        "pct_provincia": 0.003568
+      },
+      {
+        "rank": 2,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.00121
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "04. REGION DE COQUIMBO",
+        "pct_region": 0.003568
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.00121
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caiozzi": {
+    "apellido": "CAIOZZI",
+    "slug": "caiozzi",
+    "total_personas": 68,
+    "n_comunas": 19,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CARTAGENA",
+        "provincia": "SAN ANTONIO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 9,
+        "pct_comuna": 0.049377
+      },
+      {
+        "rank": 2,
+        "comuna": "LA REINA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 7,
+        "pct_comuna": 0.007646
+      },
+      {
+        "rank": 3,
+        "comuna": "PAINE",
+        "provincia": "MAIPO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.005577
+      },
+      {
+        "rank": 4,
+        "comuna": "PAILLACO",
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 1,
+        "pct_comuna": 0.005192
+      },
+      {
+        "rank": 5,
+        "comuna": "PUERTO MONTT",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 9,
+        "pct_comuna": 0.004824
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SAN ANTONIO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.049377
+      },
+      {
+        "rank": 2,
+        "provincia": "MAIPO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.005577
+      },
+      {
+        "rank": 3,
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.004824
+      },
+      {
+        "rank": 4,
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "pct_provincia": 0.0019
+      },
+      {
+        "rank": 5,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.00188
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.004824
+      },
+      {
+        "rank": 2,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.003755
+      },
+      {
+        "rank": 3,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001973
+      },
+      {
+        "rank": 4,
+        "region": "14. REGION DE LOS RIOS",
+        "pct_region": 0.0019
+      },
+      {
+        "rank": 5,
+        "region": "04. REGION DE COQUIMBO",
+        "pct_region": 0.000596
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caipa": {
+    "apellido": "CAIPA",
+    "slug": "caipa",
+    "total_personas": 281,
+    "n_comunas": 25,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CAMIÑA",
+        "provincia": "TAMARUGAL",
+        "region": "01. REGION DE TARAPACA",
+        "personas": 36,
+        "pct_comuna": 1.284797
+      },
+      {
+        "rank": 2,
+        "comuna": "HUARA",
+        "provincia": "TAMARUGAL",
+        "region": "01. REGION DE TARAPACA",
+        "personas": 10,
+        "pct_comuna": 0.106689
+      },
+      {
+        "rank": 3,
+        "comuna": "LA UNION",
+        "provincia": "RANCO",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 32,
+        "pct_comuna": 0.0895
+      },
+      {
+        "rank": 4,
+        "comuna": "PAILLACO",
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 14,
+        "pct_comuna": 0.072693
+      },
+      {
+        "rank": 5,
+        "comuna": "ALTO HOSPICIO",
+        "provincia": "IQUIQUE",
+        "region": "01. REGION DE TARAPACA",
+        "personas": 42,
+        "pct_comuna": 0.071571
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "TAMARUGAL",
+        "region": "01. REGION DE TARAPACA",
+        "pct_provincia": 0.224318
+      },
+      {
+        "rank": 2,
+        "provincia": "RANCO",
+        "region": "14. REGION DE LOS RIOS",
+        "pct_provincia": 0.0895
+      },
+      {
+        "rank": 3,
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "pct_provincia": 0.072693
+      },
+      {
+        "rank": 4,
+        "provincia": "IQUIQUE",
+        "region": "01. REGION DE TARAPACA",
+        "pct_provincia": 0.035361
+      },
+      {
+        "rank": 5,
+        "provincia": "ARICA",
+        "region": "15. REGION DE ARICA Y PARINACOTA",
+        "pct_provincia": 0.026102
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "14. REGION DE LOS RIOS",
+        "pct_region": 0.083617
+      },
+      {
+        "rank": 2,
+        "region": "01. REGION DE TARAPACA",
+        "pct_region": 0.053534
+      },
+      {
+        "rank": 3,
+        "region": "15. REGION DE ARICA Y PARINACOTA",
+        "pct_region": 0.026102
+      },
+      {
+        "rank": 4,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.007928
+      },
+      {
+        "rank": 5,
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_region": 0.005097
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caipe": {
+    "apellido": "CAIPE",
+    "slug": "caipe",
+    "total_personas": 4,
+    "n_comunas": 3,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "IQUIQUE",
+        "provincia": "IQUIQUE",
+        "region": "01. REGION DE TARAPACA",
+        "personas": 2,
+        "pct_comuna": 0.001194
+      },
+      {
+        "rank": 2,
+        "comuna": "CALAMA",
+        "provincia": "EL LOA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "personas": 1,
+        "pct_comuna": 0.000756
+      },
+      {
+        "rank": 3,
+        "comuna": "ANTOFAGASTA",
+        "provincia": "ANTOFAGASTA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "personas": 1,
+        "pct_comuna": 0.000348
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "IQUIQUE",
+        "region": "01. REGION DE TARAPACA",
+        "pct_provincia": 0.001194
+      },
+      {
+        "rank": 2,
+        "provincia": "EL LOA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_provincia": 0.000756
+      },
+      {
+        "rank": 3,
+        "provincia": "ANTOFAGASTA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_provincia": 0.000348
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "01. REGION DE TARAPACA",
+        "pct_region": 0.001194
+      },
+      {
+        "rank": 2,
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_region": 0.000477
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caipentier": {
+    "apellido": "CAIPENTIER",
+    "slug": "caipentier",
+    "total_personas": 2,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "SAN BERNARDO",
+        "provincia": "MAIPO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000438
+      },
+      {
+        "rank": 2,
+        "comuna": "PUENTE ALTO",
+        "provincia": "CORDILLERA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.00025
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "MAIPO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000438
+      },
+      {
+        "rank": 2,
+        "provincia": "CORDILLERA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.00025
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000319
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caipichul": {
+    "apellido": "CAIPICHUL",
+    "slug": "caipichul",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "OSORNO",
+        "provincia": "OSORNO",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 1,
+        "pct_comuna": 0.000699
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "OSORNO",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.000699
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.000699
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.900Z"
+  },
+  "caipichun": {
+    "apellido": "CAIPICHUN",
+    "slug": "caipichun",
+    "total_personas": 265,
+    "n_comunas": 19,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CALBUCO",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 96,
+        "pct_comuna": 0.296214
+      },
+      {
+        "rank": 2,
+        "comuna": "PUERTO VARAS",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 57,
+        "pct_comuna": 0.134669
+      },
+      {
+        "rank": 3,
+        "comuna": "PUERTO OCTAY",
+        "provincia": "OSORNO",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 5,
+        "pct_comuna": 0.055408
+      },
+      {
+        "rank": 4,
+        "comuna": "PUYEHUE",
+        "provincia": "OSORNO",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 6,
+        "pct_comuna": 0.051738
+      },
+      {
+        "rank": 5,
+        "comuna": "PUERTO MONTT",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 56,
+        "pct_comuna": 0.030016
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.075998
+      },
+      {
+        "rank": 2,
+        "provincia": "OSORNO",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.038146
+      },
+      {
+        "rank": 3,
+        "provincia": "PALENA",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.02301
+      },
+      {
+        "rank": 4,
+        "provincia": "ÚLTIMA ESPERANZA",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_provincia": 0.013211
+      },
+      {
+        "rank": 5,
+        "provincia": "MAGALLANES",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_provincia": 0.008978
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.070534
+      },
+      {
+        "rank": 2,
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_region": 0.00964
+      },
+      {
+        "rank": 3,
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_region": 0.008623
+      },
+      {
+        "rank": 4,
+        "region": "14. REGION DE LOS RIOS",
+        "pct_region": 0.003247
+      },
+      {
+        "rank": 5,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001677
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.901Z"
+  },
+  "caipillan": {
+    "apellido": "CAIPILLAN",
+    "slug": "caipillan",
+    "total_personas": 1195,
+    "n_comunas": 71,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CALBUCO",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 308,
+        "pct_comuna": 0.950353
+      },
+      {
+        "rank": 2,
+        "comuna": "QUINCHAO",
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 65,
+        "pct_comuna": 0.690755
+      },
+      {
+        "rank": 3,
+        "comuna": "HUALAIHUE",
+        "provincia": "PALENA",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 41,
+        "pct_comuna": 0.471698
+      },
+      {
+        "rank": 4,
+        "comuna": "GUAITECAS",
+        "provincia": "AYSÉN",
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "personas": 8,
+        "pct_comuna": 0.458716
+      },
+      {
+        "rank": 5,
+        "comuna": "QUEILEN",
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 26,
+        "pct_comuna": 0.411067
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "PALENA",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.331866
+      },
+      {
+        "rank": 2,
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.208162
+      },
+      {
+        "rank": 3,
+        "provincia": "AYSÉN",
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "pct_provincia": 0.158403
+      },
+      {
+        "rank": 4,
+        "provincia": "TIERRA DEL FUEGO",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_provincia": 0.146667
+      },
+      {
+        "rank": 5,
+        "provincia": "CAPITÁN PRAT",
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "pct_provincia": 0.143885
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.121944
+      },
+      {
+        "rank": 2,
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_region": 0.104905
+      },
+      {
+        "rank": 3,
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "pct_region": 0.063891
+      },
+      {
+        "rank": 4,
+        "region": "14. REGION DE LOS RIOS",
+        "pct_region": 0.026352
+      },
+      {
+        "rank": 5,
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_region": 0.022324
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.901Z"
+  },
+  "caipo": {
+    "apellido": "CAIPO",
+    "slug": "caipo",
+    "total_personas": 28,
+    "n_comunas": 12,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "SAN PABLO",
+        "provincia": "OSORNO",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 1,
+        "pct_comuna": 0.009815
+      },
+      {
+        "rank": 2,
+        "comuna": "PEDRO AGUIRRE CERDA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.00322
+      },
+      {
+        "rank": 3,
+        "comuna": "ESTACION CENTRAL",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 4,
+        "pct_comuna": 0.003144
+      },
+      {
+        "rank": 4,
+        "comuna": "PEÑAFLOR",
+        "provincia": "TALAGANTE",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.002757
+      },
+      {
+        "rank": 5,
+        "comuna": "RENCA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.00257
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "OSORNO",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.009815
+      },
+      {
+        "rank": 2,
+        "provincia": "TALAGANTE",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.002757
+      },
+      {
+        "rank": 3,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001377
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.009815
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.00143
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.901Z"
+  },
+  "caipul": {
+    "apellido": "CAIPUL",
+    "slug": "caipul",
+    "total_personas": 3,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "RIO BUENO",
+        "provincia": "RANCO",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 3,
+        "pct_comuna": 0.009742
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "RANCO",
+        "region": "14. REGION DE LOS RIOS",
+        "pct_provincia": 0.009742
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "14. REGION DE LOS RIOS",
+        "pct_region": 0.009742
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.901Z"
+  },
+  "cairampoma": {
+    "apellido": "CAIRAMPOMA",
+    "slug": "cairampoma",
+    "total_personas": 6,
+    "n_comunas": 4,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "RECOLETA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.001402
+      },
+      {
+        "rank": 2,
+        "comuna": "INDEPENDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.00121
+      },
+      {
+        "rank": 3,
+        "comuna": "CERRO NAVIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000866
+      },
+      {
+        "rank": 4,
+        "comuna": "SANTIAGO",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.000588
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000881
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000881
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.901Z"
+  },
+  "caire": {
+    "apellido": "CAIRE",
+    "slug": "caire",
+    "total_personas": 69,
+    "n_comunas": 18,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PERQUENCO",
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "personas": 4,
+        "pct_comuna": 0.058642
+      },
+      {
+        "rank": 2,
+        "comuna": "LAUTARO",
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "personas": 10,
+        "pct_comuna": 0.029195
+      },
+      {
+        "rank": 3,
+        "comuna": "PADRE LAS CASAS",
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "personas": 10,
+        "pct_comuna": 0.01699
+      },
+      {
+        "rank": 4,
+        "comuna": "NUEVA IMPERIAL",
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "personas": 5,
+        "pct_comuna": 0.016292
+      },
+      {
+        "rank": 5,
+        "comuna": "PAINE",
+        "provincia": "MAIPO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 5,
+        "pct_comuna": 0.009295
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_provincia": 0.009795
+      },
+      {
+        "rank": 2,
+        "provincia": "DIGUILLÍN",
+        "region": "16. REGION DE ÑUBLE",
+        "pct_provincia": 0.006834
+      },
+      {
+        "rank": 3,
+        "provincia": "MAIPO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.00461
+      },
+      {
+        "rank": 4,
+        "provincia": "ÚLTIMA ESPERANZA",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_provincia": 0.004404
+      },
+      {
+        "rank": 5,
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_provincia": 0.002571
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_region": 0.009795
+      },
+      {
+        "rank": 2,
+        "region": "16. REGION DE ÑUBLE",
+        "pct_region": 0.006834
+      },
+      {
+        "rank": 3,
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_region": 0.004404
+      },
+      {
+        "rank": 4,
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_region": 0.002571
+      },
+      {
+        "rank": 5,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001432
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.901Z"
+  },
+  "cairel": {
+    "apellido": "CAIREL",
+    "slug": "cairel",
+    "total_personas": 29,
+    "n_comunas": 5,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "COIHAIQUE",
+        "provincia": "",
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "personas": 8,
+        "pct_comuna": 0.014752
+      },
+      {
+        "rank": 2,
+        "comuna": "PEÑALOLEN",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 13,
+        "pct_comuna": 0.006781
+      },
+      {
+        "rank": 3,
+        "comuna": "SAN VICENTE",
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "personas": 1,
+        "pct_comuna": 0.002468
+      },
+      {
+        "rank": 4,
+        "comuna": "VIÑA DEL MAR",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 6,
+        "pct_comuna": 0.001991
+      },
+      {
+        "rank": 5,
+        "comuna": "CONCHALI",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000843
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "",
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "pct_provincia": 0.014752
+      },
+      {
+        "rank": 2,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.004511
+      },
+      {
+        "rank": 3,
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_provincia": 0.002468
+      },
+      {
+        "rank": 4,
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.001991
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "pct_region": 0.014752
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.004511
+      },
+      {
+        "rank": 3,
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_region": 0.002468
+      },
+      {
+        "rank": 4,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.001991
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.901Z"
+  },
+  "caires": {
+    "apellido": "CAIRES",
+    "slug": "caires",
+    "total_personas": 4,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.001762
+      },
+      {
+        "rank": 2,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000371
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.00091
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.00091
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.901Z"
+  },
+  "cairo": {
+    "apellido": "CAIRO",
+    "slug": "cairo",
+    "total_personas": 32,
+    "n_comunas": 14,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "HUARA",
+        "provincia": "TAMARUGAL",
+        "region": "01. REGION DE TARAPACA",
+        "personas": 1,
+        "pct_comuna": 0.010669
+      },
+      {
+        "rank": 2,
+        "comuna": "LLAILLAY",
+        "provincia": "SAN FELIPE DE ACONCAGUA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 1,
+        "pct_comuna": 0.004781
+      },
+      {
+        "rank": 3,
+        "comuna": "COPIAPO",
+        "provincia": "COPIAPÓ",
+        "region": "03. REGION DE ATACAMA",
+        "personas": 4,
+        "pct_comuna": 0.003227
+      },
+      {
+        "rank": 4,
+        "comuna": "ARICA",
+        "provincia": "ARICA",
+        "region": "15. REGION DE ARICA Y PARINACOTA",
+        "personas": 5,
+        "pct_comuna": 0.002777
+      },
+      {
+        "rank": 5,
+        "comuna": "PUERTO VARAS",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 1,
+        "pct_comuna": 0.002363
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "TAMARUGAL",
+        "region": "01. REGION DE TARAPACA",
+        "pct_provincia": 0.010669
+      },
+      {
+        "rank": 2,
+        "provincia": "SAN FELIPE DE ACONCAGUA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.004781
+      },
+      {
+        "rank": 3,
+        "provincia": "COPIAPÓ",
+        "region": "03. REGION DE ATACAMA",
+        "pct_provincia": 0.003227
+      },
+      {
+        "rank": 4,
+        "provincia": "ARICA",
+        "region": "15. REGION DE ARICA Y PARINACOTA",
+        "pct_provincia": 0.002777
+      },
+      {
+        "rank": 5,
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.002363
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "01. REGION DE TARAPACA",
+        "pct_region": 0.010669
+      },
+      {
+        "rank": 2,
+        "region": "03. REGION DE ATACAMA",
+        "pct_region": 0.003227
+      },
+      {
+        "rank": 3,
+        "region": "15. REGION DE ARICA Y PARINACOTA",
+        "pct_region": 0.002777
+      },
+      {
+        "rank": 4,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.002601
+      },
+      {
+        "rank": 5,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.002363
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.901Z"
+  },
+  "cairoli": {
+    "apellido": "CAIROLI",
+    "slug": "cairoli",
+    "total_personas": 2,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "VIÑA DEL MAR",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 2,
+        "pct_comuna": 0.000664
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.000664
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.000664
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.901Z"
+  },
+  "caisaguano": {
+    "apellido": "CAISAGUANO",
+    "slug": "caisaguano",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "DOÑIHUE",
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "personas": 1,
+        "pct_comuna": 0.005428
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_provincia": 0.005428
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_region": 0.005428
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.901Z"
+  },
+  "caiseo": {
+    "apellido": "CAISEO",
+    "slug": "caiseo",
+    "total_personas": 78,
+    "n_comunas": 17,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PITRUFQUEN",
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "personas": 2,
+        "pct_comuna": 0.008657
+      },
+      {
+        "rank": 2,
+        "comuna": "CONCHALI",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 10,
+        "pct_comuna": 0.00843
+      },
+      {
+        "rank": 3,
+        "comuna": "LA PINTANA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 10,
+        "pct_comuna": 0.007189
+      },
+      {
+        "rank": 4,
+        "comuna": "QUILLOTA",
+        "provincia": "QUILLOTA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 4,
+        "pct_comuna": 0.005299
+      },
+      {
+        "rank": 5,
+        "comuna": "MAIPU",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 18,
+        "pct_comuna": 0.004618
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "QUILLOTA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.005299
+      },
+      {
+        "rank": 2,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.002729
+      },
+      {
+        "rank": 3,
+        "provincia": "ELQUI",
+        "region": "04. REGION DE COQUIMBO",
+        "pct_provincia": 0.002383
+      },
+      {
+        "rank": 4,
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_provincia": 0.001154
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.005299
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.002729
+      },
+      {
+        "rank": 3,
+        "region": "04. REGION DE COQUIMBO",
+        "pct_region": 0.002383
+      },
+      {
+        "rank": 4,
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_region": 0.001154
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.901Z"
+  },
+  "caises": {
+    "apellido": "CAISES",
+    "slug": "caises",
+    "total_personas": 2,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "SANTIAGO",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.000588
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000588
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000588
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.901Z"
+  },
+  "caisina": {
+    "apellido": "CAISINA",
+    "slug": "caisina",
+    "total_personas": 4,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "ARICA",
+        "provincia": "ARICA",
+        "region": "15. REGION DE ARICA Y PARINACOTA",
+        "personas": 4,
+        "pct_comuna": 0.002221
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "ARICA",
+        "region": "15. REGION DE ARICA Y PARINACOTA",
+        "pct_provincia": 0.002221
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "15. REGION DE ARICA Y PARINACOTA",
+        "pct_region": 0.002221
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.901Z"
+  },
+  "caiso": {
+    "apellido": "CAISO",
+    "slug": "caiso",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "HUECHURABA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.001361
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001361
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001361
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.901Z"
+  },
+  "caistor": {
+    "apellido": "CAISTOR",
+    "slug": "caistor",
+    "total_personas": 6,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "TALAGANTE",
+        "provincia": "TALAGANTE",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 4,
+        "pct_comuna": 0.00688
+      },
+      {
+        "rank": 2,
+        "comuna": "VIÑA DEL MAR",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 2,
+        "pct_comuna": 0.000664
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "TALAGANTE",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.00688
+      },
+      {
+        "rank": 2,
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.000664
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.00688
+      },
+      {
+        "rank": 2,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.000664
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.901Z"
+  },
+  "caitano": {
+    "apellido": "CAITANO",
+    "slug": "caitano",
+    "total_personas": 2,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CERRILLOS",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.002961
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.002961
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.002961
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.901Z"
+  },
+  "caixeta": {
+    "apellido": "CAIXETA",
+    "slug": "caixeta",
+    "total_personas": 2,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "SAN FERNANDO",
+        "provincia": "COLCHAGUA",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "personas": 1,
+        "pct_comuna": 0.001588
+      },
+      {
+        "rank": 2,
+        "comuna": "SANTIAGO",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000294
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "COLCHAGUA",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_provincia": 0.001588
+      },
+      {
+        "rank": 2,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000294
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_region": 0.001588
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000294
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.901Z"
+  },
+  "caiza": {
+    "apellido": "CAIZA",
+    "slug": "caiza",
+    "total_personas": 14,
+    "n_comunas": 7,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CALDERA",
+        "provincia": "COPIAPÓ",
+        "region": "03. REGION DE ATACAMA",
+        "personas": 5,
+        "pct_comuna": 0.03328
+      },
+      {
+        "rank": 2,
+        "comuna": "LOTA",
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "personas": 2,
+        "pct_comuna": 0.004172
+      },
+      {
+        "rank": 3,
+        "comuna": "LINARES",
+        "provincia": "LINARES",
+        "region": "07. REGION DEL MAULE",
+        "personas": 2,
+        "pct_comuna": 0.002447
+      },
+      {
+        "rank": 4,
+        "comuna": "TALCA",
+        "provincia": "TALCA",
+        "region": "07. REGION DEL MAULE",
+        "personas": 2,
+        "pct_comuna": 0.001113
+      },
+      {
+        "rank": 5,
+        "comuna": "TALCAHUANO",
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "personas": 1,
+        "pct_comuna": 0.000756
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "COPIAPÓ",
+        "region": "03. REGION DE ATACAMA",
+        "pct_provincia": 0.03328
+      },
+      {
+        "rank": 2,
+        "provincia": "LINARES",
+        "region": "07. REGION DEL MAULE",
+        "pct_provincia": 0.002447
+      },
+      {
+        "rank": 3,
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "pct_provincia": 0.001664
+      },
+      {
+        "rank": 4,
+        "provincia": "TALCA",
+        "region": "07. REGION DEL MAULE",
+        "pct_provincia": 0.001113
+      },
+      {
+        "rank": 5,
+        "provincia": "IQUIQUE",
+        "region": "01. REGION DE TARAPACA",
+        "pct_provincia": 0.000597
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "03. REGION DE ATACAMA",
+        "pct_region": 0.03328
+      },
+      {
+        "rank": 2,
+        "region": "08. REGION DEL BIOBIO",
+        "pct_region": 0.001664
+      },
+      {
+        "rank": 3,
+        "region": "07. REGION DEL MAULE",
+        "pct_region": 0.00153
+      },
+      {
+        "rank": 4,
+        "region": "01. REGION DE TARAPACA",
+        "pct_region": 0.000597
+      },
+      {
+        "rank": 5,
+        "region": "04. REGION DE COQUIMBO",
+        "pct_region": 0.000596
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.901Z"
+  },
+  "caizabando": {
+    "apellido": "CAIZABANDO",
+    "slug": "caizabando",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "RENGO",
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "personas": 1,
+        "pct_comuna": 0.002058
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_provincia": 0.002058
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_region": 0.002058
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.901Z"
+  },
+  "caizatoa": {
+    "apellido": "CAIZATOA",
+    "slug": "caizatoa",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "SAN MIGUEL",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000952
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000952
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000952
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.901Z"
+  }
+}

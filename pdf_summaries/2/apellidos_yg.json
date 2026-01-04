@@ -1,0 +1,349 @@
+{
+  "ygarza": {
+    "apellido": "YGARZA",
+    "slug": "ygarza",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "IQUIQUE",
+        "provincia": "IQUIQUE",
+        "region": "01. REGION DE TARAPACA",
+        "personas": 1,
+        "pct_comuna": 0.000597
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "IQUIQUE",
+        "region": "01. REGION DE TARAPACA",
+        "pct_provincia": 0.000597
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "01. REGION DE TARAPACA",
+        "pct_region": 0.000597
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.293Z"
+  },
+  "ygayman": {
+    "apellido": "YGAYMAN",
+    "slug": "ygayman",
+    "total_personas": 2,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "INDEPENDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.00242
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.00242
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.00242
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.293Z"
+  },
+  "ygich": {
+    "apellido": "YGICH",
+    "slug": "ygich",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "SANTIAGO",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000294
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000294
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000294
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.293Z"
+  },
+  "yglecias": {
+    "apellido": "YGLECIAS",
+    "slug": "yglecias",
+    "total_personas": 3,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "MAIPU",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.00077
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.00077
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.00077
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.293Z"
+  },
+  "yglesias": {
+    "apellido": "YGLESIAS",
+    "slug": "yglesias",
+    "total_personas": 9,
+    "n_comunas": 6,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "ESTACION CENTRAL",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.002358
+      },
+      {
+        "rank": 2,
+        "comuna": "QUINTA NORMAL",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.001951
+      },
+      {
+        "rank": 3,
+        "comuna": "QUILLOTA",
+        "provincia": "QUILLOTA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 1,
+        "pct_comuna": 0.001325
+      },
+      {
+        "rank": 4,
+        "comuna": "RECOLETA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000701
+      },
+      {
+        "rank": 5,
+        "comuna": "PEÑALOLEN",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000522
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "QUILLOTA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.001325
+      },
+      {
+        "rank": 2,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000885
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.001325
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000885
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.293Z"
+  },
+  "ygnacio": {
+    "apellido": "YGNACIO",
+    "slug": "ygnacio",
+    "total_personas": 9,
+    "n_comunas": 3,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "RECOLETA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.002102
+      },
+      {
+        "rank": 2,
+        "comuna": "SANTIAGO",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 5,
+        "pct_comuna": 0.001469
+      },
+      {
+        "rank": 3,
+        "comuna": "INDEPENDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.00121
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001591
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001591
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.293Z"
+  },
+  "ygor": {
+    "apellido": "YGOR",
+    "slug": "ygor",
+    "total_personas": 4,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LO PRADO",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 4,
+        "pct_comuna": 0.0045
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.0045
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.0045
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.293Z"
+  },
+  "ygreda": {
+    "apellido": "YGREDA",
+    "slug": "ygreda",
+    "total_personas": 3,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PEÑALOLEN",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.001565
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001565
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001565
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.293Z"
+  },
+  "yguain": {
+    "apellido": "YGUAIN",
+    "slug": "yguain",
+    "total_personas": 2,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "RENCA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.001713
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001713
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001713
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.293Z"
+  }
+}

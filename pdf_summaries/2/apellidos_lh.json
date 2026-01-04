@@ -1,0 +1,519 @@
+{
+  "lherisse": {
+    "apellido": "LHERISSE",
+    "slug": "lherisse",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "QUILICURA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000715
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000715
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000715
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.859Z"
+  },
+  "lheritier": {
+    "apellido": "LHERITIER",
+    "slug": "lheritier",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "ÑUÑOA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000507
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000507
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000507
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.859Z"
+  },
+  "lhi": {
+    "apellido": "LHI",
+    "slug": "lhi",
+    "total_personas": 5,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "RECOLETA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 4,
+        "pct_comuna": 0.002803
+      },
+      {
+        "rank": 2,
+        "comuna": "CONCHALI",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000843
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001913
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001913
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.859Z"
+  },
+  "lhoest": {
+    "apellido": "LHOEST",
+    "slug": "lhoest",
+    "total_personas": 13,
+    "n_comunas": 6,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CONCEPCION",
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "personas": 6,
+        "pct_comuna": 0.002984
+      },
+      {
+        "rank": 2,
+        "comuna": "LA CISTERNA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.002403
+      },
+      {
+        "rank": 3,
+        "comuna": "EL BOSQUE",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.001453
+      },
+      {
+        "rank": 4,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000371
+      },
+      {
+        "rank": 5,
+        "comuna": "LA FLORIDA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000325
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "pct_provincia": 0.002984
+      },
+      {
+        "rank": 2,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000615
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "08. REGION DEL BIOBIO",
+        "pct_region": 0.002984
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000615
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.859Z"
+  },
+  "lhomme": {
+    "apellido": "LHOMME",
+    "slug": "lhomme",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000587
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000587
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000587
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.859Z"
+  },
+  "lhons": {
+    "apellido": "LHONS",
+    "slug": "lhons",
+    "total_personas": 6,
+    "n_comunas": 4,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "YUNGAY",
+        "provincia": "DIGUILLÍN",
+        "region": "16. REGION DE ÑUBLE",
+        "personas": 1,
+        "pct_comuna": 0.006127
+      },
+      {
+        "rank": 2,
+        "comuna": "PENCO",
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "personas": 1,
+        "pct_comuna": 0.00237
+      },
+      {
+        "rank": 3,
+        "comuna": "TALCAHUANO",
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "personas": 2,
+        "pct_comuna": 0.001511
+      },
+      {
+        "rank": 4,
+        "comuna": "CONCEPCION",
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "personas": 2,
+        "pct_comuna": 0.000995
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "DIGUILLÍN",
+        "region": "16. REGION DE ÑUBLE",
+        "pct_provincia": 0.006127
+      },
+      {
+        "rank": 2,
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "pct_provincia": 0.001331
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "16. REGION DE ÑUBLE",
+        "pct_region": 0.006127
+      },
+      {
+        "rank": 2,
+        "region": "08. REGION DEL BIOBIO",
+        "pct_region": 0.001331
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.859Z"
+  },
+  "lhorente": {
+    "apellido": "LHORENTE",
+    "slug": "lhorente",
+    "total_personas": 16,
+    "n_comunas": 7,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "MOSTAZAL",
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "personas": 4,
+        "pct_comuna": 0.019063
+      },
+      {
+        "rank": 2,
+        "comuna": "ZAPALLAR",
+        "provincia": "PETORCA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 1,
+        "pct_comuna": 0.011482
+      },
+      {
+        "rank": 3,
+        "comuna": "CASABLANCA",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 1,
+        "pct_comuna": 0.004451
+      },
+      {
+        "rank": 4,
+        "comuna": "LA REINA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 4,
+        "pct_comuna": 0.004369
+      },
+      {
+        "rank": 5,
+        "comuna": "PEÑALOLEN",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.001565
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_provincia": 0.019063
+      },
+      {
+        "rank": 2,
+        "provincia": "PETORCA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.011482
+      },
+      {
+        "rank": 3,
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.004451
+      },
+      {
+        "rank": 4,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001755
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_region": 0.019063
+      },
+      {
+        "rank": 2,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.006415
+      },
+      {
+        "rank": 3,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001755
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.859Z"
+  },
+  "lhotelin": {
+    "apellido": "LHOTELIN",
+    "slug": "lhotelin",
+    "total_personas": 4,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PUCHUNCAVI",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 1,
+        "pct_comuna": 0.006247
+      },
+      {
+        "rank": 2,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.001113
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.006247
+      },
+      {
+        "rank": 2,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001113
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.006247
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001113
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.859Z"
+  },
+  "lhotellier": {
+    "apellido": "LHOTELLIER",
+    "slug": "lhotellier",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LO BARNECHEA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.00121
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.00121
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.00121
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.859Z"
+  },
+  "lhuillier": {
+    "apellido": "LHUILLIER",
+    "slug": "lhuillier",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "VITACURA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.00112
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.00112
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.00112
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.859Z"
+  },
+  "lhuissier": {
+    "apellido": "LHUISSIER",
+    "slug": "lhuissier",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "MAIPU",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000257
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000257
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000257
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.859Z"
+  }
+}

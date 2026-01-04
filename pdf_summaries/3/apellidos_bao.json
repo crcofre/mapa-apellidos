@@ -1,0 +1,218 @@
+{
+  "bao": {
+    "apellido": "BAO",
+    "slug": "bao",
+    "total_personas": 334,
+    "n_comunas": 50,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CHILLAN VIEJO",
+        "provincia": "DIGUILLÍN",
+        "region": "16. REGION DE ÑUBLE",
+        "personas": 20,
+        "pct_comuna": 0.089039
+      },
+      {
+        "rank": 2,
+        "comuna": "CHILLAN",
+        "provincia": "DIGUILLÍN",
+        "region": "16. REGION DE ÑUBLE",
+        "personas": 132,
+        "pct_comuna": 0.086431
+      },
+      {
+        "rank": 3,
+        "comuna": "RIO IBAÑEZ",
+        "provincia": "GENERAL CARRERA",
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "personas": 2,
+        "pct_comuna": 0.068564
+      },
+      {
+        "rank": 4,
+        "comuna": "SAN IGNACIO",
+        "provincia": "DIGUILLÍN",
+        "region": "16. REGION DE ÑUBLE",
+        "personas": 9,
+        "pct_comuna": 0.061509
+      },
+      {
+        "rank": 5,
+        "comuna": "NINHUE",
+        "provincia": "ITATA",
+        "region": "16. REGION DE ÑUBLE",
+        "personas": 3,
+        "pct_comuna": 0.047431
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "DIGUILLÍN",
+        "region": "16. REGION DE ÑUBLE",
+        "pct_provincia": 0.077231
+      },
+      {
+        "rank": 2,
+        "provincia": "GENERAL CARRERA",
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "pct_provincia": 0.068564
+      },
+      {
+        "rank": 3,
+        "provincia": "MALLECO",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_provincia": 0.039736
+      },
+      {
+        "rank": 4,
+        "provincia": "ITATA",
+        "region": "16. REGION DE ÑUBLE",
+        "pct_provincia": 0.032868
+      },
+      {
+        "rank": 5,
+        "provincia": "PUNILLA",
+        "region": "16. REGION DE ÑUBLE",
+        "pct_provincia": 0.029499
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "16. REGION DE ÑUBLE",
+        "pct_region": 0.068922
+      },
+      {
+        "rank": 2,
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_region": 0.016899
+      },
+      {
+        "rank": 3,
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "pct_region": 0.007
+      },
+      {
+        "rank": 4,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.002643
+      },
+      {
+        "rank": 5,
+        "region": "01. REGION DE TARAPACA",
+        "pct_region": 0.00179
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.591Z"
+  },
+  "baos": {
+    "apellido": "BAOS",
+    "slug": "baos",
+    "total_personas": 80,
+    "n_comunas": 21,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "VILLARRICA",
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "personas": 39,
+        "pct_comuna": 0.070976
+      },
+      {
+        "rank": 2,
+        "comuna": "RIO HURTADO",
+        "provincia": "LIMARÍ",
+        "region": "04. REGION DE COQUIMBO",
+        "personas": 1,
+        "pct_comuna": 0.020251
+      },
+      {
+        "rank": 3,
+        "comuna": "QUILPUE",
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 11,
+        "pct_comuna": 0.008182
+      },
+      {
+        "rank": 4,
+        "comuna": "EL QUISCO",
+        "provincia": "SAN ANTONIO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 1,
+        "pct_comuna": 0.007256
+      },
+      {
+        "rank": 5,
+        "comuna": "CHILLAN VIEJO",
+        "provincia": "DIGUILLÍN",
+        "region": "16. REGION DE ÑUBLE",
+        "personas": 1,
+        "pct_comuna": 0.004452
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_provincia": 0.048027
+      },
+      {
+        "rank": 2,
+        "provincia": "LIMARÍ",
+        "region": "04. REGION DE COQUIMBO",
+        "pct_provincia": 0.020251
+      },
+      {
+        "rank": 3,
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.008182
+      },
+      {
+        "rank": 4,
+        "provincia": "DIGUILLÍN",
+        "region": "16. REGION DE ÑUBLE",
+        "pct_provincia": 0.004452
+      },
+      {
+        "rank": 5,
+        "provincia": "MAGALLANES",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_provincia": 0.003265
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_region": 0.048027
+      },
+      {
+        "rank": 2,
+        "region": "04. REGION DE COQUIMBO",
+        "pct_region": 0.020251
+      },
+      {
+        "rank": 3,
+        "region": "16. REGION DE ÑUBLE",
+        "pct_region": 0.004452
+      },
+      {
+        "rank": 4,
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_region": 0.003265
+      },
+      {
+        "rank": 5,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.002567
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.591Z"
+  }
+}

@@ -1,0 +1,3916 @@
+{
+  "knaack": {
+    "apellido": "KNAACK",
+    "slug": "knaack",
+    "total_personas": 14,
+    "n_comunas": 9,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "FRUTILLAR",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 2,
+        "pct_comuna": 0.01192
+      },
+      {
+        "rank": 2,
+        "comuna": "COLBUN",
+        "provincia": "LINARES",
+        "region": "07. REGION DEL MAULE",
+        "personas": 2,
+        "pct_comuna": 0.010843
+      },
+      {
+        "rank": 3,
+        "comuna": "LA UNION",
+        "provincia": "RANCO",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 1,
+        "pct_comuna": 0.002797
+      },
+      {
+        "rank": 4,
+        "comuna": "PUERTO VARAS",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 1,
+        "pct_comuna": 0.002363
+      },
+      {
+        "rank": 5,
+        "comuna": "COLINA",
+        "provincia": "CHACABUCO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.002211
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "LINARES",
+        "region": "07. REGION DEL MAULE",
+        "pct_provincia": 0.010843
+      },
+      {
+        "rank": 2,
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.005076
+      },
+      {
+        "rank": 3,
+        "provincia": "RANCO",
+        "region": "14. REGION DE LOS RIOS",
+        "pct_provincia": 0.002797
+      },
+      {
+        "rank": 4,
+        "provincia": "CHACABUCO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.002211
+      },
+      {
+        "rank": 5,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000857
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "07. REGION DEL MAULE",
+        "pct_region": 0.010843
+      },
+      {
+        "rank": 2,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.005076
+      },
+      {
+        "rank": 3,
+        "region": "14. REGION DE LOS RIOS",
+        "pct_region": 0.002797
+      },
+      {
+        "rank": 4,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001077
+      },
+      {
+        "rank": 5,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.000471
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knaak": {
+    "apellido": "KNAAK",
+    "slug": "knaak",
+    "total_personas": 23,
+    "n_comunas": 8,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "VIÑA DEL MAR",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 9,
+        "pct_comuna": 0.002986
+      },
+      {
+        "rank": 2,
+        "comuna": "QUILPUE",
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 4,
+        "pct_comuna": 0.002975
+      },
+      {
+        "rank": 3,
+        "comuna": "CONCON",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 1,
+        "pct_comuna": 0.002536
+      },
+      {
+        "rank": 4,
+        "comuna": "LO BARNECHEA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.002419
+      },
+      {
+        "rank": 5,
+        "comuna": "VALPARAISO",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 3,
+        "pct_comuna": 0.001034
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.002975
+      },
+      {
+        "rank": 2,
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.00206
+      },
+      {
+        "rank": 3,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000722
+      },
+      {
+        "rank": 4,
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "pct_provincia": 0.000497
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.002221
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000722
+      },
+      {
+        "rank": 3,
+        "region": "08. REGION DEL BIOBIO",
+        "pct_region": 0.000497
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knabe": {
+    "apellido": "KNABE",
+    "slug": "knabe",
+    "total_personas": 61,
+    "n_comunas": 20,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CASABLANCA",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 7,
+        "pct_comuna": 0.031154
+      },
+      {
+        "rank": 2,
+        "comuna": "LA UNION",
+        "provincia": "RANCO",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 9,
+        "pct_comuna": 0.025172
+      },
+      {
+        "rank": 3,
+        "comuna": "MAFIL",
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 1,
+        "pct_comuna": 0.013976
+      },
+      {
+        "rank": 4,
+        "comuna": "PAILLACO",
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 2,
+        "pct_comuna": 0.010385
+      },
+      {
+        "rank": 5,
+        "comuna": "LA LIGUA",
+        "provincia": "PETORCA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 2,
+        "pct_comuna": 0.006627
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "RANCO",
+        "region": "14. REGION DE LOS RIOS",
+        "pct_provincia": 0.025172
+      },
+      {
+        "rank": 2,
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "pct_provincia": 0.011358
+      },
+      {
+        "rank": 3,
+        "provincia": "PETORCA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.006627
+      },
+      {
+        "rank": 4,
+        "provincia": "TALCA",
+        "region": "07. REGION DEL MAULE",
+        "pct_provincia": 0.005
+      },
+      {
+        "rank": 5,
+        "provincia": "",
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "pct_provincia": 0.003688
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "14. REGION DE LOS RIOS",
+        "pct_region": 0.019303
+      },
+      {
+        "rank": 2,
+        "region": "07. REGION DEL MAULE",
+        "pct_region": 0.005
+      },
+      {
+        "rank": 3,
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "pct_region": 0.003688
+      },
+      {
+        "rank": 4,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.003078
+      },
+      {
+        "rank": 5,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.002156
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knabel": {
+    "apellido": "KNABEL",
+    "slug": "knabel",
+    "total_personas": 4,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.001762
+      },
+      {
+        "rank": 2,
+        "comuna": "LA REINA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.001092
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001528
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001528
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knabet": {
+    "apellido": "KNABET",
+    "slug": "knabet",
+    "total_personas": 11,
+    "n_comunas": 5,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CHEPICA",
+        "provincia": "COLCHAGUA",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "personas": 1,
+        "pct_comuna": 0.007273
+      },
+      {
+        "rank": 2,
+        "comuna": "SAN BERNARDO",
+        "provincia": "MAIPO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 6,
+        "pct_comuna": 0.002629
+      },
+      {
+        "rank": 3,
+        "comuna": "MELIPILLA",
+        "provincia": "MELIPILLA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.002057
+      },
+      {
+        "rank": 4,
+        "comuna": "VITACURA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.00112
+      },
+      {
+        "rank": 5,
+        "comuna": "ÑUÑOA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000507
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "COLCHAGUA",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_provincia": 0.007273
+      },
+      {
+        "rank": 2,
+        "provincia": "MAIPO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.002629
+      },
+      {
+        "rank": 3,
+        "provincia": "MELIPILLA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.002057
+      },
+      {
+        "rank": 4,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000698
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_region": 0.007273
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001634
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knafla": {
+    "apellido": "KNAFLA",
+    "slug": "knafla",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000587
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000587
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000587
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knafo": {
+    "apellido": "KNAFO",
+    "slug": "knafo",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PUENTE ALTO",
+        "provincia": "CORDILLERA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.00025
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CORDILLERA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.00025
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.00025
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knakal": {
+    "apellido": "KNAKAL",
+    "slug": "knakal",
+    "total_personas": 5,
+    "n_comunas": 3,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CONCON",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 1,
+        "pct_comuna": 0.002536
+      },
+      {
+        "rank": 2,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.000742
+      },
+      {
+        "rank": 3,
+        "comuna": "VIÑA DEL MAR",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 2,
+        "pct_comuna": 0.000664
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.00088
+      },
+      {
+        "rank": 2,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000742
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.00088
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000742
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knap": {
+    "apellido": "KNAP",
+    "slug": "knap",
+    "total_personas": 10,
+    "n_comunas": 3,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CURACAVI",
+        "provincia": "MELIPILLA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.007592
+      },
+      {
+        "rank": 2,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 6,
+        "pct_comuna": 0.002226
+      },
+      {
+        "rank": 3,
+        "comuna": "ÑUÑOA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.001014
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "MELIPILLA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.007592
+      },
+      {
+        "rank": 2,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001714
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.002028
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knapman": {
+    "apellido": "KNAPMAN",
+    "slug": "knapman",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LA SERENA",
+        "provincia": "ELQUI",
+        "region": "04. REGION DE COQUIMBO",
+        "personas": 1,
+        "pct_comuna": 0.000572
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "ELQUI",
+        "region": "04. REGION DE COQUIMBO",
+        "pct_provincia": 0.000572
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "04. REGION DE COQUIMBO",
+        "pct_region": 0.000572
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knapova": {
+    "apellido": "KNAPOVA",
+    "slug": "knapova",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "OLMUE",
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 1,
+        "pct_comuna": 0.006095
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.006095
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.006095
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knapp": {
+    "apellido": "KNAPP",
+    "slug": "knapp",
+    "total_personas": 33,
+    "n_comunas": 8,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LO BARNECHEA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 6,
+        "pct_comuna": 0.007258
+      },
+      {
+        "rank": 2,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 7,
+        "pct_comuna": 0.004111
+      },
+      {
+        "rank": 3,
+        "comuna": "VITACURA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.003359
+      },
+      {
+        "rank": 4,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 7,
+        "pct_comuna": 0.002597
+      },
+      {
+        "rank": 5,
+        "comuna": "ÑUÑOA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 4,
+        "pct_comuna": 0.002028
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.002523
+      },
+      {
+        "rank": 2,
+        "provincia": "MAGALLANES",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_provincia": 0.001632
+      },
+      {
+        "rank": 3,
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.001488
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.002523
+      },
+      {
+        "rank": 2,
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_region": 0.001632
+      },
+      {
+        "rank": 3,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.001488
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knapton": {
+    "apellido": "KNAPTON",
+    "slug": "knapton",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "ARICA",
+        "provincia": "ARICA",
+        "region": "15. REGION DE ARICA Y PARINACOTA",
+        "personas": 1,
+        "pct_comuna": 0.000555
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "ARICA",
+        "region": "15. REGION DE ARICA Y PARINACOTA",
+        "pct_provincia": 0.000555
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "15. REGION DE ARICA Y PARINACOTA",
+        "pct_region": 0.000555
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knaudt": {
+    "apellido": "KNAUDT",
+    "slug": "knaudt",
+    "total_personas": 5,
+    "n_comunas": 3,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.001762
+      },
+      {
+        "rank": 2,
+        "comuna": "LA REINA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.001092
+      },
+      {
+        "rank": 3,
+        "comuna": "ÑUÑOA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000507
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001089
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001089
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knauer": {
+    "apellido": "KNAUER",
+    "slug": "knauer",
+    "total_personas": 8,
+    "n_comunas": 5,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "MALLOA",
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "personas": 2,
+        "pct_comuna": 0.016247
+      },
+      {
+        "rank": 2,
+        "comuna": "RENGO",
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "personas": 2,
+        "pct_comuna": 0.004116
+      },
+      {
+        "rank": 3,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.001175
+      },
+      {
+        "rank": 4,
+        "comuna": "QUILICURA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000715
+      },
+      {
+        "rank": 5,
+        "comuna": "PUENTE ALTO",
+        "provincia": "CORDILLERA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.00025
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_provincia": 0.006568
+      },
+      {
+        "rank": 2,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000967
+      },
+      {
+        "rank": 3,
+        "provincia": "CORDILLERA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.00025
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_region": 0.006568
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000563
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knaus": {
+    "apellido": "KNAUS",
+    "slug": "knaus",
+    "total_personas": 8,
+    "n_comunas": 6,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LO BARNECHEA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.002419
+      },
+      {
+        "rank": 2,
+        "comuna": "VALDIVIA",
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 2,
+        "pct_comuna": 0.001443
+      },
+      {
+        "rank": 3,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000587
+      },
+      {
+        "rank": 4,
+        "comuna": "ÑUÑOA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000507
+      },
+      {
+        "rank": 5,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000371
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "pct_provincia": 0.001443
+      },
+      {
+        "rank": 2,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000566
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "14. REGION DE LOS RIOS",
+        "pct_region": 0.001443
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000566
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knaut": {
+    "apellido": "KNAUT",
+    "slug": "knaut",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "VICTORIA",
+        "provincia": "MALLECO",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "personas": 1,
+        "pct_comuna": 0.003057
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "MALLECO",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_provincia": 0.003057
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_region": 0.003057
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knee": {
+    "apellido": "KNEE",
+    "slug": "knee",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LO BARNECHEA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.00121
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.00121
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.00121
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "kneer": {
+    "apellido": "KNEER",
+    "slug": "kneer",
+    "total_personas": 95,
+    "n_comunas": 15,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "FRESIA",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 21,
+        "pct_comuna": 0.171667
+      },
+      {
+        "rank": 2,
+        "comuna": "LOS MUERMOS",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 9,
+        "pct_comuna": 0.055083
+      },
+      {
+        "rank": 3,
+        "comuna": "FRUTILLAR",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 6,
+        "pct_comuna": 0.035761
+      },
+      {
+        "rank": 4,
+        "comuna": "PUERTO VARAS",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 12,
+        "pct_comuna": 0.028351
+      },
+      {
+        "rank": 5,
+        "comuna": "PELLUHUE",
+        "provincia": "CAUQUENES",
+        "region": "07. REGION DEL MAULE",
+        "personas": 2,
+        "pct_comuna": 0.025484
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CAUQUENES",
+        "region": "07. REGION DEL MAULE",
+        "pct_provincia": 0.025484
+      },
+      {
+        "rank": 2,
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.02066
+      },
+      {
+        "rank": 3,
+        "provincia": "LINARES",
+        "region": "07. REGION DEL MAULE",
+        "pct_provincia": 0.007643
+      },
+      {
+        "rank": 4,
+        "provincia": "OSORNO",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.006747
+      },
+      {
+        "rank": 5,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001555
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.015657
+      },
+      {
+        "rank": 2,
+        "region": "07. REGION DEL MAULE",
+        "pct_region": 0.010615
+      },
+      {
+        "rank": 3,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001518
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "kneidl": {
+    "apellido": "KNEIDL",
+    "slug": "kneidl",
+    "total_personas": 2,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "VILLARRICA",
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "personas": 2,
+        "pct_comuna": 0.00364
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_provincia": 0.00364
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_region": 0.00364
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "kneis": {
+    "apellido": "KNEIS",
+    "slug": "kneis",
+    "total_personas": 3,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "VALDIVIA",
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 3,
+        "pct_comuna": 0.002164
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "pct_provincia": 0.002164
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "14. REGION DE LOS RIOS",
+        "pct_region": 0.002164
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knes": {
+    "apellido": "KNES",
+    "slug": "knes",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LA FLORIDA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000325
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000325
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000325
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "kneuer": {
+    "apellido": "KNEUER",
+    "slug": "kneuer",
+    "total_personas": 5,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PEÑALOLEN",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.001565
+      },
+      {
+        "rank": 2,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.001175
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001381
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001381
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knezaurek": {
+    "apellido": "KNEZAUREK",
+    "slug": "knezaurek",
+    "total_personas": 3,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.001113
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001113
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001113
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knezevic": {
+    "apellido": "KNEZEVIC",
+    "slug": "knezevic",
+    "total_personas": 17,
+    "n_comunas": 6,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LA UNION",
+        "provincia": "RANCO",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 4,
+        "pct_comuna": 0.011188
+      },
+      {
+        "rank": 2,
+        "comuna": "COPIAPO",
+        "provincia": "COPIAPÓ",
+        "region": "03. REGION DE ATACAMA",
+        "personas": 5,
+        "pct_comuna": 0.004033
+      },
+      {
+        "rank": 3,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 4,
+        "pct_comuna": 0.001484
+      },
+      {
+        "rank": 4,
+        "comuna": "SAN MIGUEL",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000952
+      },
+      {
+        "rank": 5,
+        "comuna": "OSORNO",
+        "provincia": "OSORNO",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 1,
+        "pct_comuna": 0.000699
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "RANCO",
+        "region": "14. REGION DE LOS RIOS",
+        "pct_provincia": 0.011188
+      },
+      {
+        "rank": 2,
+        "provincia": "COPIAPÓ",
+        "region": "03. REGION DE ATACAMA",
+        "pct_provincia": 0.004033
+      },
+      {
+        "rank": 3,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001026
+      },
+      {
+        "rank": 4,
+        "provincia": "OSORNO",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.000699
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "14. REGION DE LOS RIOS",
+        "pct_region": 0.011188
+      },
+      {
+        "rank": 2,
+        "region": "03. REGION DE ATACAMA",
+        "pct_region": 0.004033
+      },
+      {
+        "rank": 3,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001026
+      },
+      {
+        "rank": 4,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.000699
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knezovic": {
+    "apellido": "KNEZOVIC",
+    "slug": "knezovic",
+    "total_personas": 5,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 4,
+        "pct_comuna": 0.001484
+      },
+      {
+        "rank": 2,
+        "comuna": "PUNTA ARENAS",
+        "provincia": "MAGALLANES",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "personas": 1,
+        "pct_comuna": 0.000816
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001484
+      },
+      {
+        "rank": 2,
+        "provincia": "MAGALLANES",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_provincia": 0.000816
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001484
+      },
+      {
+        "rank": 2,
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_region": 0.000816
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knibbe": {
+    "apellido": "KNIBBE",
+    "slug": "knibbe",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LO BARNECHEA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.00121
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.00121
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.00121
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knibbs": {
+    "apellido": "KNIBBS",
+    "slug": "knibbs",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PUNTA ARENAS",
+        "provincia": "MAGALLANES",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "personas": 1,
+        "pct_comuna": 0.000816
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "MAGALLANES",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_provincia": 0.000816
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_region": 0.000816
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knibiehly": {
+    "apellido": "KNIBIEHLY",
+    "slug": "knibiehly",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000587
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000587
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000587
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knight": {
+    "apellido": "KNIGHT",
+    "slug": "knight",
+    "total_personas": 35,
+    "n_comunas": 15,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "QUINTERO",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 2,
+        "pct_comuna": 0.008079
+      },
+      {
+        "rank": 2,
+        "comuna": "CALDERA",
+        "provincia": "COPIAPÓ",
+        "region": "03. REGION DE ATACAMA",
+        "personas": 1,
+        "pct_comuna": 0.006656
+      },
+      {
+        "rank": 3,
+        "comuna": "LO BARNECHEA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 4,
+        "pct_comuna": 0.004839
+      },
+      {
+        "rank": 4,
+        "comuna": "PUCON",
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "personas": 1,
+        "pct_comuna": 0.003529
+      },
+      {
+        "rank": 5,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 4,
+        "pct_comuna": 0.002349
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "COPIAPÓ",
+        "region": "03. REGION DE ATACAMA",
+        "pct_provincia": 0.006656
+      },
+      {
+        "rank": 2,
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_provincia": 0.003529
+      },
+      {
+        "rank": 3,
+        "provincia": "OSORNO",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.002096
+      },
+      {
+        "rank": 4,
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_provincia": 0.002057
+      },
+      {
+        "rank": 5,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001921
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "03. REGION DE ATACAMA",
+        "pct_region": 0.006656
+      },
+      {
+        "rank": 2,
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_region": 0.003529
+      },
+      {
+        "rank": 3,
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_region": 0.002057
+      },
+      {
+        "rank": 4,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001921
+      },
+      {
+        "rank": 5,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.001516
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knighthley": {
+    "apellido": "KNIGHTHLEY",
+    "slug": "knighthley",
+    "total_personas": 2,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.000742
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000742
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000742
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knights": {
+    "apellido": "KNIGHTS",
+    "slug": "knights",
+    "total_personas": 3,
+    "n_comunas": 3,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PEÑAFLOR",
+        "provincia": "TALAGANTE",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.001378
+      },
+      {
+        "rank": 2,
+        "comuna": "PEÑALOLEN",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000522
+      },
+      {
+        "rank": 3,
+        "comuna": "ÑUÑOA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000507
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "TALAGANTE",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001378
+      },
+      {
+        "rank": 2,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000514
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.00065
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knipp": {
+    "apellido": "KNIPP",
+    "slug": "knipp",
+    "total_personas": 21,
+    "n_comunas": 6,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "RANCAGUA",
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "personas": 3,
+        "pct_comuna": 0.001543
+      },
+      {
+        "rank": 2,
+        "comuna": "MAIPU",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 6,
+        "pct_comuna": 0.001539
+      },
+      {
+        "rank": 3,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 4,
+        "pct_comuna": 0.001484
+      },
+      {
+        "rank": 4,
+        "comuna": "PUENTE ALTO",
+        "provincia": "CORDILLERA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 5,
+        "pct_comuna": 0.001251
+      },
+      {
+        "rank": 5,
+        "comuna": "SANTIAGO",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.000588
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_provincia": 0.001543
+      },
+      {
+        "rank": 2,
+        "provincia": "CORDILLERA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001251
+      },
+      {
+        "rank": 3,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000995
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_region": 0.001543
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001055
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knipping": {
+    "apellido": "KNIPPING",
+    "slug": "knipping",
+    "total_personas": 7,
+    "n_comunas": 3,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "TEODORO SCHMIDT",
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "personas": 2,
+        "pct_comuna": 0.014249
+      },
+      {
+        "rank": 2,
+        "comuna": "TEMUCO",
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "personas": 4,
+        "pct_comuna": 0.001688
+      },
+      {
+        "rank": 3,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000371
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_provincia": 0.002391
+      },
+      {
+        "rank": 2,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000371
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_region": 0.002391
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000371
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "kniprath": {
+    "apellido": "KNIPRATH",
+    "slug": "kniprath",
+    "total_personas": 2,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "TIMAUKEL",
+        "provincia": "TIERRA DEL FUEGO",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "personas": 2,
+        "pct_comuna": 0.250627
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "TIERRA DEL FUEGO",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_provincia": 0.250627
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_region": 0.250627
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knittel": {
+    "apellido": "KNITTEL",
+    "slug": "knittel",
+    "total_personas": 25,
+    "n_comunas": 9,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LLANQUIHUE",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 2,
+        "pct_comuna": 0.012362
+      },
+      {
+        "rank": 2,
+        "comuna": "PUERTO VARAS",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 4,
+        "pct_comuna": 0.00945
+      },
+      {
+        "rank": 3,
+        "comuna": "LOS MUERMOS",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 1,
+        "pct_comuna": 0.00612
+      },
+      {
+        "rank": 4,
+        "comuna": "PUERTO MONTT",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 10,
+        "pct_comuna": 0.00536
+      },
+      {
+        "rank": 5,
+        "comuna": "SAN BERNARDO",
+        "provincia": "MAIPO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 4,
+        "pct_comuna": 0.001753
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.006503
+      },
+      {
+        "rank": 2,
+        "provincia": "MAIPO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001753
+      },
+      {
+        "rank": 3,
+        "provincia": "OSORNO",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.000699
+      },
+      {
+        "rank": 4,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000587
+      },
+      {
+        "rank": 5,
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.000338
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.004449
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001255
+      },
+      {
+        "rank": 3,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.000338
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knobel": {
+    "apellido": "KNOBEL",
+    "slug": "knobel",
+    "total_personas": 4,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PEÑALOLEN",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 4,
+        "pct_comuna": 0.002087
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.002087
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.002087
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knoblauch": {
+    "apellido": "KNOBLAUCH",
+    "slug": "knoblauch",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "VALDIVIA",
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 1,
+        "pct_comuna": 0.000721
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "pct_provincia": 0.000721
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "14. REGION DE LOS RIOS",
+        "pct_region": 0.000721
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knobloch": {
+    "apellido": "KNOBLOCH",
+    "slug": "knobloch",
+    "total_personas": 9,
+    "n_comunas": 6,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "VITACURA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 4,
+        "pct_comuna": 0.004479
+      },
+      {
+        "rank": 2,
+        "comuna": "CONCON",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 1,
+        "pct_comuna": 0.002536
+      },
+      {
+        "rank": 3,
+        "comuna": "PUERTO VARAS",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 1,
+        "pct_comuna": 0.002363
+      },
+      {
+        "rank": 4,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000371
+      },
+      {
+        "rank": 5,
+        "comuna": "SANTIAGO",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000294
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.002536
+      },
+      {
+        "rank": 2,
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.002363
+      },
+      {
+        "rank": 3,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000643
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.002536
+      },
+      {
+        "rank": 2,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.002363
+      },
+      {
+        "rank": 3,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000643
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knochenhauer": {
+    "apellido": "KNOCHENHAUER",
+    "slug": "knochenhauer",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000587
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000587
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000587
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knockaert": {
+    "apellido": "KNOCKAERT",
+    "slug": "knockaert",
+    "total_personas": 54,
+    "n_comunas": 15,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "VICTORIA",
+        "provincia": "MALLECO",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "personas": 4,
+        "pct_comuna": 0.012226
+      },
+      {
+        "rank": 2,
+        "comuna": "LO PRADO",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 6,
+        "pct_comuna": 0.00675
+      },
+      {
+        "rank": 3,
+        "comuna": "TALCAHUANO",
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "personas": 7,
+        "pct_comuna": 0.00529
+      },
+      {
+        "rank": 4,
+        "comuna": "HUALPEN",
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "personas": 4,
+        "pct_comuna": 0.005157
+      },
+      {
+        "rank": 5,
+        "comuna": "ÑUÑOA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 6,
+        "pct_comuna": 0.003043
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "MALLECO",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_provincia": 0.012226
+      },
+      {
+        "rank": 2,
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "pct_provincia": 0.003893
+      },
+      {
+        "rank": 3,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001868
+      },
+      {
+        "rank": 4,
+        "provincia": "CORDILLERA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001251
+      },
+      {
+        "rank": 5,
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_provincia": 0.001028
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_region": 0.012226
+      },
+      {
+        "rank": 2,
+        "region": "08. REGION DEL BIOBIO",
+        "pct_region": 0.003893
+      },
+      {
+        "rank": 3,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001731
+      },
+      {
+        "rank": 4,
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_region": 0.001028
+      },
+      {
+        "rank": 5,
+        "region": "16. REGION DE ÑUBLE",
+        "pct_region": 0.000655
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knoedler": {
+    "apellido": "KNOEDLER",
+    "slug": "knoedler",
+    "total_personas": 2,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "COQUIMBO",
+        "provincia": "ELQUI",
+        "region": "04. REGION DE COQUIMBO",
+        "personas": 2,
+        "pct_comuna": 0.001192
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "ELQUI",
+        "region": "04. REGION DE COQUIMBO",
+        "pct_provincia": 0.001192
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "04. REGION DE COQUIMBO",
+        "pct_region": 0.001192
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knoef": {
+    "apellido": "KNOEF",
+    "slug": "knoef",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "TALAGANTE",
+        "provincia": "TALAGANTE",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.00172
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "TALAGANTE",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.00172
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.00172
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knoeppchen": {
+    "apellido": "KNOEPPCHEN",
+    "slug": "knoeppchen",
+    "total_personas": 3,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.001175
+      },
+      {
+        "rank": 2,
+        "comuna": "VITACURA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.00112
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001156
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001156
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knol": {
+    "apellido": "KNOL",
+    "slug": "knol",
+    "total_personas": 4,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 4,
+        "pct_comuna": 0.001484
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001484
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001484
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knoll": {
+    "apellido": "KNOLL",
+    "slug": "knoll",
+    "total_personas": 34,
+    "n_comunas": 11,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "NUEVA IMPERIAL",
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "personas": 5,
+        "pct_comuna": 0.016292
+      },
+      {
+        "rank": 2,
+        "comuna": "PUCHUNCAVI",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 1,
+        "pct_comuna": 0.006247
+      },
+      {
+        "rank": 3,
+        "comuna": "VILLA ALEMANA",
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 5,
+        "pct_comuna": 0.005074
+      },
+      {
+        "rank": 4,
+        "comuna": "TALCAHUANO",
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "personas": 4,
+        "pct_comuna": 0.003023
+      },
+      {
+        "rank": 5,
+        "comuna": "QUILPUE",
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 4,
+        "pct_comuna": 0.002975
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_provincia": 0.016292
+      },
+      {
+        "rank": 2,
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.003863
+      },
+      {
+        "rank": 3,
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "pct_provincia": 0.002433
+      },
+      {
+        "rank": 4,
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.001307
+      },
+      {
+        "rank": 5,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000758
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_region": 0.016292
+      },
+      {
+        "rank": 2,
+        "region": "08. REGION DEL BIOBIO",
+        "pct_region": 0.002433
+      },
+      {
+        "rank": 3,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.002411
+      },
+      {
+        "rank": 4,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000758
+      },
+      {
+        "rank": 5,
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_region": 0.000348
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knoller": {
+    "apellido": "KNOLLER",
+    "slug": "knoller",
+    "total_personas": 4,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 4,
+        "pct_comuna": 0.001484
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001484
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001484
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knoop": {
+    "apellido": "KNOOP",
+    "slug": "knoop",
+    "total_personas": 14,
+    "n_comunas": 5,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PUERTO VARAS",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 2,
+        "pct_comuna": 0.004725
+      },
+      {
+        "rank": 2,
+        "comuna": "VITACURA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.003359
+      },
+      {
+        "rank": 3,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 7,
+        "pct_comuna": 0.002597
+      },
+      {
+        "rank": 4,
+        "comuna": "HUECHURABA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.001361
+      },
+      {
+        "rank": 5,
+        "comuna": "VALDIVIA",
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 1,
+        "pct_comuna": 0.000721
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.004725
+      },
+      {
+        "rank": 2,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.002544
+      },
+      {
+        "rank": 3,
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "pct_provincia": 0.000721
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.004725
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.002544
+      },
+      {
+        "rank": 3,
+        "region": "14. REGION DE LOS RIOS",
+        "pct_region": 0.000721
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knop": {
+    "apellido": "KNOP",
+    "slug": "knop",
+    "total_personas": 27,
+    "n_comunas": 7,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "QUILPUE",
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 16,
+        "pct_comuna": 0.011901
+      },
+      {
+        "rank": 2,
+        "comuna": "CONCON",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 2,
+        "pct_comuna": 0.005071
+      },
+      {
+        "rank": 3,
+        "comuna": "VIÑA DEL MAR",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 4,
+        "pct_comuna": 0.001327
+      },
+      {
+        "rank": 4,
+        "comuna": "QUILLOTA",
+        "provincia": "QUILLOTA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 1,
+        "pct_comuna": 0.001325
+      },
+      {
+        "rank": 5,
+        "comuna": "SANTIAGO",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.000588
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.011901
+      },
+      {
+        "rank": 2,
+        "provincia": "QUILLOTA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.001325
+      },
+      {
+        "rank": 3,
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.001109
+      },
+      {
+        "rank": 4,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000492
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.002854
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000492
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knopel": {
+    "apellido": "KNOPEL",
+    "slug": "knopel",
+    "total_personas": 17,
+    "n_comunas": 5,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LA UNION",
+        "provincia": "RANCO",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 3,
+        "pct_comuna": 0.008391
+      },
+      {
+        "rank": 2,
+        "comuna": "VALDIVIA",
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 7,
+        "pct_comuna": 0.00505
+      },
+      {
+        "rank": 3,
+        "comuna": "VILLARRICA",
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "personas": 2,
+        "pct_comuna": 0.00364
+      },
+      {
+        "rank": 4,
+        "comuna": "VIÑA DEL MAR",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 4,
+        "pct_comuna": 0.001327
+      },
+      {
+        "rank": 5,
+        "comuna": "COLINA",
+        "provincia": "CHACABUCO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.001106
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "RANCO",
+        "region": "14. REGION DE LOS RIOS",
+        "pct_provincia": 0.008391
+      },
+      {
+        "rank": 2,
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "pct_provincia": 0.00505
+      },
+      {
+        "rank": 3,
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_provincia": 0.00364
+      },
+      {
+        "rank": 4,
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.001327
+      },
+      {
+        "rank": 5,
+        "provincia": "CHACABUCO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001106
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "14. REGION DE LOS RIOS",
+        "pct_region": 0.005735
+      },
+      {
+        "rank": 2,
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_region": 0.00364
+      },
+      {
+        "rank": 3,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.001327
+      },
+      {
+        "rank": 4,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001106
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knopf": {
+    "apellido": "KNOPF",
+    "slug": "knopf",
+    "total_personas": 7,
+    "n_comunas": 4,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "VITACURA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.00112
+      },
+      {
+        "rank": 2,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.001113
+      },
+      {
+        "rank": 3,
+        "comuna": "VALPARAISO",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 2,
+        "pct_comuna": 0.000689
+      },
+      {
+        "rank": 4,
+        "comuna": "SANTIAGO",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000294
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000715
+      },
+      {
+        "rank": 2,
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.000689
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000715
+      },
+      {
+        "rank": 2,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.000689
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knopfler": {
+    "apellido": "KNOPFLER",
+    "slug": "knopfler",
+    "total_personas": 4,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "SANTIAGO",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 4,
+        "pct_comuna": 0.001175
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001175
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001175
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knopke": {
+    "apellido": "KNOPKE",
+    "slug": "knopke",
+    "total_personas": 254,
+    "n_comunas": 29,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "ANCUD",
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 133,
+        "pct_comuna": 0.342386
+      },
+      {
+        "rank": 2,
+        "comuna": "LAGO VERDE",
+        "provincia": "COYHAIQUE",
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "personas": 2,
+        "pct_comuna": 0.150489
+      },
+      {
+        "rank": 3,
+        "comuna": "HUALAIHUE",
+        "provincia": "PALENA",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 2,
+        "pct_comuna": 0.02301
+      },
+      {
+        "rank": 4,
+        "comuna": "PUERTO MONTT",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 41,
+        "pct_comuna": 0.021976
+      },
+      {
+        "rank": 5,
+        "comuna": "SAN FABIAN",
+        "provincia": "PUNILLA",
+        "region": "16. REGION DE ÑUBLE",
+        "personas": 1,
+        "pct_comuna": 0.019562
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "COYHAIQUE",
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "pct_provincia": 0.150489
+      },
+      {
+        "rank": 2,
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.102958
+      },
+      {
+        "rank": 3,
+        "provincia": "PALENA",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.02301
+      },
+      {
+        "rank": 4,
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.020699
+      },
+      {
+        "rank": 5,
+        "provincia": "PUNILLA",
+        "region": "16. REGION DE ÑUBLE",
+        "pct_provincia": 0.019562
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.03958
+      },
+      {
+        "rank": 2,
+        "region": "16. REGION DE ÑUBLE",
+        "pct_region": 0.019562
+      },
+      {
+        "rank": 3,
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_region": 0.013988
+      },
+      {
+        "rank": 4,
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "pct_region": 0.0108
+      },
+      {
+        "rank": 5,
+        "region": "14. REGION DE LOS RIOS",
+        "pct_region": 0.00761
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knopp": {
+    "apellido": "KNOPP",
+    "slug": "knopp",
+    "total_personas": 3,
+    "n_comunas": 3,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LAMPA",
+        "provincia": "CHACABUCO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.001677
+      },
+      {
+        "rank": 2,
+        "comuna": "ÑUÑOA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000507
+      },
+      {
+        "rank": 3,
+        "comuna": "LA FLORIDA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000325
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CHACABUCO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001677
+      },
+      {
+        "rank": 2,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000396
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000532
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knorpp": {
+    "apellido": "KNORPP",
+    "slug": "knorpp",
+    "total_personas": 2,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LO BARNECHEA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.00121
+      },
+      {
+        "rank": 2,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000587
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000791
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000791
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knorr": {
+    "apellido": "KNORR",
+    "slug": "knorr",
+    "total_personas": 4,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LAMPA",
+        "provincia": "CHACABUCO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.003354
+      },
+      {
+        "rank": 2,
+        "comuna": "VITACURA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.002239
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CHACABUCO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.003354
+      },
+      {
+        "rank": 2,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.002239
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.002686
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knothe": {
+    "apellido": "KNOTHE",
+    "slug": "knothe",
+    "total_personas": 14,
+    "n_comunas": 3,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CHILLAN VIEJO",
+        "provincia": "DIGUILLÍN",
+        "region": "16. REGION DE ÑUBLE",
+        "personas": 6,
+        "pct_comuna": 0.026712
+      },
+      {
+        "rank": 2,
+        "comuna": "TOME",
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "personas": 7,
+        "pct_comuna": 0.014042
+      },
+      {
+        "rank": 3,
+        "comuna": "CHILLAN",
+        "provincia": "DIGUILLÍN",
+        "region": "16. REGION DE ÑUBLE",
+        "personas": 1,
+        "pct_comuna": 0.000655
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "pct_provincia": 0.014042
+      },
+      {
+        "rank": 2,
+        "provincia": "DIGUILLÍN",
+        "region": "16. REGION DE ÑUBLE",
+        "pct_provincia": 0.003996
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "08. REGION DEL BIOBIO",
+        "pct_region": 0.014042
+      },
+      {
+        "rank": 2,
+        "region": "16. REGION DE ÑUBLE",
+        "pct_region": 0.003996
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knowles": {
+    "apellido": "KNOWLES",
+    "slug": "knowles",
+    "total_personas": 3,
+    "n_comunas": 3,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "COIHAIQUE",
+        "provincia": "",
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "personas": 1,
+        "pct_comuna": 0.001844
+      },
+      {
+        "rank": 2,
+        "comuna": "CURICO",
+        "provincia": "CURICÓ",
+        "region": "07. REGION DEL MAULE",
+        "personas": 1,
+        "pct_comuna": 0.000849
+      },
+      {
+        "rank": 3,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000371
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "",
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "pct_provincia": 0.001844
+      },
+      {
+        "rank": 2,
+        "provincia": "CURICÓ",
+        "region": "07. REGION DEL MAULE",
+        "pct_provincia": 0.000849
+      },
+      {
+        "rank": 3,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000371
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "pct_region": 0.001844
+      },
+      {
+        "rank": 2,
+        "region": "07. REGION DEL MAULE",
+        "pct_region": 0.000849
+      },
+      {
+        "rank": 3,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000371
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knowlton": {
+    "apellido": "KNOWLTON",
+    "slug": "knowlton",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PUENTE ALTO",
+        "provincia": "CORDILLERA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.00025
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CORDILLERA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.00025
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.00025
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knox": {
+    "apellido": "KNOX",
+    "slug": "knox",
+    "total_personas": 23,
+    "n_comunas": 9,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "RECOLETA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 5,
+        "pct_comuna": 0.003504
+      },
+      {
+        "rank": 2,
+        "comuna": "LIMACHE",
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 1,
+        "pct_comuna": 0.002537
+      },
+      {
+        "rank": 3,
+        "comuna": "VIÑA DEL MAR",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 7,
+        "pct_comuna": 0.002323
+      },
+      {
+        "rank": 4,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.001175
+      },
+      {
+        "rank": 5,
+        "comuna": "VALPARAISO",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 3,
+        "pct_comuna": 0.001034
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.002537
+      },
+      {
+        "rank": 2,
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.001691
+      },
+      {
+        "rank": 3,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001048
+      },
+      {
+        "rank": 4,
+        "provincia": "ANTOFAGASTA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_provincia": 0.000348
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.001743
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001048
+      },
+      {
+        "rank": 3,
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_region": 0.000348
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knuckey": {
+    "apellido": "KNUCKEY",
+    "slug": "knuckey",
+    "total_personas": 58,
+    "n_comunas": 19,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "ALGARROBO",
+        "provincia": "SAN ANTONIO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 4,
+        "pct_comuna": 0.02903
+      },
+      {
+        "rank": 2,
+        "comuna": "DIEGO DE ALMAGRO",
+        "provincia": "CHAÑARAL",
+        "region": "03. REGION DE ATACAMA",
+        "personas": 2,
+        "pct_comuna": 0.014937
+      },
+      {
+        "rank": 3,
+        "comuna": "CALDERA",
+        "provincia": "COPIAPÓ",
+        "region": "03. REGION DE ATACAMA",
+        "personas": 2,
+        "pct_comuna": 0.013312
+      },
+      {
+        "rank": 4,
+        "comuna": "PERALILLO",
+        "provincia": "COLCHAGUA",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "personas": 1,
+        "pct_comuna": 0.009919
+      },
+      {
+        "rank": 5,
+        "comuna": "RANCAGUA",
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "personas": 11,
+        "pct_comuna": 0.005656
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SAN ANTONIO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.02903
+      },
+      {
+        "rank": 2,
+        "provincia": "CHAÑARAL",
+        "region": "03. REGION DE ATACAMA",
+        "pct_provincia": 0.014937
+      },
+      {
+        "rank": 3,
+        "provincia": "COLCHAGUA",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_provincia": 0.009919
+      },
+      {
+        "rank": 4,
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_provincia": 0.005656
+      },
+      {
+        "rank": 5,
+        "provincia": "LINARES",
+        "region": "07. REGION DEL MAULE",
+        "pct_provincia": 0.005422
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_region": 0.005866
+      },
+      {
+        "rank": 2,
+        "region": "07. REGION DEL MAULE",
+        "pct_region": 0.005422
+      },
+      {
+        "rank": 3,
+        "region": "03. REGION DE ATACAMA",
+        "pct_region": 0.004594
+      },
+      {
+        "rank": 4,
+        "region": "04. REGION DE COQUIMBO",
+        "pct_region": 0.002611
+      },
+      {
+        "rank": 5,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.002072
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knudsen": {
+    "apellido": "KNUDSEN",
+    "slug": "knudsen",
+    "total_personas": 6,
+    "n_comunas": 5,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CHILLAN",
+        "provincia": "DIGUILLÍN",
+        "region": "16. REGION DE ÑUBLE",
+        "personas": 2,
+        "pct_comuna": 0.00131
+      },
+      {
+        "rank": 2,
+        "comuna": "VITACURA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.00112
+      },
+      {
+        "rank": 3,
+        "comuna": "LOS ANGELES",
+        "provincia": "BIOBÍO",
+        "region": "08. REGION DEL BIOBIO",
+        "personas": 1,
+        "pct_comuna": 0.000614
+      },
+      {
+        "rank": 4,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000587
+      },
+      {
+        "rank": 5,
+        "comuna": "LA FLORIDA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000325
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "DIGUILLÍN",
+        "region": "16. REGION DE ÑUBLE",
+        "pct_provincia": 0.00131
+      },
+      {
+        "rank": 2,
+        "provincia": "BIOBÍO",
+        "region": "08. REGION DEL BIOBIO",
+        "pct_provincia": 0.000614
+      },
+      {
+        "rank": 3,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000529
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "16. REGION DE ÑUBLE",
+        "pct_region": 0.00131
+      },
+      {
+        "rank": 2,
+        "region": "08. REGION DEL BIOBIO",
+        "pct_region": 0.000614
+      },
+      {
+        "rank": 3,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000529
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knust": {
+    "apellido": "KNUST",
+    "slug": "knust",
+    "total_personas": 63,
+    "n_comunas": 16,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "SAN PEDRO DE ATACAMA",
+        "provincia": "EL LOA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "personas": 1,
+        "pct_comuna": 0.0139
+      },
+      {
+        "rank": 2,
+        "comuna": "CONCON",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 4,
+        "pct_comuna": 0.010142
+      },
+      {
+        "rank": 3,
+        "comuna": "CONCHALI",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 9,
+        "pct_comuna": 0.007587
+      },
+      {
+        "rank": 4,
+        "comuna": "RECOLETA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 8,
+        "pct_comuna": 0.005606
+      },
+      {
+        "rank": 5,
+        "comuna": "LA REINA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 5,
+        "pct_comuna": 0.005461
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "EL LOA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_provincia": 0.0139
+      },
+      {
+        "rank": 2,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.002456
+      },
+      {
+        "rank": 3,
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.001109
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_region": 0.0139
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.002456
+      },
+      {
+        "rank": 3,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.001109
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knuth": {
+    "apellido": "KNUTH",
+    "slug": "knuth",
+    "total_personas": 6,
+    "n_comunas": 4,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "VILLA ALEMANA",
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 2,
+        "pct_comuna": 0.00203
+      },
+      {
+        "rank": 2,
+        "comuna": "PEÑAFLOR",
+        "provincia": "TALAGANTE",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.001378
+      },
+      {
+        "rank": 3,
+        "comuna": "ÑUÑOA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.001014
+      },
+      {
+        "rank": 4,
+        "comuna": "QUILPUE",
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 1,
+        "pct_comuna": 0.000744
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "TALAGANTE",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001378
+      },
+      {
+        "rank": 2,
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.001288
+      },
+      {
+        "rank": 3,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001014
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.001288
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001112
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knutsen": {
+    "apellido": "KNUTSEN",
+    "slug": "knutsen",
+    "total_personas": 3,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CHILLAN VIEJO",
+        "provincia": "DIGUILLÍN",
+        "region": "16. REGION DE ÑUBLE",
+        "personas": 3,
+        "pct_comuna": 0.013356
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "DIGUILLÍN",
+        "region": "16. REGION DE ÑUBLE",
+        "pct_provincia": 0.013356
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "16. REGION DE ÑUBLE",
+        "pct_region": 0.013356
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  },
+  "knutsson": {
+    "apellido": "KNUTSSON",
+    "slug": "knutsson",
+    "total_personas": 2,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "TEMUCO",
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "personas": 1,
+        "pct_comuna": 0.000422
+      },
+      {
+        "rank": 2,
+        "comuna": "SANTIAGO",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000294
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_provincia": 0.000422
+      },
+      {
+        "rank": 2,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000294
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_region": 0.000422
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000294
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.744Z"
+  }
+}

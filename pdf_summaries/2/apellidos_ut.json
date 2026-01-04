@@ -1,0 +1,1751 @@
+{
+  "utard": {
+    "apellido": "UTARD",
+    "slug": "utard",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LA REINA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.001092
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001092
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001092
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.131Z"
+  },
+  "uteau": {
+    "apellido": "UTEAU",
+    "slug": "uteau",
+    "total_personas": 153,
+    "n_comunas": 33,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "SAN CLEMENTE",
+        "provincia": "TALCA",
+        "region": "07. REGION DEL MAULE",
+        "personas": 18,
+        "pct_comuna": 0.048429
+      },
+      {
+        "rank": 2,
+        "comuna": "CALLE LARGA",
+        "provincia": "LOS ANDES",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 2,
+        "pct_comuna": 0.017475
+      },
+      {
+        "rank": 3,
+        "comuna": "LA REINA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 13,
+        "pct_comuna": 0.014199
+      },
+      {
+        "rank": 4,
+        "comuna": "NATALES",
+        "provincia": "ÚLTIMA ESPERANZA",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "personas": 3,
+        "pct_comuna": 0.013211
+      },
+      {
+        "rank": 5,
+        "comuna": "HUALAIHUE",
+        "provincia": "PALENA",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 1,
+        "pct_comuna": 0.011505
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "TALCA",
+        "region": "07. REGION DEL MAULE",
+        "pct_provincia": 0.048429
+      },
+      {
+        "rank": 2,
+        "provincia": "LOS ANDES",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.017475
+      },
+      {
+        "rank": 3,
+        "provincia": "ÚLTIMA ESPERANZA",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_provincia": 0.013211
+      },
+      {
+        "rank": 4,
+        "provincia": "PALENA",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.011505
+      },
+      {
+        "rank": 5,
+        "provincia": "PETORCA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.011482
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "07. REGION DEL MAULE",
+        "pct_region": 0.048429
+      },
+      {
+        "rank": 2,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.011505
+      },
+      {
+        "rank": 3,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.009212
+      },
+      {
+        "rank": 4,
+        "region": "03. REGION DE ATACAMA",
+        "pct_region": 0.006656
+      },
+      {
+        "rank": 5,
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_region": 0.006197
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.131Z"
+  },
+  "uthemann": {
+    "apellido": "UTHEMANN",
+    "slug": "uthemann",
+    "total_personas": 3,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "SANTO DOMINGO",
+        "provincia": "SAN ANTONIO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 3,
+        "pct_comuna": 0.026008
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SAN ANTONIO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.026008
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.026008
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.131Z"
+  },
+  "uthman": {
+    "apellido": "UTHMAN",
+    "slug": "uthman",
+    "total_personas": 4,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "MACUL",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.00296
+      },
+      {
+        "rank": 2,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000587
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001473
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001473
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.131Z"
+  },
+  "uthoff": {
+    "apellido": "UTHOFF",
+    "slug": "uthoff",
+    "total_personas": 7,
+    "n_comunas": 3,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "VITACURA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.003359
+      },
+      {
+        "rank": 2,
+        "comuna": "LO BARNECHEA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.00121
+      },
+      {
+        "rank": 3,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.001113
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001586
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001586
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.131Z"
+  },
+  "utia": {
+    "apellido": "UTIA",
+    "slug": "utia",
+    "total_personas": 3,
+    "n_comunas": 3,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "INDEPENDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.00121
+      },
+      {
+        "rank": 2,
+        "comuna": "SAN MIGUEL",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000952
+      },
+      {
+        "rank": 3,
+        "comuna": "ARICA",
+        "provincia": "ARICA",
+        "region": "15. REGION DE ARICA Y PARINACOTA",
+        "personas": 1,
+        "pct_comuna": 0.000555
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001065
+      },
+      {
+        "rank": 2,
+        "provincia": "ARICA",
+        "region": "15. REGION DE ARICA Y PARINACOTA",
+        "pct_provincia": 0.000555
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001065
+      },
+      {
+        "rank": 2,
+        "region": "15. REGION DE ARICA Y PARINACOTA",
+        "pct_region": 0.000555
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.131Z"
+  },
+  "utili": {
+    "apellido": "UTILI",
+    "slug": "utili",
+    "total_personas": 5,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 4,
+        "pct_comuna": 0.001484
+      },
+      {
+        "rank": 2,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000587
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001137
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001137
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.131Z"
+  },
+  "utillano": {
+    "apellido": "UTILLANO",
+    "slug": "utillano",
+    "total_personas": 42,
+    "n_comunas": 13,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PUTAENDO",
+        "provincia": "SAN FELIPE DE ACONCAGUA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 3,
+        "pct_comuna": 0.021361
+      },
+      {
+        "rank": 2,
+        "comuna": "SAN ESTEBAN",
+        "provincia": "LOS ANDES",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 3,
+        "pct_comuna": 0.019632
+      },
+      {
+        "rank": 3,
+        "comuna": "LOS ANDES",
+        "provincia": "LOS ANDES",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 7,
+        "pct_comuna": 0.012507
+      },
+      {
+        "rank": 4,
+        "comuna": "QUILLOTA",
+        "provincia": "QUILLOTA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 7,
+        "pct_comuna": 0.009274
+      },
+      {
+        "rank": 5,
+        "comuna": "SAN FELIPE",
+        "provincia": "SAN FELIPE DE ACONCAGUA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 4,
+        "pct_comuna": 0.006658
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "LOS ANDES",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.014035
+      },
+      {
+        "rank": 2,
+        "provincia": "SAN FELIPE DE ACONCAGUA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.009444
+      },
+      {
+        "rank": 3,
+        "provincia": "QUILLOTA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.009274
+      },
+      {
+        "rank": 4,
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.001488
+      },
+      {
+        "rank": 5,
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.001426
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.003549
+      },
+      {
+        "rank": 2,
+        "region": "04. REGION DE COQUIMBO",
+        "pct_region": 0.001144
+      },
+      {
+        "rank": 3,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000865
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.131Z"
+  },
+  "utillanos": {
+    "apellido": "UTILLANOS",
+    "slug": "utillanos",
+    "total_personas": 10,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CONCHALI",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 7,
+        "pct_comuna": 0.005901
+      },
+      {
+        "rank": 2,
+        "comuna": "ÑUÑOA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.001521
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.003166
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.003166
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.131Z"
+  },
+  "utini": {
+    "apellido": "UTINI",
+    "slug": "utini",
+    "total_personas": 3,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "VALPARAISO",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 3,
+        "pct_comuna": 0.001034
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.001034
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.001034
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.131Z"
+  },
+  "utjes": {
+    "apellido": "UTJES",
+    "slug": "utjes",
+    "total_personas": 10,
+    "n_comunas": 5,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "BUIN",
+        "provincia": "MAIPO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.003982
+      },
+      {
+        "rank": 2,
+        "comuna": "LO BARNECHEA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.003629
+      },
+      {
+        "rank": 3,
+        "comuna": "HUECHURABA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.001361
+      },
+      {
+        "rank": 4,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.000742
+      },
+      {
+        "rank": 5,
+        "comuna": "PUENTE ALTO",
+        "provincia": "CORDILLERA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.00025
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "MAIPO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.003982
+      },
+      {
+        "rank": 2,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001409
+      },
+      {
+        "rank": 3,
+        "provincia": "CORDILLERA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.00025
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.00111
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.131Z"
+  },
+  "utman": {
+    "apellido": "UTMAN",
+    "slug": "utman",
+    "total_personas": 40,
+    "n_comunas": 14,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LA ESTRELLA",
+        "provincia": "CARDENAL CARO",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "personas": 4,
+        "pct_comuna": 0.107009
+      },
+      {
+        "rank": 2,
+        "comuna": "PERALILLO",
+        "provincia": "COLCHAGUA",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "personas": 2,
+        "pct_comuna": 0.019837
+      },
+      {
+        "rank": 3,
+        "comuna": "MELIPILLA",
+        "provincia": "MELIPILLA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 7,
+        "pct_comuna": 0.0072
+      },
+      {
+        "rank": 4,
+        "comuna": "SAN FERNANDO",
+        "provincia": "COLCHAGUA",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "personas": 3,
+        "pct_comuna": 0.004763
+      },
+      {
+        "rank": 5,
+        "comuna": "SAN RAMON",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.003668
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CARDENAL CARO",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_provincia": 0.107009
+      },
+      {
+        "rank": 2,
+        "provincia": "MELIPILLA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.0072
+      },
+      {
+        "rank": 3,
+        "provincia": "COLCHAGUA",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_provincia": 0.006843
+      },
+      {
+        "rank": 4,
+        "provincia": "MAGALLANES",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_provincia": 0.003265
+      },
+      {
+        "rank": 5,
+        "provincia": "TALAGANTE",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.00199
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_region": 0.011717
+      },
+      {
+        "rank": 2,
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_region": 0.003265
+      },
+      {
+        "rank": 3,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001551
+      },
+      {
+        "rank": 4,
+        "region": "08. REGION DEL BIOBIO",
+        "pct_region": 0.000497
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.131Z"
+  },
+  "utrera": {
+    "apellido": "UTRERA",
+    "slug": "utrera",
+    "total_personas": 369,
+    "n_comunas": 62,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CASABLANCA",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 15,
+        "pct_comuna": 0.066759
+      },
+      {
+        "rank": 2,
+        "comuna": "CHILLAN VIEJO",
+        "provincia": "DIGUILLÍN",
+        "region": "16. REGION DE ÑUBLE",
+        "personas": 12,
+        "pct_comuna": 0.053424
+      },
+      {
+        "rank": 3,
+        "comuna": "VILCUN",
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "personas": 10,
+        "pct_comuna": 0.040866
+      },
+      {
+        "rank": 4,
+        "comuna": "CORRAL",
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 2,
+        "pct_comuna": 0.035939
+      },
+      {
+        "rank": 5,
+        "comuna": "LA UNION",
+        "provincia": "RANCO",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 12,
+        "pct_comuna": 0.033563
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "RANCO",
+        "region": "14. REGION DE LOS RIOS",
+        "pct_provincia": 0.033563
+      },
+      {
+        "rank": 2,
+        "provincia": "TALAGANTE",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.027519
+      },
+      {
+        "rank": 3,
+        "provincia": "MALLECO",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_provincia": 0.01485
+      },
+      {
+        "rank": 4,
+        "provincia": "BIOBÍO",
+        "region": "08. REGION DEL BIOBIO",
+        "pct_provincia": 0.012896
+      },
+      {
+        "rank": 5,
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_provincia": 0.010289
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "08. REGION DEL BIOBIO",
+        "pct_region": 0.012896
+      },
+      {
+        "rank": 2,
+        "region": "14. REGION DE LOS RIOS",
+        "pct_region": 0.012562
+      },
+      {
+        "rank": 3,
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_region": 0.010289
+      },
+      {
+        "rank": 4,
+        "region": "16. REGION DE ÑUBLE",
+        "pct_region": 0.008137
+      },
+      {
+        "rank": 5,
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_region": 0.00542
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.131Z"
+  },
+  "utreras": {
+    "apellido": "UTRERAS",
+    "slug": "utreras",
+    "total_personas": 3246,
+    "n_comunas": 184,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "TUCAPEL",
+        "provincia": "BIOBÍO",
+        "region": "08. REGION DEL BIOBIO",
+        "personas": 69,
+        "pct_comuna": 0.527886
+      },
+      {
+        "rank": 2,
+        "comuna": "PINTO",
+        "provincia": "DIGUILLÍN",
+        "region": "16. REGION DE ÑUBLE",
+        "personas": 50,
+        "pct_comuna": 0.441345
+      },
+      {
+        "rank": 3,
+        "comuna": "SAN IGNACIO",
+        "provincia": "DIGUILLÍN",
+        "region": "16. REGION DE ÑUBLE",
+        "personas": 62,
+        "pct_comuna": 0.423729
+      },
+      {
+        "rank": 4,
+        "comuna": "BULNES",
+        "provincia": "DIGUILLÍN",
+        "region": "16. REGION DE ÑUBLE",
+        "personas": 85,
+        "pct_comuna": 0.413927
+      },
+      {
+        "rank": 5,
+        "comuna": "SANTA BARBARA",
+        "provincia": "BIOBÍO",
+        "region": "08. REGION DEL BIOBIO",
+        "personas": 30,
+        "pct_comuna": 0.225259
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "DIGUILLÍN",
+        "region": "16. REGION DE ÑUBLE",
+        "pct_provincia": 0.1792
+      },
+      {
+        "rank": 2,
+        "provincia": "CAPITÁN PRAT",
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "pct_provincia": 0.088652
+      },
+      {
+        "rank": 3,
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "pct_provincia": 0.067951
+      },
+      {
+        "rank": 4,
+        "provincia": "BIOBÍO",
+        "region": "08. REGION DEL BIOBIO",
+        "pct_provincia": 0.06658
+      },
+      {
+        "rank": 5,
+        "provincia": "PUNILLA",
+        "region": "16. REGION DE ÑUBLE",
+        "pct_provincia": 0.059958
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "16. REGION DE ÑUBLE",
+        "pct_region": 0.140511
+      },
+      {
+        "rank": 2,
+        "region": "14. REGION DE LOS RIOS",
+        "pct_region": 0.061655
+      },
+      {
+        "rank": 3,
+        "region": "08. REGION DEL BIOBIO",
+        "pct_region": 0.049119
+      },
+      {
+        "rank": 4,
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_region": 0.027902
+      },
+      {
+        "rank": 5,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.026822
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.132Z"
+  },
+  "utria": {
+    "apellido": "UTRIA",
+    "slug": "utria",
+    "total_personas": 8,
+    "n_comunas": 4,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "OVALLE",
+        "provincia": "LIMARÍ",
+        "region": "04. REGION DE COQUIMBO",
+        "personas": 3,
+        "pct_comuna": 0.003267
+      },
+      {
+        "rank": 2,
+        "comuna": "QUILPUE",
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 2,
+        "pct_comuna": 0.001488
+      },
+      {
+        "rank": 3,
+        "comuna": "LA SERENA",
+        "provincia": "ELQUI",
+        "region": "04. REGION DE COQUIMBO",
+        "personas": 2,
+        "pct_comuna": 0.001144
+      },
+      {
+        "rank": 4,
+        "comuna": "SANTIAGO",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000294
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "LIMARÍ",
+        "region": "04. REGION DE COQUIMBO",
+        "pct_provincia": 0.003267
+      },
+      {
+        "rank": 2,
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.001488
+      },
+      {
+        "rank": 3,
+        "provincia": "ELQUI",
+        "region": "04. REGION DE COQUIMBO",
+        "pct_provincia": 0.001144
+      },
+      {
+        "rank": 4,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000294
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "04. REGION DE COQUIMBO",
+        "pct_region": 0.001875
+      },
+      {
+        "rank": 2,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.001488
+      },
+      {
+        "rank": 3,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000294
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.132Z"
+  },
+  "utrilla": {
+    "apellido": "UTRILLA",
+    "slug": "utrilla",
+    "total_personas": 43,
+    "n_comunas": 14,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CHAÑARAL",
+        "provincia": "CHAÑARAL",
+        "region": "03. REGION DE ATACAMA",
+        "personas": 2,
+        "pct_comuna": 0.016604
+      },
+      {
+        "rank": 2,
+        "comuna": "QUINCHAO",
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 1,
+        "pct_comuna": 0.010627
+      },
+      {
+        "rank": 3,
+        "comuna": "INDEPENDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 6,
+        "pct_comuna": 0.007261
+      },
+      {
+        "rank": 4,
+        "comuna": "ESTACION CENTRAL",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 7,
+        "pct_comuna": 0.005503
+      },
+      {
+        "rank": 5,
+        "comuna": "SANTIAGO",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 9,
+        "pct_comuna": 0.002645
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CHAÑARAL",
+        "region": "03. REGION DE ATACAMA",
+        "pct_provincia": 0.016604
+      },
+      {
+        "rank": 2,
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.010627
+      },
+      {
+        "rank": 3,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.002444
+      },
+      {
+        "rank": 4,
+        "provincia": "IQUIQUE",
+        "region": "01. REGION DE TARAPACA",
+        "pct_provincia": 0.001704
+      },
+      {
+        "rank": 5,
+        "provincia": "MAIPO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001315
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "03. REGION DE ATACAMA",
+        "pct_region": 0.016604
+      },
+      {
+        "rank": 2,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.010627
+      },
+      {
+        "rank": 3,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.002013
+      },
+      {
+        "rank": 4,
+        "region": "01. REGION DE TARAPACA",
+        "pct_region": 0.001704
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.132Z"
+  },
+  "utrobicic": {
+    "apellido": "UTROBICIC",
+    "slug": "utrobicic",
+    "total_personas": 18,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CASTRO",
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 12,
+        "pct_comuna": 0.02899
+      },
+      {
+        "rank": 2,
+        "comuna": "PUNTA ARENAS",
+        "provincia": "MAGALLANES",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "personas": 6,
+        "pct_comuna": 0.004897
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.02899
+      },
+      {
+        "rank": 2,
+        "provincia": "MAGALLANES",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_provincia": 0.004897
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.02899
+      },
+      {
+        "rank": 2,
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_region": 0.004897
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.132Z"
+  },
+  "utrobicich": {
+    "apellido": "UTROBICICH",
+    "slug": "utrobicich",
+    "total_personas": 5,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CASTRO",
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 1,
+        "pct_comuna": 0.002416
+      },
+      {
+        "rank": 2,
+        "comuna": "ÑUÑOA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 4,
+        "pct_comuna": 0.002028
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CHILOÉ",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.002416
+      },
+      {
+        "rank": 2,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.002028
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.002416
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.002028
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.132Z"
+  },
+  "utrovicic": {
+    "apellido": "UTROVICIC",
+    "slug": "utrovicic",
+    "total_personas": 2,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PORVENIR",
+        "provincia": "TIERRA DEL FUEGO",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "personas": 1,
+        "pct_comuna": 0.016236
+      },
+      {
+        "rank": 2,
+        "comuna": "PUNTA ARENAS",
+        "provincia": "MAGALLANES",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "personas": 1,
+        "pct_comuna": 0.000816
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "TIERRA DEL FUEGO",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_provincia": 0.016236
+      },
+      {
+        "rank": 2,
+        "provincia": "MAGALLANES",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_provincia": 0.000816
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_region": 0.001554
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.132Z"
+  },
+  "utrovicich": {
+    "apellido": "UTROVICICH",
+    "slug": "utrovicich",
+    "total_personas": 10,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "TORRES DEL PAINE",
+        "provincia": "ÚLTIMA ESPERANZA",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "personas": 3,
+        "pct_comuna": 0.17741
+      },
+      {
+        "rank": 2,
+        "comuna": "NATALES",
+        "provincia": "ÚLTIMA ESPERANZA",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "personas": 7,
+        "pct_comuna": 0.030825
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "ÚLTIMA ESPERANZA",
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_provincia": 0.040984
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_region": 0.040984
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.132Z"
+  },
+  "utrup": {
+    "apellido": "UTRUP",
+    "slug": "utrup",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "SANTIAGO",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000294
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000294
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000294
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.132Z"
+  },
+  "utsugi": {
+    "apellido": "UTSUGI",
+    "slug": "utsugi",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000587
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000587
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000587
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.132Z"
+  },
+  "utsumi": {
+    "apellido": "UTSUMI",
+    "slug": "utsumi",
+    "total_personas": 4,
+    "n_comunas": 3,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "ALTO HOSPICIO",
+        "provincia": "IQUIQUE",
+        "region": "01. REGION DE TARAPACA",
+        "personas": 1,
+        "pct_comuna": 0.001704
+      },
+      {
+        "rank": 2,
+        "comuna": "IQUIQUE",
+        "provincia": "IQUIQUE",
+        "region": "01. REGION DE TARAPACA",
+        "personas": 2,
+        "pct_comuna": 0.001194
+      },
+      {
+        "rank": 3,
+        "comuna": "SANTIAGO",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000294
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "IQUIQUE",
+        "region": "01. REGION DE TARAPACA",
+        "pct_provincia": 0.001326
+      },
+      {
+        "rank": 2,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000294
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "01. REGION DE TARAPACA",
+        "pct_region": 0.001326
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000294
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.132Z"
+  },
+  "uttamchandani": {
+    "apellido": "UTTAMCHANDANI",
+    "slug": "uttamchandani",
+    "total_personas": 8,
+    "n_comunas": 3,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "IQUIQUE",
+        "provincia": "IQUIQUE",
+        "region": "01. REGION DE TARAPACA",
+        "personas": 6,
+        "pct_comuna": 0.003581
+      },
+      {
+        "rank": 2,
+        "comuna": "VITACURA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.00112
+      },
+      {
+        "rank": 3,
+        "comuna": "PEDRO AGUIRRE CERDA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.001073
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "IQUIQUE",
+        "region": "01. REGION DE TARAPACA",
+        "pct_provincia": 0.003581
+      },
+      {
+        "rank": 2,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001096
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "01. REGION DE TARAPACA",
+        "pct_region": 0.003581
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001096
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.132Z"
+  },
+  "uttamsingh": {
+    "apellido": "UTTAMSINGH",
+    "slug": "uttamsingh",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "IQUIQUE",
+        "provincia": "IQUIQUE",
+        "region": "01. REGION DE TARAPACA",
+        "personas": 1,
+        "pct_comuna": 0.000597
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "IQUIQUE",
+        "region": "01. REGION DE TARAPACA",
+        "pct_provincia": 0.000597
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "01. REGION DE TARAPACA",
+        "pct_region": 0.000597
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.132Z"
+  },
+  "utteau": {
+    "apellido": "UTTEAU",
+    "slug": "utteau",
+    "total_personas": 2,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "ESTACION CENTRAL",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.001572
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001572
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001572
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.132Z"
+  },
+  "uttenreuther": {
+    "apellido": "UTTENREUTHER",
+    "slug": "uttenreuther",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "VITACURA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.00112
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.00112
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.00112
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.132Z"
+  },
+  "uturriaga": {
+    "apellido": "UTURRIAGA",
+    "slug": "uturriaga",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "VILLA ALEGRE",
+        "provincia": "LINARES",
+        "region": "07. REGION DEL MAULE",
+        "personas": 1,
+        "pct_comuna": 0.00721
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "LINARES",
+        "region": "07. REGION DEL MAULE",
+        "pct_provincia": 0.00721
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "07. REGION DEL MAULE",
+        "pct_region": 0.00721
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.132Z"
+  },
+  "uturunco": {
+    "apellido": "UTURUNCO",
+    "slug": "uturunco",
+    "total_personas": 3,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "COPIAPO",
+        "provincia": "COPIAPÓ",
+        "region": "03. REGION DE ATACAMA",
+        "personas": 3,
+        "pct_comuna": 0.00242
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "COPIAPÓ",
+        "region": "03. REGION DE ATACAMA",
+        "pct_provincia": 0.00242
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "03. REGION DE ATACAMA",
+        "pct_region": 0.00242
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.132Z"
+  },
+  "utz": {
+    "apellido": "UTZ",
+    "slug": "utz",
+    "total_personas": 96,
+    "n_comunas": 27,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PUREN",
+        "provincia": "MALLECO",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "personas": 25,
+        "pct_comuna": 0.204365
+      },
+      {
+        "rank": 2,
+        "comuna": "QUILACO",
+        "provincia": "BIOBÍO",
+        "region": "08. REGION DEL BIOBIO",
+        "personas": 1,
+        "pct_comuna": 0.022936
+      },
+      {
+        "rank": 3,
+        "comuna": "PERQUENCO",
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "personas": 1,
+        "pct_comuna": 0.014661
+      },
+      {
+        "rank": 4,
+        "comuna": "MEJILLONES",
+        "provincia": "ANTOFAGASTA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "personas": 1,
+        "pct_comuna": 0.009965
+      },
+      {
+        "rank": 5,
+        "comuna": "NACIMIENTO",
+        "provincia": "BIOBÍO",
+        "region": "08. REGION DEL BIOBIO",
+        "personas": 2,
+        "pct_comuna": 0.008107
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "MALLECO",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_provincia": 0.045478
+      },
+      {
+        "rank": 2,
+        "provincia": "ANTOFAGASTA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_provincia": 0.009965
+      },
+      {
+        "rank": 3,
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "pct_provincia": 0.005063
+      },
+      {
+        "rank": 4,
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_provincia": 0.002983
+      },
+      {
+        "rank": 5,
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.00268
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_region": 0.010685
+      },
+      {
+        "rank": 2,
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_region": 0.009965
+      },
+      {
+        "rank": 3,
+        "region": "08. REGION DEL BIOBIO",
+        "pct_region": 0.00443
+      },
+      {
+        "rank": 4,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.002426
+      },
+      {
+        "rank": 5,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001611
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:18.132Z"
+  }
+}

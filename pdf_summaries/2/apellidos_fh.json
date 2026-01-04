@@ -1,0 +1,98 @@
+{
+  "fhachin": {
+    "apellido": "FHACHIN",
+    "slug": "fhachin",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LO PRADO",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.001125
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001125
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001125
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.339Z"
+  },
+  "fheremberg": {
+    "apellido": "FHEREMBERG",
+    "slug": "fheremberg",
+    "total_personas": 3,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PAILLACO",
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 3,
+        "pct_comuna": 0.015577
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "pct_provincia": 0.015577
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "14. REGION DE LOS RIOS",
+        "pct_region": 0.015577
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.339Z"
+  },
+  "fherenberg": {
+    "apellido": "FHERENBERG",
+    "slug": "fherenberg",
+    "total_personas": 8,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PAILLACO",
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 8,
+        "pct_comuna": 0.041539
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "pct_provincia": 0.041539
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "14. REGION DE LOS RIOS",
+        "pct_region": 0.041539
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.339Z"
+  }
+}

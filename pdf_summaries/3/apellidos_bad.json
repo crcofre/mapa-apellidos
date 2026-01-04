@@ -1,0 +1,3350 @@
+{
+  "bada": {
+    "apellido": "BADA",
+    "slug": "bada",
+    "total_personas": 36,
+    "n_comunas": 11,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "EL MONTE",
+        "provincia": "TALAGANTE",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.007189
+      },
+      {
+        "rank": 2,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 14,
+        "pct_comuna": 0.005194
+      },
+      {
+        "rank": 3,
+        "comuna": "LO BARNECHEA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 4,
+        "pct_comuna": 0.004839
+      },
+      {
+        "rank": 4,
+        "comuna": "PEÑAFLOR",
+        "provincia": "TALAGANTE",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.004135
+      },
+      {
+        "rank": 5,
+        "comuna": "QUINTERO",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 1,
+        "pct_comuna": 0.004039
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "TALAGANTE",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.004136
+      },
+      {
+        "rank": 2,
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.004039
+      },
+      {
+        "rank": 3,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.002972
+      },
+      {
+        "rank": 4,
+        "provincia": "CHACABUCO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.002211
+      },
+      {
+        "rank": 5,
+        "provincia": "IQUIQUE",
+        "region": "01. REGION DE TARAPACA",
+        "pct_provincia": 0.000597
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.004039
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.003062
+      },
+      {
+        "rank": 3,
+        "region": "01. REGION DE TARAPACA",
+        "pct_region": 0.000597
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badagnani": {
+    "apellido": "BADAGNANI",
+    "slug": "badagnani",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000371
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000371
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000371
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badal": {
+    "apellido": "BADAL",
+    "slug": "badal",
+    "total_personas": 136,
+    "n_comunas": 26,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "REQUINOA",
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "personas": 4,
+        "pct_comuna": 0.01737
+      },
+      {
+        "rank": 2,
+        "comuna": "LA GRANJA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 14,
+        "pct_comuna": 0.013474
+      },
+      {
+        "rank": 3,
+        "comuna": "SAN MIGUEL",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 13,
+        "pct_comuna": 0.01237
+      },
+      {
+        "rank": 4,
+        "comuna": "LOS VILOS",
+        "provincia": "CHOAPA",
+        "region": "04. REGION DE COQUIMBO",
+        "personas": 2,
+        "pct_comuna": 0.010949
+      },
+      {
+        "rank": 5,
+        "comuna": "PUDAHUEL",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 11,
+        "pct_comuna": 0.006509
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_provincia": 0.01737
+      },
+      {
+        "rank": 2,
+        "provincia": "CHOAPA",
+        "region": "04. REGION DE COQUIMBO",
+        "pct_provincia": 0.010949
+      },
+      {
+        "rank": 3,
+        "provincia": "COLCHAGUA",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_provincia": 0.00635
+      },
+      {
+        "rank": 4,
+        "provincia": "TALCA",
+        "region": "07. REGION DEL MAULE",
+        "pct_provincia": 0.004077
+      },
+      {
+        "rank": 5,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.003831
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "04. REGION DE COQUIMBO",
+        "pct_region": 0.010949
+      },
+      {
+        "rank": 2,
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_region": 0.0093
+      },
+      {
+        "rank": 3,
+        "region": "07. REGION DEL MAULE",
+        "pct_region": 0.004077
+      },
+      {
+        "rank": 4,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.003831
+      },
+      {
+        "rank": 5,
+        "region": "08. REGION DEL BIOBIO",
+        "pct_region": 0.001118
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badala": {
+    "apellido": "BADALA",
+    "slug": "badala",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LO BARNECHEA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.00121
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.00121
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.00121
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badalla": {
+    "apellido": "BADALLA",
+    "slug": "badalla",
+    "total_personas": 18,
+    "n_comunas": 6,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "SAN JOAQUIN",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 4,
+        "pct_comuna": 0.004859
+      },
+      {
+        "rank": 2,
+        "comuna": "PUENTE ALTO",
+        "provincia": "CORDILLERA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 9,
+        "pct_comuna": 0.002251
+      },
+      {
+        "rank": 3,
+        "comuna": "MACUL",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000987
+      },
+      {
+        "rank": 4,
+        "comuna": "QUILICURA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000715
+      },
+      {
+        "rank": 5,
+        "comuna": "SANTIAGO",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.000588
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CORDILLERA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.002251
+      },
+      {
+        "rank": 2,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000927
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001313
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badalone": {
+    "apellido": "BADALONE",
+    "slug": "badalone",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "COINCO",
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "personas": 1,
+        "pct_comuna": 0.013812
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_provincia": 0.013812
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_region": 0.013812
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badaloni": {
+    "apellido": "BADALONI",
+    "slug": "badaloni",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "VITACURA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.00112
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.00112
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.00112
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badani": {
+    "apellido": "BADANI",
+    "slug": "badani",
+    "total_personas": 114,
+    "n_comunas": 24,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LOS ANDES",
+        "provincia": "LOS ANDES",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 9,
+        "pct_comuna": 0.01608
+      },
+      {
+        "rank": 2,
+        "comuna": "CALERA DE TANGO",
+        "provincia": "MAIPO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.01345
+      },
+      {
+        "rank": 3,
+        "comuna": "LA CISTERNA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 7,
+        "pct_comuna": 0.008409
+      },
+      {
+        "rank": 4,
+        "comuna": "QUILPUE",
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 10,
+        "pct_comuna": 0.007438
+      },
+      {
+        "rank": 5,
+        "comuna": "ARICA",
+        "provincia": "ARICA",
+        "region": "15. REGION DE ARICA Y PARINACOTA",
+        "personas": 10,
+        "pct_comuna": 0.005554
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "LOS ANDES",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.01608
+      },
+      {
+        "rank": 2,
+        "provincia": "MAIPO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.01345
+      },
+      {
+        "rank": 3,
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.007438
+      },
+      {
+        "rank": 4,
+        "provincia": "ARICA",
+        "region": "15. REGION DE ARICA Y PARINACOTA",
+        "pct_provincia": 0.005554
+      },
+      {
+        "rank": 5,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.002863
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "15. REGION DE ARICA Y PARINACOTA",
+        "pct_region": 0.005554
+      },
+      {
+        "rank": 2,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.005287
+      },
+      {
+        "rank": 3,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.002689
+      },
+      {
+        "rank": 4,
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_region": 0.001908
+      },
+      {
+        "rank": 5,
+        "region": "04. REGION DE COQUIMBO",
+        "pct_region": 0.001716
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badano": {
+    "apellido": "BADANO",
+    "slug": "badano",
+    "total_personas": 5,
+    "n_comunas": 4,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CHIGUAYANTE",
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "personas": 1,
+        "pct_comuna": 0.001484
+      },
+      {
+        "rank": 2,
+        "comuna": "PEDRO AGUIRRE CERDA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.001073
+      },
+      {
+        "rank": 3,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.000742
+      },
+      {
+        "rank": 4,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000587
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "pct_provincia": 0.001484
+      },
+      {
+        "rank": 2,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000751
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "08. REGION DEL BIOBIO",
+        "pct_region": 0.001484
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000751
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badaracco": {
+    "apellido": "BADARACCO",
+    "slug": "badaracco",
+    "total_personas": 103,
+    "n_comunas": 26,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "VIÑA DEL MAR",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 27,
+        "pct_comuna": 0.008959
+      },
+      {
+        "rank": 2,
+        "comuna": "QUILPUE",
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 9,
+        "pct_comuna": 0.006694
+      },
+      {
+        "rank": 3,
+        "comuna": "VILLA ALEMANA",
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 6,
+        "pct_comuna": 0.006089
+      },
+      {
+        "rank": 4,
+        "comuna": "PADRE LAS CASAS",
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "personas": 3,
+        "pct_comuna": 0.005097
+      },
+      {
+        "rank": 5,
+        "comuna": "VILLARRICA",
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "personas": 2,
+        "pct_comuna": 0.00364
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.006438
+      },
+      {
+        "rank": 2,
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.00541
+      },
+      {
+        "rank": 3,
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "pct_provincia": 0.003353
+      },
+      {
+        "rank": 4,
+        "provincia": "ELQUI",
+        "region": "04. REGION DE COQUIMBO",
+        "pct_provincia": 0.001716
+      },
+      {
+        "rank": 5,
+        "provincia": "CAUTÍN",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_provincia": 0.001711
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.005701
+      },
+      {
+        "rank": 2,
+        "region": "08. REGION DEL BIOBIO",
+        "pct_region": 0.003353
+      },
+      {
+        "rank": 3,
+        "region": "04. REGION DE COQUIMBO",
+        "pct_region": 0.001716
+      },
+      {
+        "rank": 4,
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_region": 0.001711
+      },
+      {
+        "rank": 5,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001596
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badaraco": {
+    "apellido": "BADARACO",
+    "slug": "badaraco",
+    "total_personas": 3,
+    "n_comunas": 3,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000587
+      },
+      {
+        "rank": 2,
+        "comuna": "ÑUÑOA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000507
+      },
+      {
+        "rank": 3,
+        "comuna": "CONCEPCION",
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "personas": 1,
+        "pct_comuna": 0.000497
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000544
+      },
+      {
+        "rank": 2,
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "pct_provincia": 0.000497
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000544
+      },
+      {
+        "rank": 2,
+        "region": "08. REGION DEL BIOBIO",
+        "pct_region": 0.000497
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badarala": {
+    "apellido": "BADARALA",
+    "slug": "badarala",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000587
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000587
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000587
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badaroux": {
+    "apellido": "BADAROUX",
+    "slug": "badaroux",
+    "total_personas": 3,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "VIÑA DEL MAR",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 2,
+        "pct_comuna": 0.000664
+      },
+      {
+        "rank": 2,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000587
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.000664
+      },
+      {
+        "rank": 2,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000587
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.000664
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000587
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badawi-najjar": {
+    "apellido": "BADAWI-NAJJAR",
+    "slug": "badawi-najjar",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "VIÑA DEL MAR",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 1,
+        "pct_comuna": 0.000332
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.000332
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.000332
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badawy": {
+    "apellido": "BADAWY",
+    "slug": "badawy",
+    "total_personas": 15,
+    "n_comunas": 6,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "ÑUÑOA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 6,
+        "pct_comuna": 0.003043
+      },
+      {
+        "rank": 2,
+        "comuna": "ANTOFAGASTA",
+        "provincia": "ANTOFAGASTA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "personas": 3,
+        "pct_comuna": 0.001045
+      },
+      {
+        "rank": 3,
+        "comuna": "SANTIAGO",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.000882
+      },
+      {
+        "rank": 4,
+        "comuna": "RECOLETA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000701
+      },
+      {
+        "rank": 5,
+        "comuna": "RANCAGUA",
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "personas": 1,
+        "pct_comuna": 0.000514
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001158
+      },
+      {
+        "rank": 2,
+        "provincia": "ANTOFAGASTA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_provincia": 0.001045
+      },
+      {
+        "rank": 3,
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_provincia": 0.000514
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001158
+      },
+      {
+        "rank": 2,
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_region": 0.001045
+      },
+      {
+        "rank": 3,
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_region": 0.000514
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badde": {
+    "apellido": "BADDE",
+    "slug": "badde",
+    "total_personas": 3,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "TALAGANTE",
+        "provincia": "TALAGANTE",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.00516
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "TALAGANTE",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.00516
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.00516
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "baddour": {
+    "apellido": "BADDOUR",
+    "slug": "baddour",
+    "total_personas": 5,
+    "n_comunas": 3,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CHILLAN",
+        "provincia": "DIGUILLÍN",
+        "region": "16. REGION DE ÑUBLE",
+        "personas": 2,
+        "pct_comuna": 0.00131
+      },
+      {
+        "rank": 2,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.000742
+      },
+      {
+        "rank": 3,
+        "comuna": "VALDIVIA",
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 1,
+        "pct_comuna": 0.000721
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "DIGUILLÍN",
+        "region": "16. REGION DE ÑUBLE",
+        "pct_provincia": 0.00131
+      },
+      {
+        "rank": 2,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000742
+      },
+      {
+        "rank": 3,
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "pct_provincia": 0.000721
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "16. REGION DE ÑUBLE",
+        "pct_region": 0.00131
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000742
+      },
+      {
+        "rank": 3,
+        "region": "14. REGION DE LOS RIOS",
+        "pct_region": 0.000721
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "bade": {
+    "apellido": "BADE",
+    "slug": "bade",
+    "total_personas": 108,
+    "n_comunas": 23,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PUTAENDO",
+        "provincia": "SAN FELIPE DE ACONCAGUA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 5,
+        "pct_comuna": 0.035602
+      },
+      {
+        "rank": 2,
+        "comuna": "LOS ANGELES",
+        "provincia": "BIOBÍO",
+        "region": "08. REGION DEL BIOBIO",
+        "personas": 20,
+        "pct_comuna": 0.012282
+      },
+      {
+        "rank": 3,
+        "comuna": "LOS LAGOS",
+        "provincia": "VALDIVIA",
+        "region": "14. REGION DE LOS RIOS",
+        "personas": 2,
+        "pct_comuna": 0.010488
+      },
+      {
+        "rank": 4,
+        "comuna": "SAN MIGUEL",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 9,
+        "pct_comuna": 0.008564
+      },
+      {
+        "rank": 5,
+        "comuna": "EL QUISCO",
+        "provincia": "SAN ANTONIO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 1,
+        "pct_comuna": 0.007256
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SAN FELIPE DE ACONCAGUA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.035602
+      },
+      {
+        "rank": 2,
+        "provincia": "BIOBÍO",
+        "region": "08. REGION DEL BIOBIO",
+        "pct_provincia": 0.012282
+      },
+      {
+        "rank": 3,
+        "provincia": "SAN ANTONIO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.007256
+      },
+      {
+        "rank": 4,
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.004463
+      },
+      {
+        "rank": 5,
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.00367
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "08. REGION DEL BIOBIO",
+        "pct_region": 0.006045
+      },
+      {
+        "rank": 2,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.00367
+      },
+      {
+        "rank": 3,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.00353
+      },
+      {
+        "rank": 4,
+        "region": "14. REGION DE LOS RIOS",
+        "pct_region": 0.003171
+      },
+      {
+        "rank": 5,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.002545
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badell": {
+    "apellido": "BADELL",
+    "slug": "badell",
+    "total_personas": 4,
+    "n_comunas": 3,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "EL QUISCO",
+        "provincia": "SAN ANTONIO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 1,
+        "pct_comuna": 0.007256
+      },
+      {
+        "rank": 2,
+        "comuna": "ESTACION CENTRAL",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000786
+      },
+      {
+        "rank": 3,
+        "comuna": "MAIPU",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.000513
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SAN ANTONIO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.007256
+      },
+      {
+        "rank": 2,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.00058
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.007256
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.00058
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badembach": {
+    "apellido": "BADEMBACH",
+    "slug": "badembach",
+    "total_personas": 4,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.001113
+      },
+      {
+        "rank": 2,
+        "comuna": "QUILPUE",
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 1,
+        "pct_comuna": 0.000744
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001113
+      },
+      {
+        "rank": 2,
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.000744
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001113
+      },
+      {
+        "rank": 2,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.000744
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "baden": {
+    "apellido": "BADEN",
+    "slug": "baden",
+    "total_personas": 10,
+    "n_comunas": 3,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LO BARNECHEA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 8,
+        "pct_comuna": 0.009677
+      },
+      {
+        "rank": 2,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000587
+      },
+      {
+        "rank": 3,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000371
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001914
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001914
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badenier": {
+    "apellido": "BADENIER",
+    "slug": "badenier",
+    "total_personas": 27,
+    "n_comunas": 8,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CONCON",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 3,
+        "pct_comuna": 0.007607
+      },
+      {
+        "rank": 2,
+        "comuna": "VALPARAISO",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 14,
+        "pct_comuna": 0.004826
+      },
+      {
+        "rank": 3,
+        "comuna": "LIMACHE",
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 1,
+        "pct_comuna": 0.002537
+      },
+      {
+        "rank": 4,
+        "comuna": "PUDAHUEL",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.001775
+      },
+      {
+        "rank": 5,
+        "comuna": "QUINTA NORMAL",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000975
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.002853
+      },
+      {
+        "rank": 2,
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.002537
+      },
+      {
+        "rank": 3,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000943
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.002834
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000943
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "bader": {
+    "apellido": "BADER",
+    "slug": "bader",
+    "total_personas": 45,
+    "n_comunas": 14,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CABILDO",
+        "provincia": "PETORCA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 1,
+        "pct_comuna": 0.005544
+      },
+      {
+        "rank": 2,
+        "comuna": "VITACURA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 4,
+        "pct_comuna": 0.004479
+      },
+      {
+        "rank": 3,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 12,
+        "pct_comuna": 0.004452
+      },
+      {
+        "rank": 4,
+        "comuna": "TALCA",
+        "provincia": "TALCA",
+        "region": "07. REGION DEL MAULE",
+        "personas": 6,
+        "pct_comuna": 0.00334
+      },
+      {
+        "rank": 5,
+        "comuna": "RECOLETA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 4,
+        "pct_comuna": 0.002803
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "PETORCA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.005544
+      },
+      {
+        "rank": 2,
+        "provincia": "TALCA",
+        "region": "07. REGION DEL MAULE",
+        "pct_provincia": 0.00334
+      },
+      {
+        "rank": 3,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.00272
+      },
+      {
+        "rank": 4,
+        "provincia": "ELQUI",
+        "region": "04. REGION DE COQUIMBO",
+        "pct_provincia": 0.001459
+      },
+      {
+        "rank": 5,
+        "provincia": "LIMARÍ",
+        "region": "04. REGION DE COQUIMBO",
+        "pct_provincia": 0.001089
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.005544
+      },
+      {
+        "rank": 2,
+        "region": "07. REGION DEL MAULE",
+        "pct_region": 0.00334
+      },
+      {
+        "rank": 3,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.002385
+      },
+      {
+        "rank": 4,
+        "region": "04. REGION DE COQUIMBO",
+        "pct_region": 0.001381
+      },
+      {
+        "rank": 5,
+        "region": "12. REGION DE MAGALLANES Y DE LA ANTARTICA CHILENA",
+        "pct_region": 0.000816
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "bades": {
+    "apellido": "BADES",
+    "slug": "bades",
+    "total_personas": 54,
+    "n_comunas": 9,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PINTO",
+        "provincia": "DIGUILLÍN",
+        "region": "16. REGION DE ÑUBLE",
+        "personas": 2,
+        "pct_comuna": 0.017654
+      },
+      {
+        "rank": 2,
+        "comuna": "PEÑALOLEN",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 23,
+        "pct_comuna": 0.011997
+      },
+      {
+        "rank": 3,
+        "comuna": "MACUL",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 7,
+        "pct_comuna": 0.006907
+      },
+      {
+        "rank": 4,
+        "comuna": "CONSTITUCION",
+        "provincia": "TALCA",
+        "region": "07. REGION DEL MAULE",
+        "personas": 2,
+        "pct_comuna": 0.005
+      },
+      {
+        "rank": 5,
+        "comuna": "LA FLORIDA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 13,
+        "pct_comuna": 0.004229
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "DIGUILLÍN",
+        "region": "16. REGION DE ÑUBLE",
+        "pct_provincia": 0.017654
+      },
+      {
+        "rank": 2,
+        "provincia": "TALCA",
+        "region": "07. REGION DEL MAULE",
+        "pct_provincia": 0.005
+      },
+      {
+        "rank": 3,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.00405
+      },
+      {
+        "rank": 4,
+        "provincia": "MELIPILLA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001029
+      },
+      {
+        "rank": 5,
+        "provincia": "CORDILLERA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.0005
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "16. REGION DE ÑUBLE",
+        "pct_region": 0.017654
+      },
+      {
+        "rank": 2,
+        "region": "07. REGION DEL MAULE",
+        "pct_region": 0.005
+      },
+      {
+        "rank": 3,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.003017
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badet": {
+    "apellido": "BADET",
+    "slug": "badet",
+    "total_personas": 2,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "EL BOSQUE",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000726
+      },
+      {
+        "rank": 2,
+        "comuna": "QUILICURA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000715
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.00072
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.00072
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badets": {
+    "apellido": "BADETS",
+    "slug": "badets",
+    "total_personas": 2,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.001175
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001175
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001175
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badez": {
+    "apellido": "BADEZ",
+    "slug": "badez",
+    "total_personas": 6,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "VIÑA DEL MAR",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 5,
+        "pct_comuna": 0.001659
+      },
+      {
+        "rank": 2,
+        "comuna": "VALPARAISO",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 1,
+        "pct_comuna": 0.000345
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.001014
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.001014
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badi": {
+    "apellido": "BADI",
+    "slug": "badi",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "SANTIAGO",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000294
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000294
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000294
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badia": {
+    "apellido": "BADIA",
+    "slug": "badia",
+    "total_personas": 114,
+    "n_comunas": 18,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "SANTA MARIA",
+        "provincia": "SAN FELIPE DE ACONCAGUA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 2,
+        "pct_comuna": 0.016498
+      },
+      {
+        "rank": 2,
+        "comuna": "LO BARNECHEA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 13,
+        "pct_comuna": 0.015725
+      },
+      {
+        "rank": 3,
+        "comuna": "LA REINA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 8,
+        "pct_comuna": 0.008738
+      },
+      {
+        "rank": 4,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 19,
+        "pct_comuna": 0.00705
+      },
+      {
+        "rank": 5,
+        "comuna": "QUILPUE",
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 8,
+        "pct_comuna": 0.00595
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SAN FELIPE DE ACONCAGUA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.016498
+      },
+      {
+        "rank": 2,
+        "provincia": "MARGA MARGA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.00595
+      },
+      {
+        "rank": 3,
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.004755
+      },
+      {
+        "rank": 4,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.00385
+      },
+      {
+        "rank": 5,
+        "provincia": "MAIPO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.002655
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.005145
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.003802
+      },
+      {
+        "rank": 3,
+        "region": "04. REGION DE COQUIMBO",
+        "pct_region": 0.001192
+      },
+      {
+        "rank": 4,
+        "region": "08. REGION DEL BIOBIO",
+        "pct_region": 0.000497
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badial-brown": {
+    "apellido": "BADIAL-BROWN",
+    "slug": "badial-brown",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "ANTOFAGASTA",
+        "provincia": "ANTOFAGASTA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "personas": 1,
+        "pct_comuna": 0.000348
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "ANTOFAGASTA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_provincia": 0.000348
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_region": 0.000348
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badiali": {
+    "apellido": "BADIALI",
+    "slug": "badiali",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "ESTACION CENTRAL",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000786
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000786
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000786
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badie": {
+    "apellido": "BADIE",
+    "slug": "badie",
+    "total_personas": 2,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "RECOLETA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000701
+      },
+      {
+        "rank": 2,
+        "comuna": "SANTIAGO",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000294
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000414
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000414
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badiian": {
+    "apellido": "BADIIAN",
+    "slug": "badiian",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "VICUÑA",
+        "provincia": "ELQUI",
+        "region": "04. REGION DE COQUIMBO",
+        "personas": 1,
+        "pct_comuna": 0.004223
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "ELQUI",
+        "region": "04. REGION DE COQUIMBO",
+        "pct_provincia": 0.004223
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "04. REGION DE COQUIMBO",
+        "pct_region": 0.004223
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badilla": {
+    "apellido": "BADILLA",
+    "slug": "badilla",
+    "total_personas": 12074,
+    "n_comunas": 264,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "SAN NICOLAS",
+        "provincia": "PUNILLA",
+        "region": "16. REGION DE ÑUBLE",
+        "personas": 99,
+        "pct_comuna": 0.84399
+      },
+      {
+        "rank": 2,
+        "comuna": "NEGRETE",
+        "provincia": "BIOBÍO",
+        "region": "08. REGION DEL BIOBIO",
+        "personas": 49,
+        "pct_comuna": 0.539291
+      },
+      {
+        "rank": 3,
+        "comuna": "RETIRO",
+        "provincia": "LINARES",
+        "region": "07. REGION DEL MAULE",
+        "personas": 94,
+        "pct_comuna": 0.53403
+      },
+      {
+        "rank": 4,
+        "comuna": "LOS SAUCES",
+        "provincia": "MALLECO",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "personas": 35,
+        "pct_comuna": 0.464746
+      },
+      {
+        "rank": 5,
+        "comuna": "ANGOL",
+        "provincia": "MALLECO",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "personas": 200,
+        "pct_comuna": 0.424295
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "PUNILLA",
+        "region": "16. REGION DE ÑUBLE",
+        "pct_provincia": 0.291574
+      },
+      {
+        "rank": 2,
+        "provincia": "MALLECO",
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_provincia": 0.277412
+      },
+      {
+        "rank": 3,
+        "provincia": "LINARES",
+        "region": "07. REGION DEL MAULE",
+        "pct_provincia": 0.229692
+      },
+      {
+        "rank": 4,
+        "provincia": "CAUQUENES",
+        "region": "07. REGION DEL MAULE",
+        "pct_provincia": 0.220216
+      },
+      {
+        "rank": 5,
+        "provincia": "CAPITÁN PRAT",
+        "region": "11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO",
+        "pct_provincia": 0.166945
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "16. REGION DE ÑUBLE",
+        "pct_region": 0.180041
+      },
+      {
+        "rank": 2,
+        "region": "09. REGION DE LA ARAUCANIA",
+        "pct_region": 0.166775
+      },
+      {
+        "rank": 3,
+        "region": "07. REGION DEL MAULE",
+        "pct_region": 0.125335
+      },
+      {
+        "rank": 4,
+        "region": "08. REGION DEL BIOBIO",
+        "pct_region": 0.121222
+      },
+      {
+        "rank": 5,
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_region": 0.101749
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badillo": {
+    "apellido": "BADILLO",
+    "slug": "badillo",
+    "total_personas": 1178,
+    "n_comunas": 99,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PINTO",
+        "provincia": "DIGUILLÍN",
+        "region": "16. REGION DE ÑUBLE",
+        "personas": 65,
+        "pct_comuna": 0.573749
+      },
+      {
+        "rank": 2,
+        "comuna": "JUAN FERNANDEZ",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 3,
+        "pct_comuna": 0.306435
+      },
+      {
+        "rank": 3,
+        "comuna": "LOS VILOS",
+        "provincia": "CHOAPA",
+        "region": "04. REGION DE COQUIMBO",
+        "personas": 42,
+        "pct_comuna": 0.229935
+      },
+      {
+        "rank": 4,
+        "comuna": "CALERA",
+        "provincia": "QUILLOTA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 82,
+        "pct_comuna": 0.182303
+      },
+      {
+        "rank": 5,
+        "comuna": "LLAILLAY",
+        "provincia": "SAN FELIPE DE ACONCAGUA",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 33,
+        "pct_comuna": 0.157781
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "BIOBÍO",
+        "region": "08. REGION DEL BIOBIO",
+        "pct_provincia": 0.127173
+      },
+      {
+        "rank": 2,
+        "provincia": "CHOAPA",
+        "region": "04. REGION DE COQUIMBO",
+        "pct_provincia": 0.094803
+      },
+      {
+        "rank": 3,
+        "provincia": "QUILLOTA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.091804
+      },
+      {
+        "rank": 4,
+        "provincia": "DIGUILLÍN",
+        "region": "16. REGION DE ÑUBLE",
+        "pct_provincia": 0.088938
+      },
+      {
+        "rank": 5,
+        "provincia": "CHAÑARAL",
+        "region": "03. REGION DE ATACAMA",
+        "pct_provincia": 0.067214
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "16. REGION DE ÑUBLE",
+        "pct_region": 0.077484
+      },
+      {
+        "rank": 2,
+        "region": "15. REGION DE ARICA Y PARINACOTA",
+        "pct_region": 0.034603
+      },
+      {
+        "rank": 3,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.024407
+      },
+      {
+        "rank": 4,
+        "region": "04. REGION DE COQUIMBO",
+        "pct_region": 0.021797
+      },
+      {
+        "rank": 5,
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_region": 0.018794
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badinella": {
+    "apellido": "BADINELLA",
+    "slug": "badinella",
+    "total_personas": 18,
+    "n_comunas": 7,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "MOLINA",
+        "provincia": "CURICÓ",
+        "region": "07. REGION DEL MAULE",
+        "personas": 2,
+        "pct_comuna": 0.005073
+      },
+      {
+        "rank": 2,
+        "comuna": "LA CISTERNA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.003604
+      },
+      {
+        "rank": 3,
+        "comuna": "PUERTO VARAS",
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 1,
+        "pct_comuna": 0.002363
+      },
+      {
+        "rank": 4,
+        "comuna": "OSORNO",
+        "provincia": "OSORNO",
+        "region": "10. REGION DE LOS LAGOS",
+        "personas": 3,
+        "pct_comuna": 0.002096
+      },
+      {
+        "rank": 5,
+        "comuna": "LA FLORIDA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 6,
+        "pct_comuna": 0.001952
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CURICÓ",
+        "region": "07. REGION DEL MAULE",
+        "pct_provincia": 0.005073
+      },
+      {
+        "rank": 2,
+        "provincia": "LLANQUIHUE",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.002363
+      },
+      {
+        "rank": 3,
+        "provincia": "OSORNO",
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_provincia": 0.002096
+      },
+      {
+        "rank": 4,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001636
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "07. REGION DEL MAULE",
+        "pct_region": 0.005073
+      },
+      {
+        "rank": 2,
+        "region": "10. REGION DE LOS LAGOS",
+        "pct_region": 0.002156
+      },
+      {
+        "rank": 3,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001636
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badinez": {
+    "apellido": "BADINEZ",
+    "slug": "badinez",
+    "total_personas": 21,
+    "n_comunas": 7,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "INDEPENDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.00242
+      },
+      {
+        "rank": 2,
+        "comuna": "LA FLORIDA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 6,
+        "pct_comuna": 0.001952
+      },
+      {
+        "rank": 3,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.001762
+      },
+      {
+        "rank": 4,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 4,
+        "pct_comuna": 0.001484
+      },
+      {
+        "rank": 5,
+        "comuna": "MAIPU",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 4,
+        "pct_comuna": 0.001026
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001195
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001195
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badino": {
+    "apellido": "BADINO",
+    "slug": "badino",
+    "total_personas": 23,
+    "n_comunas": 8,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "CHIGUAYANTE",
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "personas": 4,
+        "pct_comuna": 0.005935
+      },
+      {
+        "rank": 2,
+        "comuna": "SAN PEDRO DE LA PAZ",
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "personas": 4,
+        "pct_comuna": 0.00447
+      },
+      {
+        "rank": 3,
+        "comuna": "RECOLETA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 4,
+        "pct_comuna": 0.002803
+      },
+      {
+        "rank": 4,
+        "comuna": "CONCEPCION",
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "personas": 5,
+        "pct_comuna": 0.002487
+      },
+      {
+        "rank": 5,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.001175
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "pct_provincia": 0.003632
+      },
+      {
+        "rank": 2,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001337
+      },
+      {
+        "rank": 3,
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.000332
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "08. REGION DEL BIOBIO",
+        "pct_region": 0.003632
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001337
+      },
+      {
+        "rank": 3,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.000332
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badiola": {
+    "apellido": "BADIOLA",
+    "slug": "badiola",
+    "total_personas": 55,
+    "n_comunas": 14,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "VITACURA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 5,
+        "pct_comuna": 0.005598
+      },
+      {
+        "rank": 2,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 9,
+        "pct_comuna": 0.005286
+      },
+      {
+        "rank": 3,
+        "comuna": "LA REINA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 4,
+        "pct_comuna": 0.004369
+      },
+      {
+        "rank": 4,
+        "comuna": "SAN MIGUEL",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 4,
+        "pct_comuna": 0.003806
+      },
+      {
+        "rank": 5,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 10,
+        "pct_comuna": 0.00371
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "ELQUI",
+        "region": "04. REGION DE COQUIMBO",
+        "pct_provincia": 0.003431
+      },
+      {
+        "rank": 2,
+        "provincia": "SAN FELIPE DE ACONCAGUA",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.003329
+      },
+      {
+        "rank": 3,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.002583
+      },
+      {
+        "rank": 4,
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.000995
+      },
+      {
+        "rank": 5,
+        "provincia": "CORDILLERA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.00025
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "04. REGION DE COQUIMBO",
+        "pct_region": 0.003431
+      },
+      {
+        "rank": 2,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.002131
+      },
+      {
+        "rank": 3,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.001383
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badji": {
+    "apellido": "BADJI",
+    "slug": "badji",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "VITACURA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.00112
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.00112
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.00112
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badke": {
+    "apellido": "BADKE",
+    "slug": "badke",
+    "total_personas": 13,
+    "n_comunas": 3,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "TALCA",
+        "provincia": "TALCA",
+        "region": "07. REGION DEL MAULE",
+        "personas": 10,
+        "pct_comuna": 0.005567
+      },
+      {
+        "rank": 2,
+        "comuna": "CONSTITUCION",
+        "provincia": "TALCA",
+        "region": "07. REGION DEL MAULE",
+        "personas": 2,
+        "pct_comuna": 0.005
+      },
+      {
+        "rank": 3,
+        "comuna": "HUALPEN",
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "personas": 1,
+        "pct_comuna": 0.001289
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "TALCA",
+        "region": "07. REGION DEL MAULE",
+        "pct_provincia": 0.005463
+      },
+      {
+        "rank": 2,
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "pct_provincia": 0.001289
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "07. REGION DEL MAULE",
+        "pct_region": 0.005463
+      },
+      {
+        "rank": 2,
+        "region": "08. REGION DEL BIOBIO",
+        "pct_region": 0.001289
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badket": {
+    "apellido": "BADKET",
+    "slug": "badket",
+    "total_personas": 9,
+    "n_comunas": 4,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LA PINTANA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.002157
+      },
+      {
+        "rank": 2,
+        "comuna": "PEDRO AGUIRRE CERDA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.001073
+      },
+      {
+        "rank": 3,
+        "comuna": "PUENTE ALTO",
+        "provincia": "CORDILLERA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 4,
+        "pct_comuna": 0.001001
+      },
+      {
+        "rank": 4,
+        "comuna": "COPIAPO",
+        "provincia": "COPIAPÓ",
+        "region": "03. REGION DE ATACAMA",
+        "personas": 1,
+        "pct_comuna": 0.000807
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001722
+      },
+      {
+        "rank": 2,
+        "provincia": "CORDILLERA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001001
+      },
+      {
+        "rank": 3,
+        "provincia": "COPIAPÓ",
+        "region": "03. REGION DE ATACAMA",
+        "pct_provincia": 0.000807
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001266
+      },
+      {
+        "rank": 2,
+        "region": "03. REGION DE ATACAMA",
+        "pct_region": 0.000807
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badner": {
+    "apellido": "BADNER",
+    "slug": "badner",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000371
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000371
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000371
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "bado": {
+    "apellido": "BADO",
+    "slug": "bado",
+    "total_personas": 7,
+    "n_comunas": 3,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.001762
+      },
+      {
+        "rank": 2,
+        "comuna": "SAN JOAQUIN",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.001215
+      },
+      {
+        "rank": 3,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.001113
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001341
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001341
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badola": {
+    "apellido": "BADOLA",
+    "slug": "badola",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000371
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000371
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000371
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badoune": {
+    "apellido": "BADOUNE",
+    "slug": "badoune",
+    "total_personas": 2,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000587
+      },
+      {
+        "rank": 2,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000371
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000455
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000455
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badr": {
+    "apellido": "BADR",
+    "slug": "badr",
+    "total_personas": 2,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000371
+      },
+      {
+        "rank": 2,
+        "comuna": "VIÑA DEL MAR",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 1,
+        "pct_comuna": 0.000332
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000371
+      },
+      {
+        "rank": 2,
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.000332
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000371
+      },
+      {
+        "rank": 2,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.000332
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badra": {
+    "apellido": "BADRA",
+    "slug": "badra",
+    "total_personas": 4,
+    "n_comunas": 3,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LINARES",
+        "provincia": "LINARES",
+        "region": "07. REGION DEL MAULE",
+        "personas": 1,
+        "pct_comuna": 0.001223
+      },
+      {
+        "rank": 2,
+        "comuna": "VIÑA DEL MAR",
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "personas": 2,
+        "pct_comuna": 0.000664
+      },
+      {
+        "rank": 3,
+        "comuna": "SAN BERNARDO",
+        "provincia": "MAIPO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000438
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "LINARES",
+        "region": "07. REGION DEL MAULE",
+        "pct_provincia": 0.001223
+      },
+      {
+        "rank": 2,
+        "provincia": "VALPARAÍSO",
+        "region": "05. REGION DE VALPARAISO",
+        "pct_provincia": 0.000664
+      },
+      {
+        "rank": 3,
+        "provincia": "MAIPO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000438
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "07. REGION DEL MAULE",
+        "pct_region": 0.001223
+      },
+      {
+        "rank": 2,
+        "region": "05. REGION DE VALPARAISO",
+        "pct_region": 0.000664
+      },
+      {
+        "rank": 3,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000438
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badran": {
+    "apellido": "BADRAN",
+    "slug": "badran",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "IQUIQUE",
+        "provincia": "IQUIQUE",
+        "region": "01. REGION DE TARAPACA",
+        "personas": 1,
+        "pct_comuna": 0.000597
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "IQUIQUE",
+        "region": "01. REGION DE TARAPACA",
+        "pct_provincia": 0.000597
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "01. REGION DE TARAPACA",
+        "pct_region": 0.000597
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badrie": {
+    "apellido": "BADRIE",
+    "slug": "badrie",
+    "total_personas": 29,
+    "n_comunas": 9,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "INDEPENDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 6,
+        "pct_comuna": 0.007261
+      },
+      {
+        "rank": 2,
+        "comuna": "MELIPILLA",
+        "provincia": "MELIPILLA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.003086
+      },
+      {
+        "rank": 3,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 8,
+        "pct_comuna": 0.002968
+      },
+      {
+        "rank": 4,
+        "comuna": "CONCHALI",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 3,
+        "pct_comuna": 0.002529
+      },
+      {
+        "rank": 5,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.001175
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "MELIPILLA",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.003086
+      },
+      {
+        "rank": 2,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001566
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001651
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badrutt": {
+    "apellido": "BADRUTT",
+    "slug": "badrutt",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "VITACURA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.00112
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.00112
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.00112
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badtke": {
+    "apellido": "BADTKE",
+    "slug": "badtke",
+    "total_personas": 33,
+    "n_comunas": 17,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "QUILLON",
+        "provincia": "DIGUILLÍN",
+        "region": "16. REGION DE ÑUBLE",
+        "personas": 2,
+        "pct_comuna": 0.012753
+      },
+      {
+        "rank": 2,
+        "comuna": "VICUÑA",
+        "provincia": "ELQUI",
+        "region": "04. REGION DE COQUIMBO",
+        "personas": 1,
+        "pct_comuna": 0.004223
+      },
+      {
+        "rank": 3,
+        "comuna": "TOME",
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "personas": 2,
+        "pct_comuna": 0.004012
+      },
+      {
+        "rank": 4,
+        "comuna": "GRANEROS",
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "personas": 1,
+        "pct_comuna": 0.003721
+      },
+      {
+        "rank": 5,
+        "comuna": "CONCEPCION",
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "personas": 6,
+        "pct_comuna": 0.002984
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "DIGUILLÍN",
+        "region": "16. REGION DE ÑUBLE",
+        "pct_provincia": 0.012753
+      },
+      {
+        "rank": 2,
+        "provincia": "ELQUI",
+        "region": "04. REGION DE COQUIMBO",
+        "pct_provincia": 0.004223
+      },
+      {
+        "rank": 3,
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_provincia": 0.003721
+      },
+      {
+        "rank": 4,
+        "provincia": "CONCEPCIÓN",
+        "region": "08. REGION DEL BIOBIO",
+        "pct_provincia": 0.002938
+      },
+      {
+        "rank": 5,
+        "provincia": "EL LOA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_provincia": 0.002267
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "16. REGION DE ÑUBLE",
+        "pct_region": 0.012753
+      },
+      {
+        "rank": 2,
+        "region": "04. REGION DE COQUIMBO",
+        "pct_region": 0.004223
+      },
+      {
+        "rank": 3,
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_region": 0.003721
+      },
+      {
+        "rank": 4,
+        "region": "08. REGION DEL BIOBIO",
+        "pct_region": 0.002938
+      },
+      {
+        "rank": 5,
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_region": 0.002267
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "baduel": {
+    "apellido": "BADUEL",
+    "slug": "baduel",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "ÑUÑOA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000507
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000507
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000507
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badura": {
+    "apellido": "BADURA",
+    "slug": "badura",
+    "total_personas": 2,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.000742
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000742
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000742
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badurina": {
+    "apellido": "BADURINA",
+    "slug": "badurina",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LA SERENA",
+        "provincia": "ELQUI",
+        "region": "04. REGION DE COQUIMBO",
+        "personas": 1,
+        "pct_comuna": 0.000572
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "ELQUI",
+        "region": "04. REGION DE COQUIMBO",
+        "pct_provincia": 0.000572
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "04. REGION DE COQUIMBO",
+        "pct_region": 0.000572
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  },
+  "badwal": {
+    "apellido": "BADWAL",
+    "slug": "badwal",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000371
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000371
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000371
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:15.578Z"
+  }
+}

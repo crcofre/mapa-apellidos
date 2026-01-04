@@ -1,0 +1,8 @@
+{
+  "split_prefixes": [
+    "ba",
+    "ca",
+    "ma"
+  ],
+  "max_bytes": 1900000
+}

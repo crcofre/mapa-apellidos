@@ -1,0 +1,292 @@
+{
+  "dwek": {
+    "apellido": "DWEK",
+    "slug": "dwek",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "ARICA",
+        "provincia": "ARICA",
+        "region": "15. REGION DE ARICA Y PARINACOTA",
+        "personas": 1,
+        "pct_comuna": 0.000555
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "ARICA",
+        "region": "15. REGION DE ARICA Y PARINACOTA",
+        "pct_provincia": 0.000555
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "15. REGION DE ARICA Y PARINACOTA",
+        "pct_region": 0.000555
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.243Z"
+  },
+  "dwingelo": {
+    "apellido": "DWINGELO",
+    "slug": "dwingelo",
+    "total_personas": 46,
+    "n_comunas": 8,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "TOCOPILLA",
+        "provincia": "TOCOPILLA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "personas": 24,
+        "pct_comuna": 0.107455
+      },
+      {
+        "rank": 2,
+        "comuna": "OVALLE",
+        "provincia": "LIMARÍ",
+        "region": "04. REGION DE COQUIMBO",
+        "personas": 8,
+        "pct_comuna": 0.008712
+      },
+      {
+        "rank": 3,
+        "comuna": "VALLENAR",
+        "provincia": "HUASCO",
+        "region": "03. REGION DE ATACAMA",
+        "personas": 3,
+        "pct_comuna": 0.006589
+      },
+      {
+        "rank": 4,
+        "comuna": "CHIMBARONGO",
+        "provincia": "COLCHAGUA",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "personas": 1,
+        "pct_comuna": 0.003278
+      },
+      {
+        "rank": 5,
+        "comuna": "COPIAPO",
+        "provincia": "COPIAPÓ",
+        "region": "03. REGION DE ATACAMA",
+        "personas": 3,
+        "pct_comuna": 0.00242
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "TOCOPILLA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_provincia": 0.107455
+      },
+      {
+        "rank": 2,
+        "provincia": "LIMARÍ",
+        "region": "04. REGION DE COQUIMBO",
+        "pct_provincia": 0.008712
+      },
+      {
+        "rank": 3,
+        "provincia": "HUASCO",
+        "region": "03. REGION DE ATACAMA",
+        "pct_provincia": 0.006589
+      },
+      {
+        "rank": 4,
+        "provincia": "COLCHAGUA",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_provincia": 0.003278
+      },
+      {
+        "rank": 5,
+        "provincia": "COPIAPÓ",
+        "region": "03. REGION DE ATACAMA",
+        "pct_provincia": 0.00242
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_region": 0.009053
+      },
+      {
+        "rank": 2,
+        "region": "04. REGION DE COQUIMBO",
+        "pct_region": 0.008712
+      },
+      {
+        "rank": 3,
+        "region": "03. REGION DE ATACAMA",
+        "pct_region": 0.00354
+      },
+      {
+        "rank": 4,
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_region": 0.003278
+      },
+      {
+        "rank": 5,
+        "region": "01. REGION DE TARAPACA",
+        "pct_region": 0.001326
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.243Z"
+  },
+  "dwinguelo": {
+    "apellido": "DWINGUELO",
+    "slug": "dwinguelo",
+    "total_personas": 10,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "TOCOPILLA",
+        "provincia": "TOCOPILLA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "personas": 5,
+        "pct_comuna": 0.022386
+      },
+      {
+        "rank": 2,
+        "comuna": "ANTOFAGASTA",
+        "provincia": "ANTOFAGASTA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "personas": 5,
+        "pct_comuna": 0.001742
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "TOCOPILLA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_provincia": 0.022386
+      },
+      {
+        "rank": 2,
+        "provincia": "ANTOFAGASTA",
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_provincia": 0.001742
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "02. REGION DE ANTOFAGASTA",
+        "pct_region": 0.003233
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.243Z"
+  },
+  "dworaczuk": {
+    "apellido": "DWORACZUK",
+    "slug": "dworaczuk",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "RANCAGUA",
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "personas": 1,
+        "pct_comuna": 0.000514
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "CACHAPOAL",
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_provincia": 0.000514
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "06. REGION DEL LIBERTADOR GENERAL BERNARDO O'HIGGINS",
+        "pct_region": 0.000514
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.243Z"
+  },
+  "dworzak": {
+    "apellido": "DWORZAK",
+    "slug": "dworzak",
+    "total_personas": 1,
+    "n_comunas": 1,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "LAS CONDES",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 1,
+        "pct_comuna": 0.000371
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.000371
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.000371
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.243Z"
+  },
+  "dwyer": {
+    "apellido": "DWYER",
+    "slug": "dwyer",
+    "total_personas": 6,
+    "n_comunas": 2,
+    "top_comunas": [
+      {
+        "rank": 1,
+        "comuna": "PROVIDENCIA",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 2,
+        "pct_comuna": 0.001175
+      },
+      {
+        "rank": 2,
+        "comuna": "MAIPU",
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "personas": 4,
+        "pct_comuna": 0.001026
+      }
+    ],
+    "top_provincias": [
+      {
+        "rank": 1,
+        "provincia": "SANTIAGO",
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_provincia": 0.001071
+      }
+    ],
+    "top_regiones": [
+      {
+        "rank": 1,
+        "region": "13. REGION METROPOLITANA DE SANTIAGO",
+        "pct_region": 0.001071
+      }
+    ],
+    "updated_at": "2026-01-04T21:11:16.243Z"
+  }
+}
