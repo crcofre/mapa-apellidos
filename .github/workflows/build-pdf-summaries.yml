@@ -1,0 +1,36 @@
+name: Build PDF summaries
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "data_fixed/**"
+      - "data/**"
+      - "scripts/build_pdf_summaries.mjs"
+      - ".github/workflows/build-pdf-summaries.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Build summaries
+        run: node scripts/build_pdf_summaries.mjs
+
+      - name: Commit generated summaries
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add pdf_summaries
+          git commit -m "Update pdf_summaries" || echo "No changes to commit"
+          git push
