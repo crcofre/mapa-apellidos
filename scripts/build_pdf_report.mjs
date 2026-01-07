@@ -1,46 +1,71 @@
+// scripts/build_pdf_report.mjs
 import fs from "fs-extra";
 import path from "path";
-import { Resvg } from "@resvg/resvg-js";
-import { geoMercator, geoPath } from "d3-geo";
+import { chromium } from "playwright";
 
 /**
- * CONFIGURACIÓN (AJUSTAR SOLO SI ES NECESARIO)
- * - REGIONES_GEOJSON: ruta al GeoJSON de regiones
- * - SUMMARY_PATH: función que encuentra el summary del apellido (slug)
+ * =========================
+ * CONFIGURACIÓN
+ * =========================
  */
-const REGIONES_GEOJSON = "regiones.json";  // <-- AJUSTA AQUÍ si tu geojson está en otra ruta
-const SUMMARY_DIR = "pdf_summaries/2";              // <-- AJUSTA AQUÍ si tus summaries están en otra carpeta
+const SUMMARY_DIR = "pdf_summaries/2";      // carpeta donde están los shards apellidos_xx.json
+const OUT_REPORTS_DIR = "pdf_reports";      // salida HTML pública
+const OUT_MAPS_DIR = "pdf_maps";            // salida PNG pública
 
-// Salidas públicas (GitHub Pages)
-const OUT_REPORTS_DIR = "pdf_reports";
-const OUT_MAPS_DIR = "pdf_maps";
+// URL base de tu GitHub Pages del mapa (sin slash final idealmente)
+const MAP_BASE_URL = "https://crcofre.github.io/mapa-apellidos";
 
-// Color ramp (similar a choropleth suave)
-const COLORS = ["#e8f1ff", "#cfe2ff", "#9ec5fe", "#6ea8fe", "#3d8bfd", "#0b5ed7"];
+// Logo apellidos.cl (el tuyo)
+const LOGO_URL = "https://images.jumpseller.com/store/familias-y-apellidos/store/logo/Sitio_web.png?1741039595";
 
-// Utils
+// Render settings del PNG (tamaño final del mapa exportado)
+const MAP_EXPORT_WIDTH = 900;
+const MAP_EXPORT_HEIGHT = 1100;
+
+// Esperas (ms) para dar tiempo a Leaflet a pintar
+const WAIT_AFTER_GOTO_MS = 1200;
+const WAIT_AFTER_SEARCH_MS = 1200;
+
+/**
+ * =========================
+ * UTILS
+ * =========================
+ */
 function slugArg() {
   const idx = process.argv.indexOf("--slug");
   if (idx === -1 || !process.argv[idx + 1]) {
-    throw new Error("Falta parámetro --slug (ej: node scripts/build_pdf_report.mjs --slug lucero)");
+    throw new Error('Falta parámetro --slug (ej: node scripts/build_pdf_report.mjs --slug lucero)');
   }
   return process.argv[idx + 1].trim().toLowerCase();
 }
 
-function clamp01(x){ return Math.max(0, Math.min(1, x)); }
+function htmlEscape(s){
+  return String(s ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
 
-function colorForPct(pct, maxPct){
-  // pct viene como número (ej 0.29) y maxPct es el máximo observado en regiones
-  if (!maxPct || maxPct <= 0) return COLORS[0];
-  const t = clamp01(pct / maxPct);
-  const i = Math.min(COLORS.length - 1, Math.floor(t * (COLORS.length - 1)));
-  return COLORS[i];
+function formatPct(x){
+  // deja 2 decimales
+  if (x === null || x === undefined || x === "") return "";
+  const n = Number(x);
+  if (Number.isNaN(n)) return String(x);
+  return n.toFixed(2);
+}
+
+function tableRow(cells){
+  return `<tr>${cells.map(c => `<td>${htmlEscape(c)}</td>`).join("")}</tr>`;
 }
 
 /**
- * Encuentra el summary del apellido.
- * Tu proyecto ya tiene shards/manifest; como no quiero adivinar,
- * aquí busco recursivamente un archivo que termine en "/<slug>.json".
+ * =========================
+ * 1) CARGAR SUMMARY DESDE SHARD
+ * Estructura shard: { "items": [ { slug, apellido, ... } ] }
+ * Archivo shard: apellidos_<2 letras>.json
+ * =========================
  */
 async function loadSummaryFromShard(slug){
   const base = path.resolve(SUMMARY_DIR);
@@ -48,7 +73,6 @@ async function loadSummaryFromShard(slug){
     throw new Error(`No existe SUMMARY_DIR: ${SUMMARY_DIR}. Ajusta SUMMARY_DIR en el script.`);
   }
 
-  // shard por 2 letras: apellidos_lu.json
   const p2 = slug.slice(0, 2);
   const shard = path.join(base, `apellidos_${p2}.json`);
 
@@ -67,252 +91,78 @@ async function loadSummaryFromShard(slug){
 
   if (!summary) {
     const sample = items.slice(0, 10).map(it => it.slug).filter(Boolean);
-    throw new Error(`No encontré el slug=${slug} dentro de ${shard}. Ejemplos de slugs: ${sample.join(", ")}`);
+    throw new Error(`No encontré el slug=${slug} dentro de ${shard}. Ejemplos: ${sample.join(", ")}`);
   }
 
   return summary;
 }
 
+/**
+ * =========================
+ * 2) GENERAR PNG DEL MAPA (Leaflet) CON PLAYWRIGHT
+ * Usa una URL de export:
+ *   ${MAP_BASE_URL}/?export=1&apellido=<slug>&nivel=region&w=900&h=1100
+ *
+ * Requiere que tu index.html del mapa implemente esos parámetros:
+ * - export=1: oculta UI y fija tamaño del #map a w/h
+ * - apellido: autocompleta input y ejecuta buscarApellido()
+ * - nivel: region|provincia|comuna (modo manual)
+ * =========================
+ */
+async function buildMapPngLeaflet({ slug }){
+  await fs.ensureDir(OUT_MAPS_DIR);
 
+  const url =
+    `${MAP_BASE_URL}/?export=1` +
+    `&apellido=${encodeURIComponent(slug)}` +
+    `&nivel=region` +
+    `&w=${MAP_EXPORT_WIDTH}` +
+    `&h=${MAP_EXPORT_HEIGHT}`;
 
-function htmlEscape(s){
-  return String(s ?? "")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-}
-
-function formatPct(x){
-  // deja 2 decimales. (0.294137 -> 0.29)
-  if (x === null || x === undefined || x === "") return "";
-  const n = Number(x);
-  if (Number.isNaN(n)) return String(x);
-  return n.toFixed(2);
-}
-
-function normalizeRegionName(s){
-  return String(s ?? "")
-    .toUpperCase()
-    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")     // sin tildes
-    .replace(/^\s*\d+\.\s*/,"")                          // quita "06. "
-    .replace(/^REGION\s+(DE(L)?\s+)?/,"REGION ")         // suaviza prefijo
-    .replace(/[^A-Z0-9 ]+/g," ")                         // limpia signos
-    .replace(/\s+/g," ")
-    .trim();
-}
-
-function getSampleCoord(geo){
-  // Busca la primera coordenada numérica que encuentre
-  const walk = (obj) => {
-    if (!obj) return null;
-    if (typeof obj[0] === "number" && typeof obj[1] === "number") return obj;
-    if (Array.isArray(obj)) {
-      for (const it of obj) {
-        const r = walk(it);
-        if (r) return r;
-      }
-    } else if (typeof obj === "object") {
-      for (const k of Object.keys(obj)) {
-        const r = walk(obj[k]);
-        if (r) return r;
-      }
-    }
-    return null;
-  };
-  return walk(geo);
-}
-
-function flipLonLatIfNeeded(geo){
-  // Heurística:
-  // Chile en lon/lat típico: lon ~ [-75..-66], lat ~ [-56..-17]
-  // Si el primer par parece lat/lon, lo invertimos.
-  const c = getSampleCoord(geo);
-  if (!c) return geo;
-
-  const a = Number(c[0]);
-  const b = Number(c[1]);
-
-  const looksLikeLonLat =
-    a >= -90 && a <= -60 && b >= -60 && b <= -10;   // lon en [-90,-60], lat en [-60,-10]
-
-  const looksLikeLatLon =
-    a >= -60 && a <= -10 && b >= -90 && b <= -60;   // lat en [-60,-10], lon en [-90,-60]
-
-  if (!looksLikeLatLon) return geo; // si no parece invertido, no tocar
-
-  // Clonar y voltear todas las coords [x,y] -> [y,x]
-  const flipCoords = (obj) => {
-    if (!obj) return obj;
-    if (typeof obj[0] === "number" && typeof obj[1] === "number") {
-      return [obj[1], obj[0]];
-    }
-    if (Array.isArray(obj)) return obj.map(flipCoords);
-    if (typeof obj === "object") {
-      const out = {};
-      for (const k of Object.keys(obj)) out[k] = flipCoords(obj[k]);
-      return out;
-    }
-    return obj;
-  };
-
-  return flipCoords(geo);
-}
-
-function removeAntarcticaPolygons(geo, latCutoff = -60){
-  // Quita polígonos cuyo conjunto de coordenadas está completamente bajo latCutoff.
-  // Esto evita que el "fit" achique Chile continental a un punto por incluir Antártica.
-  const cloned = JSON.parse(JSON.stringify(geo));
-
-  const polygonHasAnyLatAbove = (poly) => {
-    // poly: [ [ [x,y], ... ] , [ring2], ... ]
-    for (const ring of poly) {
-      for (const pt of ring) {
-        const lat = pt[1];
-        if (typeof lat === "number" && lat > latCutoff) return true;
-      }
-    }
-    return false;
-  };
-
-  for (const f of cloned.features || []) {
-    const g = f.geometry;
-    if (!g) continue;
-
-    if (g.type === "Polygon") {
-      // Polygon: [rings]
-      const poly = g.coordinates;
-      // Si NO tiene ningún punto por sobre el cutoff, lo vaciamos
-      if (!polygonHasAnyLatAbove(poly)) {
-        g.coordinates = [];
-      }
-    }
-
-    if (g.type === "MultiPolygon") {
-      // MultiPolygon: [polygons]
-      const polys = g.coordinates || [];
-      g.coordinates = polys.filter(polygonHasAnyLatAbove);
-    }
-  }
-
-  // También elimina features que queden sin geometría útil
-  cloned.features = (cloned.features || []).filter(f => {
-    const g = f.geometry;
-    if (!g) return false;
-    if (g.type === "Polygon") return (g.coordinates || []).length > 0;
-    if (g.type === "MultiPolygon") return (g.coordinates || []).length > 0;
-    return true;
+  const browser = await chromium.launch({
+    args: ["--no-sandbox", "--disable-dev-shm-usage"]
   });
 
-  return cloned;
-}
-function coordRange(geo){
-  let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-  const walk = (obj) => {
-    if (!obj) return;
+  // viewport un poco mayor que el mapa para evitar cortes por scrollbars
+  const page = await browser.newPage({
+    viewport: { width: MAP_EXPORT_WIDTH + 120, height: MAP_EXPORT_HEIGHT + 160 }
+  });
 
-    if (typeof obj[0] === "number" && typeof obj[1] === "number") {
-      const x = obj[0], y = obj[1];
-      if (Number.isFinite(x) && Number.isFinite(y)) {
-        if (x < minX) minX = x;
-        if (x > maxX) maxX = x;
-        if (y < minY) minY = y;
-        if (y > maxY) maxY = y;
-      }
-      return;
-    }
+  // Carga inicial
+  await page.goto(url, { waitUntil: "networkidle" });
+  await page.waitForTimeout(WAIT_AFTER_GOTO_MS);
 
-    if (Array.isArray(obj)) obj.forEach(walk);
-    else if (typeof obj === "object") Object.values(obj).forEach(walk);
-  };
+  // Espera a que exista #map
+  await page.waitForSelector("#map", { timeout: 15000 });
 
-  walk(geo);
+  // Si tu export mode deja #map con width/height fijos, esto debería bastar.
+  // Damos un margen extra por si Leaflet termina de pintar.
+  await page.waitForTimeout(WAIT_AFTER_SEARCH_MS);
 
-  const maxAbs = Math.max(Math.abs(minX), Math.abs(maxX), Math.abs(minY), Math.abs(maxY));
-  return { minX, maxX, minY, maxY, maxAbs };
-}
+  const mapEl = await page.$("#map");
+  if (!mapEl) {
+    await browser.close();
+    throw new Error("No encontré #map en la página de exportación.");
+  }
 
-
-function tableRow(cells){
-  return `<tr>${cells.map(c => `<td>${htmlEscape(c)}</td>`).join("")}</tr>`;
-}
-
-async function buildMapPng({ slug, summary, regionesGeo }) {
-  // Mapa por REGIÓN usando summary.top_regiones
-  // Crea un diccionario: region name -> pct_region
-  const pctByRegion = new Map();
-const topRegs = summary.top_regiones || [];
-for (const r of topRegs) {
-  const key = normalizeRegionName(r.region);
-  pctByRegion.set(key, Number(r.pct_region));
-}
-
-
-  // Encuentra max
-  let maxPct = 0;
-  for (const v of pctByRegion.values()) if (v > maxPct) maxPct = v;
-
-  // Proyección simple (Chile largo)
-  const width = 800;
-const height = 1100;
-
-// 1) Quitar Antártica para que el fit no achique Chile continental
-const geoForRender = removeAntarcticaPolygons(regionesGeo, -60);
-
-// 2) Detectar sistema de coords usando el geo ya “limpio”
-const r = coordRange(geoForRender);
-const isLonLat = r.maxAbs <= 180;
-
-// 3) Proyección usando el geo limpio
-const projection = isLonLat
-  ? geoMercator().fitExtent([[30, 20], [width - 30, height - 20]], geoForRender)
-  : geoIdentity().reflectY(true).fitExtent([[30, 20], [width - 30, height - 20]], geoForRender);
-
-const pathGen = geoPath(projection);
-
-
-  // Construir SVG
-  const paths = geoForRender.features.map((f) => {
-
-    const d = pathGen(f);
-    // OJO: debes ajustar "propName" si tu geojson usa otra propiedad para el nombre.
-    // Intento 3 opciones típicas:
-    const props = f.properties || {};
-    const regionNameRaw = (props.REGION || "");
-const regionKey = normalizeRegionName(regionNameRaw);
-
-const pct = pctByRegion.get(regionKey) ?? 0;
-
-    const fill = colorForPct(pct, maxPct);
-
-    return `<path d="${d}" fill="${fill}" stroke="#1f3b64" stroke-width="0.6" />`;
-
-  }).join("\n");
-
-  const svg = `
-  <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">
-    <rect width="100%" height="100%" fill="#ffffff"/>
-    <g>${paths}</g>
-  </svg>`.trim();
-
-  // SVG -> PNG (resvg)
-  const resvg = new Resvg(svg, { fitTo: { mode: "width", value: 800 } });
-  const pngData = resvg.render().asPng();
-
-  await fs.ensureDir(OUT_MAPS_DIR);
   const outPng = path.join(OUT_MAPS_DIR, `${slug}.png`);
-  await fs.writeFile(outPng, pngData);
+  await mapEl.screenshot({ path: outPng });
+
+  await browser.close();
   return outPng;
 }
 
+/**
+ * =========================
+ * 3) GENERAR HTML REPORTE (con logo y tablas)
+ * =========================
+ */
 async function buildHtmlReport({ slug, summary }) {
   await fs.ensureDir(OUT_REPORTS_DIR);
 
-  const logoUrl = "https://images.jumpseller.com/store/familias-y-apellidos/store/logo/Sitio_web.png?1741039595"; // <-- AJUSTA a tu URL real del logo (puede ser SVG/PNG)
-  const mapUrl = `https://crcofre.github.io/mapa-apellidos/${OUT_MAPS_DIR}/${slug}.png`;
+  // Este PNG será publicado por GitHub Pages dentro del repo
+  const mapUrl = `${MAP_BASE_URL}/${OUT_MAPS_DIR}/${slug}.png`;
 
-  // Tablas
   const regionesRows = (summary.top_regiones || []).map(r =>
     tableRow([r.rank, r.region, `${formatPct(r.pct_region)}%`])
   ).join("");
@@ -353,7 +203,7 @@ async function buildHtmlReport({ slug, summary }) {
 <body>
   <div class="page">
     <div class="header">
-      <img class="logo" src="${logoUrl}" alt="Apellidos.cl"/>
+      <img class="logo" src="${LOGO_URL}" alt="Apellidos.cl"/>
       <div class="meta">
         Actualizado: ${htmlEscape(summary.updated_at || "")}
       </div>
@@ -406,23 +256,21 @@ async function buildHtmlReport({ slug, summary }) {
   return outHtml;
 }
 
+/**
+ * =========================
+ * MAIN
+ * =========================
+ */
 async function main(){
   const slug = slugArg();
 
-  // 1) summary
+  // 1) summary desde shard
   const summary = await loadSummaryFromShard(slug);
 
+  // 2) mapa PNG (Leaflet headless)
+  await buildMapPngLeaflet({ slug });
 
-  // 2) geojson regiones
-  if (!(await fs.pathExists(REGIONES_GEOJSON))) {
-    throw new Error(`No existe REGIONES_GEOJSON: ${REGIONES_GEOJSON}. Ajusta la ruta en el script.`);
-  }
-  let regionesGeo = await fs.readJson(REGIONES_GEOJSON);
-regionesGeo = flipLonLatIfNeeded(regionesGeo);
-
-
-  // 3) png + html
-  await buildMapPng({ slug, summary, regionesGeo });
+  // 3) html
   await buildHtmlReport({ slug, summary });
 
   console.log(`OK: generado ${OUT_MAPS_DIR}/${slug}.png y ${OUT_REPORTS_DIR}/${slug}.html`);
