@@ -9,7 +9,7 @@ import { geoMercator, geoPath } from "d3-geo";
  * - SUMMARY_PATH: función que encuentra el summary del apellido (slug)
  */
 const REGIONES_GEOJSON = "regiones.json";  // <-- AJUSTA AQUÍ si tu geojson está en otra ruta
-const SUMMARY_DIR = "pdf_summaries";              // <-- AJUSTA AQUÍ si tus summaries están en otra carpeta
+const SUMMARY_DIR = "pdf_summaries/2";              // <-- AJUSTA AQUÍ si tus summaries están en otra carpeta
 
 // Salidas públicas (GitHub Pages)
 const OUT_REPORTS_DIR = "pdf_reports";
@@ -42,26 +42,35 @@ function colorForPct(pct, maxPct){
  * Tu proyecto ya tiene shards/manifest; como no quiero adivinar,
  * aquí busco recursivamente un archivo que termine en "/<slug>.json".
  */
-async function findSummaryFile(slug){
+async function loadSummaryFromShard(slug){
   const base = path.resolve(SUMMARY_DIR);
   if (!(await fs.pathExists(base))) {
     throw new Error(`No existe SUMMARY_DIR: ${SUMMARY_DIR}. Ajusta SUMMARY_DIR en el script.`);
   }
-  const all = await fs.readdir(base, { withFileTypes:true });
-  // búsqueda recursiva simple (2 niveles suele bastar con shards)
-  for (const ent of all) {
-    const full = path.join(base, ent.name);
-    if (ent.isFile() && ent.name.toLowerCase() === `${slug}.json`) return full;
-    if (ent.isDirectory()) {
-      const inner = await fs.readdir(full, { withFileTypes:true });
-      for (const ent2 of inner) {
-        const full2 = path.join(full, ent2.name);
-        if (ent2.isFile() && ent2.name.toLowerCase() === `${slug}.json`) return full2;
-      }
-    }
+
+  // tu shard: apellidos_lu.json (2 letras)
+  const p2 = slug.slice(0, 2);
+  const shard = path.join(base, `apellidos_${p2}.json`);
+
+  if (!(await fs.pathExists(shard))) {
+    throw new Error(`No existe shard esperado: ${shard}. Revisa que exista apellidos_${p2}.json en ${SUMMARY_DIR}`);
   }
-  throw new Error(`No encontré summary para slug=${slug} dentro de ${SUMMARY_DIR}`);
+
+  const data = await fs.readJson(shard);
+
+  // Estructura esperada del shard: un objeto con keys por slug
+  // ej: { "lucero": { apellido, slug, top_regiones... }, ... }
+  const summary = data[slug];
+
+  if (!summary) {
+    // debug útil: mostrar algunas keys cercanas (sin reventar el log)
+    const keys = Object.keys(data).slice(0, 20);
+    throw new Error(`No encontré el slug=${slug} dentro de ${shard}. Keys ejemplo: ${keys.join(", ")}`);
+  }
+
+  return summary;
 }
+
 
 function htmlEscape(s){
   return String(s ?? "")
@@ -253,8 +262,8 @@ async function main(){
   const slug = slugArg();
 
   // 1) summary
-  const summaryFile = await findSummaryFile(slug);
-  const summary = await fs.readJson(summaryFile);
+  const summary = await loadSummaryFromShard(slug);
+
 
   // 2) geojson regiones
   if (!(await fs.pathExists(REGIONES_GEOJSON))) {
