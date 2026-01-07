@@ -152,7 +152,8 @@ async function buildHtmlReport({ slug, summary }) {
   await fs.ensureDir(OUT_REPORTS_DIR);
 
   // OJO: esta URL debe ser pública en GitHub Pages
-  const mapUrl = `https://crcofre.github.io/mapa-apellidos/${OUT_MAPS_DIR}/${slug}.png`;
+  const mapUrl = `../${OUT_MAPS_DIR}/${slug}.png?v=${Date.now()}`;
+
 
   const regionesRows = (summary.top_regiones || [])
     .map((r) => tableRow([r.rank, r.region, `${formatPct(r.pct_region)}%`]))
@@ -173,22 +174,58 @@ async function buildHtmlReport({ slug, summary }) {
 <head>
   <meta charset="utf-8"/>
   <title>Informe ${htmlEscape(summary.apellido)}</title>
+  
   <style>
-    body{ font-family: Arial, Helvetica, sans-serif; margin:0; color:#111; }
-    .page{ padding:26px 32px; max-width: 900px; margin:0 auto; }
-    .header{ display:flex; justify-content:space-between; align-items:center; gap:16px; }
-    .logo{ height:42px; }
-    .meta{ font-size:12px; color:#555; text-align:right; line-height:1.35; }
-    h1{ font-size:22px; margin:14px 0 6px; }
-    .sub{ color:#444; font-size:13px; margin:0 0 14px; }
-    .card{ border:1px solid #e6e6e6; border-radius:12px; padding:14px; margin:12px 0; }
-    img.map{ width:100%; max-width:620px; display:block; margin:12px auto 0; border:1px solid #e2e2e2; border-radius:12px; }
-    h2{ font-size:15px; margin:0 0 10px; }
-    table{ width:100%; border-collapse:collapse; }
-    th, td{ border:1px solid #eee; padding:8px 10px; font-size:12.5px; vertical-align:top; }
-    th{ background:#f7f7f7; text-align:left; }
-    .foot{ font-size:11px; color:#666; margin-top:14px; }
-  </style>
+  @page { size: A4; margin: 12mm; }
+
+  body{ font-family: Arial, Helvetica, sans-serif; margin:0; color:#111; }
+  .page{ width:100%; }
+
+  .header{ display:flex; justify-content:space-between; align-items:center; gap:16px; }
+  .logo{ height:42px; }
+  .meta{ font-size:12px; color:#555; text-align:right; line-height:1.35; }
+
+  h1{ font-size:22px; margin:14px 0 6px; }
+  .sub{ color:#444; font-size:13px; margin:0 0 12px; }
+
+  /* Layout principal (mapa izquierda, tablas derecha) */
+  .main-grid{
+    display:grid;
+    grid-template-columns: 44% 56%;
+    gap: 10mm;
+    align-items:start;
+  }
+
+  /* “Recorte” del mapa */
+  .map-frame{
+    border:1px solid #e6e6e6;
+    border-radius:10px;
+    overflow:hidden;     /* esto es lo que “recorta” */
+    background:#fff;
+    height: 240mm;       /* alto grande para que se vea “una tira” como tu imagen */
+  }
+  .map-frame img{
+    width:100%;
+    height:100%;
+    display:block;
+    object-fit: cover;         /* recorta bordes sobrantes */
+    object-position: 50% 50%;  /* centra el recorte */
+  }
+
+  /* Tablas */
+  .card{ border:1px solid #e6e6e6; border-radius:10px; padding:10px 12px; margin:0 0 10px; background:#fff; }
+  h2{ font-size:14px; margin:0 0 8px; }
+
+  table{ width:100%; border-collapse:collapse; }
+  th, td{ border:1px solid #eee; padding:6px 8px; font-size:12px; vertical-align:top; }
+  th{ background:#f7f7f7; text-align:left; }
+
+  /* Comunas abajo a todo el ancho */
+  .full-width{ margin-top:10px; }
+
+  .foot{ font-size:11px; color:#666; margin-top:8px; }
+</style>
+
 </head>
 <body>
   <div class="page">
@@ -202,11 +239,14 @@ async function buildHtmlReport({ slug, summary }) {
     <h1>Mapa del apellido ${htmlEscape(summary.apellido || "")}</h1>
     <p class="sub">Lugares donde tiene mayor arraigo histórico.</p>
 
-    <div class="card">
-  <img class="map" src="${mapUrl}" alt="Mapa de Chile"/>
+    <div class="main-grid">
+  <!-- IZQUIERDA: MAPA -->
+  <div class="map-frame">
+    <img src="${mapUrl}" alt="Mapa de Chile"/>
   </div>
 
-
+  <!-- DERECHA: TABLAS REGIONES + PROVINCIAS -->
+  <div>
     <div class="card">
       <h2>Top regiones</h2>
       <table>
@@ -222,14 +262,18 @@ async function buildHtmlReport({ slug, summary }) {
         <tbody>${provinciasRows}</tbody>
       </table>
     </div>
+  </div>
+</div>
 
-    <div class="card">
-      <h2>Top comunas</h2>
-      <table>
-        <thead><tr><th>#</th><th>Comuna</th><th>Provincia</th><th>Región</th><th>Personas</th><th>Frecuencia</th></tr></thead>
-        <tbody>${comunasRows}</tbody>
-      </table>
-    </div>
+<!-- ABAJO: COMUNAS A TODO EL ANCHO -->
+<div class="card full-width">
+  <h2>Top comunas</h2>
+  <table>
+    <thead><tr><th>#</th><th>Comuna</th><th>Provincia</th><th>Región</th><th>Personas</th><th>Frecuencia</th></tr></thead>
+    <tbody>${comunasRows}</tbody>
+  </table>
+</div>
+
 
     <div class="foot">
       Fuente: Apellidos.cl / Mapa de apellidos en Chile. Este informe es referencial y se basa en frecuencias relativas.
