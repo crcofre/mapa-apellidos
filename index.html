@@ -630,6 +630,97 @@ window.addEventListener("message", (event) => {
       }
     }, { passive:true });
 
+  /* ===== Export de imagen del mapa (apellidos.cl lo solicita) ===== */
+
+function loadHtml2CanvasOnce() {
+  if (window.html2canvas) return Promise.resolve();
+  if (window.__h2c_loading__) return window.__h2c_loading__;
+
+  window.__h2c_loading__ = new Promise((resolve, reject) => {
+    const s = document.createElement("script");
+    s.src = "https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js";
+    s.onload = () => resolve();
+    s.onerror = () => reject(new Error("No se pudo cargar html2canvas"));
+    document.head.appendChild(s);
+  });
+
+  return window.__h2c_loading__;
+}
+
+async function captureMapDataURL({
+  targetWidth = 900,
+  backgroundColor = "#ffffff",
+  format = "image/jpeg",
+  quality = 0.88
+} = {}) {
+  const mapEl = document.getElementById("map");
+  if (!mapEl) return "";
+
+  const hideSelectors = [
+    ".leaflet-control-container",
+    ".search-ui",
+    "#suggestBox",
+    "#ctaBottomControl"
+  ];
+
+  const toHide = [];
+  const prevDisplay = [];
+  hideSelectors.forEach(sel => {
+    document.querySelectorAll(sel).forEach(el => {
+      toHide.push(el);
+      prevDisplay.push(el.style.display);
+      el.style.display = "none";
+    });
+  });
+
+  try { window.map?.invalidateSize?.(true); } catch(e) {}
+  await new Promise(r => setTimeout(r, 180));
+
+  try {
+    await loadHtml2CanvasOnce();
+
+    const canvas = await window.html2canvas(mapEl, {
+      backgroundColor,
+      scale: 1,
+      useCORS: true,
+      allowTaint: false,
+      logging: false
+    });
+
+    const ratio = targetWidth / canvas.width;
+    const targetHeight = Math.round(canvas.height * ratio);
+
+    const out = document.createElement("canvas");
+    out.width = targetWidth;
+    out.height = targetHeight;
+    out.getContext("2d").drawImage(canvas, 0, 0, targetWidth, targetHeight);
+
+    if (format === "image/png") return out.toDataURL("image/png");
+    return out.toDataURL("image/jpeg", quality);
+  } catch (e) {
+    console.error("captureMapDataURL:", e);
+    return "";
+  } finally {
+    toHide.forEach((el, i) => (el.style.display = prevDisplay[i] || ""));
+    try { window.map?.invalidateSize?.(true); } catch(e) {}
+  }
+}
+
+window.addEventListener("message", async (event) => {
+  const PARENT_ORIGIN = "https://www.apellidos.cl";
+  if (event.origin !== PARENT_ORIGIN) return;
+
+  const data = event.data || {};
+  if (data.type !== "request_map_png") return;
+
+  const map_img = await captureMapDataURL({
+    targetWidth: 900,
+    format: "image/jpeg",
+    quality: 0.88
+  });
+
+  window.parent.postMessage({ type: "map_png", map_img }, PARENT_ORIGIN);
+});
 
   </script>
 
