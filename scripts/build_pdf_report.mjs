@@ -1,73 +1,58 @@
-// scripts/build_pdf_report.mjs
 import fs from "fs-extra";
 import path from "path";
 import { chromium } from "playwright";
 
 /**
- * =========================
- * CONFIGURACIÓN
- * =========================
+ * CONFIG
  */
-const SUMMARY_DIR = "pdf_summaries/2";      // carpeta donde están los shards apellidos_xx.json
-const OUT_REPORTS_DIR = "pdf_reports";      // salida HTML pública
-const OUT_MAPS_DIR = "pdf_maps";            // salida PNG pública
+const SUMMARY_DIR = "pdf_summaries/2";     // carpeta donde están los shards apellidos_xx.json
+const OUT_REPORTS_DIR = "pdf_reports";
+const OUT_MAPS_DIR = "pdf_maps";
 
-// URL base de tu GitHub Pages del mapa (sin slash final idealmente)
-const MAP_BASE_URL = "https://crcofre.github.io/mapa-apellidos";
+// GitHub Pages del mapa (base)
+const MAP_BASE_URL = "https://crcofre.github.io/mapa-apellidos/";
 
-// Logo apellidos.cl (el tuyo)
-const LOGO_URL = "https://images.jumpseller.com/store/familias-y-apellidos/store/logo/Sitio_web.png?1741039595";
-
-// Render settings del PNG (tamaño final del mapa exportado)
-const MAP_EXPORT_WIDTH = 900;
-const MAP_EXPORT_HEIGHT = 1100;
-
-// Esperas (ms) para dar tiempo a Leaflet a pintar
-const WAIT_AFTER_GOTO_MS = 1200;
-const WAIT_AFTER_SEARCH_MS = 1200;
+// Logo (Apellidos.cl)
+const LOGO_URL =
+  "https://images.jumpseller.com/store/familias-y-apellidos/store/logo/Sitio_web.png?1741039595";
 
 /**
- * =========================
- * UTILS
- * =========================
+ * CLI
  */
 function slugArg() {
   const idx = process.argv.indexOf("--slug");
   if (idx === -1 || !process.argv[idx + 1]) {
-    throw new Error('Falta parámetro --slug (ej: node scripts/build_pdf_report.mjs --slug lucero)');
+    throw new Error(
+      "Falta parámetro --slug (ej: node scripts/build_pdf_report.mjs --slug lucero)"
+    );
   }
   return process.argv[idx + 1].trim().toLowerCase();
 }
 
-function htmlEscape(s){
+function htmlEscape(s) {
   return String(s ?? "")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
 
-function formatPct(x){
-  // deja 2 decimales
+function formatPct(x) {
   if (x === null || x === undefined || x === "") return "";
   const n = Number(x);
   if (Number.isNaN(n)) return String(x);
   return n.toFixed(2);
 }
 
-function tableRow(cells){
-  return `<tr>${cells.map(c => `<td>${htmlEscape(c)}</td>`).join("")}</tr>`;
+function tableRow(cells) {
+  return `<tr>${cells.map((c) => `<td>${htmlEscape(c)}</td>`).join("")}</tr>`;
 }
 
 /**
- * =========================
- * 1) CARGAR SUMMARY DESDE SHARD
- * Estructura shard: { "items": [ { slug, apellido, ... } ] }
- * Archivo shard: apellidos_<2 letras>.json
- * =========================
+ * Carga summary desde shard pdf_summaries/2/apellidos_xx.json (estructura {"items":[...]})
  */
-async function loadSummaryFromShard(slug){
+async function loadSummaryFromShard(slug) {
   const base = path.resolve(SUMMARY_DIR);
   if (!(await fs.pathExists(base))) {
     throw new Error(`No existe SUMMARY_DIR: ${SUMMARY_DIR}. Ajusta SUMMARY_DIR en el script.`);
@@ -77,7 +62,9 @@ async function loadSummaryFromShard(slug){
   const shard = path.join(base, `apellidos_${p2}.json`);
 
   if (!(await fs.pathExists(shard))) {
-    throw new Error(`No existe shard esperado: ${shard}. Revisa que exista apellidos_${p2}.json en ${SUMMARY_DIR}`);
+    throw new Error(
+      `No existe shard esperado: ${shard}. Revisa que exista apellidos_${p2}.json en ${SUMMARY_DIR}`
+    );
   }
 
   const data = await fs.readJson(shard);
@@ -87,93 +74,99 @@ async function loadSummaryFromShard(slug){
     throw new Error(`El shard ${shard} no tiene estructura {"items":[...]}.`);
   }
 
-  const summary = items.find(it => String(it?.slug ?? "").toLowerCase() === slug);
+  const summary = items.find((it) => String(it?.slug ?? "").toLowerCase() === slug);
 
   if (!summary) {
-    const sample = items.slice(0, 10).map(it => it.slug).filter(Boolean);
-    throw new Error(`No encontré el slug=${slug} dentro de ${shard}. Ejemplos: ${sample.join(", ")}`);
+    const sample = items.slice(0, 10).map((it) => it.slug).filter(Boolean);
+    throw new Error(
+      `No encontré el slug=${slug} dentro de ${shard}. Ejemplos de slugs: ${sample.join(", ")}`
+    );
   }
 
   return summary;
 }
 
 /**
- * =========================
- * 2) GENERAR PNG DEL MAPA (Leaflet) CON PLAYWRIGHT
- * Usa una URL de export:
- *   ${MAP_BASE_URL}/?export=1&apellido=<slug>&nivel=region&w=900&h=1100
- *
- * Requiere que tu index.html del mapa implemente esos parámetros:
- * - export=1: oculta UI y fija tamaño del #map a w/h
- * - apellido: autocompleta input y ejecuta buscarApellido()
- * - nivel: region|provincia|comuna (modo manual)
- * =========================
+ * Genera PNG del mapa usando Playwright (Leaflet real)
+ * Requiere que tu index.html soporte:
+ *   ?apellido=lucero&pdf=1
+ * y que setee: <html data-pdf-ready="1"> cuando termina buscarApellido()
  */
-async function buildMapPngLeaflet({ slug }){
+async function buildMapPngWithPlaywright({ slug }) {
   await fs.ensureDir(OUT_MAPS_DIR);
 
+  // cache-bust real: t=timestamp
   const url =
-    `${MAP_BASE_URL}/?export=1` +
-    `&apellido=${encodeURIComponent(slug)}` +
-    `&nivel=region` +
-    `&w=${MAP_EXPORT_WIDTH}` +
-    `&h=${MAP_EXPORT_HEIGHT}`;
-
-  const browser = await chromium.launch({
-    args: ["--no-sandbox", "--disable-dev-shm-usage"]
-  });
-
-  // viewport un poco mayor que el mapa para evitar cortes por scrollbars
-  const page = await browser.newPage({
-    viewport: { width: MAP_EXPORT_WIDTH + 120, height: MAP_EXPORT_HEIGHT + 160 }
-  });
-
-  // Carga inicial
-  await page.goto(url, { waitUntil: "networkidle" });
-  await page.waitForTimeout(WAIT_AFTER_GOTO_MS);
-
-  // Espera a que exista #map
-  await page.waitForSelector("#map", { timeout: 15000 });
-
-  // Si tu export mode deja #map con width/height fijos, esto debería bastar.
-  // Damos un margen extra por si Leaflet termina de pintar.
-  await page.waitForTimeout(WAIT_AFTER_SEARCH_MS);
-
-  const mapEl = await page.$("#map");
-  if (!mapEl) {
-    await browser.close();
-    throw new Error("No encontré #map en la página de exportación.");
-  }
+    `${MAP_BASE_URL}?apellido=${encodeURIComponent(slug)}` +
+    `&pdf=1&t=${Date.now()}`;
 
   const outPng = path.join(OUT_MAPS_DIR, `${slug}.png`);
-  await mapEl.screenshot({ path: outPng });
 
-  await browser.close();
-  return outPng;
+  const browser = await chromium.launch({
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  });
+
+  const page = await browser.newPage({
+    viewport: { width: 1000, height: 1400 }, // alto para Chile “largo”
+    deviceScaleFactor: 2,                    // más nitidez
+  });
+
+  try {
+    // Fuerza “no cache” y carga limpia
+    await page.route("**/*", (route) => {
+      const headers = { ...route.request().headers(), "Cache-Control": "no-cache" };
+      route.continue({ headers });
+    });
+
+    await page.goto(url, { waitUntil: "networkidle", timeout: 120000 });
+
+    // Espera a que tu script marque data-pdf-ready="1"
+    await page.waitForFunction(
+      () => document.documentElement.getAttribute("data-pdf-ready") === "1",
+      { timeout: 120000 }
+    );
+
+    // Asegura que Leaflet recalcula tamaño
+    await page.evaluate(() => {
+      try { window.map?.invalidateSize?.(true); } catch (e) {}
+    });
+
+    // Captura SOLO el div #map
+    const mapEl = await page.$("#map");
+    if (!mapEl) {
+      throw new Error("No encontré el elemento #map en la página del mapa.");
+    }
+
+    await mapEl.screenshot({ path: outPng, type: "png" });
+    return outPng;
+  } finally {
+    await page.close().catch(() => {});
+    await browser.close().catch(() => {});
+  }
 }
 
 /**
- * =========================
- * 3) GENERAR HTML REPORTE (con logo y tablas)
- * =========================
+ * HTML del reporte (usa el PNG generado en pdf_maps/slug.png)
  */
 async function buildHtmlReport({ slug, summary }) {
   await fs.ensureDir(OUT_REPORTS_DIR);
 
-  // Este PNG será publicado por GitHub Pages dentro del repo
-  const mapUrl = `${MAP_BASE_URL}/${OUT_MAPS_DIR}/${slug}.png`;
+  // OJO: esta URL debe ser pública en GitHub Pages
+  const mapUrl = `https://crcofre.github.io/mapa-apellidos/${OUT_MAPS_DIR}/${slug}.png`;
 
-  const regionesRows = (summary.top_regiones || []).map(r =>
-    tableRow([r.rank, r.region, `${formatPct(r.pct_region)}%`])
-  ).join("");
+  const regionesRows = (summary.top_regiones || [])
+    .map((r) => tableRow([r.rank, r.region, `${formatPct(r.pct_region)}%`]))
+    .join("");
 
-  const provinciasRows = (summary.top_provincias || []).map(r =>
-    tableRow([r.rank, r.provincia, r.region, `${formatPct(r.pct_provincia)}%`])
-  ).join("");
+  const provinciasRows = (summary.top_provincias || [])
+    .map((r) => tableRow([r.rank, r.provincia, r.region, `${formatPct(r.pct_provincia)}%`]))
+    .join("");
 
-  const comunasRows = (summary.top_comunas || []).map(r =>
-    tableRow([r.rank, r.comuna, r.provincia, r.region, r.personas, `${formatPct(r.pct_comuna)}%`])
-  ).join("");
+  const comunasRows = (summary.top_comunas || [])
+    .map((r) =>
+      tableRow([r.rank, r.comuna, r.provincia, r.region, r.personas, `${formatPct(r.pct_comuna)}%`])
+    )
+    .join("");
 
   const html = `<!doctype html>
 <html>
@@ -192,7 +185,7 @@ async function buildHtmlReport({ slug, summary }) {
     .kpis{ display:flex; gap:12px; flex-wrap:wrap; }
     .kpi{ flex:1; min-width:220px; font-size:12px; color:#666; }
     .kpi strong{ display:block; font-size:18px; color:#111; margin-top:2px; }
-    img.map{ width:100%; max-width:520px; display:block; margin:12px auto 0; border:1px solid #e2e2e2; border-radius:12px; }
+    img.map{ width:100%; max-width:620px; display:block; margin:12px auto 0; border:1px solid #e2e2e2; border-radius:12px; }
     h2{ font-size:15px; margin:0 0 10px; }
     table{ width:100%; border-collapse:collapse; }
     th, td{ border:1px solid #eee; padding:8px 10px; font-size:12.5px; vertical-align:top; }
@@ -256,21 +249,15 @@ async function buildHtmlReport({ slug, summary }) {
   return outHtml;
 }
 
-/**
- * =========================
- * MAIN
- * =========================
- */
-async function main(){
+async function main() {
   const slug = slugArg();
 
-  // 1) summary desde shard
   const summary = await loadSummaryFromShard(slug);
 
-  // 2) mapa PNG (Leaflet headless)
-  await buildMapPngLeaflet({ slug });
+  // 1) Generar PNG con Leaflet real
+  await buildMapPngWithPlaywright({ slug });
 
-  // 3) html
+  // 2) Generar HTML
   await buildHtmlReport({ slug, summary });
 
   console.log(`OK: generado ${OUT_MAPS_DIR}/${slug}.png y ${OUT_REPORTS_DIR}/${slug}.html`);
