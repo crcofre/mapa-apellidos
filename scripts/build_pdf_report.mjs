@@ -80,6 +80,18 @@ function formatPct(x){
   return n.toFixed(2);
 }
 
+function normalizeRegionName(s){
+  return String(s ?? "")
+    .toUpperCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")     // sin tildes
+    .replace(/^\s*\d+\.\s*/,"")                          // quita "06. "
+    .replace(/^REGION\s+(DE(L)?\s+)?/,"REGION ")         // suaviza prefijo
+    .replace(/[^A-Z0-9 ]+/g," ")                         // limpia signos
+    .replace(/\s+/g," ")
+    .trim();
+}
+
+
 function tableRow(cells){
   return `<tr>${cells.map(c => `<td>${htmlEscape(c)}</td>`).join("")}</tr>`;
 }
@@ -88,11 +100,12 @@ async function buildMapPng({ slug, summary, regionesGeo }) {
   // Mapa por REGIÓN usando summary.top_regiones
   // Crea un diccionario: region name -> pct_region
   const pctByRegion = new Map();
-  const topRegs = summary.top_regiones || [];
-  for (const r of topRegs) {
-    // En tu summary: r.region trae "06. REGION..." etc.
-    pctByRegion.set(String(r.region), Number(r.pct_region));
-  }
+const topRegs = summary.top_regiones || [];
+for (const r of topRegs) {
+  const key = normalizeRegionName(r.region);
+  pctByRegion.set(key, Number(r.pct_region));
+}
+
 
   // Encuentra max
   let maxPct = 0;
@@ -110,17 +123,11 @@ async function buildMapPng({ slug, summary, regionesGeo }) {
     // OJO: debes ajustar "propName" si tu geojson usa otra propiedad para el nombre.
     // Intento 3 opciones típicas:
     const props = f.properties || {};
-    const regionName =
-      props.region ||
-      props.Region ||
-      props.NOM_REG ||
-      props.nombre ||
-      props.NAME ||
-      "";
+    const regionNameRaw = (props.REGION || "");
+const regionKey = normalizeRegionName(regionNameRaw);
 
-    // Si tu geojson trae el nombre distinto al summary (por ejemplo sin código "06."),
-    // igual colorea con match exacto; luego afinamos si no calza.
-    const pct = pctByRegion.get(String(regionName)) ?? 0;
+const pct = pctByRegion.get(regionKey) ?? 0;
+
     const fill = colorForPct(pct, maxPct);
 
     return `<path d="${d}" fill="${fill}" stroke="#1f3b64" stroke-width="1" />`;
@@ -145,7 +152,7 @@ async function buildMapPng({ slug, summary, regionesGeo }) {
 async function buildHtmlReport({ slug, summary }) {
   await fs.ensureDir(OUT_REPORTS_DIR);
 
-  const logoUrl = "https://www.apellidos.cl/img/logo.png"; // <-- AJUSTA a tu URL real del logo (puede ser SVG/PNG)
+  const logoUrl = "https://images.jumpseller.com/store/familias-y-apellidos/store/logo/Sitio_web.png?1741039595"; // <-- AJUSTA a tu URL real del logo (puede ser SVG/PNG)
   const mapUrl = `https://crcofre.github.io/mapa-apellidos/${OUT_MAPS_DIR}/${slug}.png`;
 
   // Tablas
@@ -189,7 +196,7 @@ async function buildHtmlReport({ slug, summary }) {
 <body>
   <div class="page">
     <div class="header">
-      <img class="logo" src="${https://images.jumpseller.com/store/familias-y-apellidos/store/logo/Sitio_web.png?1741039595}" alt="Apellidos.cl"/>
+      <img class="logo" src="${logoUrl}" alt="Apellidos.cl"/>
       <div class="meta">
         Actualizado: ${htmlEscape(summary.updated_at || "")}
       </div>
