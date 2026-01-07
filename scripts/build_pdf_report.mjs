@@ -103,6 +103,63 @@ function normalizeRegionName(s){
     .trim();
 }
 
+function getSampleCoord(geo){
+  // Busca la primera coordenada numérica que encuentre
+  const walk = (obj) => {
+    if (!obj) return null;
+    if (typeof obj[0] === "number" && typeof obj[1] === "number") return obj;
+    if (Array.isArray(obj)) {
+      for (const it of obj) {
+        const r = walk(it);
+        if (r) return r;
+      }
+    } else if (typeof obj === "object") {
+      for (const k of Object.keys(obj)) {
+        const r = walk(obj[k]);
+        if (r) return r;
+      }
+    }
+    return null;
+  };
+  return walk(geo);
+}
+
+function flipLonLatIfNeeded(geo){
+  // Heurística:
+  // Chile en lon/lat típico: lon ~ [-75..-66], lat ~ [-56..-17]
+  // Si el primer par parece lat/lon, lo invertimos.
+  const c = getSampleCoord(geo);
+  if (!c) return geo;
+
+  const a = Number(c[0]);
+  const b = Number(c[1]);
+
+  const looksLikeLonLat =
+    a >= -90 && a <= -60 && b >= -60 && b <= -10;   // lon en [-90,-60], lat en [-60,-10]
+
+  const looksLikeLatLon =
+    a >= -60 && a <= -10 && b >= -90 && b <= -60;   // lat en [-60,-10], lon en [-90,-60]
+
+  if (!looksLikeLatLon) return geo; // si no parece invertido, no tocar
+
+  // Clonar y voltear todas las coords [x,y] -> [y,x]
+  const flipCoords = (obj) => {
+    if (!obj) return obj;
+    if (typeof obj[0] === "number" && typeof obj[1] === "number") {
+      return [obj[1], obj[0]];
+    }
+    if (Array.isArray(obj)) return obj.map(flipCoords);
+    if (typeof obj === "object") {
+      const out = {};
+      for (const k of Object.keys(obj)) out[k] = flipCoords(obj[k]);
+      return out;
+    }
+    return obj;
+  };
+
+  return flipCoords(geo);
+}
+
 
 function tableRow(cells){
   return `<tr>${cells.map(c => `<td>${htmlEscape(c)}</td>`).join("")}</tr>`;
@@ -142,7 +199,8 @@ const pct = pctByRegion.get(regionKey) ?? 0;
 
     const fill = colorForPct(pct, maxPct);
 
-    return `<path d="${d}" fill="${fill}" stroke="#1f3b64" stroke-width="1" />`;
+    return `<path d="${d}" fill="${fill}" stroke="#1f3b64" stroke-width="0.6" />`;
+
   }).join("\n");
 
   const svg = `
@@ -272,7 +330,9 @@ async function main(){
   if (!(await fs.pathExists(REGIONES_GEOJSON))) {
     throw new Error(`No existe REGIONES_GEOJSON: ${REGIONES_GEOJSON}. Ajusta la ruta en el script.`);
   }
-  const regionesGeo = await fs.readJson(REGIONES_GEOJSON);
+  let regionesGeo = await fs.readJson(REGIONES_GEOJSON);
+regionesGeo = flipLonLatIfNeeded(regionesGeo);
+
 
   // 3) png + html
   await buildMapPng({ slug, summary, regionesGeo });
