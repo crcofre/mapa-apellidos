@@ -3,22 +3,58 @@
 <head>
   <meta charset="utf-8"/>
   <title>Informe LUCERO</title>
+  
   <style>
-    body{ font-family: Arial, Helvetica, sans-serif; margin:0; color:#111; }
-    .page{ padding:26px 32px; max-width: 900px; margin:0 auto; }
-    .header{ display:flex; justify-content:space-between; align-items:center; gap:16px; }
-    .logo{ height:42px; }
-    .meta{ font-size:12px; color:#555; text-align:right; line-height:1.35; }
-    h1{ font-size:22px; margin:14px 0 6px; }
-    .sub{ color:#444; font-size:13px; margin:0 0 14px; }
-    .card{ border:1px solid #e6e6e6; border-radius:12px; padding:14px; margin:12px 0; }
-    img.map{ width:100%; max-width:620px; display:block; margin:12px auto 0; border:1px solid #e2e2e2; border-radius:12px; }
-    h2{ font-size:15px; margin:0 0 10px; }
-    table{ width:100%; border-collapse:collapse; }
-    th, td{ border:1px solid #eee; padding:8px 10px; font-size:12.5px; vertical-align:top; }
-    th{ background:#f7f7f7; text-align:left; }
-    .foot{ font-size:11px; color:#666; margin-top:14px; }
-  </style>
+  @page { size: A4; margin: 12mm; }
+
+  body{ font-family: Arial, Helvetica, sans-serif; margin:0; color:#111; }
+  .page{ width:100%; }
+
+  .header{ display:flex; justify-content:space-between; align-items:center; gap:16px; }
+  .logo{ height:42px; }
+  .meta{ font-size:12px; color:#555; text-align:right; line-height:1.35; }
+
+  h1{ font-size:22px; margin:14px 0 6px; }
+  .sub{ color:#444; font-size:13px; margin:0 0 12px; }
+
+  /* Layout principal (mapa izquierda, tablas derecha) */
+  .main-grid{
+    display:grid;
+    grid-template-columns: 44% 56%;
+    gap: 10mm;
+    align-items:start;
+  }
+
+  /* “Recorte” del mapa */
+  .map-frame{
+    border:1px solid #e6e6e6;
+    border-radius:10px;
+    overflow:hidden;     /* esto es lo que “recorta” */
+    background:#fff;
+    height: 240mm;       /* alto grande para que se vea “una tira” como tu imagen */
+  }
+  .map-frame img{
+    width:100%;
+    height:100%;
+    display:block;
+    object-fit: cover;         /* recorta bordes sobrantes */
+    object-position: 50% 50%;  /* centra el recorte */
+  }
+
+  /* Tablas */
+  .card{ border:1px solid #e6e6e6; border-radius:10px; padding:10px 12px; margin:0 0 10px; background:#fff; }
+  h2{ font-size:14px; margin:0 0 8px; }
+
+  table{ width:100%; border-collapse:collapse; }
+  th, td{ border:1px solid #eee; padding:6px 8px; font-size:12px; vertical-align:top; }
+  th{ background:#f7f7f7; text-align:left; }
+
+  /* Comunas abajo a todo el ancho */
+  .full-width{ margin-top:10px; }
+
+  .foot{ font-size:11px; color:#666; margin-top:8px; }
+</style>
+
 </head>
 <body>
   <div class="page">
@@ -32,11 +68,14 @@
     <h1>Mapa del apellido LUCERO</h1>
     <p class="sub">Lugares donde tiene mayor arraigo histórico.</p>
 
-    <div class="card">
-  <img class="map" src="https://crcofre.github.io/mapa-apellidos/pdf_maps/lucero.png" alt="Mapa de Chile"/>
+    <div class="main-grid">
+  <!-- IZQUIERDA: MAPA -->
+  <div class="map-frame">
+    <img src="../pdf_maps/lucero.png?v=1767823858102" alt="Mapa de Chile"/>
   </div>
 
-
+  <!-- DERECHA: TABLAS REGIONES + PROVINCIAS -->
+  <div>
     <div class="card">
       <h2>Top regiones</h2>
       <table>
@@ -52,14 +91,18 @@
         <tbody><tr><td>1</td><td>CACHAPOAL</td><td>06. REGION DEL LIBERTADOR GENERAL BERNARDO O&#039;HIGGINS</td><td>0.31%</td></tr><tr><td>2</td><td>COLCHAGUA</td><td>06. REGION DEL LIBERTADOR GENERAL BERNARDO O&#039;HIGGINS</td><td>0.30%</td></tr><tr><td>3</td><td>SAN FELIPE DE ACONCAGUA</td><td>05. REGION DE VALPARAISO</td><td>0.25%</td></tr><tr><td>4</td><td>COYHAIQUE</td><td>11. REGION DE AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO</td><td>0.23%</td></tr><tr><td>5</td><td>LOS ANDES</td><td>05. REGION DE VALPARAISO</td><td>0.19%</td></tr></tbody>
       </table>
     </div>
+  </div>
+</div>
 
-    <div class="card">
-      <h2>Top comunas</h2>
-      <table>
-        <thead><tr><th>#</th><th>Comuna</th><th>Provincia</th><th>Región</th><th>Personas</th><th>Frecuencia</th></tr></thead>
-        <tbody><tr><td>1</td><td>PALMILLA</td><td>COLCHAGUA</td><td>06. REGION DEL LIBERTADOR GENERAL BERNARDO O&#039;HIGGINS</td><td>141</td><td>1.35%</td></tr><tr><td>2</td><td>PICHIDEGUA</td><td>CACHAPOAL</td><td>06. REGION DEL LIBERTADOR GENERAL BERNARDO O&#039;HIGGINS</td><td>190</td><td>1.13%</td></tr><tr><td>3</td><td>MALLOA</td><td>CACHAPOAL</td><td>06. REGION DEL LIBERTADOR GENERAL BERNARDO O&#039;HIGGINS</td><td>112</td><td>0.91%</td></tr><tr><td>4</td><td>SANTA MARIA</td><td>SAN FELIPE DE ACONCAGUA</td><td>05. REGION DE VALPARAISO</td><td>102</td><td>0.84%</td></tr><tr><td>5</td><td>QUINTERO</td><td>VALPARAÍSO</td><td>05. REGION DE VALPARAISO</td><td>173</td><td>0.70%</td></tr></tbody>
-      </table>
-    </div>
+<!-- ABAJO: COMUNAS A TODO EL ANCHO -->
+<div class="card full-width">
+  <h2>Top comunas</h2>
+  <table>
+    <thead><tr><th>#</th><th>Comuna</th><th>Provincia</th><th>Región</th><th>Personas</th><th>Frecuencia</th></tr></thead>
+    <tbody><tr><td>1</td><td>PALMILLA</td><td>COLCHAGUA</td><td>06. REGION DEL LIBERTADOR GENERAL BERNARDO O&#039;HIGGINS</td><td>141</td><td>1.35%</td></tr><tr><td>2</td><td>PICHIDEGUA</td><td>CACHAPOAL</td><td>06. REGION DEL LIBERTADOR GENERAL BERNARDO O&#039;HIGGINS</td><td>190</td><td>1.13%</td></tr><tr><td>3</td><td>MALLOA</td><td>CACHAPOAL</td><td>06. REGION DEL LIBERTADOR GENERAL BERNARDO O&#039;HIGGINS</td><td>112</td><td>0.91%</td></tr><tr><td>4</td><td>SANTA MARIA</td><td>SAN FELIPE DE ACONCAGUA</td><td>05. REGION DE VALPARAISO</td><td>102</td><td>0.84%</td></tr><tr><td>5</td><td>QUINTERO</td><td>VALPARAÍSO</td><td>05. REGION DE VALPARAISO</td><td>173</td><td>0.70%</td></tr></tbody>
+  </table>
+</div>
+
 
     <div class="foot">
       Fuente: Apellidos.cl / Mapa de apellidos en Chile. Este informe es referencial y se basa en frecuencias relativas.
