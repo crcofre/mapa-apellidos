@@ -160,6 +160,54 @@ function flipLonLatIfNeeded(geo){
   return flipCoords(geo);
 }
 
+function removeAntarcticaPolygons(geo, latCutoff = -60){
+  // Quita polígonos cuyo conjunto de coordenadas está completamente bajo latCutoff.
+  // Esto evita que el "fit" achique Chile continental a un punto por incluir Antártica.
+  const cloned = JSON.parse(JSON.stringify(geo));
+
+  const polygonHasAnyLatAbove = (poly) => {
+    // poly: [ [ [x,y], ... ] , [ring2], ... ]
+    for (const ring of poly) {
+      for (const pt of ring) {
+        const lat = pt[1];
+        if (typeof lat === "number" && lat > latCutoff) return true;
+      }
+    }
+    return false;
+  };
+
+  for (const f of cloned.features || []) {
+    const g = f.geometry;
+    if (!g) continue;
+
+    if (g.type === "Polygon") {
+      // Polygon: [rings]
+      const poly = g.coordinates;
+      // Si NO tiene ningún punto por sobre el cutoff, lo vaciamos
+      if (!polygonHasAnyLatAbove(poly)) {
+        g.coordinates = [];
+      }
+    }
+
+    if (g.type === "MultiPolygon") {
+      // MultiPolygon: [polygons]
+      const polys = g.coordinates || [];
+      g.coordinates = polys.filter(polygonHasAnyLatAbove);
+    }
+  }
+
+  // También elimina features que queden sin geometría útil
+  cloned.features = (cloned.features || []).filter(f => {
+    const g = f.geometry;
+    if (!g) return false;
+    if (g.type === "Polygon") return (g.coordinates || []).length > 0;
+    if (g.type === "MultiPolygon") return (g.coordinates || []).length > 0;
+    return true;
+  });
+
+  return cloned;
+}
+
 
 function tableRow(cells){
   return `<tr>${cells.map(c => `<td>${htmlEscape(c)}</td>`).join("")}</tr>`;
@@ -182,12 +230,26 @@ for (const r of topRegs) {
 
   // Proyección simple (Chile largo)
   const width = 800;
-  const height = 1100;
-  const projection = geoMercator().fitExtent([[30, 20], [width-30, height-20]], regionesGeo);
-  const pathGen = geoPath(projection);
+const height = 1100;
+
+// 1) Quitar Antártica para que el fit no achique Chile continental
+const geoForRender = removeAntarcticaPolygons(regionesGeo, -60);
+
+// 2) Detectar sistema de coords usando el geo ya “limpio”
+const r = coordRange(geoForRender);
+const isLonLat = r.maxAbs <= 180;
+
+// 3) Proyección usando el geo limpio
+const projection = isLonLat
+  ? geoMercator().fitExtent([[30, 20], [width - 30, height - 20]], geoForRender)
+  : geoIdentity().reflectY(true).fitExtent([[30, 20], [width - 30, height - 20]], geoForRender);
+
+const pathGen = geoPath(projection);
+
 
   // Construir SVG
-  const paths = regionesGeo.features.map((f) => {
+  const paths = geoForRender.features.map((f) => {
+
     const d = pathGen(f);
     // OJO: debes ajustar "propName" si tu geojson usa otra propiedad para el nombre.
     // Intento 3 opciones típicas:
