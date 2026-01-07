@@ -45,6 +45,16 @@ function formatPct(x) {
   return n.toFixed(2);
 }
 
+function cleanRegionLabel(s) {
+  // "06. REGION DEL LIBERTADOR..." -> "DEL LIBERTADOR..."
+  return String(s ?? "")
+    .trim()
+    .replace(/^\s*\d+\s*[\.\-]?\s*/i, "")                 // quita "06." o "06 -"
+    .replace(/^REGI[ÓO]N\s+(DEL\s+|DE\s+)?/i, "")         // quita "REGION " / "REGIÓN " y opcional "DE/DEL"
+    .trim();
+}
+
+
 function tableRow(cells) {
   return `<tr>${cells.map((c) => `<td>${htmlEscape(c)}</td>`).join("")}</tr>`;
 }
@@ -194,18 +204,21 @@ async function buildHtmlReport({ slug, summary }) {
 
 
   const regionesRows = (summary.top_regiones || [])
-    .map((r) => tableRow([r.rank, r.region, `${formatPct(r.pct_region)}%`]))
-    .join("");
+  .map((r) => tableRow([r.rank, cleanRegionLabel(r.region), `${formatPct(r.pct_region)}%`]))
+  .join("");
+
 
   const provinciasRows = (summary.top_provincias || [])
-    .map((r) => tableRow([r.rank, r.provincia, r.region, `${formatPct(r.pct_provincia)}%`]))
-    .join("");
+  .map((r) => tableRow([r.rank, r.provincia, cleanRegionLabel(r.region), `${formatPct(r.pct_provincia)}%`]))
+  .join("");
+
 
   const comunasRows = (summary.top_comunas || [])
-    .map((r) =>
-      tableRow([r.rank, r.comuna, r.provincia, r.region, r.personas, `${formatPct(r.pct_comuna)}%`])
-    )
-    .join("");
+  .map((r) =>
+    tableRow([r.rank, r.comuna, r.provincia, cleanRegionLabel(r.region), `${formatPct(r.pct_comuna)}%`])
+  )
+  .join("");
+
 
     const html = `<!doctype html>
 <html>
@@ -313,11 +326,11 @@ async function buildHtmlReport({ slug, summary }) {
     .t-provincias col.c4{ width: 20%; }
 
     .t-comunas col.c1{ width: 6%; }
-    .t-comunas col.c2{ width: 20%; }
-    .t-comunas col.c3{ width: 20%; }
-    .t-comunas col.c4{ width: 34%; }
-    .t-comunas col.c5{ width: 10%; }
-    .t-comunas col.c6{ width: 10%; }
+    .t-comunas col.c2{ width: 22%; }
+    .t-comunas col.c3{ width: 22%; }
+    .t-comunas col.c4{ width: 38%; }
+    .t-comunas col.c5{ width: 12%; }  /* Frec. */
+
 
     /* Sección comunas a lo ancho, debajo */
     .below{ margin-top: 4mm; }
@@ -385,13 +398,14 @@ async function buildHtmlReport({ slug, summary }) {
       <h2>Top comunas</h2>
       <table class="t-comunas">
         <colgroup>
-          <col class="c1"><col class="c2"><col class="c3"><col class="c4"><col class="c5"><col class="c6">
+          <col class="c1"><col class="c2"><col class="c3"><col class="c4"><col class="c5">
         </colgroup>
         <thead>
           <tr>
-            <th>#</th><th>Comuna</th><th>Provincia</th><th>Región</th><th>Personas</th><th>Frecuencia</th>
+            <th>#</th><th>Comuna</th><th>Provincia</th><th>Región</th><th>Frec.</th>
           </tr>
         </thead>
+
         <tbody>${comunasRows}</tbody>
       </table>
     </div>
