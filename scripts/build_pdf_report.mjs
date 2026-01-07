@@ -48,7 +48,7 @@ async function loadSummaryFromShard(slug){
     throw new Error(`No existe SUMMARY_DIR: ${SUMMARY_DIR}. Ajusta SUMMARY_DIR en el script.`);
   }
 
-  // tu shard: apellidos_lu.json (2 letras)
+  // shard por 2 letras: apellidos_lu.json
   const p2 = slug.slice(0, 2);
   const shard = path.join(base, `apellidos_${p2}.json`);
 
@@ -58,18 +58,21 @@ async function loadSummaryFromShard(slug){
 
   const data = await fs.readJson(shard);
 
-  // Estructura esperada del shard: un objeto con keys por slug
-  // ej: { "lucero": { apellido, slug, top_regiones... }, ... }
-  const summary = data[slug];
+  const items = Array.isArray(data?.items) ? data.items : null;
+  if (!items) {
+    throw new Error(`El shard ${shard} no tiene estructura {"items":[...]}.`);
+  }
+
+  const summary = items.find(it => String(it?.slug ?? "").toLowerCase() === slug);
 
   if (!summary) {
-    // debug útil: mostrar algunas keys cercanas (sin reventar el log)
-    const keys = Object.keys(data).slice(0, 20);
-    throw new Error(`No encontré el slug=${slug} dentro de ${shard}. Keys ejemplo: ${keys.join(", ")}`);
+    const sample = items.slice(0, 10).map(it => it.slug).filter(Boolean);
+    throw new Error(`No encontré el slug=${slug} dentro de ${shard}. Ejemplos de slugs: ${sample.join(", ")}`);
   }
 
   return summary;
 }
+
 
 
 function htmlEscape(s){
