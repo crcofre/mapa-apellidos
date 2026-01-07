@@ -182,9 +182,6 @@ async function buildHtmlReport({ slug, summary }) {
     h1{ font-size:22px; margin:14px 0 6px; }
     .sub{ color:#444; font-size:13px; margin:0 0 14px; }
     .card{ border:1px solid #e6e6e6; border-radius:12px; padding:14px; margin:12px 0; }
-    .kpis{ display:flex; gap:12px; flex-wrap:wrap; }
-    .kpi{ flex:1; min-width:220px; font-size:12px; color:#666; }
-    .kpi strong{ display:block; font-size:18px; color:#111; margin-top:2px; }
     img.map{ width:100%; max-width:620px; display:block; margin:12px auto 0; border:1px solid #e2e2e2; border-radius:12px; }
     h2{ font-size:15px; margin:0 0 10px; }
     table{ width:100%; border-collapse:collapse; }
@@ -203,15 +200,12 @@ async function buildHtmlReport({ slug, summary }) {
     </div>
 
     <h1>Mapa del apellido ${htmlEscape(summary.apellido || "")}</h1>
-    <p class="sub">Distribución relativa por territorio en Chile. Tonos más oscuros indican mayor frecuencia relativa.</p>
+    <p class="sub">Lugares donde tiene mayor arraigo histórico.</p>
 
     <div class="card">
-      <div class="kpis">
-        <div class="kpi">Personas registradas<strong>${htmlEscape(summary.total_personas)}</strong></div>
-        <div class="kpi">Comunas con presencia<strong>${htmlEscape(summary.n_comunas)}</strong></div>
-      </div>
-      <img class="map" src="${mapUrl}" alt="Mapa de Chile"/>
-    </div>
+  <img class="map" src="${mapUrl}" alt="Mapa de Chile"/>
+  </div>
+
 
     <div class="card">
       <h2>Top regiones</h2>
