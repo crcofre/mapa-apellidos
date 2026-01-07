@@ -1,0 +1,11 @@
+{
+  "name": "mapa-apellidos-pdf",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "d3-geo": "^3.1.1",
+    "d3-geo-projection": "^4.0.0",
+    "fs-extra": "^11.2.0"
+  }
+}
