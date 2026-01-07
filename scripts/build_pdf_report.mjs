@@ -8,7 +8,7 @@ import { geoMercator, geoPath } from "d3-geo";
  * - REGIONES_GEOJSON: ruta al GeoJSON de regiones
  * - SUMMARY_PATH: función que encuentra el summary del apellido (slug)
  */
-const REGIONES_GEOJSON = "geo/regiones.geojson";  // <-- AJUSTA AQUÍ si tu geojson está en otra ruta
+const REGIONES_GEOJSON = "regiones.json";  // <-- AJUSTA AQUÍ si tu geojson está en otra ruta
 const SUMMARY_DIR = "pdf_summaries";              // <-- AJUSTA AQUÍ si tus summaries están en otra carpeta
 
 // Salidas públicas (GitHub Pages)
