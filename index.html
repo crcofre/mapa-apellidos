@@ -264,6 +264,9 @@
             if (lvl !== nivelActual){ nivelActual = lvl; updateVisibility(true); }
           }
         });
+        applyPdfModeIfNeeded();
+        await loadApellidoFromUrlIfPresent();
+
         setText('estado','Listo. Escribe un apellido.');
         document.documentElement.classList.add('app-ready'); // ← hace visible el panel
         applyExportModeIfNeeded();
@@ -617,6 +620,47 @@ window.addEventListener("message", (event) => {
       }
     }
 
+
+    /* ===== Soporte de apellido por URL (para PDF / Playwright) =====
+   Uso:
+   - ?apellido=lucero
+   - ?apellido=lucero&pdf=1   (oculta UI para captura)
+*/
+function applyPdfModeIfNeeded(){
+  const params = new URLSearchParams(window.location.search);
+  const pdf = params.get("pdf");
+  if (pdf !== "1") return;
+
+  // Oculta UI para que el PNG salga “solo mapa”
+  const hideCss = document.createElement("style");
+  hideCss.textContent = `
+    .search-ui, #suggestBox, .leaflet-control-container, #ctaBottomControl { display:none !important; }
+    html, body { margin:0 !important; padding:0 !important; }
+    #map { height: 100vh !important; }
+  `;
+  document.head.appendChild(hideCss);
+}
+
+async function loadApellidoFromUrlIfPresent(){
+  const params = new URLSearchParams(window.location.search);
+  const ap = (params.get("apellido") || "").trim();
+  if (!ap) return;
+
+  // Escribe el apellido en el input y ejecuta la búsqueda
+  const input = document.getElementById("apellidoInput");
+  if (input) input.value = ap;
+
+  // Espera mínima para que Leaflet y geojson terminen de montar
+  await new Promise(r => setTimeout(r, 250));
+
+  // Ejecuta la lógica normal
+  await buscarApellido();
+
+  // Señal opcional para Playwright: indica que ya pintó (éxito o no)
+  document.documentElement.setAttribute("data-pdf-ready", "1");
+}
+
+    
     // Radios de nivel (rápidos)
     document.addEventListener('change', (e)=>{
       const t = e.target;
