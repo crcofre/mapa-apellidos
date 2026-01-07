@@ -207,6 +207,31 @@ function removeAntarcticaPolygons(geo, latCutoff = -60){
 
   return cloned;
 }
+function coordRange(geo){
+  let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+  const walk = (obj) => {
+    if (!obj) return;
+
+    if (typeof obj[0] === "number" && typeof obj[1] === "number") {
+      const x = obj[0], y = obj[1];
+      if (Number.isFinite(x) && Number.isFinite(y)) {
+        if (x < minX) minX = x;
+        if (x > maxX) maxX = x;
+        if (y < minY) minY = y;
+        if (y > maxY) maxY = y;
+      }
+      return;
+    }
+
+    if (Array.isArray(obj)) obj.forEach(walk);
+    else if (typeof obj === "object") Object.values(obj).forEach(walk);
+  };
+
+  walk(geo);
+
+  const maxAbs = Math.max(Math.abs(minX), Math.abs(maxX), Math.abs(minY), Math.abs(maxY));
+  return { minX, maxX, minY, maxY, maxAbs };
+}
 
 
 function tableRow(cells){
