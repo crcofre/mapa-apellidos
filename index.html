@@ -266,6 +266,7 @@
         });
         setText('estado','Listo. Escribe un apellido.');
         document.documentElement.classList.add('app-ready'); // ← hace visible el panel
+        applyExportModeIfNeeded();
 
       }catch(err){
         setText('estado','Error cargando mapas.');
@@ -722,6 +723,57 @@ window.addEventListener("message", async (event) => {
   window.parent.postMessage({ type: "map_png", map_img }, PARENT_ORIGIN);
 });
 
+function getQueryParam(name, def=""){
+  const u = new URL(window.location.href);
+  return u.searchParams.get(name) ?? def;
+}
+
+function applyExportModeIfNeeded(){
+  const exportMode = getQueryParam("export","0") === "1";
+  if (!exportMode) return;
+
+  // Tamaño fijo del mapa para export
+  const w = parseInt(getQueryParam("w","900"), 10);
+  const h = parseInt(getQueryParam("h","1100"), 10);
+  const mapEl = document.getElementById("map");
+  if (mapEl && Number.isFinite(w) && Number.isFinite(h)) {
+    mapEl.style.width = w + "px";
+    mapEl.style.height = h + "px";
+  }
+
+  // Oculta UI
+  const hideSelectors = [
+    ".leaflet-control-container",
+    ".search-ui",
+    "#suggestBox",
+    "#ctaBottomControl"
+  ];
+  hideSelectors.forEach(sel => {
+    document.querySelectorAll(sel).forEach(el => el.style.display = "none");
+  });
+
+  // Fuerza “modo manual” si viene nivel
+  const nivel = (getQueryParam("nivel","") || "").toLowerCase();
+  if (nivel === "region" || nivel === "provincia" || nivel === "comuna") {
+    nivelMode = "manual";
+    nivelActual = nivel;
+  }
+
+  // Si viene apellido, lo pone en el input y busca
+  const ap = getQueryParam("apellido","").trim();
+  if (ap) {
+    const input = document.getElementById("apellidoInput");
+    if (input) input.value = ap;
+    // Espera a que se cargue todo y busca
+    setTimeout(() => {
+      try { buscarApellido(); } catch(e) {}
+      try { updateVisibility(true); } catch(e) {}
+      try { map.invalidateSize(true); } catch(e) {}
+    }, 600);
+  }
+}
+
+    
   </script>
 
 </body>
