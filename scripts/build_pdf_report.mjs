@@ -183,7 +183,7 @@ for (const r of topRegs) {
   // Proyección simple (Chile largo)
   const width = 800;
   const height = 1100;
-  const projection = geoMercator().fitSize([width, height], regionesGeo);
+  const projection = geoMercator().fitExtent([[30, 20], [width-30, height-20]], regionesGeo);
   const pathGen = geoPath(projection);
 
   // Construir SVG
