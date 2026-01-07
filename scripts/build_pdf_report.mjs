@@ -126,18 +126,56 @@ async function buildMapPngWithPlaywright({ slug }) {
       { timeout: 120000 }
     );
 
+        // 1) Oculta todo lo que no sea el mapa (controles, buscador, leyenda, botones)
+    await page.addStyleTag({
+      content: `
+        .leaflet-control-container,
+        .search-ui,
+        #suggestBox,
+        #ctaBottomControl,
+        .log-panel { display:none !important; }
+
+        /* fuerza fondo blanco (reduce “gris”) */
+        html, body { background:#fff !important; }
+        #map { background:#fff !important; }
+      `,
+    });
+
+    // 2) Asegura que Leaflet recalcula el tamaño antes de capturar
+    await page.evaluate(() => {
+      try { window.map?.invalidateSize?.(true); } catch (e) {}
+    });
+
+    // Pausa corta para que re-renderice
+    await page.waitForTimeout(250);
+
     // Asegura que Leaflet recalcula tamaño
     await page.evaluate(() => {
       try { window.map?.invalidateSize?.(true); } catch (e) {}
     });
 
     // Captura SOLO el div #map
-    const mapEl = await page.$("#map");
+        const mapEl = await page.$("#map");
     if (!mapEl) {
       throw new Error("No encontré el elemento #map en la página del mapa.");
     }
 
-    await mapEl.screenshot({ path: outPng, type: "png" });
+    const box = await mapEl.boundingBox();
+    if (!box) {
+      throw new Error("No pude calcular el bounding box de #map.");
+    }
+
+    // 3) Recorte proporcional para “quitar aire” y dejar Chile más lleno
+    // Ajusta estos números si quieres más/menos recorte
+    const crop = {
+      x: Math.round(box.x + box.width * 0.18),   // recorta izquierda
+      y: Math.round(box.y + box.height * 0.02),  // recorta arriba
+      width: Math.round(box.width * 0.64),       // ancho final
+      height: Math.round(box.height * 0.96),     // alto final
+    };
+
+    await page.screenshot({ path: outPng, type: "png", clip: crop });
+    
     return outPng;
   } finally {
     await page.close().catch(() => {});
@@ -169,118 +207,203 @@ async function buildHtmlReport({ slug, summary }) {
     )
     .join("");
 
-  const html = `<!doctype html>
+    const html = `<!doctype html>
 <html>
 <head>
   <meta charset="utf-8"/>
   <title>Informe ${htmlEscape(summary.apellido)}</title>
-  
   <style>
-  @page { size: A4; margin: 12mm; }
+    /* === CLAVE para PDF: margen real de impresión y evitar cortes === */
+    @page { size: A4; margin: 12mm; }
+    html, body { margin:0; padding:0; }
+    * { box-sizing: border-box; }
 
-  body{ font-family: Arial, Helvetica, sans-serif; margin:0; color:#111; }
-  .page{ width:100%; }
+    body{
+      font-family: Arial, Helvetica, sans-serif;
+      color:#111;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
 
-  .header{ display:flex; justify-content:space-between; align-items:center; gap:16px; }
-  .logo{ height:42px; }
-  .meta{ font-size:12px; color:#555; text-align:right; line-height:1.35; }
+    /* Contenedor de “una hoja” */
+    .page{
+      width: 100%;
+      max-width: 172mm;          /* A4 (210mm) - 2*12mm margen = 186mm; dejo un poco menos por seguridad */
+      margin: 0 auto;
+    }
 
-  h1{ font-size:22px; margin:14px 0 6px; }
-  .sub{ color:#444; font-size:13px; margin:0 0 12px; }
+    /* Header compacto */
+    .header{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:10px;
+      margin-bottom: 4mm;
+    }
+    .brand{ display:flex; align-items:center; gap:10px; }
+    .logo{ height: 12mm; }
+    .meta{ font-size: 10px; color:#555; text-align:right; line-height:1.25; padding-top:2mm; }
 
-  /* Layout principal (mapa izquierda, tablas derecha) */
-  .main-grid{
-    display:grid;
-    grid-template-columns: 44% 56%;
-    gap: 10mm;
-    align-items:start;
-  }
+    h1{ font-size: 18px; margin: 0 0 2mm; }
+    .sub{ font-size: 12px; color:#333; margin: 0 0 4mm; }
 
-  /* “Recorte” del mapa */
-  .map-frame{
-    border:1px solid #e6e6e6;
-    border-radius:10px;
-    overflow:hidden;     /* esto es lo que “recorta” */
-    background:#fff;
-    height: 240mm;       /* alto grande para que se vea “una tira” como tu imagen */
-  }
-  .map-frame img{
-    width:100%;
-    height:100%;
-    display:block;
-    object-fit: cover;         /* recorta bordes sobrantes */
-    object-position: 50% 50%;  /* centra el recorte */
-  }
+    /* Layout principal: mapa izquierda, tablas derecha */
+    .grid{
+      display:grid;
+      grid-template-columns: 44% 56%;
+      gap: 4mm;
+      align-items:start;
+    }
 
-  /* Tablas */
-  .card{ border:1px solid #e6e6e6; border-radius:10px; padding:10px 12px; margin:0 0 10px; background:#fff; }
-  h2{ font-size:14px; margin:0 0 8px; }
+    /* “Cards” sin rellenos excesivos para que quepa en 1 hoja */
+    .card{
+      border:1px solid #e6e6e6;
+      border-radius:10px;
+      padding: 3mm;
+      background:#fff;
+    }
 
-  table{ width:100%; border-collapse:collapse; }
-  th, td{ border:1px solid #eee; padding:6px 8px; font-size:12px; vertical-align:top; }
-  th{ background:#f7f7f7; text-align:left; }
+    /* Recorte del mapa (sin “fondo” alrededor) */
+    .mapWrap{
+      width:100%;
+      height: 120mm;             /* ajusta si quieres más/menos alto (110–125mm suele funcionar) */
+      overflow:hidden;
+      border-radius:10px;
+      border:1px solid #e2e2e2;
+      background:#fff;
+    }
+    .mapImg{
+      width:100%;
+      height:100%;
+      object-fit: cover;         /* recorta bordes */
+      object-position: center;   /* centra el recorte */
+      display:block;
+    }
 
-  /* Comunas abajo a todo el ancho */
-  .full-width{ margin-top:10px; }
+    /* Tablas: tamaño y columnas para NO cortar “Frecuencia” */
+    h2{ font-size: 12.5px; margin: 0 0 2mm; }
+    table{
+      width:100%;
+      border-collapse:collapse;
+      table-layout: fixed;       /* clave para que respete anchos */
+    }
+    th, td{
+      border:1px solid #eee;
+      padding: 2mm 2.2mm;
+      font-size: 10.5px;
+      vertical-align:top;
+      word-wrap: break-word;
+      overflow-wrap: anywhere;
+    }
+    th{
+      background:#f7f7f7;
+      text-align:left;
+      white-space: normal;     /* permite saltar línea */
+    }
 
-  .foot{ font-size:11px; color:#666; margin-top:8px; }
-</style>
 
+    /* Anchos por columna (evita recorte del último encabezado) */
+    .t-regiones col.c1{ width: 10%; }
+    .t-regiones col.c2{ width: 70%; }
+    .t-regiones col.c3{ width: 20%; }
+
+    .t-provincias col.c1{ width: 10%; }
+    .t-provincias col.c2{ width: 34%; }
+    .t-provincias col.c3{ width: 36%; }
+    .t-provincias col.c4{ width: 20%; }
+
+    .t-comunas col.c1{ width: 6%; }
+    .t-comunas col.c2{ width: 20%; }
+    .t-comunas col.c3{ width: 20%; }
+    .t-comunas col.c4{ width: 34%; }
+    .t-comunas col.c5{ width: 10%; }
+    .t-comunas col.c6{ width: 10%; }
+
+    /* Sección comunas a lo ancho, debajo */
+    .below{ margin-top: 4mm; }
+
+    .foot{
+      font-size: 9.5px;
+      color:#666;
+      margin-top: 3mm;
+    }
+
+    /* Evitar saltos feos dentro de cards/tablas */
+    .card, table { break-inside: avoid; page-break-inside: avoid; }
+  </style>
 </head>
+
 <body>
   <div class="page">
+
     <div class="header">
-      <img class="logo" src="${LOGO_URL}" alt="Apellidos.cl"/>
-      <div class="meta">
-        Actualizado: ${htmlEscape(summary.updated_at || "")}
+      <div class="brand">
+        <img class="logo" src="${LOGO_URL}" alt="Apellidos.cl"/>
       </div>
+      <div class="meta">Actualizado: ${htmlEscape(summary.updated_at || "")}</div>
     </div>
 
     <h1>Mapa del apellido ${htmlEscape(summary.apellido || "")}</h1>
     <p class="sub">Lugares donde tiene mayor arraigo histórico.</p>
 
-    <div class="main-grid">
-  <!-- IZQUIERDA: MAPA -->
-  <div class="map-frame">
-    <img src="${mapUrl}" alt="Mapa de Chile"/>
-  </div>
+    <div class="grid">
+      <!-- MAPA -->
+      <div class="card">
+        <div class="mapWrap">
+          <img class="mapImg" src="${mapUrl}" alt="Mapa de Chile"/>
+        </div>
+      </div>
 
-  <!-- DERECHA: TABLAS REGIONES + PROVINCIAS -->
-  <div>
-    <div class="card">
-      <h2>Top regiones</h2>
-      <table>
-        <thead><tr><th>#</th><th>Región</th><th>Frecuencia</th></tr></thead>
-        <tbody>${regionesRows}</tbody>
-      </table>
+      <!-- TABLAS DERECHA -->
+      <div>
+        <div class="card" style="margin-bottom:4mm;">
+          <h2>Top regiones</h2>
+          <table class="t-regiones">
+            <colgroup>
+              <col class="c1"><col class="c2"><col class="c3">
+            </colgroup>
+            <thead><tr><th>#</th><th>Región</th><th>Frecuencia</th></tr></thead>
+            <tbody>${regionesRows}</tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <h2>Top provincias</h2>
+          <table class="t-provincias">
+            <colgroup>
+              <col class="c1"><col class="c2"><col class="c3"><col class="c4">
+            </colgroup>
+            <thead><tr><th>#</th><th>Provincia</th><th>Región</th><th>Frecuencia</th></tr></thead>
+            <tbody>${provinciasRows}</tbody>
+          </table>
+        </div>
+      </div>
     </div>
 
-    <div class="card">
-      <h2>Top provincias</h2>
-      <table>
-        <thead><tr><th>#</th><th>Provincia</th><th>Región</th><th>Frecuencia</th></tr></thead>
-        <tbody>${provinciasRows}</tbody>
+    <!-- COMUNAS ABAJO A TODO ANCHO -->
+    <div class="card below">
+      <h2>Top comunas</h2>
+      <table class="t-comunas">
+        <colgroup>
+          <col class="c1"><col class="c2"><col class="c3"><col class="c4"><col class="c5"><col class="c6">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>#</th><th>Comuna</th><th>Provincia</th><th>Región</th><th>Personas</th><th>Frecuencia</th>
+          </tr>
+        </thead>
+        <tbody>${comunasRows}</tbody>
       </table>
     </div>
-  </div>
-</div>
-
-<!-- ABAJO: COMUNAS A TODO EL ANCHO -->
-<div class="card full-width">
-  <h2>Top comunas</h2>
-  <table>
-    <thead><tr><th>#</th><th>Comuna</th><th>Provincia</th><th>Región</th><th>Personas</th><th>Frecuencia</th></tr></thead>
-    <tbody>${comunasRows}</tbody>
-  </table>
-</div>
-
 
     <div class="foot">
-      Fuente: Apellidos.cl / Mapa de apellidos en Chile. Este informe es referencial y se basa en frecuencias relativas.
+      Fuente: www.apellidos.cl / Mapa de apellidos en Chile. Este informa presenta los lugares donde hay mayor frecuencia relativa del apellido, lo que en muchos casos se explica por su antigua presencia en aquellos lugares.
     </div>
+
   </div>
 </body>
 </html>`;
+
 
   const outHtml = path.join(OUT_REPORTS_DIR, `${slug}.html`);
   await fs.writeFile(outHtml, html, "utf8");
