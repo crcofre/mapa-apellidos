@@ -25,11 +25,9 @@ jobs:
         with:
           node-version: "20"
 
-      # Instala dependencias (usa SOLO npm ci)
       - name: Install deps
-        run: npm ci
+        run: npm install
 
-      # Instala Chromium para Playwright (necesario para capturas/render)
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
