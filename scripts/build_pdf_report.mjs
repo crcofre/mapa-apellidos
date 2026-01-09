@@ -359,14 +359,14 @@ tbody td{
     .t-regiones col.c3{ width: 20%; }
 
     .t-provincias col.c1{ width: 10%; }
-    .t-provincias col.c2{ width: 34%; }
-    .t-provincias col.c3{ width: 36%; }
+    .t-provincias col.c2{ width: 30%; }
+    .t-provincias col.c3{ width: 40%; }
     .t-provincias col.c4{ width: 20%; }
 
     .t-comunas col.c1{ width: 6%; }
-    .t-comunas col.c2{ width: 22%; }
-    .t-comunas col.c3{ width: 22%; }
-    .t-comunas col.c4{ width: 38%; }
+    .t-comunas col.c2{ width: 20%; }
+    .t-comunas col.c3{ width: 20%; }
+    .t-comunas col.c4{ width: 42%; }
     .t-comunas col.c5{ width: 12%; }  /* Frec. */
 
 
@@ -374,7 +374,7 @@ tbody td{
     .below{ margin-top: 4mm; }
 
     .foot{
-      font-size: 9.5px;
+      font-size: 11px;
       color:#666;
       margin-top: 3mm;
     }
@@ -440,7 +440,7 @@ tbody td{
         </colgroup>
         <thead>
           <tr>
-            <th>#</th><th>Comuna</th><th>Provincia</th><th>Región</th><th>Frec.</th>
+            <th>#</th><th>Comuna</th><th>Provincia</th><th>Región</th><th>Frecuencia</th>
           </tr>
         </thead>
 
