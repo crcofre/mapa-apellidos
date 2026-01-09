@@ -179,10 +179,10 @@ async function buildMapPngWithPlaywright({ slug }) {
     // 3) Recorte proporcional para “quitar aire” y dejar Chile más lleno
     // Ajusta estos números si quieres más/menos recorte
     const crop = {
-  x: Math.round(box.x + box.width * 0.22),  // más recorte a la izquierda → Chile más centrado/angosto
-  y: Math.round(box.y + box.height * 0.01), // no recorta arriba
-  width: Math.round(box.width * 0.56),      // más angosto → menos “aire”
-  height: Math.round(box.height * 0.985),    // captura todo el alto (evita cortar el sur)
+  x: Math.round(box.x + box.width * 0.23),  // más recorte a la izquierda → Chile más centrado/angosto
+  y: Math.round(box.y + box.height * 0.005), // no recorta arriba
+  width: Math.round(box.width * 0.54),      // más angosto → menos “aire”
+  height: Math.round(box.height * 0.995),    // captura todo el alto (evita cortar el sur)
 };
 
 
@@ -241,11 +241,12 @@ async function buildHtmlReport({ slug, summary }) {
     }
 
     /* Contenedor de “una hoja” */
-    .page{
-      width: 100%;
-      max-width: 180mm;          /* A4 (210mm) - 2*12mm margen = 186mm; dejo un poco menos por seguridad */
+   .page{
+      width:100%;
+      max-width: 186mm; /* A4 210mm - 2*12mm = 186mm */
       margin: 0 auto;
     }
+
 
     /* Header compacto */
     .header{
@@ -265,7 +266,7 @@ async function buildHtmlReport({ slug, summary }) {
     /* Layout principal: mapa izquierda, tablas derecha */
     .grid{
       display:grid;
-      grid-template-columns: 36% 64%; /* mapa más angosto */
+      grid-template-columns: 32% 68%; /* mapa más angosto */
       gap: 4mm;
       align-items: stretch;          /* CLAVE: que ambas columnas puedan igualar altura */
     }
@@ -273,17 +274,7 @@ async function buildHtmlReport({ slug, summary }) {
 /* el card del mapa debe poder estirar */
  .grid > .card{ height:100%; }      /* aplica al primer .card del grid (mapa) */
 
-      /* el mapa ocupa todo el alto disponible */
-       .mapWrap{
-         width:100%;
-         height: 100%;                    /* CLAVE: ahora calza con la altura de la columna derecha */
-         overflow:hidden;
-         border-radius:10px;
-         border:1px solid #e2e2e2;
-         background:#fff;
-       }
-
-
+    
     .rightCol{
       display:flex;
       flex-direction:column;
@@ -300,24 +291,31 @@ async function buildHtmlReport({ slug, summary }) {
       background:#fff;
     }
 
-    /* Recorte del mapa (sin “fondo” alrededor) */
-    .mapWrap{
-      width:100%;
-      height: 132mm; /* más largo */
-      overflow:hidden;
-      border-radius:10px;
-      border:1px solid #e2e2e2;
-      background:#fff;
-    }
+    /* Card del mapa debe poder estirar */
+.mapCard{
+  display:flex;
+  flex-direction:column;
+  height:100%;
+}
 
-    
-    .mapImg{
-      width:100%;
-      height:100%;
-      object-fit: cover;
-      object-position: 50% 65%;   /* baja el encuadre */
-      display:block;
-    }
+/* El mapa ocupa todo el alto disponible de la columna */
+.mapWrap{
+  width:100%;
+  flex:1;                   /* clave: estira */
+  overflow:hidden;
+  border-radius:10px;
+  border:1px solid #e2e2e2;
+  background:#fff;
+}
+
+.mapImg{
+  width:100%;
+  height:100%;
+  object-fit: cover;
+  object-position: 50% 70%; /* baja un poco el encuadre para no cortar el sur */
+  display:block;
+}
+
 
 
     /* Tablas: tamaño y columnas para NO cortar “Frecuencia” */
@@ -374,6 +372,11 @@ tbody td{
     /* Sección comunas a lo ancho, debajo */
     .below{ margin-top: 4mm; }
 
+    .card.below{
+      width:100%;
+    }
+
+    
     .foot{
       font-size: 11px;
       color:#666;
@@ -400,7 +403,7 @@ tbody td{
 
     <div class="grid">
       <!-- MAPA -->
-      <div class="card">
+      <div class="card mapCard">
         <div class="mapWrap">
           <img class="mapImg" src="${mapUrl}" alt="Mapa de Chile"/>
         </div>
@@ -450,7 +453,7 @@ tbody td{
     </div>
 
     <div class="foot">
-      Fuente: www.apellidos.cl / Mapa de apellidos en Chile. Este informa presenta los lugares donde hay mayor frecuencia relativa del apellido, lo que en muchos casos se explica por su antigua presencia en aquellos lugares.
+      Fuente: www.apellidos.cl / Mapa de apellidos en Chile. Este reporte presenta los lugares donde hay mayor frecuencia relativa del apellido, lo que en muchos casos se explica por su antigua presencia en aquellos lugares.
     </div>
 
   </div>
