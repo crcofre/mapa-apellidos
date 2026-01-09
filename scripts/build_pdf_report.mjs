@@ -5,7 +5,7 @@ import { chromium } from "playwright";
 /**
  * CONFIG
  */
-const SUMMARY_DIR = "pdf_summaries/2";     // carpeta donde están los shards apellidos_xx.json
+const SUMMARY_DIR = "pdf_summaries/2";
 const OUT_REPORTS_DIR = "pdf_reports";
 const OUT_MAPS_DIR = "pdf_maps";
 
@@ -49,11 +49,10 @@ function cleanRegionLabel(s) {
   // "06. REGION DEL LIBERTADOR..." -> "DEL LIBERTADOR..."
   return String(s ?? "")
     .trim()
-    .replace(/^\s*\d+\s*[\.\-]?\s*/i, "")                 // quita "06." o "06 -"
-    .replace(/^REGI[ÓO]N\s+(DEL\s+|DE\s+)?/i, "")         // quita "REGION " / "REGIÓN " y opcional "DE/DEL"
+    .replace(/^\s*\d+\s*[\.\-]?\s*/i, "")
+    .replace(/^REGI[ÓO]N\s+(DEL\s+|DE\s+)?/i, "")
     .trim();
 }
-
 
 function tableRow(cells) {
   return `<tr>${cells.map((c) => `<td>${htmlEscape(c)}</td>`).join("")}</tr>`;
@@ -65,7 +64,9 @@ function tableRow(cells) {
 async function loadSummaryFromShard(slug) {
   const base = path.resolve(SUMMARY_DIR);
   if (!(await fs.pathExists(base))) {
-    throw new Error(`No existe SUMMARY_DIR: ${SUMMARY_DIR}. Ajusta SUMMARY_DIR en el script.`);
+    throw new Error(
+      `No existe SUMMARY_DIR: ${SUMMARY_DIR}. Ajusta SUMMARY_DIR en el script.`
+    );
   }
 
   const p2 = slug.slice(0, 2);
@@ -78,8 +79,8 @@ async function loadSummaryFromShard(slug) {
   }
 
   const data = await fs.readJson(shard);
-
   const items = Array.isArray(data?.items) ? data.items : null;
+
   if (!items) {
     throw new Error(`El shard ${shard} no tiene estructura {"items":[...]}.`);
   }
@@ -105,7 +106,6 @@ async function loadSummaryFromShard(slug) {
 async function buildMapPngWithPlaywright({ slug }) {
   await fs.ensureDir(OUT_MAPS_DIR);
 
-  // cache-bust real: t=timestamp
   const url =
     `${MAP_BASE_URL}?apellido=${encodeURIComponent(slug)}` +
     `&pdf=1&t=${Date.now()}`;
@@ -116,14 +116,14 @@ async function buildMapPngWithPlaywright({ slug }) {
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
 
+  // Más alto: evita que el sur “muera” por viewport y permite recorte mejor
   const page = await browser.newPage({
-  viewport: { width: 1000, height: 1700 }, // más alto para no perder la zona sur
-  deviceScaleFactor: 2,
-});
-
+    viewport: { width: 1100, height: 2200 },
+    deviceScaleFactor: 2,
+  });
 
   try {
-    // Fuerza “no cache” y carga limpia
+    // Fuerza “no cache”
     await page.route("**/*", (route) => {
       const headers = { ...route.request().headers(), "Cache-Control": "no-cache" };
       route.continue({ headers });
@@ -131,13 +131,12 @@ async function buildMapPngWithPlaywright({ slug }) {
 
     await page.goto(url, { waitUntil: "networkidle", timeout: 120000 });
 
-    // Espera a que tu script marque data-pdf-ready="1"
     await page.waitForFunction(
       () => document.documentElement.getAttribute("data-pdf-ready") === "1",
       { timeout: 120000 }
     );
 
-        // 1) Oculta todo lo que no sea el mapa (controles, buscador, leyenda, botones)
+    // Oculta UI, fuerza fondo blanco
     await page.addStyleTag({
       content: `
         .leaflet-control-container,
@@ -146,48 +145,48 @@ async function buildMapPngWithPlaywright({ slug }) {
         #ctaBottomControl,
         .log-panel { display:none !important; }
 
-        /* fuerza fondo blanco (reduce “gris”) */
         html, body { background:#fff !important; }
         #map { background:#fff !important; }
       `,
     });
 
-    // 2) Asegura que Leaflet recalcula el tamaño antes de capturar
+    // Reflow Leaflet
+    await page.evaluate(() => {
+      try { window.map?.invalidateSize?.(true); } catch (e) {}
+    });
+    await page.waitForTimeout(300);
     await page.evaluate(() => {
       try { window.map?.invalidateSize?.(true); } catch (e) {}
     });
 
-    // Pausa corta para que re-renderice
-    await page.waitForTimeout(250);
-
-    // Asegura que Leaflet recalcula tamaño
-    await page.evaluate(() => {
-      try { window.map?.invalidateSize?.(true); } catch (e) {}
-    });
-
-    // Captura SOLO el div #map
-        const mapEl = await page.$("#map");
-    if (!mapEl) {
-      throw new Error("No encontré el elemento #map en la página del mapa.");
-    }
+    const mapEl = await page.$("#map");
+    if (!mapEl) throw new Error("No encontré el elemento #map en la página del mapa.");
 
     const box = await mapEl.boundingBox();
-    if (!box) {
-      throw new Error("No pude calcular el bounding box de #map.");
-    }
+    if (!box) throw new Error("No pude calcular el bounding box de #map.");
 
-    // 3) Recorte proporcional para “quitar aire” y dejar Chile más lleno
-    // Ajusta estos números si quieres más/menos recorte
+    /**
+     * RECORTE “FINAL”:
+     * - Más angosto (quita aire)
+     * - Enfocado un poco hacia abajo (para que el sur llegue al borde)
+     * Ajusta fino si quieres (pero con esto normalmente queda “listo”).
+     */
     const crop = {
-  x: Math.round(box.x + box.width * 0.23),  // más recorte a la izquierda → Chile más centrado/angosto
-  y: Math.round(box.y + box.height * 0.005), // no recorta arriba
-  width: Math.round(box.width * 0.54),      // más angosto → menos “aire”
-  height: Math.round(box.height * 0.995),    // captura todo el alto (evita cortar el sur)
-};
+      x: Math.round(box.x + box.width * 0.285),  // recorta más izquierda
+      y: Math.round(box.y + box.height * 0.000), // no recorta arriba
+      width: Math.round(box.width * 0.43),       // más angosto (Chile llena mejor)
+      height: Math.round(box.height * 1.0),      // todo el alto
+    };
 
+    // Seguridad: evita clip fuera de pantalla
+    const clip = {
+      x: Math.max(0, crop.x),
+      y: Math.max(0, crop.y),
+      width: Math.max(1, Math.min(crop.width, (box.x + box.width) - crop.x)),
+      height: Math.max(1, Math.min(crop.height, (box.y + box.height) - crop.y)),
+    };
 
-    await page.screenshot({ path: outPng, type: "png", clip: crop });
-    
+    await page.screenshot({ path: outPng, type: "png", clip });
     return outPng;
   } finally {
     await page.close().catch(() => {});
@@ -201,34 +200,31 @@ async function buildMapPngWithPlaywright({ slug }) {
 async function buildHtmlReport({ slug, summary }) {
   await fs.ensureDir(OUT_REPORTS_DIR);
 
-  // OJO: esta URL debe ser pública en GitHub Pages
+  // Cache-bust
   const mapUrl = `../${OUT_MAPS_DIR}/${slug}.png?v=${Date.now()}`;
 
-
   const regionesRows = (summary.top_regiones || [])
-  .map((r) => tableRow([r.rank, cleanRegionLabel(r.region), `${formatPct(r.pct_region)}%`]))
-  .join("");
-
+    .map((r) => tableRow([r.rank, cleanRegionLabel(r.region), `${formatPct(r.pct_region)}%`]))
+    .join("");
 
   const provinciasRows = (summary.top_provincias || [])
-  .map((r) => tableRow([r.rank, r.provincia, cleanRegionLabel(r.region), `${formatPct(r.pct_provincia)}%`]))
-  .join("");
-
+    .map((r) =>
+      tableRow([r.rank, r.provincia, cleanRegionLabel(r.region), `${formatPct(r.pct_provincia)}%`])
+    )
+    .join("");
 
   const comunasRows = (summary.top_comunas || [])
-  .map((r) =>
-    tableRow([r.rank, r.comuna, r.provincia, cleanRegionLabel(r.region), `${formatPct(r.pct_comuna)}%`])
-  )
-  .join("");
+    .map((r) =>
+      tableRow([r.rank, r.comuna, r.provincia, cleanRegionLabel(r.region), `${formatPct(r.pct_comuna)}%`])
+    )
+    .join("");
 
-
-    const html = `<!doctype html>
+  const html = `<!doctype html>
 <html>
 <head>
   <meta charset="utf-8"/>
   <title>Informe ${htmlEscape(summary.apellido)}</title>
   <style>
-    /* === CLAVE para PDF: margen real de impresión y evitar cortes === */
     @page { size: A4; margin: 12mm; }
     html, body { margin:0; padding:0; }
     * { box-sizing: border-box; }
@@ -240,15 +236,12 @@ async function buildHtmlReport({ slug, summary }) {
       print-color-adjust: exact;
     }
 
-    /* Contenedor de “una hoja” */
-   .page{
+    .page{
       width:100%;
       max-width: 186mm; /* A4 210mm - 2*12mm = 186mm */
       margin: 0 auto;
     }
 
-
-    /* Header compacto */
     .header{
       display:flex;
       justify-content:space-between;
@@ -263,27 +256,21 @@ async function buildHtmlReport({ slug, summary }) {
     h1{ font-size: 18px; margin: 0 0 2mm; }
     .sub{ font-size: 12px; color:#333; margin: 0 0 4mm; }
 
-    /* Layout principal: mapa izquierda, tablas derecha */
+    /* GRID: mapa angosto + tablas anchas; altura “stretch” */
     .grid{
       display:grid;
-      grid-template-columns: 32% 68%; /* mapa más angosto */
+      grid-template-columns: 30% 70%;
       gap: 4mm;
-      align-items: stretch;          /* CLAVE: que ambas columnas puedan igualar altura */
+      align-items: stretch;
     }
 
-/* el card del mapa debe poder estirar */
- .grid > .card{ height:100%; }      /* aplica al primer .card del grid (mapa) */
-
-    
     .rightCol{
       display:flex;
       flex-direction:column;
-      gap:4mm;              /* reemplaza el margin-bottom inline */
+      gap:4mm;
       height:100%;
     }
 
-
-    /* “Cards” sin rellenos excesivos para que quepa en 1 hoja */
     .card{
       border:1px solid #e6e6e6;
       border-radius:10px;
@@ -291,68 +278,64 @@ async function buildHtmlReport({ slug, summary }) {
       background:#fff;
     }
 
-    /* Card del mapa debe poder estirar */
-.mapCard{
-  display:flex;
-  flex-direction:column;
-  height:100%;
-}
+    /* MAPA: la card estira y el mapa ocupa TODO el alto disponible */
+    .mapCard{
+      display:flex;
+      flex-direction:column;
+      height:100%;
+    }
 
-/* El mapa ocupa todo el alto disponible de la columna */
-.mapWrap{
-  width:100%;
-  flex:1;                   /* clave: estira */
-  overflow:hidden;
-  border-radius:10px;
-  border:1px solid #e2e2e2;
-  background:#fff;
-}
+    .mapWrap{
+      width:100%;
+      flex:1;
+      overflow:hidden;
+      border-radius:10px;
+      border:1px solid #e2e2e2;
+      background:#fff;
+    }
 
-.mapImg{
-  width:100%;
-  height:100%;
-  object-fit: cover;
-  object-position: 50% 70%; /* baja un poco el encuadre para no cortar el sur */
-  display:block;
-}
+    .mapImg{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      /* Enfasis hacia el sur para evitar “corte” visual abajo */
+      object-position: 50% 78%;
+      display:block;
+    }
 
-
-
-    /* Tablas: tamaño y columnas para NO cortar “Frecuencia” */
     h2{ font-size: 12.5px; margin: 0 0 2mm; }
+
     table{
       width:100%;
       border-collapse:collapse;
-      table-layout: fixed;       /* clave para que respete anchos */
+      table-layout: fixed;
     }
+
     th, td{
-  border:1px solid #eee;
-  padding: 2mm 2.2mm;
-  font-size: 10.5px;
-  line-height: 1.2;        /* NUEVO: controla alto por líneas */
-  word-wrap: break-word;
-  overflow-wrap: anywhere;
-}
+      border:1px solid #eee;
+      padding: 2mm 2.2mm;
+      font-size: 10.5px;
+      line-height: 1.2;
+      word-wrap: break-word;
+      overflow-wrap: anywhere;
+    }
 
-thead th{
-  background:#f7f7f7;
-  text-align:left;
-  white-space: normal;     /* permite salto de línea */
-  vertical-align: middle;  /* NUEVO: centra encabezado */
-  padding-top: 1.4mm;      /* NUEVO: más compacto */
-  padding-bottom: 1.4mm;   /* NUEVO */
-}
+    thead th{
+      background:#f7f7f7;
+      text-align:left;
+      white-space: normal;
+      vertical-align: middle;
+      padding-top: 1.4mm;
+      padding-bottom: 1.4mm;
+    }
 
-tbody td{
-  height: 10mm;            /* NUEVO: “alto fijo” por fila (ajusta 9.5–11mm) */
-  vertical-align: middle;  /* NUEVO: centra el texto verticalmente */
-  padding-top: 1.6mm;      /* NUEVO: ajusta centrado fino */
-  padding-bottom: 1.6mm;   /* NUEVO */
-}
+    tbody td{
+      height: 10mm;           /* alto fijo por fila */
+      vertical-align: middle; /* centra vertical */
+      padding-top: 1.6mm;
+      padding-bottom: 1.6mm;
+    }
 
-
-
-    /* Anchos por columna (evita recorte del último encabezado) */
     .t-regiones col.c1{ width: 10%; }
     .t-regiones col.c2{ width: 70%; }
     .t-regiones col.c3{ width: 20%; }
@@ -366,24 +349,22 @@ tbody td{
     .t-comunas col.c2{ width: 20%; }
     .t-comunas col.c3{ width: 20%; }
     .t-comunas col.c4{ width: 42%; }
-    .t-comunas col.c5{ width: 12%; }  /* Frec. */
+    .t-comunas col.c5{ width: 12%; }
 
-
-    /* Sección comunas a lo ancho, debajo */
     .below{ margin-top: 4mm; }
 
+    /* CLAVE: comunas un poquito “más ancha” visualmente: menos padding */
     .card.below{
       width:100%;
+      padding: 2.2mm; /* antes 3mm */
     }
 
-    
     .foot{
       font-size: 11px;
       color:#666;
       margin-top: 3mm;
     }
 
-    /* Evitar saltos feos dentro de cards/tablas */
     .card, table { break-inside: avoid; page-break-inside: avoid; }
   </style>
 </head>
@@ -447,7 +428,6 @@ tbody td{
             <th>#</th><th>Comuna</th><th>Provincia</th><th>Región</th><th>Frecuencia</th>
           </tr>
         </thead>
-
         <tbody>${comunasRows}</tbody>
       </table>
     </div>
@@ -460,7 +440,6 @@ tbody td{
 </body>
 </html>`;
 
-
   const outHtml = path.join(OUT_REPORTS_DIR, `${slug}.html`);
   await fs.writeFile(outHtml, html, "utf8");
   return outHtml;
@@ -468,13 +447,9 @@ tbody td{
 
 async function main() {
   const slug = slugArg();
-
   const summary = await loadSummaryFromShard(slug);
 
-  // 1) Generar PNG con Leaflet real
   await buildMapPngWithPlaywright({ slug });
-
-  // 2) Generar HTML
   await buildHtmlReport({ slug, summary });
 
   console.log(`OK: generado ${OUT_MAPS_DIR}/${slug}.png y ${OUT_REPORTS_DIR}/${slug}.html`);
