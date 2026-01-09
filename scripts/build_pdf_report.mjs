@@ -117,9 +117,10 @@ async function buildMapPngWithPlaywright({ slug }) {
   });
 
   const page = await browser.newPage({
-    viewport: { width: 1000, height: 1400 }, // alto para Chile “largo”
-    deviceScaleFactor: 2,                    // más nitidez
-  });
+  viewport: { width: 1000, height: 1700 }, // más alto para no perder la zona sur
+  deviceScaleFactor: 2,
+});
+
 
   try {
     // Fuerza “no cache” y carga limpia
@@ -178,11 +179,12 @@ async function buildMapPngWithPlaywright({ slug }) {
     // 3) Recorte proporcional para “quitar aire” y dejar Chile más lleno
     // Ajusta estos números si quieres más/menos recorte
     const crop = {
-      x: Math.round(box.x + box.width * 0.18),   // recorta izquierda
-      y: Math.round(box.y + box.height * 0.02),  // recorta arriba
-      width: Math.round(box.width * 0.64),       // ancho final
-      height: Math.round(box.height * 0.96),     // alto final
-    };
+  x: Math.round(box.x + box.width * 0.22),  // más recorte a la izquierda → Chile más centrado/angosto
+  y: Math.round(box.y + box.height * 0.00), // no recorta arriba
+  width: Math.round(box.width * 0.56),      // más angosto → menos “aire”
+  height: Math.round(box.height * 1.00),    // captura todo el alto (evita cortar el sur)
+};
+
 
     await page.screenshot({ path: outPng, type: "png", clip: crop });
     
@@ -263,10 +265,32 @@ async function buildHtmlReport({ slug, summary }) {
     /* Layout principal: mapa izquierda, tablas derecha */
     .grid{
       display:grid;
-      grid-template-columns: 44% 56%;
+      grid-template-columns: 36% 64%; /* mapa más angosto */
       gap: 4mm;
-      align-items:start;
+      align-items: stretch;          /* CLAVE: que ambas columnas puedan igualar altura */
     }
+
+/* el card del mapa debe poder estirar */
+.grid > .card{ height:100%; }      /* aplica al primer .card del grid (mapa) */
+
+      /* el mapa ocupa todo el alto disponible */
+      .mapWrap{
+        width:100%;
+        height: 100%;                    /* CLAVE: ahora calza con la altura de la columna derecha */
+        overflow:hidden;
+        border-radius:10px;
+        border:1px solid #e2e2e2;
+        background:#fff;
+      }
+
+
+    .rightCol{
+      display:flex;
+      flex-direction:column;
+      gap:4mm;              /* reemplaza el margin-bottom inline */
+      height:100%;
+    }
+
 
     /* “Cards” sin rellenos excesivos para que quepa en 1 hoja */
     .card{
@@ -285,13 +309,15 @@ async function buildHtmlReport({ slug, summary }) {
       border:1px solid #e2e2e2;
       background:#fff;
     }
+    
     .mapImg{
       width:100%;
       height:100%;
-      object-fit: cover;         /* recorta bordes */
-      object-position: center;   /* centra el recorte */
+      object-fit: cover;
+      object-position: 50% 65%;   /* baja el encuadre */
       display:block;
     }
+
 
     /* Tablas: tamaño y columnas para NO cortar “Frecuencia” */
     h2{ font-size: 12.5px; margin: 0 0 2mm; }
@@ -301,18 +327,30 @@ async function buildHtmlReport({ slug, summary }) {
       table-layout: fixed;       /* clave para que respete anchos */
     }
     th, td{
-      border:1px solid #eee;
-      padding: 2mm 2.2mm;
-      font-size: 10.5px;
-      vertical-align:top;
-      word-wrap: break-word;
-      overflow-wrap: anywhere;
-    }
-    th{
-      background:#f7f7f7;
-      text-align:left;
-      white-space: normal;     /* permite saltar línea */
-    }
+  border:1px solid #eee;
+  padding: 2mm 2.2mm;
+  font-size: 10.5px;
+  line-height: 1.2;        /* NUEVO: controla alto por líneas */
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+}
+
+thead th{
+  background:#f7f7f7;
+  text-align:left;
+  white-space: normal;     /* permite salto de línea */
+  vertical-align: middle;  /* NUEVO: centra encabezado */
+  padding-top: 1.4mm;      /* NUEVO: más compacto */
+  padding-bottom: 1.4mm;   /* NUEVO */
+}
+
+tbody td{
+  height: 10mm;            /* NUEVO: “alto fijo” por fila (ajusta 9.5–11mm) */
+  vertical-align: middle;  /* NUEVO: centra el texto verticalmente */
+  padding-top: 1.6mm;      /* NUEVO: ajusta centrado fino */
+  padding-bottom: 1.6mm;   /* NUEVO */
+}
+
 
 
     /* Anchos por columna (evita recorte del último encabezado) */
@@ -368,8 +406,8 @@ async function buildHtmlReport({ slug, summary }) {
       </div>
 
       <!-- TABLAS DERECHA -->
-      <div>
-        <div class="card" style="margin-bottom:4mm;">
+      <div class="rightCol">
+        <div class="card">
           <h2>Top regiones</h2>
           <table class="t-regiones">
             <colgroup>
