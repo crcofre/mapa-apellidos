@@ -180,9 +180,9 @@ async function buildMapPngWithPlaywright({ slug }) {
     // Ajusta estos números si quieres más/menos recorte
     const crop = {
   x: Math.round(box.x + box.width * 0.22),  // más recorte a la izquierda → Chile más centrado/angosto
-  y: Math.round(box.y + box.height * 0.00), // no recorta arriba
+  y: Math.round(box.y + box.height * 0.01), // no recorta arriba
   width: Math.round(box.width * 0.56),      // más angosto → menos “aire”
-  height: Math.round(box.height * 1.00),    // captura todo el alto (evita cortar el sur)
+  height: Math.round(box.height * 0.985),    // captura todo el alto (evita cortar el sur)
 };
 
 
@@ -243,7 +243,7 @@ async function buildHtmlReport({ slug, summary }) {
     /* Contenedor de “una hoja” */
     .page{
       width: 100%;
-      max-width: 172mm;          /* A4 (210mm) - 2*12mm margen = 186mm; dejo un poco menos por seguridad */
+      max-width: 180mm;          /* A4 (210mm) - 2*12mm margen = 186mm; dejo un poco menos por seguridad */
       margin: 0 auto;
     }
 
@@ -271,17 +271,17 @@ async function buildHtmlReport({ slug, summary }) {
     }
 
 /* el card del mapa debe poder estirar */
-.grid > .card{ height:100%; }      /* aplica al primer .card del grid (mapa) */
+/* .grid > .card{ height:100%; }      /* aplica al primer .card del grid (mapa) */
 
       /* el mapa ocupa todo el alto disponible */
-      .mapWrap{
-        width:100%;
-        height: 100%;                    /* CLAVE: ahora calza con la altura de la columna derecha */
-        overflow:hidden;
-        border-radius:10px;
-        border:1px solid #e2e2e2;
-        background:#fff;
-      }
+     /*  .mapWrap{
+     /*    width:100%;
+    /*     height: 100%;                    /* CLAVE: ahora calza con la altura de la columna derecha */
+     /*    overflow:hidden;
+    /*     border-radius:10px;
+    /*     border:1px solid #e2e2e2;
+    /*     background:#fff;
+   /*    }
 
 
     .rightCol{
@@ -303,12 +303,13 @@ async function buildHtmlReport({ slug, summary }) {
     /* Recorte del mapa (sin “fondo” alrededor) */
     .mapWrap{
       width:100%;
-      height: 120mm;             /* ajusta si quieres más/menos alto (110–125mm suele funcionar) */
+      height: 132mm; /* más largo */
       overflow:hidden;
       border-radius:10px;
       border:1px solid #e2e2e2;
       background:#fff;
     }
+
     
     .mapImg{
       width:100%;
