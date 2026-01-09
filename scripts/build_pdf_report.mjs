@@ -27,156 +27,107 @@ async function buildHtmlReport({ slug, summary }) {
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Informe ${htmlEscape(summary.apellido || slug)}</title>
 
-  <style>
-    @page { size: A4; margin: 10mm; }
-    html, body { margin:0; padding:0; }
-    * { box-sizing: border-box; }
+ @page {
+  size: A4;
+  margin: 10mm;
+}
 
-    body{
-      font-family: Arial, Helvetica, sans-serif;
-      color:#111;
-      -webkit-print-color-adjust: exact;
-      print-color-adjust: exact;
-      background:#fff;
-    }
+html, body {
+  margin: 0;
+  padding: 0;
+}
 
-    .page{
-      width:100%;
-      max-width: 190mm; /* 210 - 2*10 */
-      margin: 0 auto;
-    }
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  color: #111;
+  background: #fff;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
 
-    .header{
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap:10px;
-      margin-bottom: 3mm;
-    }
-    .brand{ display:flex; align-items:center; gap:10px; }
-    .logo{ height: 11mm; }
-    .meta{ font-size: 10px; color:#555; text-align:right; line-height:1.25; padding-top:1.5mm; }
+/* CONTENEDOR A4 REAL */
+.page {
+  width: 190mm;
+  height: 277mm; /* 297 - 2*10 */
+  margin: 0 auto;
+  overflow: hidden;
+}
 
-    h1{ font-size: 18px; margin: 0 0 1.5mm; }
-    .sub{ font-size: 12px; color:#333; margin: 0 0 3mm; }
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4mm;
+}
+.logo { height: 11mm; }
+.meta { font-size: 10px; color: #555; }
 
-    .card{
-      border:1px solid #e6e6e6;
-      border-radius:10px;
-      padding: 3mm;
-      background:#fff;
-    }
+/* TÍTULOS */
+h1 { font-size: 18px; margin: 0 0 2mm; }
+.sub { font-size: 12px; margin: 0 0 4mm; }
 
-    /* ===== ESTRUCTURA EN 2 FILAS (1 página y sin invasiones) ===== */
-    .layout{
-      display:grid;
-      grid-template-rows: 168mm auto;
-      gap: 4mm;
-    }
+/* BLOQUE SUPERIOR */
+.top {
+  display: grid;
+  grid-template-columns: 32% 68%;
+  gap: 4mm;
+  height: 155mm; /* CLAVE */
+}
 
-    .grid{
-      display:grid;
-      grid-template-columns: 32% 68%;
-      gap: 4mm;
-      height: 168mm;
-      overflow: hidden;
-      align-items: stretch;
-    }
+/* MAPA */
+.mapImg {
+  width: 100%;
+  max-height: 155mm;   /* CLAVE ABSOLUTA */
+  object-fit: contain;
+  display: block;
+}
 
-    .rightCol{
-      height: 168mm;
-      display:flex;
-      flex-direction:column;
-      gap:4mm;
-    }
+/* TABLAS DERECHA */
+.right {
+  display: flex;
+  flex-direction: column;
+  gap: 4mm;
+}
 
-    .rightCol .card{
-      height: calc((168mm - 4mm) / 2);
-      overflow: hidden;
-    }
+/* CARDS */
+.card {
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  padding: 3mm;
+  background: #fff;
+}
 
-    .mapCard{
-      height: 168mm;
-      display:flex;
-      flex-direction:column;
-    }
-    .mapWrap{
-      height: 100%;
-      overflow:hidden;
-      border-radius:10px;
-      border:1px solid #e2e2e2;
-      background:#fff;
-    }
-    .mapImg{
-      width:100%;
-      height:100%;
-      object-fit: contain;
-      object-position: 50% 65%;
-      display:block;
-    }
+/* TABLAS */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
 
-    h2{ font-size: 12.5px; margin: 0 0 2mm; }
+th, td {
+  border: 1px solid #eee;
+  font-size: 10.2px;
+  padding: 1.4mm 2mm;
+}
 
-    table{
-      width:100%;
-      border-collapse:collapse;
-      table-layout: fixed;
-    }
+thead th {
+  background: #f7f7f7;
+}
 
-    th, td{
-      border:1px solid #eee;
-      padding: 1.6mm 2mm;
-      font-size: 10.3px;
-      line-height: 1.15;
-      word-wrap: break-word;
-      overflow-wrap: anywhere;
-    }
+/* COMUNAS ABAJO */
+.bottom {
+  margin-top: 4mm;
+  max-height: 70mm;
+  overflow: hidden;
+}
 
-    thead th{
-      background:#f7f7f7;
-      text-align:left;
-      vertical-align: middle;
-      padding-top: 1.2mm;
-      padding-bottom: 1.2mm;
-    }
+/* PIE */
+.foot {
+  margin-top: 3mm;
+  font-size: 10px;
+  color: #666;
+}
 
-    tbody td{
-      height: 9mm;
-      vertical-align: middle;
-      padding-top: 1.2mm;
-      padding-bottom: 1.2mm;
-    }
-
-    .t-regiones col.c1{ width: 10%; }
-    .t-regiones col.c2{ width: 70%; }
-    .t-regiones col.c3{ width: 20%; }
-
-    .t-provincias col.c1{ width: 10%; }
-    .t-provincias col.c2{ width: 30%; }
-    .t-provincias col.c3{ width: 40%; }
-    .t-provincias col.c4{ width: 20%; }
-
-    .t-comunas col.c1{ width: 6%; }
-    .t-comunas col.c2{ width: 20%; }
-    .t-comunas col.c3{ width: 20%; }
-    .t-comunas col.c4{ width: 42%; }
-    .t-comunas col.c5{ width: 12%; }
-
-    .below{
-      width:100%;
-      padding: 2.4mm;
-      overflow: hidden;
-    }
-
-    .foot{
-      font-size: 10px;
-      color:#666;
-      margin-top: 2mm;
-      line-height: 1.25;
-    }
-
-    .card, table { break-inside: avoid; page-break-inside: avoid; }
-  </style>
 </head>
 
 <body>
