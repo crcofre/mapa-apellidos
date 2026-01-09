@@ -378,6 +378,74 @@ async function buildHtmlReport({ slug, summary }) {
   }
 
   .card, table { break-inside: avoid; page-break-inside: avoid; }
+
+  
+  /* ====== FIX 1-PÁGINA + NO DESORDEN ====== */
+
+/* Contenedor maestro en 2 filas: arriba (mapa+tablas), abajo (comunas) */
+.layout{
+  display: grid;
+  grid-template-rows: 168mm auto; /* fila 1 fija, fila 2 lo que quede */
+  gap: 4mm;
+}
+
+/* Fila superior (mapa+tablas) */
+.grid{
+  display:grid;
+  grid-template-columns: 30% 70%;
+  gap: 4mm;
+  align-items: stretch;
+  height: 168mm;          /* CLAVE: fija */
+  overflow: hidden;       /* CLAVE: nada puede “invadir” */
+}
+
+/* Columna derecha ocupa el alto de la fila superior */
+.rightCol{
+  height: 168mm;
+  display:flex;
+  flex-direction:column;
+  gap:4mm;
+}
+
+/* Cada card derecha se reparte el alto disponible */
+.rightCol .card{
+  height: calc((168mm - 4mm) / 2);
+  overflow: hidden;
+}
+
+/* MAPA: NO se estira infinito. Se ajusta a la altura de la fila superior */
+.mapCard{
+  height: 168mm;
+  display:flex;
+  flex-direction:column;
+}
+
+/* el wrap toma el alto completo del mapCard */
+.mapWrap{
+  height: 100%;
+  overflow: hidden;
+  border-radius:10px;
+  border:1px solid #e2e2e2;
+  background:#fff;
+}
+
+/* CLAVE: evita que el mapa se “agrande” y se recorte raro */
+.mapImg{
+  width:100%;
+  height:100%;
+  object-fit: contain;
+  object-position: 50% 70%; /* un poco hacia el sur, pero sin inflar */
+  display:block;
+}
+
+/* Comunas SIEMPRE abajo, a todo el ancho */
+.below{
+  width:100%;
+  margin-top: 0;          /* el gap ya lo maneja .layout */
+  overflow: hidden;       /* asegura 1 página si el texto crece */
+}
+
+  
 </style>
 
 </head>
@@ -395,55 +463,27 @@ async function buildHtmlReport({ slug, summary }) {
     <h1>Mapa del apellido ${htmlEscape(summary.apellido || "")}</h1>
     <p class="sub">Lugares donde tiene mayor arraigo histórico.</p>
 
-    <div class="grid">
-      <!-- MAPA -->
-      <div class="card mapCard">
-        <div class="mapWrap">
-          <img class="mapImg" src="${mapUrl}" alt="Mapa de Chile"/>
-        </div>
-      </div>
-
-      <!-- TABLAS DERECHA -->
-      <div class="rightCol">
-        <div class="card">
-          <h2>Top regiones</h2>
-          <table class="t-regiones">
-            <colgroup>
-              <col class="c1"><col class="c2"><col class="c3">
-            </colgroup>
-            <thead><tr><th>#</th><th>Región</th><th>Frecuencia</th></tr></thead>
-            <tbody>${regionesRows}</tbody>
-          </table>
-        </div>
-
-        <div class="card">
-          <h2>Top provincias</h2>
-          <table class="t-provincias">
-            <colgroup>
-              <col class="c1"><col class="c2"><col class="c3"><col class="c4">
-            </colgroup>
-            <thead><tr><th>#</th><th>Provincia</th><th>Región</th><th>Frecuencia</th></tr></thead>
-            <tbody>${provinciasRows}</tbody>
-          </table>
-        </div>
+    <div class="layout">
+  <div class="grid">
+    <!-- MAPA -->
+    <div class="card mapCard">
+      <div class="mapWrap">
+        <img class="mapImg" src="${mapUrl}" alt="Mapa de Chile"/>
       </div>
     </div>
 
-    <!-- COMUNAS ABAJO A TODO ANCHO -->
-    <div class="card below">
-      <h2>Top comunas</h2>
-      <table class="t-comunas">
-        <colgroup>
-          <col class="c1"><col class="c2"><col class="c3"><col class="c4"><col class="c5">
-        </colgroup>
-        <thead>
-          <tr>
-            <th>#</th><th>Comuna</th><th>Provincia</th><th>Región</th><th>Frecuencia</th>
-          </tr>
-        </thead>
-        <tbody>${comunasRows}</tbody>
-      </table>
+    <!-- TABLAS DERECHA -->
+    <div class="rightCol">
+      ... (tus dos cards de regiones y provincias tal cual) ...
     </div>
+  </div>
+
+  <!-- COMUNAS ABAJO A TODO ANCHO -->
+  <div class="card below">
+    ... (tu tabla de comunas tal cual) ...
+  </div>
+</div>
+
 
     <div class="foot">
       Fuente: www.apellidos.cl / Mapa de apellidos en Chile. Este reporte presenta los lugares donde hay mayor frecuencia relativa del apellido, lo que en muchos casos se explica por su antigua presencia en aquellos lugares.
