@@ -271,17 +271,17 @@ async function buildHtmlReport({ slug, summary }) {
     }
 
 /* el card del mapa debe poder estirar */
-/* .grid > .card{ height:100%; }      /* aplica al primer .card del grid (mapa) */
+ .grid > .card{ height:100%; }      /* aplica al primer .card del grid (mapa) */
 
       /* el mapa ocupa todo el alto disponible */
-     /*  .mapWrap{
-     /*    width:100%;
-    /*     height: 100%;                    /* CLAVE: ahora calza con la altura de la columna derecha */
-     /*    overflow:hidden;
-    /*     border-radius:10px;
-    /*     border:1px solid #e2e2e2;
-    /*     background:#fff;
-   /*    }
+       .mapWrap{
+         width:100%;
+         height: 100%;                    /* CLAVE: ahora calza con la altura de la columna derecha */
+         overflow:hidden;
+         border-radius:10px;
+         border:1px solid #e2e2e2;
+         background:#fff;
+       }
 
 
     .rightCol{
