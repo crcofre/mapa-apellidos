@@ -278,7 +278,7 @@ async function buildHtmlReport({ slug, summary }) {
     /* Layout principal: mapa izquierda, tablas derecha */
     .grid{
       display:grid;
-      grid-template-columns: 36% 64%;
+      grid-template-columns: 40% 60%;
       gap: 4mm;
       align-items: stretch;
     }
@@ -301,7 +301,7 @@ async function buildHtmlReport({ slug, summary }) {
     /* MAPA: UNA sola definición (sin duplicado) y altura controlada */
     .mapWrap{
       width:100%;
-      height: 128mm; /* ajuste fino para evitar que empuje el resto */
+      height: 122mm; /* ajuste fino para evitar que empuje el resto */
       overflow:hidden;
       border-radius:10px;
       border:1px solid #e2e2e2;
@@ -312,7 +312,7 @@ async function buildHtmlReport({ slug, summary }) {
       width:100%;
       height:100%;
       object-fit: cover;
-      object-position: 50% 60%;
+      object-position: 50% 52%;
       display:block;
     }
 
