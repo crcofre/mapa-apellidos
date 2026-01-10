@@ -171,7 +171,8 @@ async function buildMapPngWithPlaywright({ slug }) {
     });
 
     const mapEl = await page.$("#map");
-    if (!mapEl) throw new Error("No encontré el elemento #map en la página del mapa.");
+    if (!mapEl)
+      throw new Error("No encontré el elemento #map en la página del mapa.");
 
     const box = await mapEl.boundingBox();
     if (!box) throw new Error("No pude calcular el bounding box de #map.");
@@ -236,7 +237,6 @@ async function buildHtmlReport({ slug, summary }) {
   <meta charset="utf-8"/>
   <title>Informe ${htmlEscape(summary.apellido)}</title>
   <style>
-    /* === CLAVE para PDF: margen real de impresión y evitar cortes === */
     @page { size: A4; margin: 12mm; }
     html, body { margin:0; padding:0; }
     * { box-sizing: border-box; }
@@ -250,11 +250,10 @@ async function buildHtmlReport({ slug, summary }) {
 
     .page{
       width: 100%;
-      max-width: 180mm; /* A4 (210mm) - 2*12mm = 186mm; dejo menos por seguridad */
+      max-width: 180mm;
       margin: 0 auto;
     }
 
-    /* Header compacto */
     .header{
       display:flex;
       justify-content:space-between;
@@ -275,7 +274,6 @@ async function buildHtmlReport({ slug, summary }) {
     h1{ font-size: 18px; margin: 0 0 2mm; }
     .sub{ font-size: 12px; color:#333; margin: 0 0 4mm; }
 
-    /* Layout principal: mapa izquierda, tablas derecha */
     .grid{
       display:grid;
       grid-template-columns: 40% 60%;
@@ -290,7 +288,6 @@ async function buildHtmlReport({ slug, summary }) {
       height:100%;
     }
 
-    /* Cards */
     .card{
       border:1px solid #e6e6e6;
       border-radius:10px;
@@ -298,10 +295,12 @@ async function buildHtmlReport({ slug, summary }) {
       background:#fff;
     }
 
-    /* MAPA: UNA sola definición (sin duplicado) y altura controlada */
+    /* SOLO el card del mapa: más “largo abajo” */
+    .mapCard{ padding-bottom: 10mm; }
+
     .mapWrap{
       width:100%;
-      height: 132mm; /* ajuste fino para evitar que empuje el resto */
+      height: 132mm;
       overflow:hidden;
       border-radius:10px;
       border:1px solid #e2e2e2;
@@ -316,7 +315,6 @@ async function buildHtmlReport({ slug, summary }) {
       display:block;
     }
 
-    /* Tablas */
     h2{ font-size: 12.5px; margin: 0 0 2mm; }
 
     table{
@@ -350,7 +348,6 @@ async function buildHtmlReport({ slug, summary }) {
       padding-bottom: 1.6mm;
     }
 
-    /* Anchos por columna */
     .t-regiones col.c1{ width: 10%; }
     .t-regiones col.c2{ width: 70%; }
     .t-regiones col.c3{ width: 20%; }
@@ -392,7 +389,7 @@ async function buildHtmlReport({ slug, summary }) {
 
     <div class="grid">
       <!-- MAPA -->
-      <div class="card">
+      <div class="card mapCard">
         <div class="mapWrap">
           <img class="mapImg" src="${mapUrl}" alt="Mapa de Chile"/>
         </div>
@@ -456,10 +453,7 @@ async function main() {
   const slug = slugArg();
   const summary = await loadSummaryFromShard(slug);
 
-  // 1) Generar PNG con Leaflet real
   await buildMapPngWithPlaywright({ slug });
-
-  // 2) Generar HTML
   await buildHtmlReport({ slug, summary });
 
   console.log(
