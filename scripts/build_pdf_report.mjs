@@ -298,17 +298,22 @@ async function buildHtmlReport({ slug, summary }) {
     /* SOLO el card del mapa: más “largo abajo” */
     /* .mapCard{ padding-bottom: 10mm; }
 
-/* La tarjeta del mapa ocupa TODA la altura de la columna izquierda */
+/* La tarjeta NO debe inflarse */
 .mapCard{
   height: 100%;
   display: flex;
-  flex-direction: column;
-
-  /* Esto es lo que “baja” el marco interno sin mover el borde externo */
-  padding-top: 9mm;     /* ajusta 7–12mm a gusto */
 }
 
-/* El marco interno ocupa el resto del alto disponible */
+/* Controlamos el "bajar un poco" acá, SIN agrandar el borde externo */
+.mapCardInner{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-top: 3mm;   /* antes era demasiado: 9mm */
+  padding-bottom: 0mm;
+}
+
+/* El marco interno ocupa el resto */
 .mapWrap{
   flex: 1;
   width: 100%;
@@ -318,7 +323,6 @@ async function buildHtmlReport({ slug, summary }) {
   background: #fff;
 }
 
-/* Imagen igual */
 .mapImg{
   width:100%;
   height:100%;
@@ -326,6 +330,7 @@ async function buildHtmlReport({ slug, summary }) {
   object-position: 50% 53%;
   display:block;
 }
+
 
 
     h2{ font-size: 12.5px; margin: 0 0 2mm; }
@@ -403,10 +408,13 @@ async function buildHtmlReport({ slug, summary }) {
     <div class="grid">
       <!-- MAPA -->
       <div class="card mapCard">
-        <div class="mapWrap">
-          <img class="mapImg" src="${mapUrl}" alt="Mapa de Chile"/>
-        </div>
-      </div>
+  <div class="mapCardInner">
+    <div class="mapWrap">
+      <img class="mapImg" src="${mapUrl}" alt="Mapa de Chile"/>
+    </div>
+  </div>
+</div>
+
 
       <!-- TABLAS DERECHA -->
       <div class="rightCol">
