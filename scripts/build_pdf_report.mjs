@@ -197,9 +197,13 @@ async function buildMapPngWithPlaywright({ slug }) {
 /**
  * HTML del reporte (usa el PNG generado enEL mapa en pdf_maps/slug.png)
  */
+/**
+ * HTML del reporte (usa el PNG generado en pdf_maps/slug.png)
+ */
 async function buildHtmlReport({ slug, summary }) {
   await fs.ensureDir(OUT_REPORTS_DIR);
 
+  // ruta relativa dentro de pdf_reports/ hacia pdf_maps/
   const mapUrl = `../${OUT_MAPS_DIR}/${slug}.png?v=${Date.now()}`;
 
   const regionesRows = (summary.top_regiones || [])
@@ -295,6 +299,7 @@ async function buildHtmlReport({ slug, summary }) {
       background:#fff;
     }
 
+    /* UNA sola definición de mapWrap (evita “estiramiento” del mapa) */
     .mapWrap{
       width:100%;
       height: 128mm;
@@ -432,6 +437,24 @@ async function buildHtmlReport({ slug, summary }) {
   await fs.writeFile(outHtml, html, "utf8");
   return outHtml;
 }
+
+async function main() {
+  const slug = slugArg();
+  const summary = await loadSummaryFromShard(slug);
+
+  await buildMapPngWithPlaywright({ slug });
+  await buildHtmlReport({ slug, summary });
+
+  console.log(
+    `OK: generado ${OUT_MAPS_DIR}/${slug}.png y ${OUT_REPORTS_DIR}/${slug}.html`
+  );
+}
+
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});
+
 
 
 async function main() {
