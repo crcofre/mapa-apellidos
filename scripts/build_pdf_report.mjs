@@ -296,26 +296,37 @@ async function buildHtmlReport({ slug, summary }) {
     }
 
     /* SOLO el card del mapa: más “largo abajo” */
-    .mapCard{ padding-bottom: 10mm; }
+    /* .mapCard{ padding-bottom: 10mm; }
 
-    .mapWrap{
-  width:100%;
-  height: 128mm;
-  margin-top: 6mm;   /* ← ESTO es lo que faltaba */
-  overflow:hidden;
-  border-radius:10px;
-  border:1px solid #e2e2e2;
-  background:#fff;
+/* La tarjeta del mapa ocupa TODA la altura de la columna izquierda */
+.mapCard{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  /* Esto es lo que “baja” el marco interno sin mover el borde externo */
+  padding-top: 9mm;     /* ajusta 7–12mm a gusto */
 }
 
+/* El marco interno ocupa el resto del alto disponible */
+.mapWrap{
+  flex: 1;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid #e2e2e2;
+  background: #fff;
+}
 
-    .mapImg{
-      width:100%;
-      height:100%;
-      object-fit: cover;
-      object-position: 50% 53%;
-      display:block;
-    }
+/* Imagen igual */
+.mapImg{
+  width:100%;
+  height:100%;
+  object-fit: cover;
+  object-position: 50% 53%;
+  display:block;
+}
+
 
     h2{ font-size: 12.5px; margin: 0 0 2mm; }
 
