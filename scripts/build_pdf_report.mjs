@@ -301,7 +301,7 @@ async function buildHtmlReport({ slug, summary }) {
     /* MAPA: UNA sola definición (sin duplicado) y altura controlada */
     .mapWrap{
       width:100%;
-      height: 128mm; /* ajuste fino para evitar que empuje el resto */
+      height: 132mm; /* ajuste fino para evitar que empuje el resto */
       overflow:hidden;
       border-radius:10px;
       border:1px solid #e2e2e2;
