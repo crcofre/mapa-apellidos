@@ -438,18 +438,6 @@ async function buildHtmlReport({ slug, summary }) {
   return outHtml;
 }
 
-async function main() {
-  const slug = slugArg();
-  const summary = await loadSummaryFromShard(slug);
-
-  await buildMapPngWithPlaywright({ slug });
-  await buildHtmlReport({ slug, summary });
-
-  console.log(
-    `OK: generado ${OUT_MAPS_DIR}/${slug}.png y ${OUT_REPORTS_DIR}/${slug}.html`
-  );
-}
-
 
 
 async function main() {
