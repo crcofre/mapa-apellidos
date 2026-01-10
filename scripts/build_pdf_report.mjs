@@ -200,7 +200,6 @@ async function buildMapPngWithPlaywright({ slug }) {
 async function buildHtmlReport({ slug, summary }) {
   await fs.ensureDir(OUT_REPORTS_DIR);
 
-  // OJO: ruta relativa dentro de pdf_reports/ hacia pdf_maps/
   const mapUrl = `../${OUT_MAPS_DIR}/${slug}.png?v=${Date.now()}`;
 
   const regionesRows = (summary.top_regiones || [])
@@ -232,10 +231,6 @@ async function buildHtmlReport({ slug, summary }) {
     )
     .join("");
 
-  // CAMBIOS ESENCIALES vs tu versión:
-  // 1) Eliminé .grid > .card{height:100%}
-  // 2) Dejé UNA sola .mapWrap (no duplicada)
-  // 3) Fijé .mapWrap a 128mm (en vez de 132mm) y ajusté object-position a 60%
   const html = `<!doctype html>
 <html>
 <head>
@@ -255,7 +250,7 @@ async function buildHtmlReport({ slug, summary }) {
 
     .page{
       width: 100%;
-      max-width: 180mm; /* un poco menos que 186mm por seguridad */
+      max-width: 180mm;
       margin: 0 auto;
     }
 
@@ -300,10 +295,9 @@ async function buildHtmlReport({ slug, summary }) {
       background:#fff;
     }
 
-    /* MAPA: UNA sola definición, altura fija controlada */
     .mapWrap{
       width:100%;
-      height: 128mm;          /* CLAVE: fija y controlada */
+      height: 128mm;
       overflow:hidden;
       border-radius:10px;
       border:1px solid #e2e2e2;
@@ -391,21 +385,17 @@ async function buildHtmlReport({ slug, summary }) {
     <p class="sub">Lugares donde tiene mayor arraigo histórico.</p>
 
     <div class="grid">
-      <!-- MAPA -->
       <div class="card">
         <div class="mapWrap">
           <img class="mapImg" src="${mapUrl}" alt="Mapa de Chile"/>
         </div>
       </div>
 
-      <!-- TABLAS DERECHA -->
       <div class="rightCol">
         <div class="card">
           <h2>Top regiones</h2>
           <table class="t-regiones">
-            <colgroup>
-              <col class="c1"><col class="c2"><col class="c3">
-            </colgroup>
+            <colgroup><col class="c1"><col class="c2"><col class="c3"></colgroup>
             <thead><tr><th>#</th><th>Región</th><th>Frecuencia</th></tr></thead>
             <tbody>${regionesRows}</tbody>
           </table>
@@ -414,9 +404,7 @@ async function buildHtmlReport({ slug, summary }) {
         <div class="card">
           <h2>Top provincias</h2>
           <table class="t-provincias">
-            <colgroup>
-              <col class="c1"><col class="c2"><col class="c3"><col class="c4">
-            </colgroup>
+            <colgroup><col class="c1"><col class="c2"><col class="c3"><col class="c4"></colgroup>
             <thead><tr><th>#</th><th>Provincia</th><th>Región</th><th>Frecuencia</th></tr></thead>
             <tbody>${provinciasRows}</tbody>
           </table>
@@ -424,18 +412,11 @@ async function buildHtmlReport({ slug, summary }) {
       </div>
     </div>
 
-    <!-- COMUNAS ABAJO A TODO ANCHO -->
     <div class="card below">
       <h2>Top comunas</h2>
       <table class="t-comunas">
-        <colgroup>
-          <col class="c1"><col class="c2"><col class="c3"><col class="c4"><col class="c5">
-        </colgroup>
-        <thead>
-          <tr>
-            <th>#</th><th>Comuna</th><th>Provincia</th><th>Región</th><th>Frecuencia</th>
-          </tr>
-        </thead>
+        <colgroup><col class="c1"><col class="c2"><col class="c3"><col class="c4"><col class="c5"></colgroup>
+        <thead><tr><th>#</th><th>Comuna</th><th>Provincia</th><th>Región</th><th>Frecuencia</th></tr></thead>
         <tbody>${comunasRows}</tbody>
       </table>
     </div>
@@ -451,6 +432,7 @@ async function buildHtmlReport({ slug, summary }) {
   await fs.writeFile(outHtml, html, "utf8");
   return outHtml;
 }
+
 
 async function main() {
   const slug = slugArg();
