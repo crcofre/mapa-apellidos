@@ -444,10 +444,7 @@ async function main() {
   const slug = slugArg();
   const summary = await loadSummaryFromShard(slug);
 
-  // 1) Generar PNG con Leaflet real
   await buildMapPngWithPlaywright({ slug });
-
-  // 2) Generar HTML
   await buildHtmlReport({ slug, summary });
 
   console.log(
@@ -459,6 +456,7 @@ main().catch((e) => {
   console.error(e);
   process.exit(1);
 });
+
 
   return outHtml;
 }
