@@ -298,22 +298,20 @@ async function buildHtmlReport({ slug, summary }) {
     /* SOLO el card del mapa: más “largo abajo” */
     /* .mapCard{ padding-bottom: 10mm; }
 
-/* La tarjeta NO debe inflarse */
+/* Card del mapa: se estira como la columna izquierda */
 .mapCard{
   height: 100%;
   display: flex;
-}
-
-/* Controlamos el "bajar un poco" acá, SIN agrandar el borde externo */
-.mapCardInner{
-  display: flex;
   flex-direction: column;
-  width: 100%;
-  padding-top: 3mm;   /* antes era demasiado: 9mm */
-  padding-bottom: 0mm;
 }
 
-/* El marco interno ocupa el resto */
+/* Espaciador ARRIBA: esto baja el marco interno SIN agrandar el borde externo */
+.mapCard::before{
+  content: "";
+  flex: 0 0 6mm;   /* AJUSTA AQUÍ: 4mm–8mm */
+}
+
+/* Marco interno: FLEXIBLE (muy importante: NO height fijo) */
 .mapWrap{
   flex: 1;
   width: 100%;
@@ -323,13 +321,15 @@ async function buildHtmlReport({ slug, summary }) {
   background: #fff;
 }
 
+/* Imagen igual */
 .mapImg{
-  width:100%;
-  height:100%;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   object-position: 50% 53%;
-  display:block;
+  display: block;
 }
+
 
 
 
