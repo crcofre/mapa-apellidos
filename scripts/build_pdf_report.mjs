@@ -92,7 +92,9 @@ async function loadSummaryFromShard(slug) {
   if (!summary) {
     const sample = items.slice(0, 10).map((it) => it.slug).filter(Boolean);
     throw new Error(
-      `No encontré el slug=${slug} dentro de ${shard}. Ejemplos de slugs: ${sample.join(", ")}`
+      `No encontré el slug=${slug} dentro de ${shard}. Ejemplos de slugs: ${sample.join(
+        ", "
+      )}`
     );
   }
 
@@ -142,7 +144,7 @@ async function buildMapPngWithPlaywright({ slug }) {
       { timeout: 120000 }
     );
 
-    // 1) Oculta todo lo que no sea el mapa (controles, buscador, leyenda, botones)
+    // Oculta UI / fuerza fondo blanco
     await page.addStyleTag({
       content: `
         .leaflet-control-container,
@@ -150,40 +152,36 @@ async function buildMapPngWithPlaywright({ slug }) {
         #suggestBox,
         #ctaBottomControl,
         .log-panel { display:none !important; }
-        /* fuerza fondo blanco (reduce “gris”) */
         html, body { background:#fff !important; }
         #map { background:#fff !important; }
       `,
     });
 
-    // 2) Asegura que Leaflet recalcula el tamaño antes de capturar
+    // Reflow Leaflet
     await page.evaluate(() => {
       try {
         window.map?.invalidateSize?.(true);
       } catch (e) {}
     });
-
     await page.waitForTimeout(250);
-
     await page.evaluate(() => {
       try {
         window.map?.invalidateSize?.(true);
       } catch (e) {}
     });
 
-    // Captura SOLO el div #map
     const mapEl = await page.$("#map");
     if (!mapEl) throw new Error("No encontré el elemento #map en la página del mapa.");
 
     const box = await mapEl.boundingBox();
     if (!box) throw new Error("No pude calcular el bounding box de #map.");
 
-    // 3) Recorte proporcional para “quitar aire” y dejar Chile más lleno
+    // Recorte proporcional para “quitar aire”
     const crop = {
-      x: Math.round(box.x + box.width * 0.22),   // recorte a la izquierda
-      y: Math.round(box.y + box.height * 0.01),  // casi no recorta arriba
-      width: Math.round(box.width * 0.56),       // más angosto → menos “aire”
-      height: Math.round(box.height * 0.985),    // casi todo el alto
+      x: Math.round(box.x + box.width * 0.22),
+      y: Math.round(box.y + box.height * 0.01),
+      width: Math.round(box.width * 0.56),
+      height: Math.round(box.height * 0.985),
     };
 
     await page.screenshot({ path: outPng, type: "png", clip: crop });
@@ -195,15 +193,12 @@ async function buildMapPngWithPlaywright({ slug }) {
 }
 
 /**
- * HTML del reporte (usa el PNG generado enEL mapa en pdf_maps/slug.png)
- */
-/**
  * HTML del reporte (usa el PNG generado en pdf_maps/slug.png)
  */
 async function buildHtmlReport({ slug, summary }) {
   await fs.ensureDir(OUT_REPORTS_DIR);
 
-  // ruta relativa dentro de pdf_reports/ hacia pdf_maps/
+  // Ruta relativa dentro de pdf_reports/ hacia pdf_maps/
   const mapUrl = `../${OUT_MAPS_DIR}/${slug}.png?v=${Date.now()}`;
 
   const regionesRows = (summary.top_regiones || [])
@@ -241,6 +236,7 @@ async function buildHtmlReport({ slug, summary }) {
   <meta charset="utf-8"/>
   <title>Informe ${htmlEscape(summary.apellido)}</title>
   <style>
+    /* === CLAVE para PDF: margen real de impresión y evitar cortes === */
     @page { size: A4; margin: 12mm; }
     html, body { margin:0; padding:0; }
     * { box-sizing: border-box; }
@@ -254,10 +250,11 @@ async function buildHtmlReport({ slug, summary }) {
 
     .page{
       width: 100%;
-      max-width: 180mm;
+      max-width: 180mm; /* A4 (210mm) - 2*12mm = 186mm; dejo menos por seguridad */
       margin: 0 auto;
     }
 
+    /* Header compacto */
     .header{
       display:flex;
       justify-content:space-between;
@@ -278,6 +275,7 @@ async function buildHtmlReport({ slug, summary }) {
     h1{ font-size: 18px; margin: 0 0 2mm; }
     .sub{ font-size: 12px; color:#333; margin: 0 0 4mm; }
 
+    /* Layout principal: mapa izquierda, tablas derecha */
     .grid{
       display:grid;
       grid-template-columns: 36% 64%;
@@ -292,6 +290,7 @@ async function buildHtmlReport({ slug, summary }) {
       height:100%;
     }
 
+    /* Cards */
     .card{
       border:1px solid #e6e6e6;
       border-radius:10px;
@@ -299,10 +298,10 @@ async function buildHtmlReport({ slug, summary }) {
       background:#fff;
     }
 
-    /* UNA sola definición de mapWrap (evita “estiramiento” del mapa) */
+    /* MAPA: UNA sola definición (sin duplicado) y altura controlada */
     .mapWrap{
       width:100%;
-      height: 128mm;
+      height: 128mm; /* ajuste fino para evitar que empuje el resto */
       overflow:hidden;
       border-radius:10px;
       border:1px solid #e2e2e2;
@@ -317,6 +316,7 @@ async function buildHtmlReport({ slug, summary }) {
       display:block;
     }
 
+    /* Tablas */
     h2{ font-size: 12.5px; margin: 0 0 2mm; }
 
     table{
@@ -350,6 +350,7 @@ async function buildHtmlReport({ slug, summary }) {
       padding-bottom: 1.6mm;
     }
 
+    /* Anchos por columna */
     .t-regiones col.c1{ width: 10%; }
     .t-regiones col.c2{ width: 70%; }
     .t-regiones col.c3{ width: 20%; }
@@ -390,17 +391,21 @@ async function buildHtmlReport({ slug, summary }) {
     <p class="sub">Lugares donde tiene mayor arraigo histórico.</p>
 
     <div class="grid">
+      <!-- MAPA -->
       <div class="card">
         <div class="mapWrap">
           <img class="mapImg" src="${mapUrl}" alt="Mapa de Chile"/>
         </div>
       </div>
 
+      <!-- TABLAS DERECHA -->
       <div class="rightCol">
         <div class="card">
           <h2>Top regiones</h2>
           <table class="t-regiones">
-            <colgroup><col class="c1"><col class="c2"><col class="c3"></colgroup>
+            <colgroup>
+              <col class="c1"><col class="c2"><col class="c3">
+            </colgroup>
             <thead><tr><th>#</th><th>Región</th><th>Frecuencia</th></tr></thead>
             <tbody>${regionesRows}</tbody>
           </table>
@@ -409,7 +414,9 @@ async function buildHtmlReport({ slug, summary }) {
         <div class="card">
           <h2>Top provincias</h2>
           <table class="t-provincias">
-            <colgroup><col class="c1"><col class="c2"><col class="c3"><col class="c4"></colgroup>
+            <colgroup>
+              <col class="c1"><col class="c2"><col class="c3"><col class="c4">
+            </colgroup>
             <thead><tr><th>#</th><th>Provincia</th><th>Región</th><th>Frecuencia</th></tr></thead>
             <tbody>${provinciasRows}</tbody>
           </table>
@@ -417,11 +424,18 @@ async function buildHtmlReport({ slug, summary }) {
       </div>
     </div>
 
+    <!-- COMUNAS ABAJO A TODO ANCHO -->
     <div class="card below">
       <h2>Top comunas</h2>
       <table class="t-comunas">
-        <colgroup><col class="c1"><col class="c2"><col class="c3"><col class="c4"><col class="c5"></colgroup>
-        <thead><tr><th>#</th><th>Comuna</th><th>Provincia</th><th>Región</th><th>Frecuencia</th></tr></thead>
+        <colgroup>
+          <col class="c1"><col class="c2"><col class="c3"><col class="c4"><col class="c5">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>#</th><th>Comuna</th><th>Provincia</th><th>Región</th><th>Frecuencia</th>
+          </tr>
+        </thead>
         <tbody>${comunasRows}</tbody>
       </table>
     </div>
@@ -438,13 +452,14 @@ async function buildHtmlReport({ slug, summary }) {
   return outHtml;
 }
 
-
-
 async function main() {
   const slug = slugArg();
   const summary = await loadSummaryFromShard(slug);
 
+  // 1) Generar PNG con Leaflet real
   await buildMapPngWithPlaywright({ slug });
+
+  // 2) Generar HTML
   await buildHtmlReport({ slug, summary });
 
   console.log(
@@ -456,7 +471,3 @@ main().catch((e) => {
   console.error(e);
   process.exit(1);
 });
-
-
-  return outHtml;
-}
