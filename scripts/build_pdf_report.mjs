@@ -299,13 +299,15 @@ async function buildHtmlReport({ slug, summary }) {
     .mapCard{ padding-bottom: 10mm; }
 
     .mapWrap{
-      width:100%;
-      height: 132mm;
-      overflow:hidden;
-      border-radius:10px;
-      border:1px solid #e2e2e2;
-      background:#fff;
-    }
+  width:100%;
+  height: 128mm;
+  margin-top: 6mm;   /* ← ESTO es lo que faltaba */
+  overflow:hidden;
+  border-radius:10px;
+  border:1px solid #e2e2e2;
+  background:#fff;
+}
+
 
     .mapImg{
       width:100%;
