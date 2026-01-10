@@ -3,164 +3,151 @@
 <head>
   <meta charset="utf-8"/>
   <title>Informe LUCERO</title>
- @page { size: A4; margin: 10mm; }
-html, body { margin:0; padding:0; }
-* { box-sizing: border-box; }
+  <style>
+    /* === CLAVE para PDF: margen real de impresión y evitar cortes === */
+    @page { size: A4; margin: 12mm; }
+    html, body { margin:0; padding:0; }
+    * { box-sizing: border-box; }
 
-body{
-  font-family: Arial, Helvetica, sans-serif;
-  color:#111;
-  -webkit-print-color-adjust: exact;
-  print-color-adjust: exact;
-}
+    body{
+      font-family: Arial, Helvetica, sans-serif;
+      color:#111;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
 
-.page{
-  width:100%;
-  max-width: 190mm; /* 210 - 2*10 */
-  margin: 0 auto;
-}
+    .page{
+      width: 100%;
+      max-width: 180mm; /* A4 (210mm) - 2*12mm = 186mm; dejo menos por seguridad */
+      margin: 0 auto;
+    }
 
-.header{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:10px;
-  margin-bottom: 3mm;
-}
-.brand{ display:flex; align-items:center; gap:10px; }
-.logo{ height: 11mm; }
-.meta{ font-size: 10px; color:#555; text-align:right; line-height:1.25; padding-top:1.5mm; }
+    /* Header compacto */
+    .header{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:10px;
+      margin-bottom: 4mm;
+    }
+    .brand{ display:flex; align-items:center; gap:10px; }
+    .logo{ height: 12mm; }
+    .meta{
+      font-size: 10px;
+      color:#555;
+      text-align:right;
+      line-height:1.25;
+      padding-top:2mm;
+    }
 
-h1{ font-size: 18px; margin: 0 0 1.5mm; }
-.sub{ font-size: 12px; color:#333; margin: 0 0 3mm; }
+    h1{ font-size: 18px; margin: 0 0 2mm; }
+    .sub{ font-size: 12px; color:#333; margin: 0 0 4mm; }
 
-.card{
-  border:1px solid #e6e6e6;
-  border-radius:10px;
-  padding: 3mm;
-  background:#fff;
-}
+    /* Layout principal: mapa izquierda, tablas derecha */
+    .grid{
+      display:grid;
+      grid-template-columns: 36% 64%;
+      gap: 4mm;
+      align-items: stretch;
+    }
 
-/* ===== ESTRUCTURA EN 2 FILAS (evita que el mapa invada comunas) ===== */
-.layout{
-  display:grid;
-  grid-template-rows: 168mm auto; /* fila superior fija */
-  gap: 4mm;
-}
+    .rightCol{
+      display:flex;
+      flex-direction:column;
+      gap:4mm;
+      height:100%;
+    }
 
-/* Fila superior */
-.grid{
-  display:grid;
-  grid-template-columns: 32% 68%;
-  gap: 4mm;
-  height: 168mm;
-  overflow: hidden;
-  align-items: stretch;
-}
+    /* Cards */
+    .card{
+      border:1px solid #e6e6e6;
+      border-radius:10px;
+      padding: 3mm;
+      background:#fff;
+    }
 
-.rightCol{
-  height: 168mm;
-  display:flex;
-  flex-direction:column;
-  gap:4mm;
-}
+    /* MAPA: UNA sola definición (sin duplicado) y altura controlada */
+    .mapWrap{
+      width:100%;
+      height: 128mm; /* ajuste fino para evitar que empuje el resto */
+      overflow:hidden;
+      border-radius:10px;
+      border:1px solid #e2e2e2;
+      background:#fff;
+    }
 
-.rightCol .card{
-  height: calc((168mm - 4mm) / 2);
-  overflow: hidden;
-}
+    .mapImg{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      object-position: 50% 60%;
+      display:block;
+    }
 
-/* MAPA controlado (no “flex:1” infinito) */
-.mapCard{
-  height: 168mm;
-  display:flex;
-  flex-direction:column;
-}
-.mapWrap{
-  height: 100%;
-  overflow:hidden;
-  border-radius:10px;
-  border:1px solid #e2e2e2;
-  background:#fff;
-}
-.mapImg{
-  width:100%;
-  height:100%;
-  object-fit: contain;      /* clave: no agranda/corta */
-  object-position: 50% 65%; /* leve énfasis al sur sin inflar */
-  display:block;
-}
+    /* Tablas */
+    h2{ font-size: 12.5px; margin: 0 0 2mm; }
 
-h2{ font-size: 12.5px; margin: 0 0 2mm; }
+    table{
+      width:100%;
+      border-collapse:collapse;
+      table-layout: fixed;
+    }
 
-table{
-  width:100%;
-  border-collapse:collapse;
-  table-layout: fixed;
-}
+    th, td{
+      border:1px solid #eee;
+      padding: 2mm 2.2mm;
+      font-size: 10.5px;
+      line-height: 1.2;
+      word-wrap: break-word;
+      overflow-wrap: anywhere;
+    }
 
-th, td{
-  border:1px solid #eee;
-  padding: 1.6mm 2mm;
-  font-size: 10.3px;
-  line-height: 1.15;
-  word-wrap: break-word;
-  overflow-wrap: anywhere;
-}
+    thead th{
+      background:#f7f7f7;
+      text-align:left;
+      white-space: normal;
+      vertical-align: middle;
+      padding-top: 1.4mm;
+      padding-bottom: 1.4mm;
+    }
 
-thead th{
-  background:#f7f7f7;
-  text-align:left;
-  vertical-align: middle;
-  padding-top: 1.2mm;
-  padding-bottom: 1.2mm;
-}
+    tbody td{
+      height: 10mm;
+      vertical-align: middle;
+      padding-top: 1.6mm;
+      padding-bottom: 1.6mm;
+    }
 
-tbody td{
-  height: 9mm;
-  vertical-align: middle;
-  padding-top: 1.2mm;
-  padding-bottom: 1.2mm;
-}
+    /* Anchos por columna */
+    .t-regiones col.c1{ width: 10%; }
+    .t-regiones col.c2{ width: 70%; }
+    .t-regiones col.c3{ width: 20%; }
 
-/* Column widths */
-.t-regiones col.c1{ width: 10%; }
-.t-regiones col.c2{ width: 70%; }
-.t-regiones col.c3{ width: 20%; }
+    .t-provincias col.c1{ width: 10%; }
+    .t-provincias col.c2{ width: 30%; }
+    .t-provincias col.c3{ width: 40%; }
+    .t-provincias col.c4{ width: 20%; }
 
-.t-provincias col.c1{ width: 10%; }
-.t-provincias col.c2{ width: 30%; }
-.t-provincias col.c3{ width: 40%; }
-.t-provincias col.c4{ width: 20%; }
+    .t-comunas col.c1{ width: 6%; }
+    .t-comunas col.c2{ width: 20%; }
+    .t-comunas col.c3{ width: 20%; }
+    .t-comunas col.c4{ width: 42%; }
+    .t-comunas col.c5{ width: 12%; }
 
-.t-comunas col.c1{ width: 6%; }
-.t-comunas col.c2{ width: 20%; }
-.t-comunas col.c3{ width: 20%; }
-.t-comunas col.c4{ width: 42%; }
-.t-comunas col.c5{ width: 12%; }
+    .below{ margin-top: 4mm; }
 
-/* Comunas abajo */
-.below{
-  width:100%;
-  padding: 2.4mm;
-  overflow: hidden;
-}
+    .foot{
+      font-size: 11px;
+      color:#666;
+      margin-top: 3mm;
+    }
 
-.foot{
-  font-size: 10px;
-  color:#666;
-  margin-top: 2mm;
-  line-height: 1.25;
-}
-
-.card, table { break-inside: avoid; page-break-inside: avoid; }
-
-
+    .card, table { break-inside: avoid; page-break-inside: avoid; }
+  </style>
 </head>
 
 <body>
   <div class="page">
-
     <div class="header">
       <div class="brand">
         <img class="logo" src="https://images.jumpseller.com/store/familias-y-apellidos/store/logo/Sitio_web.png?1741039595" alt="Apellidos.cl"/>
@@ -171,67 +158,59 @@ tbody td{
     <h1>Mapa del apellido LUCERO</h1>
     <p class="sub">Lugares donde tiene mayor arraigo histórico.</p>
 
-    <div class="layout">
+    <div class="grid">
+      <!-- MAPA -->
+      <div class="card">
+        <div class="mapWrap">
+          <img class="mapImg" src="../pdf_maps/lucero.png?v=1768070367261" alt="Mapa de Chile"/>
+        </div>
+      </div>
 
-  <!-- FILA SUPERIOR: mapa + tablas -->
-  <div class="grid">
-    <!-- MAPA -->
-    <div class="card mapCard">
-      <div class="mapWrap">
-        <img class="mapImg" src="../pdf_maps/lucero.png?v=1767926501151" alt="Mapa de Chile"/>
+      <!-- TABLAS DERECHA -->
+      <div class="rightCol">
+        <div class="card">
+          <h2>Top regiones</h2>
+          <table class="t-regiones">
+            <colgroup>
+              <col class="c1"><col class="c2"><col class="c3">
+            </colgroup>
+            <thead><tr><th>#</th><th>Región</th><th>Frecuencia</th></tr></thead>
+            <tbody><tr><td>1</td><td>LIBERTADOR GENERAL BERNARDO O&#039;HIGGINS</td><td>0.29%</td></tr><tr><td>2</td><td>VALPARAISO</td><td>0.14%</td></tr><tr><td>3</td><td>METROPOLITANA DE SANTIAGO</td><td>0.11%</td></tr><tr><td>4</td><td>TARAPACA</td><td>0.07%</td></tr><tr><td>5</td><td>MAGALLANES Y DE LA ANTARTICA CHILENA</td><td>0.06%</td></tr></tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <h2>Top provincias</h2>
+          <table class="t-provincias">
+            <colgroup>
+              <col class="c1"><col class="c2"><col class="c3"><col class="c4">
+            </colgroup>
+            <thead><tr><th>#</th><th>Provincia</th><th>Región</th><th>Frecuencia</th></tr></thead>
+            <tbody><tr><td>1</td><td>CACHAPOAL</td><td>LIBERTADOR GENERAL BERNARDO O&#039;HIGGINS</td><td>0.31%</td></tr><tr><td>2</td><td>COLCHAGUA</td><td>LIBERTADOR GENERAL BERNARDO O&#039;HIGGINS</td><td>0.30%</td></tr><tr><td>3</td><td>SAN FELIPE DE ACONCAGUA</td><td>VALPARAISO</td><td>0.25%</td></tr><tr><td>4</td><td>COYHAIQUE</td><td>AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO</td><td>0.23%</td></tr><tr><td>5</td><td>LOS ANDES</td><td>VALPARAISO</td><td>0.19%</td></tr></tbody>
+          </table>
+        </div>
       </div>
     </div>
 
-    <!-- TABLAS DERECHA -->
-    <div class="rightCol">
-      <div class="card">
-        <h2>Top regiones</h2>
-        <table class="t-regiones">
-          <colgroup>
-            <col class="c1"><col class="c2"><col class="c3">
-          </colgroup>
-          <thead><tr><th>#</th><th>Región</th><th>Frecuencia</th></tr></thead>
-          <tbody><tr><td>1</td><td>LIBERTADOR GENERAL BERNARDO O&#039;HIGGINS</td><td>0.29%</td></tr><tr><td>2</td><td>VALPARAISO</td><td>0.14%</td></tr><tr><td>3</td><td>METROPOLITANA DE SANTIAGO</td><td>0.11%</td></tr><tr><td>4</td><td>TARAPACA</td><td>0.07%</td></tr><tr><td>5</td><td>MAGALLANES Y DE LA ANTARTICA CHILENA</td><td>0.06%</td></tr></tbody>
-        </table>
-      </div>
-
-      <div class="card">
-        <h2>Top provincias</h2>
-        <table class="t-provincias">
-          <colgroup>
-            <col class="c1"><col class="c2"><col class="c3"><col class="c4">
-          </colgroup>
-          <thead><tr><th>#</th><th>Provincia</th><th>Región</th><th>Frecuencia</th></tr></thead>
-          <tbody><tr><td>1</td><td>CACHAPOAL</td><td>LIBERTADOR GENERAL BERNARDO O&#039;HIGGINS</td><td>0.31%</td></tr><tr><td>2</td><td>COLCHAGUA</td><td>LIBERTADOR GENERAL BERNARDO O&#039;HIGGINS</td><td>0.30%</td></tr><tr><td>3</td><td>SAN FELIPE DE ACONCAGUA</td><td>VALPARAISO</td><td>0.25%</td></tr><tr><td>4</td><td>COYHAIQUE</td><td>AYSEN DEL GENERAL CARLOS IBAÑEZ DEL CAMPO</td><td>0.23%</td></tr><tr><td>5</td><td>LOS ANDES</td><td>VALPARAISO</td><td>0.19%</td></tr></tbody>
-        </table>
-      </div>
+    <!-- COMUNAS ABAJO A TODO ANCHO -->
+    <div class="card below">
+      <h2>Top comunas</h2>
+      <table class="t-comunas">
+        <colgroup>
+          <col class="c1"><col class="c2"><col class="c3"><col class="c4"><col class="c5">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>#</th><th>Comuna</th><th>Provincia</th><th>Región</th><th>Frecuencia</th>
+          </tr>
+        </thead>
+        <tbody><tr><td>1</td><td>PALMILLA</td><td>COLCHAGUA</td><td>LIBERTADOR GENERAL BERNARDO O&#039;HIGGINS</td><td>1.35%</td></tr><tr><td>2</td><td>PICHIDEGUA</td><td>CACHAPOAL</td><td>LIBERTADOR GENERAL BERNARDO O&#039;HIGGINS</td><td>1.13%</td></tr><tr><td>3</td><td>MALLOA</td><td>CACHAPOAL</td><td>LIBERTADOR GENERAL BERNARDO O&#039;HIGGINS</td><td>0.91%</td></tr><tr><td>4</td><td>SANTA MARIA</td><td>SAN FELIPE DE ACONCAGUA</td><td>VALPARAISO</td><td>0.84%</td></tr><tr><td>5</td><td>QUINTERO</td><td>VALPARAÍSO</td><td>VALPARAISO</td><td>0.70%</td></tr></tbody>
+      </table>
     </div>
-  </div>
-
-  <!-- FILA INFERIOR: comunas a todo ancho -->
-  <div class="card below">
-    <h2>Top comunas</h2>
-    <table class="t-comunas">
-      <colgroup>
-        <col class="c1"><col class="c2"><col class="c3"><col class="c4"><col class="c5">
-      </colgroup>
-      <thead>
-        <tr>
-          <th>#</th><th>Comuna</th><th>Provincia</th><th>Región</th><th>Frecuencia</th>
-        </tr>
-      </thead>
-      <tbody><tr><td>1</td><td>PALMILLA</td><td>COLCHAGUA</td><td>LIBERTADOR GENERAL BERNARDO O&#039;HIGGINS</td><td>1.35%</td></tr><tr><td>2</td><td>PICHIDEGUA</td><td>CACHAPOAL</td><td>LIBERTADOR GENERAL BERNARDO O&#039;HIGGINS</td><td>1.13%</td></tr><tr><td>3</td><td>MALLOA</td><td>CACHAPOAL</td><td>LIBERTADOR GENERAL BERNARDO O&#039;HIGGINS</td><td>0.91%</td></tr><tr><td>4</td><td>SANTA MARIA</td><td>SAN FELIPE DE ACONCAGUA</td><td>VALPARAISO</td><td>0.84%</td></tr><tr><td>5</td><td>QUINTERO</td><td>VALPARAÍSO</td><td>VALPARAISO</td><td>0.70%</td></tr></tbody>
-    </table>
-  </div>
-
-</div>
-
-
 
     <div class="foot">
       Fuente: www.apellidos.cl / Mapa de apellidos en Chile. Este reporte presenta los lugares donde hay mayor frecuencia relativa del apellido, lo que en muchos casos se explica por su antigua presencia en aquellos lugares.
     </div>
-
   </div>
 </body>
 </html>
