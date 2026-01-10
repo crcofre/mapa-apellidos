@@ -312,7 +312,7 @@ async function buildHtmlReport({ slug, summary }) {
       width:100%;
       height:100%;
       object-fit: cover;
-      object-position: 50% 52%;
+      object-position: 50% 53%;
       display:block;
     }
 
