@@ -307,6 +307,7 @@ async function buildHtmlReport({ slug, summary }) {
   border-radius:10px;
   border:1px solid #e2e2e2;
   background:#fff;
+  margin-below: 1mm;
 }
 
 
