@@ -301,13 +301,14 @@ async function buildHtmlReport({ slug, summary }) {
     /* MAPA: borde interno baja, pero el alto total NO cambia (sigue 128mm) */
 .mapWrap{
   width:100%;
-  height:128mm;              /* NO cambiar: mantiene alineación con tablas */
-  padding-top: 6mm;          /* AJUSTA AQUÍ: 4mm–8mm */
+  height: calc(128mm - 6mm);  /* compensación */
+  margin-top: 6mm;           /* baja el marco interno */
   overflow:hidden;
   border-radius:10px;
   border:1px solid #e2e2e2;
   background:#fff;
 }
+
 
 .mapImg{
   width:100%;
