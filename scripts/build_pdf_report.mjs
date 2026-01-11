@@ -178,14 +178,25 @@ async function buildMapPngWithPlaywright({ slug }) {
     if (!box) throw new Error("No pude calcular el bounding box de #map.");
 
     // Recorte proporcional para “quitar aire”
+        // Recorte proporcional para “quitar aire” (MÁS apretado que tu versión actual)
     const crop = {
-      x: Math.round(box.x + box.width * 0.22),
-      y: Math.round(box.y + box.height * 0.01),
-      width: Math.round(box.width * 0.56),
-      height: Math.round(box.height * 0.985),
+      x: Math.round(box.x + box.width * 0.30),   // recorta más desde la izquierda
+      y: Math.round(box.y + box.height * 0.00),  // no recorta arriba
+      width: Math.round(box.width * 0.40),       // más angosto => menos blanco
+      height: Math.round(box.height * 1.00),     // todo el alto => no pierde el sur
     };
 
-    await page.screenshot({ path: outPng, type: "png", clip: crop });
+    // Seguridad: evita clip fuera del box
+    const clip = {
+      x: Math.max(0, crop.x),
+      y: Math.max(0, crop.y),
+      width: Math.max(1, Math.min(crop.width, (box.x + box.width) - crop.x)),
+      height: Math.max(1, Math.min(crop.height, (box.y + box.height) - crop.y)),
+    };
+
+    await page.screenshot({ path: outPng, type: "png", clip });
+
+
     return outPng;
   } finally {
     await page.close().catch(() => {});
@@ -301,30 +312,20 @@ async function buildHtmlReport({ slug, summary }) {
     /* MAPA: borde interno baja, pero el alto total NO cambia (sigue 128mm) */
 .mapWrap{
   width:100%;
-  height:128mm;
+  height:128mm;      /* mantén esto (tu alineación buena) */
   overflow:hidden;
-  border-radius:10px;
   border:none;
   background:transparent;
-
-  display:flex;               /* <-- clave */
-  align-items:flex-end;       /* ancla abajo */
-  justify-content:center;     /* centra */
 }
-
-
-
 
 .mapImg{
   width:100%;
   height:100%;
-  object-fit: contain;
-  object-position: 50% 100%;
+  object-fit: cover;         /* ahora sí llena */
+  object-position: 50% 78%;  /* muestra bien el sur */
   display:block;
-
-  transform: scale(1.35);        /* <-- aquí se nota sí o sí */
-  transform-origin: 50% 100%;    /* escala desde abajo */
 }
+
 
 
 
