@@ -188,8 +188,14 @@ async function buildMapPngWithPlaywright({ slug }) {
     // 3) Escala a altura final fija
     const buf = await fs.readFile(outCrop);
     const png = PNG.sync.read(buf);
-    const resized = resizePngToHeight(png, MAP_TARGET_HEIGHT_PX);
-    await fs.writeFile(outPng, PNG.sync.write(resized));
+    const CANVAS_W = png.width;         // mantiene el ancho del PNG recortado
+const CANVAS_H = MAP_TARGET_HEIGHT_PX;
+
+// 1.15 = +15% más grande. Prueba 1.20 si lo quieres aún más “llenador”.
+const finalPng = scaleAndCenterToCanvas(png, CANVAS_W, CANVAS_H, 1.18);
+
+await fs.writeFile(outPng, PNG.sync.write(finalPng));
+
 
     // Limpieza
     await fs.remove(outRaw).catch(() => {});
@@ -276,26 +282,25 @@ async function autoCropPngByContent(inPath, outPath, opts = {}) {
  * Escala un PNG a una altura objetivo (px) manteniendo proporción.
  * (Interpolación bilineal simple)
  */
-function resizePngToHeight(png, targetH) {
+function resizePng(png, dstW, dstH) {
   const srcW = png.width;
   const srcH = png.height;
-  const scale = targetH / srcH;
-
-  const dstH = Math.max(1, Math.round(srcH * scale));
-  const dstW = Math.max(1, Math.round(srcW * scale));
-
   const src = png.data;
+
   const out = new PNG({ width: dstW, height: dstH });
 
+  const scaleX = dstW / srcW;
+  const scaleY = dstH / srcH;
+
   for (let y = 0; y < dstH; y++) {
-    const sy = (y + 0.5) / scale - 0.5;
+    const sy = (y + 0.5) / scaleY - 0.5;
     const y0 = Math.floor(sy);
     const y1 = Math.min(srcH - 1, Math.max(0, y0 + 1));
     const wy = sy - y0;
     const yy0 = Math.min(srcH - 1, Math.max(0, y0));
 
     for (let x = 0; x < dstW; x++) {
-      const sx = (x + 0.5) / scale - 0.5;
+      const sx = (x + 0.5) / scaleX - 0.5;
       const x0 = Math.floor(sx);
       const x1 = Math.min(srcW - 1, Math.max(0, x0 + 1));
       const wx = sx - x0;
@@ -323,6 +328,55 @@ function resizePngToHeight(png, targetH) {
 
   return out;
 }
+
+function scaleAndCenterToCanvas(png, canvasW, canvasH, scaleUp = 1.22) {
+  // Escala para que el contenido use más del alto del canvas.
+  // Luego lo centra en un canvas fijo (canvasW x canvasH).
+  const srcW = png.width;
+  const srcH = png.height;
+
+  const targetH = Math.round(canvasH * scaleUp);
+  const scale = targetH / srcH;
+  const scaledW = Math.max(1, Math.round(srcW * scale));
+  const scaledH = Math.max(1, Math.round(srcH * scale));
+
+  const scaled = resizePng(png, scaledW, scaledH);
+
+  const canvas = new PNG({ width: canvasW, height: canvasH });
+
+  // fondo blanco
+  for (let i = 0; i < canvas.data.length; i += 4) {
+    canvas.data[i] = 255;
+    canvas.data[i + 1] = 255;
+    canvas.data[i + 2] = 255;
+    canvas.data[i + 3] = 255;
+  }
+
+  // centra (si se pasa del canvas, queda “recortado”, lo cual es OK si quieres llenar más)
+  const offX = Math.round((canvasW - scaledW) / 2);
+  const offY = Math.round((canvasH - scaledH) / 2);
+
+  for (let y = 0; y < scaledH; y++) {
+    const cy = y + offY;
+    if (cy < 0 || cy >= canvasH) continue;
+
+    for (let x = 0; x < scaledW; x++) {
+      const cx = x + offX;
+      if (cx < 0 || cx >= canvasW) continue;
+
+      const s = ((scaledW * y + x) << 2);
+      const d = ((canvasW * cy + cx) << 2);
+
+      canvas.data[d] = scaled.data[s];
+      canvas.data[d + 1] = scaled.data[s + 1];
+      canvas.data[d + 2] = scaled.data[s + 2];
+      canvas.data[d + 3] = scaled.data[s + 3];
+    }
+  }
+
+  return canvas;
+}
+
 
 /**
  * HTML del reporte (usa el PNG ya “listo”)
