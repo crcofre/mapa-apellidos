@@ -306,7 +306,7 @@ async function buildHtmlReport({ slug, summary }) {
   border-radius:10px;
   border:none;          /* ← se elimina el borde interno */
   background:transparent;
-  padding: 2mm;
+  padding: 4mm;
 }
 
 
@@ -315,9 +315,9 @@ async function buildHtmlReport({ slug, summary }) {
   width:100%;
   height: calc(100% + 6mm);  /* mismo valor que padding-top */
   object-fit: cover;
-  object-position: 50% 72%;
+  object-position: 50% 78%;
   display:block;
-  transform: translateY(-3mm); /* mismo valor que padding-top */
+  transform: translateY(-6mm); /* mismo valor que padding-top */
 }
 
 
