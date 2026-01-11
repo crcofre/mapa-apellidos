@@ -301,14 +301,13 @@ async function buildHtmlReport({ slug, summary }) {
     /* MAPA: borde interno baja, pero el alto total NO cambia (sigue 128mm) */
 .mapWrap{
   width:100%;
-  height: 130mm;  /* compensación */
-  margin-top: 1mm;           /* baja el marco interno */
+  height:128mm;
   overflow:hidden;
   border-radius:10px;
-  border:1px solid #e2e2e2;
-  background:#fff;
-  margin-below: 1mm;
+  border:none;          /* ← se elimina el borde interno */
+  background:transparent;
 }
+
 
 
 .mapImg{
