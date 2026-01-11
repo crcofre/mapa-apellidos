@@ -306,6 +306,7 @@ async function buildHtmlReport({ slug, summary }) {
   border-radius:10px;
   border:none;          /* ← se elimina el borde interno */
   background:transparent;
+  padding: 2mm;
 }
 
 
