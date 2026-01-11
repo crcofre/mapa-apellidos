@@ -1,18 +1,16 @@
 import fs from "fs-extra";
 import path from "path";
 import { chromium } from "playwright";
+import { PNG } from "pngjs";
 
 /**
  * CONFIG
  */
-const SUMMARY_DIR = "pdf_summaries/2"; // carpeta donde están los shards apellidos_xx.json
+const SUMMARY_DIR = "pdf_summaries/2";
 const OUT_REPORTS_DIR = "pdf_reports";
 const OUT_MAPS_DIR = "pdf_maps";
 
-// GitHub Pages del mapa (base)
 const MAP_BASE_URL = "https://crcofre.github.io/mapa-apellidos/";
-
-// Logo (Apellidos.cl)
 const LOGO_URL =
   "https://images.jumpseller.com/store/familias-y-apellidos/store/logo/Sitio_web.png?1741039595";
 
@@ -46,11 +44,10 @@ function formatPct(x) {
 }
 
 function cleanRegionLabel(s) {
-  // "06. REGION DEL LIBERTADOR..." -> "DEL LIBERTADOR..."
   return String(s ?? "")
     .trim()
-    .replace(/^\s*\d+\s*[\.\-]?\s*/i, "") // quita "06." o "06 -"
-    .replace(/^REGI[ÓO]N\s+(DEL\s+|DE\s+)?/i, "") // quita "REGION " / "REGIÓN " y opcional "DE/DEL"
+    .replace(/^\s*\d+\s*[\.\-]?\s*/i, "")
+    .replace(/^REGI[ÓO]N\s+(DEL\s+|DE\s+)?/i, "")
     .trim();
 }
 
@@ -80,10 +77,7 @@ async function loadSummaryFromShard(slug) {
 
   const data = await fs.readJson(shard);
   const items = Array.isArray(data?.items) ? data.items : null;
-
-  if (!items) {
-    throw new Error(`El shard ${shard} no tiene estructura {"items":[...]}.`);
-  }
+  if (!items) throw new Error(`El shard ${shard} no tiene estructura {"items":[...]}.`);
 
   const summary = items.find(
     (it) => String(it?.slug ?? "").toLowerCase() === slug
@@ -92,9 +86,7 @@ async function loadSummaryFromShard(slug) {
   if (!summary) {
     const sample = items.slice(0, 10).map((it) => it.slug).filter(Boolean);
     throw new Error(
-      `No encontré el slug=${slug} dentro de ${shard}. Ejemplos de slugs: ${sample.join(
-        ", "
-      )}`
+      `No encontré el slug=${slug} dentro de ${shard}. Ejemplos de slugs: ${sample.join(", ")}`
     );
   }
 
@@ -102,19 +94,17 @@ async function loadSummaryFromShard(slug) {
 }
 
 /**
- * Genera PNG del mapa usando Playwright (Leaflet real)
- * Requiere que tu index.html soporte:
- *   ?apellido=lucero&pdf=1
- * y que setee: <html data-pdf-ready="1"> cuando termina buscarApellido()
+ * 1) Captura PNG completo del #map
+ * 2) Recorta automáticamente al contenido (Chile) detectando píxeles no-blancos
  */
 async function buildMapPngWithPlaywright({ slug }) {
   await fs.ensureDir(OUT_MAPS_DIR);
 
-  // cache-bust real: t=timestamp
   const url =
     `${MAP_BASE_URL}?apellido=${encodeURIComponent(slug)}` +
     `&pdf=1&t=${Date.now()}`;
 
+  const outRaw = path.join(OUT_MAPS_DIR, `${slug}.raw.png`);
   const outPng = path.join(OUT_MAPS_DIR, `${slug}.png`);
 
   const browser = await chromium.launch({
@@ -122,29 +112,23 @@ async function buildMapPngWithPlaywright({ slug }) {
   });
 
   const page = await browser.newPage({
-    viewport: { width: 1000, height: 1700 }, // más alto para no perder la zona sur
+    viewport: { width: 1100, height: 2200 },
     deviceScaleFactor: 2,
   });
 
   try {
-    // Fuerza “no cache” y carga limpia
     await page.route("**/*", (route) => {
-      const headers = {
-        ...route.request().headers(),
-        "Cache-Control": "no-cache",
-      };
+      const headers = { ...route.request().headers(), "Cache-Control": "no-cache" };
       route.continue({ headers });
     });
 
     await page.goto(url, { waitUntil: "networkidle", timeout: 120000 });
 
-    // Espera a que tu script marque data-pdf-ready="1"
     await page.waitForFunction(
       () => document.documentElement.getAttribute("data-pdf-ready") === "1",
       { timeout: 120000 }
     );
 
-    // Oculta UI / fuerza fondo blanco
     await page.addStyleTag({
       content: `
         .leaflet-control-container,
@@ -152,51 +136,32 @@ async function buildMapPngWithPlaywright({ slug }) {
         #suggestBox,
         #ctaBottomControl,
         .log-panel { display:none !important; }
-        html, body { background:#fff !important; }
-        #map { background:#fff !important; }
+        html, body, #map { background:#fff !important; }
       `,
     });
 
-    // Reflow Leaflet
     await page.evaluate(() => {
-      try {
-        window.map?.invalidateSize?.(true);
-      } catch (e) {}
+      try { window.map?.invalidateSize?.(true); } catch(e) {}
     });
     await page.waitForTimeout(250);
     await page.evaluate(() => {
-      try {
-        window.map?.invalidateSize?.(true);
-      } catch (e) {}
+      try { window.map?.invalidateSize?.(true); } catch(e) {}
     });
 
     const mapEl = await page.$("#map");
-    if (!mapEl)
-      throw new Error("No encontré el elemento #map en la página del mapa.");
+    if (!mapEl) throw new Error("No encontré el elemento #map en la página del mapa.");
 
-    const box = await mapEl.boundingBox();
-    if (!box) throw new Error("No pude calcular el bounding box de #map.");
+    // Screenshot del #map completo (sin recorte)
+    await mapEl.screenshot({ path: outRaw, type: "png" });
 
-    // Recorte proporcional para “quitar aire”
-        // Recorte proporcional para “quitar aire” (MÁS apretado que tu versión actual)
-    const crop = {
-      x: Math.round(box.x + box.width * 0.30),   // recorta más desde la izquierda
-      y: Math.round(box.y + box.height * 0.00),  // no recorta arriba
-      width: Math.round(box.width * 0.40),       // más angosto => menos blanco
-      height: Math.round(box.height * 1.00),     // todo el alto => no pierde el sur
-    };
+    // Recorte automático por contenido
+    await autoCropPngByContent(outRaw, outPng, {
+      margin: 16,         // margen alrededor del contenido (px)
+      whiteThreshold: 250 // 0-255: qué tan "blanco" debe ser para considerarlo fondo
+    });
 
-    // Seguridad: evita clip fuera del box
-    const clip = {
-      x: Math.max(0, crop.x),
-      y: Math.max(0, crop.y),
-      width: Math.max(1, Math.min(crop.width, (box.x + box.width) - crop.x)),
-      height: Math.max(1, Math.min(crop.height, (box.y + box.height) - crop.y)),
-    };
-
-    await page.screenshot({ path: outPng, type: "png", clip });
-
-
+    // Limpia raw
+    await fs.remove(outRaw).catch(() => {});
     return outPng;
   } finally {
     await page.close().catch(() => {});
@@ -205,40 +170,92 @@ async function buildMapPngWithPlaywright({ slug }) {
 }
 
 /**
- * HTML del reporte (usa el PNG generado en pdf_maps/slug.png)
+ * Recorta un PNG detectando el bounding box de píxeles no-blancos.
+ */
+async function autoCropPngByContent(inPath, outPath, opts = {}) {
+  const margin = Number(opts.margin ?? 12);
+  const whiteThreshold = Number(opts.whiteThreshold ?? 250);
+
+  const buf = await fs.readFile(inPath);
+  const png = PNG.sync.read(buf);
+
+  const { width, height, data } = png;
+
+  let minX = width, minY = height, maxX = -1, maxY = -1;
+
+  // Consideramos "contenido" cualquier pixel que NO sea casi blanco
+  // y con alpha > 0
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const i = (width * y + x) << 2;
+      const r = data[i], g = data[i + 1], b = data[i + 2], a = data[i + 3];
+
+      if (a === 0) continue; // transparente => fondo
+      const isWhite =
+        r >= whiteThreshold && g >= whiteThreshold && b >= whiteThreshold;
+
+      if (!isWhite) {
+        if (x < minX) minX = x;
+        if (y < minY) minY = y;
+        if (x > maxX) maxX = x;
+        if (y > maxY) maxY = y;
+      }
+    }
+  }
+
+  // Fallback si no encontró nada (no debería pasar)
+  if (maxX < 0 || maxY < 0) {
+    await fs.copy(inPath, outPath);
+    return;
+  }
+
+  // Agrega margen y clampa
+  minX = Math.max(0, minX - margin);
+  minY = Math.max(0, minY - margin);
+  maxX = Math.min(width - 1, maxX + margin);
+  maxY = Math.min(height - 1, maxY + margin);
+
+  const cropW = maxX - minX + 1;
+  const cropH = maxY - minY + 1;
+
+  const out = new PNG({ width: cropW, height: cropH });
+
+  for (let y = 0; y < cropH; y++) {
+    for (let x = 0; x < cropW; x++) {
+      const srcIdx = ((width * (minY + y) + (minX + x)) << 2);
+      const dstIdx = ((cropW * y + x) << 2);
+      out.data[dstIdx] = data[srcIdx];
+      out.data[dstIdx + 1] = data[srcIdx + 1];
+      out.data[dstIdx + 2] = data[srcIdx + 2];
+      out.data[dstIdx + 3] = data[srcIdx + 3];
+    }
+  }
+
+  const outBuf = PNG.sync.write(out);
+  await fs.writeFile(outPath, outBuf);
+}
+
+/**
+ * HTML del reporte
  */
 async function buildHtmlReport({ slug, summary }) {
   await fs.ensureDir(OUT_REPORTS_DIR);
 
-  // Ruta relativa dentro de pdf_reports/ hacia pdf_maps/
   const mapUrl = `../${OUT_MAPS_DIR}/${slug}.png?v=${Date.now()}`;
 
   const regionesRows = (summary.top_regiones || [])
-    .map((r) =>
-      tableRow([r.rank, cleanRegionLabel(r.region), `${formatPct(r.pct_region)}%`])
-    )
+    .map((r) => tableRow([r.rank, cleanRegionLabel(r.region), `${formatPct(r.pct_region)}%`]))
     .join("");
 
   const provinciasRows = (summary.top_provincias || [])
     .map((r) =>
-      tableRow([
-        r.rank,
-        r.provincia,
-        cleanRegionLabel(r.region),
-        `${formatPct(r.pct_provincia)}%`,
-      ])
+      tableRow([r.rank, r.provincia, cleanRegionLabel(r.region), `${formatPct(r.pct_provincia)}%`])
     )
     .join("");
 
   const comunasRows = (summary.top_comunas || [])
     .map((r) =>
-      tableRow([
-        r.rank,
-        r.comuna,
-        r.provincia,
-        cleanRegionLabel(r.region),
-        `${formatPct(r.pct_comuna)}%`,
-      ])
+      tableRow([r.rank, r.comuna, r.provincia, cleanRegionLabel(r.region), `${formatPct(r.pct_comuna)}%`])
     )
     .join("");
 
@@ -260,9 +277,9 @@ async function buildHtmlReport({ slug, summary }) {
     }
 
     .page{
-      width: 100%;
-      max-width: 180mm;
-      margin: 0 auto;
+      width:100%;
+      max-width:180mm;
+      margin:0 auto;
     }
 
     .header{
@@ -270,124 +287,96 @@ async function buildHtmlReport({ slug, summary }) {
       justify-content:space-between;
       align-items:flex-start;
       gap:10px;
-      margin-bottom: 4mm;
+      margin-bottom:4mm;
     }
     .brand{ display:flex; align-items:center; gap:10px; }
-    .logo{ height: 12mm; }
-    .meta{
-      font-size: 10px;
-      color:#555;
-      text-align:right;
-      line-height:1.25;
-      padding-top:2mm;
-    }
+    .logo{ height:12mm; }
+    .meta{ font-size:10px; color:#555; text-align:right; line-height:1.25; padding-top:2mm; }
 
-    h1{ font-size: 18px; margin: 0 0 2mm; }
-    .sub{ font-size: 12px; color:#333; margin: 0 0 4mm; }
+    h1{ font-size:18px; margin:0 0 2mm; }
+    .sub{ font-size:12px; color:#333; margin:0 0 4mm; }
 
     .grid{
       display:grid;
       grid-template-columns: 40% 60%;
-      gap: 4mm;
-      align-items: stretch;
+      gap:4mm;
+      align-items:stretch;
     }
 
     .rightCol{
       display:flex;
       flex-direction:column;
       gap:4mm;
-      height:100%;
     }
 
     .card{
       border:1px solid #e6e6e6;
       border-radius:10px;
-      padding: 3mm;
+      padding:3mm;
       background:#fff;
     }
 
-    /* SOLO el card del mapa: más “largo abajo” */
-    .mapCard{ padding-bottom: 2mm; }
-
-    /* MAPA: borde interno baja, pero el alto total NO cambia (sigue 128mm) */
-.mapWrap{
-  width:100%;
-  height:128mm;      /* mantén esto (tu alineación buena) */
-  overflow:hidden;
-  border:none;
-  background:transparent;
-}
-
-.mapImg{
-  width:100%;
-  height:100%;
-  object-fit: cover;         /* ahora sí llena */
-  object-position: 50% 78%;  /* muestra bien el sur */
-  display:block;
-}
-
-
-
-
-
-
-    h2{ font-size: 12.5px; margin: 0 0 2mm; }
-
-    table{
+    .mapWrap{
       width:100%;
-      border-collapse:collapse;
-      table-layout: fixed;
+      height:128mm;      /* mantiene el alto alineado */
+      overflow:hidden;
+      border:none;       /* sin borde interno */
+      background:transparent;
     }
 
+    .mapImg{
+      width:100%;
+      height:100%;
+      object-fit: cover;         /* ahora el PNG ya viene “apretado” => llena perfecto */
+      object-position: 50% 75%;  /* ajuste leve hacia el sur */
+      display:block;
+    }
+
+    h2{ font-size:12.5px; margin:0 0 2mm; }
+
+    table{ width:100%; border-collapse:collapse; table-layout:fixed; }
     th, td{
       border:1px solid #eee;
-      padding: 2mm 2.2mm;
-      font-size: 10.5px;
-      line-height: 1.2;
-      word-wrap: break-word;
-      overflow-wrap: anywhere;
+      padding:2mm 2.2mm;
+      font-size:10.5px;
+      line-height:1.2;
+      word-wrap:break-word;
+      overflow-wrap:anywhere;
     }
-
     thead th{
       background:#f7f7f7;
       text-align:left;
-      white-space: normal;
-      vertical-align: middle;
-      padding-top: 1.4mm;
-      padding-bottom: 1.4mm;
+      white-space:normal;
+      vertical-align:middle;
+      padding-top:1.4mm;
+      padding-bottom:1.4mm;
     }
-
     tbody td{
-      height: 10mm;
-      vertical-align: middle;
-      padding-top: 1.6mm;
-      padding-bottom: 1.6mm;
+      height:10mm;
+      vertical-align:middle;
+      padding-top:1.6mm;
+      padding-bottom:1.6mm;
     }
 
-    .t-regiones col.c1{ width: 10%; }
-    .t-regiones col.c2{ width: 70%; }
-    .t-regiones col.c3{ width: 20%; }
+    .t-regiones col.c1{ width:10%; }
+    .t-regiones col.c2{ width:70%; }
+    .t-regiones col.c3{ width:20%; }
 
-    .t-provincias col.c1{ width: 10%; }
-    .t-provincias col.c2{ width: 30%; }
-    .t-provincias col.c3{ width: 40%; }
-    .t-provincias col.c4{ width: 20%; }
+    .t-provincias col.c1{ width:10%; }
+    .t-provincias col.c2{ width:30%; }
+    .t-provincias col.c3{ width:40%; }
+    .t-provincias col.c4{ width:20%; }
 
-    .t-comunas col.c1{ width: 6%; }
-    .t-comunas col.c2{ width: 20%; }
-    .t-comunas col.c3{ width: 20%; }
-    .t-comunas col.c4{ width: 42%; }
-    .t-comunas col.c5{ width: 12%; }
+    .t-comunas col.c1{ width:6%; }
+    .t-comunas col.c2{ width:20%; }
+    .t-comunas col.c3{ width:20%; }
+    .t-comunas col.c4{ width:42%; }
+    .t-comunas col.c5{ width:12%; }
 
-    .below{ margin-top: 4mm; }
+    .below{ margin-top:4mm; }
+    .foot{ font-size:11px; color:#666; margin-top:3mm; }
 
-    .foot{
-      font-size: 11px;
-      color:#666;
-      margin-top: 3mm;
-    }
-
-    .card, table { break-inside: avoid; page-break-inside: avoid; }
+    .card, table{ break-inside:avoid; page-break-inside:avoid; }
   </style>
 </head>
 
@@ -404,21 +393,17 @@ async function buildHtmlReport({ slug, summary }) {
     <p class="sub">Lugares donde tiene mayor arraigo histórico.</p>
 
     <div class="grid">
-      <!-- MAPA -->
-      <div class="card mapCard">
+      <div class="card">
         <div class="mapWrap">
           <img class="mapImg" src="${mapUrl}" alt="Mapa de Chile"/>
         </div>
       </div>
 
-      <!-- TABLAS DERECHA -->
       <div class="rightCol">
         <div class="card">
           <h2>Top regiones</h2>
           <table class="t-regiones">
-            <colgroup>
-              <col class="c1"><col class="c2"><col class="c3">
-            </colgroup>
+            <colgroup><col class="c1"><col class="c2"><col class="c3"></colgroup>
             <thead><tr><th>#</th><th>Región</th><th>Frecuencia</th></tr></thead>
             <tbody>${regionesRows}</tbody>
           </table>
@@ -427,9 +412,7 @@ async function buildHtmlReport({ slug, summary }) {
         <div class="card">
           <h2>Top provincias</h2>
           <table class="t-provincias">
-            <colgroup>
-              <col class="c1"><col class="c2"><col class="c3"><col class="c4">
-            </colgroup>
+            <colgroup><col class="c1"><col class="c2"><col class="c3"><col class="c4"></colgroup>
             <thead><tr><th>#</th><th>Provincia</th><th>Región</th><th>Frecuencia</th></tr></thead>
             <tbody>${provinciasRows}</tbody>
           </table>
@@ -437,18 +420,11 @@ async function buildHtmlReport({ slug, summary }) {
       </div>
     </div>
 
-    <!-- COMUNAS ABAJO A TODO ANCHO -->
     <div class="card below">
       <h2>Top comunas</h2>
       <table class="t-comunas">
-        <colgroup>
-          <col class="c1"><col class="c2"><col class="c3"><col class="c4"><col class="c5">
-        </colgroup>
-        <thead>
-          <tr>
-            <th>#</th><th>Comuna</th><th>Provincia</th><th>Región</th><th>Frecuencia</th>
-          </tr>
-        </thead>
+        <colgroup><col class="c1"><col class="c2"><col class="c3"><col class="c4"><col class="c5"></colgroup>
+        <thead><tr><th>#</th><th>Comuna</th><th>Provincia</th><th>Región</th><th>Frecuencia</th></tr></thead>
         <tbody>${comunasRows}</tbody>
       </table>
     </div>
@@ -472,9 +448,7 @@ async function main() {
   await buildMapPngWithPlaywright({ slug });
   await buildHtmlReport({ slug, summary });
 
-  console.log(
-    `OK: generado ${OUT_MAPS_DIR}/${slug}.png y ${OUT_REPORTS_DIR}/${slug}.html`
-  );
+  console.log(`OK: generado ${OUT_MAPS_DIR}/${slug}.png y ${OUT_REPORTS_DIR}/${slug}.html`);
 }
 
 main().catch((e) => {
