@@ -304,22 +304,28 @@ async function buildHtmlReport({ slug, summary }) {
   height:128mm;
   overflow:hidden;
   border-radius:10px;
-  border:none;          /* ← se elimina el borde interno */
+  border:none;
   background:transparent;
-  padding: 4mm;
+
+  display:flex;               /* <-- clave */
+  align-items:flex-end;       /* ancla abajo */
+  justify-content:center;     /* centra */
 }
+
 
 
 
 .mapImg{
   width:100%;
   height:100%;
-  object-fit: contain;        /* clave: no recorta */
-  object-position: 50% 100%;  /* anclado abajo */
-  transform: scale(1.22);     /* agranda para ocupar mejor */
-  transform-origin: 50% 100%; /* escala desde abajo */
+  object-fit: contain;
+  object-position: 50% 100%;
   display:block;
+
+  transform: scale(1.35);        /* <-- aquí se nota sí o sí */
+  transform-origin: 50% 100%;    /* escala desde abajo */
 }
+
 
 
 
