@@ -1,3 +1,4 @@
+// scripts/build_pdf_report.mjs
 import fs from "fs-extra";
 import path from "path";
 import { chromium } from "playwright";
@@ -15,14 +16,12 @@ const LOGO_URL =
   "https://images.jumpseller.com/store/familias-y-apellidos/store/logo/Sitio_web.png?1741039595";
 
 /**
- * MAP PNG OUTPUT (fixed final height)
- * El objetivo es que el PNG ya venga escalado a la altura final.
- *
- * 128mm a 300 dpi ≈ 1512 px (muy buen balance nitidez/tamaño).
+ * PNG final: altura fija (equivalente a 128mm en un PDF “bonito”)
+ * Ajusta SOLO estas 2 constantes si quieres:
  */
-const MAP_TARGET_HEIGHT_MM = 128;
-const MAP_TARGET_DPI = 300;
-const MAP_TARGET_HEIGHT_PX = Math.round((MAP_TARGET_HEIGHT_MM / 25.4) * MAP_TARGET_DPI);
+const MAP_TARGET_HEIGHT_MM = 128; // el alto “final” que quieres que ocupe el mapa en el reporte
+const MAP_RENDER_DPI = 300; // DPI “teórico” para convertir mm->px (no es impresión real, es para fijar tamaño)
+const MAP_TARGET_HEIGHT_PX = Math.round((MAP_TARGET_HEIGHT_MM / 25.4) * MAP_RENDER_DPI);
 
 /**
  * CLI
@@ -91,26 +90,197 @@ async function loadSummaryFromShard(slug) {
     throw new Error(`El shard ${shard} no tiene estructura {"items":[...]}.`);
   }
 
-  const summary = items.find((it) => String(it?.slug ?? "").toLowerCase() === slug);
+  const summary = items.find(
+    (it) => String(it?.slug ?? "").toLowerCase() === slug
+  );
+
   if (!summary) {
     const sample = items.slice(0, 10).map((it) => it.slug).filter(Boolean);
     throw new Error(
-      `No encontré el slug=${slug} dentro de ${shard}. Ejemplos de slugs: ${sample.join(", ")}`
+      `No encontré el slug=${slug} dentro de ${shard}. Ejemplos: ${sample.join(", ")}`
     );
   }
+
   return summary;
 }
 
 /**
- * Resize PNG a altura fija (manteniendo aspecto), con muestreo bilinear.
+ * 1) Captura PNG completo del #map (con Leaflet real)
+ * 2) Auto-crop por contenido (quita aire blanco)
+ * 3) Escala el PNG resultante a altura final fija (MAP_TARGET_HEIGHT_PX)
+ */
+async function buildMapPngWithPlaywright({ slug }) {
+  await fs.ensureDir(OUT_MAPS_DIR);
+
+  const url =
+    `${MAP_BASE_URL}?apellido=${encodeURIComponent(slug)}` +
+    `&pdf=1&t=${Date.now()}`;
+
+  const outRaw = path.join(OUT_MAPS_DIR, `${slug}.raw.png`);
+  const outCrop = path.join(OUT_MAPS_DIR, `${slug}.crop.png`);
+  const outPng = path.join(OUT_MAPS_DIR, `${slug}.png`);
+
+  const browser = await chromium.launch({
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  });
+
+  const page = await browser.newPage({
+    viewport: { width: 1100, height: 2200 },
+    deviceScaleFactor: 2,
+  });
+
+  try {
+    // Fuerza no-cache
+    await page.route("**/*", (route) => {
+      const headers = {
+        ...route.request().headers(),
+        "Cache-Control": "no-cache",
+      };
+      route.continue({ headers });
+    });
+
+    await page.goto(url, { waitUntil: "networkidle", timeout: 120000 });
+
+    // Espera a que tu mapa marque listo
+    await page.waitForFunction(
+      () => document.documentElement.getAttribute("data-pdf-ready") === "1",
+      { timeout: 120000 }
+    );
+
+    // Oculta UI / fondo blanco
+    await page.addStyleTag({
+      content: `
+        .leaflet-control-container,
+        .search-ui,
+        #suggestBox,
+        #ctaBottomControl,
+        .log-panel { display:none !important; }
+        html, body, #map { background:#fff !important; }
+      `,
+    });
+
+    // Reflow Leaflet
+    await page.evaluate(() => {
+      try {
+        window.map?.invalidateSize?.(true);
+      } catch (e) {}
+    });
+    await page.waitForTimeout(250);
+    await page.evaluate(() => {
+      try {
+        window.map?.invalidateSize?.(true);
+      } catch (e) {}
+    });
+
+    const mapEl = await page.$("#map");
+    if (!mapEl) throw new Error("No encontré #map en la página del mapa.");
+
+    // 1) Screenshot del #map completo (con aire)
+    await mapEl.screenshot({ path: outRaw, type: "png" });
+
+    // 2) Auto-crop (quita aire blanco)
+    await autoCropPngByContent(outRaw, outCrop, {
+      margin: 14,          // MÁS chico = “crece” más (prueba 10–22)
+      whiteThreshold: 252, // 250–254 (más alto = recorta más agresivo)
+      alphaThreshold: 5,
+    });
+
+    // 3) Escala a altura final fija
+    const buf = await fs.readFile(outCrop);
+    const png = PNG.sync.read(buf);
+    const resized = resizePngToHeight(png, MAP_TARGET_HEIGHT_PX);
+    await fs.writeFile(outPng, PNG.sync.write(resized));
+
+    // Limpieza
+    await fs.remove(outRaw).catch(() => {});
+    await fs.remove(outCrop).catch(() => {});
+
+    return outPng;
+  } finally {
+    await page.close().catch(() => {});
+    await browser.close().catch(() => {});
+  }
+}
+
+/**
+ * Recorta un PNG detectando bounding box de píxeles no-blancos.
+ */
+async function autoCropPngByContent(inPath, outPath, opts = {}) {
+  const margin = Number(opts.margin ?? 12);
+  const whiteThreshold = Number(opts.whiteThreshold ?? 252);
+  const alphaThreshold = Number(opts.alphaThreshold ?? 5);
+
+  const buf = await fs.readFile(inPath);
+  const png = PNG.sync.read(buf);
+
+  const { width, height, data } = png;
+
+  let minX = width,
+    minY = height,
+    maxX = -1,
+    maxY = -1;
+
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const i = (width * y + x) << 2;
+      const r = data[i],
+        g = data[i + 1],
+        b = data[i + 2],
+        a = data[i + 3];
+
+      if (a <= alphaThreshold) continue;
+
+      const isWhite =
+        r >= whiteThreshold && g >= whiteThreshold && b >= whiteThreshold;
+
+      if (!isWhite) {
+        if (x < minX) minX = x;
+        if (y < minY) minY = y;
+        if (x > maxX) maxX = x;
+        if (y > maxY) maxY = y;
+      }
+    }
+  }
+
+  // Fallback si no detecta nada
+  if (maxX < 0 || maxY < 0) {
+    await fs.copy(inPath, outPath);
+    return;
+  }
+
+  minX = Math.max(0, minX - margin);
+  minY = Math.max(0, minY - margin);
+  maxX = Math.min(width - 1, maxX + margin);
+  maxY = Math.min(height - 1, maxY + margin);
+
+  const cropW = maxX - minX + 1;
+  const cropH = maxY - minY + 1;
+
+  const out = new PNG({ width: cropW, height: cropH });
+
+  for (let y = 0; y < cropH; y++) {
+    for (let x = 0; x < cropW; x++) {
+      const srcIdx = ((width * (minY + y) + (minX + x)) << 2);
+      const dstIdx = ((cropW * y + x) << 2);
+      out.data[dstIdx] = data[srcIdx];
+      out.data[dstIdx + 1] = data[srcIdx + 1];
+      out.data[dstIdx + 2] = data[srcIdx + 2];
+      out.data[dstIdx + 3] = data[srcIdx + 3];
+    }
+  }
+
+  await fs.writeFile(outPath, PNG.sync.write(out));
+}
+
+/**
+ * Escala un PNG a una altura objetivo (px) manteniendo proporción.
+ * (Interpolación bilineal simple)
  */
 function resizePngToHeight(png, targetH) {
   const srcW = png.width;
   const srcH = png.height;
-
-  if (srcH <= 0 || srcW <= 0) throw new Error("PNG inválido para resize.");
-
   const scale = targetH / srcH;
+
   const dstH = Math.max(1, Math.round(srcH * scale));
   const dstW = Math.max(1, Math.round(srcW * scale));
 
@@ -146,113 +316,17 @@ function resizePngToHeight(png, targetH) {
 
         const v0 = v00 + (v10 - v00) * wx;
         const v1 = v01 + (v11 - v01) * wx;
-        const v = v0 + (v1 - v0) * wy;
-
-        out.data[o + c] = Math.round(v);
+        out.data[o + c] = Math.round(v0 + (v1 - v0) * wy);
       }
     }
   }
+
   return out;
 }
 
 /**
- * Genera PNG del mapa (Leaflet real) ya escalado a altura final.
- *
- * Nota: aquí SÍ recortamos “aire” con un clip proporcional estable (no auto-crop por pixeles),
- * y DESPUÉS escalamos a altura fija. Esto evita el caos de autoCrop y mantiene proporción correcta.
- */
-async function buildMapPngWithPlaywright({ slug }) {
-  await fs.ensureDir(OUT_MAPS_DIR);
-
-  const url =
-    `${MAP_BASE_URL}?apellido=${encodeURIComponent(slug)}` +
-    `&pdf=1&t=${Date.now()}`;
-
-  const outTmp = path.join(OUT_MAPS_DIR, `${slug}.tmp.png`);
-  const outPng = path.join(OUT_MAPS_DIR, `${slug}.png`);
-
-  const browser = await chromium.launch({
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
-  });
-
-  const page = await browser.newPage({
-    viewport: { width: 1100, height: 2200 },
-    deviceScaleFactor: 2,
-  });
-
-  try {
-    await page.route("**/*", (route) => {
-      const headers = { ...route.request().headers(), "Cache-Control": "no-cache" };
-      route.continue({ headers });
-    });
-
-    await page.goto(url, { waitUntil: "networkidle", timeout: 120000 });
-
-    await page.waitForFunction(
-      () => document.documentElement.getAttribute("data-pdf-ready") === "1",
-      { timeout: 120000 }
-    );
-
-    await page.addStyleTag({
-      content: `
-        .leaflet-control-container,
-        .search-ui,
-        #suggestBox,
-        #ctaBottomControl,
-        .log-panel { display:none !important; }
-        html, body, #map { background:#fff !important; }
-      `,
-    });
-
-    await page.evaluate(() => {
-      try { window.map?.invalidateSize?.(true); } catch(e) {}
-    });
-    await page.waitForTimeout(250);
-    await page.evaluate(() => {
-      try { window.map?.invalidateSize?.(true); } catch(e) {}
-    });
-
-    const mapEl = await page.$("#map");
-    if (!mapEl) throw new Error("No encontré el elemento #map en la página del mapa.");
-
-    const box = await mapEl.boundingBox();
-    if (!box) throw new Error("No pude calcular el bounding box de #map.");
-
-    // Clip estable: quita aire lateral sin matar el sur
-    const crop = {
-      x: Math.round(box.x + box.width * 0.22),
-      y: Math.round(box.y + box.height * 0.01),
-      width: Math.round(box.width * 0.56),
-      height: Math.round(box.height * 0.985),
-    };
-
-    // Seguridad clip
-    const clip = {
-      x: Math.max(0, crop.x),
-      y: Math.max(0, crop.y),
-      width: Math.max(1, crop.width),
-      height: Math.max(1, crop.height),
-    };
-
-    await page.screenshot({ path: outTmp, type: "png", clip });
-
-    // Resize a altura final fija
-    const buf = await fs.readFile(outTmp);
-    const png = PNG.sync.read(buf);
-    const resized = resizePngToHeight(png, MAP_TARGET_HEIGHT_PX);
-    const outBuf = PNG.sync.write(resized);
-    await fs.writeFile(outPng, outBuf);
-
-    await fs.remove(outTmp).catch(() => {});
-    return outPng;
-  } finally {
-    await page.close().catch(() => {});
-    await browser.close().catch(() => {});
-  }
-}
-
-/**
- * HTML del reporte
+ * HTML del reporte (usa el PNG ya “listo”)
+ * Sin “CSS creativo”: solo muestra el PNG a la altura fija del contenedor.
  */
 async function buildHtmlReport({ slug, summary }) {
   await fs.ensureDir(OUT_REPORTS_DIR);
@@ -267,13 +341,24 @@ async function buildHtmlReport({ slug, summary }) {
 
   const provinciasRows = (summary.top_provincias || [])
     .map((r) =>
-      tableRow([r.rank, r.provincia, cleanRegionLabel(r.region), `${formatPct(r.pct_provincia)}%`])
+      tableRow([
+        r.rank,
+        r.provincia,
+        cleanRegionLabel(r.region),
+        `${formatPct(r.pct_provincia)}%`,
+      ])
     )
     .join("");
 
   const comunasRows = (summary.top_comunas || [])
     .map((r) =>
-      tableRow([r.rank, r.comuna, r.provincia, cleanRegionLabel(r.region), `${formatPct(r.pct_comuna)}%`])
+      tableRow([
+        r.rank,
+        r.comuna,
+        r.provincia,
+        cleanRegionLabel(r.region),
+        `${formatPct(r.pct_comuna)}%`,
+      ])
     )
     .join("");
 
@@ -334,17 +419,19 @@ async function buildHtmlReport({ slug, summary }) {
       background:#fff;
     }
 
-    /* MAPA: cero “CSS creativo”. El PNG ya viene a la altura correcta. */
+    /* Mapa: contenedor fijo y PNG ya listo */
     .mapWrap{
       width:100%;
-      height:${MAP_TARGET_HEIGHT_MM}mm;  /* 128mm */
+      height:${MAP_TARGET_HEIGHT_MM}mm;
+      display:flex;
+      align-items:stretch;
+      justify-content:center;
       overflow:hidden;
     }
     .mapImg{
-      width:100%;
       height:100%;
-      object-fit: contain;
-      object-position: 50% 100%; /* anclado abajo */
+      width:auto;
+      max-width:100%;
       display:block;
     }
 
@@ -464,7 +551,9 @@ async function main() {
   await buildMapPngWithPlaywright({ slug });
   await buildHtmlReport({ slug, summary });
 
-  console.log(`OK: generado ${OUT_MAPS_DIR}/${slug}.png y ${OUT_REPORTS_DIR}/${slug}.html`);
+  console.log(
+    `OK: generado ${OUT_MAPS_DIR}/${slug}.png y ${OUT_REPORTS_DIR}/${slug}.html`
+  );
 }
 
 main().catch((e) => {
