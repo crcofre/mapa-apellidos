@@ -301,7 +301,7 @@ async function buildHtmlReport({ slug, summary }) {
     /* MAPA: borde interno baja, pero el alto total NO cambia (sigue 128mm) */
 .mapWrap{
   width:100%;
-  height: 128mm;  /* compensación */
+  height: 130mm;  /* compensación */
   margin-top: 1mm;           /* baja el marco interno */
   overflow:hidden;
   border-radius:10px;
