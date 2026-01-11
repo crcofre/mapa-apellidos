@@ -68,30 +68,20 @@
     /* MAPA: borde interno baja, pero el alto total NO cambia (sigue 128mm) */
 .mapWrap{
   width:100%;
-  height:128mm;
+  height:128mm;      /* mantén esto (tu alineación buena) */
   overflow:hidden;
-  border-radius:10px;
   border:none;
   background:transparent;
-
-  display:flex;               /* <-- clave */
-  align-items:flex-end;       /* ancla abajo */
-  justify-content:center;     /* centra */
 }
-
-
-
 
 .mapImg{
   width:100%;
   height:100%;
-  object-fit: contain;
-  object-position: 50% 100%;
+  object-fit: cover;         /* ahora sí llena */
+  object-position: 50% 78%;  /* muestra bien el sur */
   display:block;
-
-  transform: scale(1.35);        /* <-- aquí se nota sí o sí */
-  transform-origin: 50% 100%;    /* escala desde abajo */
 }
+
 
 
 
@@ -173,7 +163,7 @@
       <!-- MAPA -->
       <div class="card mapCard">
         <div class="mapWrap">
-          <img class="mapImg" src="../pdf_maps/lucero.png?v=1768096417862" alt="Mapa de Chile"/>
+          <img class="mapImg" src="../pdf_maps/lucero.png?v=1768096827790" alt="Mapa de Chile"/>
         </div>
       </div>
 
