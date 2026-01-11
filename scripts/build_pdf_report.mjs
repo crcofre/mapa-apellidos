@@ -275,11 +275,13 @@ async function buildHtmlReport({ slug, summary }) {
     .sub{ font-size: 12px; color:#333; margin: 0 0 4mm; }
 
     .grid{
-      display:grid;
-      grid-template-columns: 40% 60%;
-      gap: 4mm;
-      align-items: stretch;
-    }
+  display:grid;
+  grid-template-columns: 40% 60%;
+  grid-template-rows: auto auto;   /* dos filas = dos tablas */
+  gap: 4mm;
+  align-items: stretch;
+}
+
 
     .rightCol{
       display:flex;
@@ -300,10 +302,10 @@ async function buildHtmlReport({ slug, summary }) {
 
 /* Card del mapa: se estira como la columna izquierda */
 .mapCard{
+  grid-row: 1 / span 2;   /* ocupa fila 1 y 2 */
   height: 100%;
-  display: flex;
-  flex-direction: column;
 }
+
 
 /* Espaciador ARRIBA: esto baja el marco interno SIN agrandar el borde externo */
 .mapCard::before{
@@ -313,13 +315,14 @@ async function buildHtmlReport({ slug, summary }) {
 
 /* Marco interno: FLEXIBLE (muy importante: NO height fijo) */
 .mapWrap{
-  flex: 1;
-  width: 100%;
-  overflow: hidden;
-  border-radius: 10px;
-  border: 1px solid #e2e2e2;
-  background: #fff;
+  width:100%;
+  height: 100%;
+  overflow:hidden;
+  border-radius:10px;
+  border:1px solid #e2e2e2;
+  background:#fff;
 }
+
 
 /* Imagen igual */
 .mapImg{
