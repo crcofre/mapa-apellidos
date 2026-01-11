@@ -315,9 +315,9 @@ async function buildHtmlReport({ slug, summary }) {
   width:100%;
   height: calc(100% + 6mm);  /* mismo valor que padding-top */
   object-fit: cover;
-  object-position: 50% 60%;
+  object-position: 50% 72%;
   display:block;
-  transform: translateY(-6mm); /* mismo valor que padding-top */
+  transform: translateY(-3mm); /* mismo valor que padding-top */
 }
 
 
