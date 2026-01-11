@@ -314,11 +314,13 @@ async function buildHtmlReport({ slug, summary }) {
 .mapImg{
   width:100%;
   height:100%;
-  object-fit: cover;
-  object-position: 50% 82%;   /* empuja hacia abajo */
-  transform: scale(1.08);     /* ← AGRANDA el mapa */
+  object-fit: contain;        /* clave: no recorta */
+  object-position: 50% 100%;  /* anclado abajo */
+  transform: scale(1.22);     /* agranda para ocupar mejor */
+  transform-origin: 50% 100%; /* escala desde abajo */
   display:block;
 }
+
 
 
 
