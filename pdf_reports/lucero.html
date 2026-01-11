@@ -42,13 +42,11 @@
     .sub{ font-size: 12px; color:#333; margin: 0 0 4mm; }
 
     .grid{
-  display:grid;
-  grid-template-columns: 40% 60%;
-  grid-template-rows: auto auto;   /* dos filas = dos tablas */
-  gap: 4mm;
-  align-items: stretch;
-}
-
+      display:grid;
+      grid-template-columns: 40% 60%;
+      gap: 4mm;
+      align-items: stretch;
+    }
 
     .rightCol{
       display:flex;
@@ -65,42 +63,27 @@
     }
 
     /* SOLO el card del mapa: más “largo abajo” */
-    /* .mapCard{ padding-bottom: 10mm; }
+    .mapCard{ padding-bottom: 10mm; }
 
-/* Card del mapa: se estira como la columna izquierda */
-.mapCard{
-  grid-row: 1 / span 2;   /* ocupa fila 1 y 2 */
-  height: 100%;
-}
-
-
-/* Espaciador ARRIBA: esto baja el marco interno SIN agrandar el borde externo */
-.mapCard::before{
-  content: "";
-  flex: 0 0 6mm;   /* AJUSTA AQUÍ: 4mm–8mm */
-}
-
-/* Marco interno: FLEXIBLE (muy importante: NO height fijo) */
+    /* MAPA: borde interno baja, pero el alto total NO cambia (sigue 128mm) */
 .mapWrap{
   width:100%;
-  height: 100%;
+  height:128mm;              /* NO cambiar: mantiene alineación con tablas */
+  padding-top: 6mm;          /* AJUSTA AQUÍ: 4mm–8mm */
   overflow:hidden;
   border-radius:10px;
   border:1px solid #e2e2e2;
   background:#fff;
 }
 
-
-/* Imagen igual */
 .mapImg{
-  width: 100%;
-  height: 100%;
+  width:100%;
+  height: calc(100% + 6mm);  /* mismo valor que padding-top */
   object-fit: cover;
-  object-position: 50% 53%;
-  display: block;
+  object-position: 50% 60%;
+  display:block;
+  transform: translateY(-6mm); /* mismo valor que padding-top */
 }
-
-
 
 
     h2{ font-size: 12.5px; margin: 0 0 2mm; }
@@ -178,13 +161,10 @@
     <div class="grid">
       <!-- MAPA -->
       <div class="card mapCard">
-  <div class="mapCardInner">
-    <div class="mapWrap">
-      <img class="mapImg" src="../pdf_maps/lucero.png?v=1768089901229" alt="Mapa de Chile"/>
-    </div>
-  </div>
-</div>
-
+        <div class="mapWrap">
+          <img class="mapImg" src="../pdf_maps/lucero.png?v=1768090874495" alt="Mapa de Chile"/>
+        </div>
+      </div>
 
       <!-- TABLAS DERECHA -->
       <div class="rightCol">
