@@ -329,7 +329,7 @@ function resizePng(png, dstW, dstH) {
   return out;
 }
 
-function scaleAndCenterToCanvas(png, canvasW, canvasH, scaleUp = 1.22) {
+function scaleAndCenterToCanvas(png, canvasW, canvasH, scaleUp = 1.10) {
   // Escala para que el contenido use más del alto del canvas.
   // Luego lo centra en un canvas fijo (canvasW x canvasH).
   const srcW = png.width;
