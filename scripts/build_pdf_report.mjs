@@ -296,7 +296,7 @@ async function buildHtmlReport({ slug, summary }) {
     }
 
     /* SOLO el card del mapa: más “largo abajo” */
-    .mapCard{ padding-bottom: 10mm; }
+    .mapCard{ padding-bottom: 2mm; }
 
     /* MAPA: borde interno baja, pero el alto total NO cambia (sigue 128mm) */
 .mapWrap{
