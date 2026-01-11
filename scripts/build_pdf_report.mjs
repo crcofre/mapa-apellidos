@@ -15,6 +15,16 @@ const LOGO_URL =
   "https://images.jumpseller.com/store/familias-y-apellidos/store/logo/Sitio_web.png?1741039595";
 
 /**
+ * MAP PNG OUTPUT (fixed final height)
+ * El objetivo es que el PNG ya venga escalado a la altura final.
+ *
+ * 128mm a 300 dpi ≈ 1512 px (muy buen balance nitidez/tamaño).
+ */
+const MAP_TARGET_HEIGHT_MM = 128;
+const MAP_TARGET_DPI = 300;
+const MAP_TARGET_HEIGHT_PX = Math.round((MAP_TARGET_HEIGHT_MM / 25.4) * MAP_TARGET_DPI);
+
+/**
  * CLI
  */
 function slugArg() {
@@ -77,25 +87,79 @@ async function loadSummaryFromShard(slug) {
 
   const data = await fs.readJson(shard);
   const items = Array.isArray(data?.items) ? data.items : null;
-  if (!items) throw new Error(`El shard ${shard} no tiene estructura {"items":[...]}.`);
+  if (!items) {
+    throw new Error(`El shard ${shard} no tiene estructura {"items":[...]}.`);
+  }
 
-  const summary = items.find(
-    (it) => String(it?.slug ?? "").toLowerCase() === slug
-  );
-
+  const summary = items.find((it) => String(it?.slug ?? "").toLowerCase() === slug);
   if (!summary) {
     const sample = items.slice(0, 10).map((it) => it.slug).filter(Boolean);
     throw new Error(
       `No encontré el slug=${slug} dentro de ${shard}. Ejemplos de slugs: ${sample.join(", ")}`
     );
   }
-
   return summary;
 }
 
 /**
- * 1) Captura PNG completo del #map
- * 2) Recorta automáticamente al contenido (Chile) detectando píxeles no-blancos
+ * Resize PNG a altura fija (manteniendo aspecto), con muestreo bilinear.
+ */
+function resizePngToHeight(png, targetH) {
+  const srcW = png.width;
+  const srcH = png.height;
+
+  if (srcH <= 0 || srcW <= 0) throw new Error("PNG inválido para resize.");
+
+  const scale = targetH / srcH;
+  const dstH = Math.max(1, Math.round(srcH * scale));
+  const dstW = Math.max(1, Math.round(srcW * scale));
+
+  const src = png.data;
+  const out = new PNG({ width: dstW, height: dstH });
+
+  for (let y = 0; y < dstH; y++) {
+    const sy = (y + 0.5) / scale - 0.5;
+    const y0 = Math.floor(sy);
+    const y1 = Math.min(srcH - 1, Math.max(0, y0 + 1));
+    const wy = sy - y0;
+    const yy0 = Math.min(srcH - 1, Math.max(0, y0));
+
+    for (let x = 0; x < dstW; x++) {
+      const sx = (x + 0.5) / scale - 0.5;
+      const x0 = Math.floor(sx);
+      const x1 = Math.min(srcW - 1, Math.max(0, x0 + 1));
+      const wx = sx - x0;
+      const xx0 = Math.min(srcW - 1, Math.max(0, x0));
+
+      const i00 = ((yy0 * srcW + xx0) << 2);
+      const i10 = ((yy0 * srcW + x1) << 2);
+      const i01 = ((y1 * srcW + xx0) << 2);
+      const i11 = ((y1 * srcW + x1) << 2);
+
+      const o = ((y * dstW + x) << 2);
+
+      for (let c = 0; c < 4; c++) {
+        const v00 = src[i00 + c];
+        const v10 = src[i10 + c];
+        const v01 = src[i01 + c];
+        const v11 = src[i11 + c];
+
+        const v0 = v00 + (v10 - v00) * wx;
+        const v1 = v01 + (v11 - v01) * wx;
+        const v = v0 + (v1 - v0) * wy;
+
+        out.data[o + c] = Math.round(v);
+      }
+    }
+  }
+  return out;
+}
+
+/**
+ * Genera PNG del mapa (Leaflet real) ya escalado a altura final.
+ *
+ * Nota: aquí SÍ recortamos “aire” con un clip proporcional estable (no auto-crop por pixeles),
+ * y DESPUÉS escalamos a altura fija. Esto evita el caos de autoCrop y mantiene proporción correcta.
  */
 async function buildMapPngWithPlaywright({ slug }) {
   await fs.ensureDir(OUT_MAPS_DIR);
@@ -104,7 +168,7 @@ async function buildMapPngWithPlaywright({ slug }) {
     `${MAP_BASE_URL}?apellido=${encodeURIComponent(slug)}` +
     `&pdf=1&t=${Date.now()}`;
 
-  const outRaw = path.join(OUT_MAPS_DIR, `${slug}.raw.png`);
+  const outTmp = path.join(OUT_MAPS_DIR, `${slug}.tmp.png`);
   const outPng = path.join(OUT_MAPS_DIR, `${slug}.png`);
 
   const browser = await chromium.launch({
@@ -151,88 +215,40 @@ async function buildMapPngWithPlaywright({ slug }) {
     const mapEl = await page.$("#map");
     if (!mapEl) throw new Error("No encontré el elemento #map en la página del mapa.");
 
-    // Screenshot del #map completo (sin recorte)
-    await mapEl.screenshot({ path: outRaw, type: "png" });
+    const box = await mapEl.boundingBox();
+    if (!box) throw new Error("No pude calcular el bounding box de #map.");
 
-    // Recorte automático por contenido
-    await autoCropPngByContent(outRaw, outPng, {
-      margin: 16,         // margen alrededor del contenido (px)
-      whiteThreshold: 250 // 0-255: qué tan "blanco" debe ser para considerarlo fondo
-    });
+    // Clip estable: quita aire lateral sin matar el sur
+    const crop = {
+      x: Math.round(box.x + box.width * 0.22),
+      y: Math.round(box.y + box.height * 0.01),
+      width: Math.round(box.width * 0.56),
+      height: Math.round(box.height * 0.985),
+    };
 
-    // Limpia raw
-    await fs.remove(outRaw).catch(() => {});
+    // Seguridad clip
+    const clip = {
+      x: Math.max(0, crop.x),
+      y: Math.max(0, crop.y),
+      width: Math.max(1, crop.width),
+      height: Math.max(1, crop.height),
+    };
+
+    await page.screenshot({ path: outTmp, type: "png", clip });
+
+    // Resize a altura final fija
+    const buf = await fs.readFile(outTmp);
+    const png = PNG.sync.read(buf);
+    const resized = resizePngToHeight(png, MAP_TARGET_HEIGHT_PX);
+    const outBuf = PNG.sync.write(resized);
+    await fs.writeFile(outPng, outBuf);
+
+    await fs.remove(outTmp).catch(() => {});
     return outPng;
   } finally {
     await page.close().catch(() => {});
     await browser.close().catch(() => {});
   }
-}
-
-/**
- * Recorta un PNG detectando el bounding box de píxeles no-blancos.
- */
-async function autoCropPngByContent(inPath, outPath, opts = {}) {
-  const margin = Number(opts.margin ?? 12);
-  const whiteThreshold = Number(opts.whiteThreshold ?? 250);
-
-  const buf = await fs.readFile(inPath);
-  const png = PNG.sync.read(buf);
-
-  const { width, height, data } = png;
-
-  let minX = width, minY = height, maxX = -1, maxY = -1;
-
-  // Consideramos "contenido" cualquier pixel que NO sea casi blanco
-  // y con alpha > 0
-  for (let y = 0; y < height; y++) {
-    for (let x = 0; x < width; x++) {
-      const i = (width * y + x) << 2;
-      const r = data[i], g = data[i + 1], b = data[i + 2], a = data[i + 3];
-
-      if (a === 0) continue; // transparente => fondo
-      const isWhite =
-        r >= whiteThreshold && g >= whiteThreshold && b >= whiteThreshold;
-
-      if (!isWhite) {
-        if (x < minX) minX = x;
-        if (y < minY) minY = y;
-        if (x > maxX) maxX = x;
-        if (y > maxY) maxY = y;
-      }
-    }
-  }
-
-  // Fallback si no encontró nada (no debería pasar)
-  if (maxX < 0 || maxY < 0) {
-    await fs.copy(inPath, outPath);
-    return;
-  }
-
-  // Agrega margen y clampa
-  minX = Math.max(0, minX - margin);
-  minY = Math.max(0, minY - margin);
-  maxX = Math.min(width - 1, maxX + margin);
-  maxY = Math.min(height - 1, maxY + margin);
-
-  const cropW = maxX - minX + 1;
-  const cropH = maxY - minY + 1;
-
-  const out = new PNG({ width: cropW, height: cropH });
-
-  for (let y = 0; y < cropH; y++) {
-    for (let x = 0; x < cropW; x++) {
-      const srcIdx = ((width * (minY + y) + (minX + x)) << 2);
-      const dstIdx = ((cropW * y + x) << 2);
-      out.data[dstIdx] = data[srcIdx];
-      out.data[dstIdx + 1] = data[srcIdx + 1];
-      out.data[dstIdx + 2] = data[srcIdx + 2];
-      out.data[dstIdx + 3] = data[srcIdx + 3];
-    }
-  }
-
-  const outBuf = PNG.sync.write(out);
-  await fs.writeFile(outPath, outBuf);
 }
 
 /**
@@ -244,7 +260,9 @@ async function buildHtmlReport({ slug, summary }) {
   const mapUrl = `../${OUT_MAPS_DIR}/${slug}.png?v=${Date.now()}`;
 
   const regionesRows = (summary.top_regiones || [])
-    .map((r) => tableRow([r.rank, cleanRegionLabel(r.region), `${formatPct(r.pct_region)}%`]))
+    .map((r) =>
+      tableRow([r.rank, cleanRegionLabel(r.region), `${formatPct(r.pct_region)}%`])
+    )
     .join("");
 
   const provinciasRows = (summary.top_provincias || [])
@@ -316,24 +334,19 @@ async function buildHtmlReport({ slug, summary }) {
       background:#fff;
     }
 
-   .mapWrap{
-  width:100%;
-  height:128mm;        /* mantiene el alto alineado con las tablas */
-  overflow:hidden;
-  border:none;
-  background:transparent;
-}
-
-.mapImg{
-  width:100%;
-  height:100%;
-  display:block;
-
-  object-fit: cover;        /* clave: rellena el cuadro */
-  object-position: 50% 85%; /* clave: baja el encuadre hacia el sur */
-}
-
-
+    /* MAPA: cero “CSS creativo”. El PNG ya viene a la altura correcta. */
+    .mapWrap{
+      width:100%;
+      height:${MAP_TARGET_HEIGHT_MM}mm;  /* 128mm */
+      overflow:hidden;
+    }
+    .mapImg{
+      width:100%;
+      height:100%;
+      object-fit: contain;
+      object-position: 50% 100%; /* anclado abajo */
+      display:block;
+    }
 
     h2{ font-size:12.5px; margin:0 0 2mm; }
 
