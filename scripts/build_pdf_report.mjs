@@ -156,7 +156,7 @@ async function buildMapPngWithPlaywright({ slug }) {
 
     // Recorte automático por contenido
     await autoCropPngByContent(outRaw, outPng, {
-      margin: 60,         // margen alrededor del contenido (px)
+      margin: 16,         // margen alrededor del contenido (px)
       whiteThreshold: 250 // 0-255: qué tan "blanco" debe ser para considerarlo fondo
     });
 
@@ -318,26 +318,21 @@ async function buildHtmlReport({ slug, summary }) {
 
    .mapWrap{
   width:100%;
-  height:128mm;
+  height:128mm;        /* mantiene el alto alineado con las tablas */
   overflow:hidden;
   border:none;
   background:transparent;
-
-  display:flex;
-  align-items:flex-end;     /* ancla abajo */
-  justify-content:center;   /* centra horizontal */
 }
 
 .mapImg{
+  width:100%;
   height:100%;
-  width:auto;               /* mantiene proporción, evita recorte lateral */
-  max-width:100%;
-  object-fit: contain;      /* clave: NO recorta */
   display:block;
 
-  transform: scale(1.25);   /* “llena más” sin cortar */
-  transform-origin: 50% 100%;
+  object-fit: cover;        /* clave: rellena el cuadro */
+  object-position: 50% 85%; /* clave: baja el encuadre hacia el sur */
 }
+
 
 
     h2{ font-size:12.5px; margin:0 0 2mm; }
