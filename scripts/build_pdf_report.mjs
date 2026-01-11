@@ -180,7 +180,7 @@ async function buildMapPngWithPlaywright({ slug }) {
 
     // 2) Auto-crop (quita aire blanco)
     await autoCropPngByContent(outRaw, outCrop, {
-      margin: 14,          // MÁS chico = “crece” más (prueba 10–22)
+      margin: 10,          // MÁS chico = “crece” más (prueba 10–22)
       whiteThreshold: 252, // 250–254 (más alto = recorta más agresivo)
       alphaThreshold: 5,
     });
@@ -207,7 +207,7 @@ async function buildMapPngWithPlaywright({ slug }) {
  */
 async function autoCropPngByContent(inPath, outPath, opts = {}) {
   const margin = Number(opts.margin ?? 12);
-  const whiteThreshold = Number(opts.whiteThreshold ?? 252);
+  const whiteThreshold = Number(opts.whiteThreshold ?? 253);
   const alphaThreshold = Number(opts.alphaThreshold ?? 5);
 
   const buf = await fs.readFile(inPath);
