@@ -313,12 +313,13 @@ async function buildHtmlReport({ slug, summary }) {
 
 .mapImg{
   width:100%;
-  height: calc(100% + 6mm);  /* mismo valor que padding-top */
+  height:100%;
   object-fit: cover;
-  object-position: 50% 78%;
+  object-position: 50% 82%;   /* empuja hacia abajo */
+  transform: scale(1.08);     /* ← AGRANDA el mapa */
   display:block;
-  transform: translateY(-6mm); /* mismo valor que padding-top */
 }
+
 
 
     h2{ font-size: 12.5px; margin: 0 0 2mm; }
