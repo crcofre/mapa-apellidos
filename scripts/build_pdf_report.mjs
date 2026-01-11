@@ -354,7 +354,9 @@ function scaleAndCenterToCanvas(png, canvasW, canvasH, scaleUp = 1.10) {
 
   // centra (si se pasa del canvas, queda “recortado”, lo cual es OK si quieres llenar más)
   const offX = Math.round((canvasW - scaledW) / 2);
-  const offY = Math.round((canvasH - scaledH) / 2);
+  const bottomPadding = 6; // px: deja 6px de aire abajo (ajusta 0–15)
+  const offY = canvasH - scaledH - bottomPadding;
+
 
   for (let y = 0; y < scaledH; y++) {
     const cy = y + offY;
