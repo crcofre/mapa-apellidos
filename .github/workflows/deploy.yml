@@ -2,8 +2,15 @@ name: Descomprimir y publicar mapa
 
 on:
   push:
-    branches: [ main ]
-  workflow_dispatch:
+    branches: ["main"]
+    paths-ignore:
+      - "scripts/**"
+      - "pdf_summaries/**"
+      - "pdf_reports/**"
+      - "pdf_maps/**"
+      - ".github/workflows/build-pdf-report.yml"
+      - "package.json"
+      - "package-lock.json"
 
 permissions:
   contents: read
