@@ -589,16 +589,13 @@ async function buildHtmlReport({ slug, summary }) {
   <div class="ctaRow">
     <div class="ctaText">
       <div class="ctaTitle">¿Quieres tu Diploma del Apellido o un Estudio Genealógico?</div>
-      <div class="ctaSub">
-        Encarga tu diploma o solicita un estudio con respaldo documental.
-      </div>
     </div>
 
     <div class="ctaBtns">
       <a class="btn btnPrimary" href="https://www.apellidos.cl/diploma" target="_blank" rel="noopener noreferrer">
-        Ver diploma
+        Solicitar diploma
       </a>
-      <a class="btn btnGhost" href="https://www.apellidos.cl/estudio-genealogico" target="_blank" rel="noopener noreferrer">
+      <a class="btn btnGhost" href="https://www.apellidos.cl/investigacion-genealogica" target="_blank" rel="noopener noreferrer">
         Solicitar estudio
       </a>
     </div>
