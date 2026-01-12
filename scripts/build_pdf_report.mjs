@@ -66,9 +66,6 @@ function tableRow(cells) {
 }
 
 /**
- * Carga summary desde shard pdf_summaries/2/apellidos_xx.json (estructura {"items":[...]})
- */
-/**
  * Carga summary desde shards:
  * - pdf_summaries/2/apellidos_xx.json (2 letras)
  * - pdf_summaries/3/apellidos_xxx.json (3 letras)
@@ -119,7 +116,6 @@ async function loadSummaryFromShard(slug) {
       errors.map((e) => `- ${e}`).join("\n")
   );
 }
-
 
 /**
  * 1) Captura PNG completo del #map (con Leaflet real)
@@ -197,7 +193,7 @@ async function buildMapPngWithPlaywright({ slug }) {
 
     // 2) Auto-crop (quita aire blanco)
     await autoCropPngByContent(outRaw, outCrop, {
-      margin: 14,          // MÁS chico = “crece” más (prueba 10–22)
+      margin: 14, // MÁS chico = “crece” más (prueba 10–22)
       whiteThreshold: 252, // 250–254 (más alto = recorta más agresivo)
       alphaThreshold: 5,
     });
@@ -416,14 +412,12 @@ async function buildHtmlReport({ slug, summary }) {
     h1{ font-size:18px; margin:0 0 2mm; }
     .sub{ font-size:12px; color:#333; margin:0 0 4mm; }
 
-   .grid{
-  display:grid;
-  grid-template-columns: calc(40% - 2mm) calc(60% - 2mm);
-  gap:4mm;
-  align-items:stretch;
-}
-
-
+    .grid{
+      display:grid;
+      grid-template-columns: calc(40% - 2mm) calc(60% - 2mm);
+      gap:4mm;
+      align-items:stretch;
+    }
 
     .rightCol{
       display:flex;
@@ -436,6 +430,11 @@ async function buildHtmlReport({ slug, summary }) {
       border-radius:10px;
       padding:3mm;
       background:#fff;
+    }
+
+    /* Espacio entre el bloque superior (grid) y la card inferior */
+    .card.below{
+      margin-top:4mm;
     }
 
     /* Mapa: contenedor fijo y PNG ya listo */
@@ -495,58 +494,48 @@ async function buildHtmlReport({ slug, summary }) {
     .t-comunas col.c4{ width:42%; }
     .t-comunas col.c5{ width:12%; }
 
-
-
-  /* AJUSTE DE ANCHO PARA ALINEAR CON TABLAS SUPERIORES */
-  /*width: calc(100% + 4mm);
-  /*margin-right: -4mm;
-}
-
     .foot{ font-size:11px; color:#666; margin-top:3mm; }
 
     .card, table{ break-inside:avoid; page-break-inside:avoid; }
 
+    /* CTA (anuncio final) */
+    .cta{ margin-top:4mm; }
+    .ctaRow{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:6mm;
+    }
+    .ctaTitle{
+      font-size:12.5px;
+      font-weight:700;
+      margin:0 0 1mm;
+    }
+    .ctaSub{
+      font-size:11px;
+      color:#444;
+      margin:0;
+    }
+    .ctaBtns{ display:flex; gap:2mm; flex-wrap:wrap; }
 
-  /* CTA (anuncio final) */
-.cta{ margin-top:4mm; }
-.ctaRow{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:6mm;
-}
-.ctaTitle{
-  font-size:12.5px;
-  font-weight:700;
-  margin:0 0 1mm;
-}
-.ctaSub{
-  font-size:11px;
-  color:#444;
-  margin:0;
-}
-.ctaBtns{ display:flex; gap:2mm; flex-wrap:wrap; }
-
-.btn{
-  display:inline-block;
-  padding:2.2mm 3.2mm;
-  border-radius:8px;
-  font-size:11px;
-  text-decoration:none;
-  border:1px solid #ddd;
-  color:#111;
-}
-.btnPrimary{
-  background:#111;
-  color:#fff;
-  border-color:#111;
-}
-.btnGhost{
-  background:#fff;
-  color:#111;
-}
-
-    
+    .btn{
+      display:inline-block;
+      padding:2.2mm 3.2mm;
+      border-radius:8px;
+      font-size:11px;
+      text-decoration:none;
+      border:1px solid #ddd;
+      color:#111;
+    }
+    .btnPrimary{
+      background:#111;
+      color:#fff;
+      border-color:#111;
+    }
+    .btnGhost{
+      background:#fff;
+      color:#111;
+    }
   </style>
 </head>
 
@@ -554,10 +543,10 @@ async function buildHtmlReport({ slug, summary }) {
   <div class="page">
     <div class="header">
       <div class="brand">
-          <a href="https://www.apellidos.cl" target="_blank" rel="noopener noreferrer">
-            <img class="logo" src="${LOGO_URL}" alt="Apellidos.cl"/>
-          </a>
-        </div>
+        <a href="https://www.apellidos.cl" target="_blank" rel="noopener noreferrer">
+          <img class="logo" src="${LOGO_URL}" alt="Apellidos.cl"/>
+        </a>
+      </div>
       <div class="meta">Actualizado: ${htmlEscape(summary.updated_at || "")}</div>
     </div>
 
@@ -602,35 +591,35 @@ async function buildHtmlReport({ slug, summary }) {
     </div>
 
     <div class="card cta">
-  <div class="ctaRow">
-    <div class="ctaText">
-      <div class="ctaTitle">¿Quieres tu Diploma del Apellido o un Estudio Genealógico?</div>
-    </div>
+      <div class="ctaRow">
+        <div class="ctaText">
+          <div class="ctaTitle">¿Quieres tu Diploma del Apellido o un Estudio Genealógico?</div>
+        </div>
 
-    <div class="ctaBtns">
-      <a class="btn btnPrimary" href="https://www.apellidos.cl/diploma" target="_blank" rel="noopener noreferrer">
-        Solicitar diploma
-      </a>
-      <a class="btn btnGhost" href="https://www.apellidos.cl/investigacion-genealogica" target="_blank" rel="noopener noreferrer">
-        Solicitar estudio
-      </a>
+        <div class="ctaBtns">
+          <a class="btn btnPrimary" href="https://www.apellidos.cl/diploma" target="_blank" rel="noopener noreferrer">
+            Solicitar diploma
+          </a>
+          <a class="btn btnGhost" href="https://www.apellidos.cl/investigacion-genealogica" target="_blank" rel="noopener noreferrer">
+            Solicitar estudio
+          </a>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-
 
     <div class="foot">
-  Fuente:
-  <a href="https://www.apellidos.cl/mapa-de-apellidos"
-     target="_blank"
-     rel="noopener noreferrer">
-    https://www.apellidos.cl/mapa-de-apellidos
-  </a>
-  en Chile. Este reporte presenta las regiones, provincias y comunas donde hay mayor
-  frecuencia relativa del apellido, lo que en muchos casos se explica por su antigua
-  presencia en aquellos lugares.
-</div>
+      Fuente:
+      <a href="https://www.apellidos.cl/mapa-de-apellidos"
+         target="_blank"
+         rel="noopener noreferrer">
+        https://www.apellidos.cl/mapa-de-apellidos
+      </a>
+      en Chile. Este reporte presenta las regiones, provincias y comunas donde hay mayor
+      frecuencia relativa del apellido, lo que en muchos casos se explica por su antigua
+      presencia en aquellos lugares.
+    </div>
 
+  </div>
 </body>
 </html>`;
 
