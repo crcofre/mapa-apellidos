@@ -7,14 +7,20 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: build-pdf-report
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           persist-credentials: true
+          fetch-depth: 0
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -28,12 +34,42 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Build report
-        run: node scripts/build_pdf_report.mjs --slug "${{ github.event.client_payload.slug }}"
-
-      - name: Commit outputs
+        env:
+          SLUG: ${{ github.event.client_payload.slug }}
         run: |
+          echo "Building report for slug=$SLUG"
+          node scripts/build_pdf_report.mjs --slug "$SLUG"
+
+      - name: Commit & push outputs (rebase + retries)
+        env:
+          SLUG: ${{ github.event.client_payload.slug }}
+        run: |
+          set -e
+
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+
           git add pdf_reports pdf_maps
-          git commit -m "build pdf report ${{ github.event.client_payload.slug }}" || echo "No changes"
-          git push
+
+          # Si no hay cambios, salimos OK
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          git commit -m "build pdf report $SLUG"
+
+          # Rebase + reintentos para evitar non-fast-forward
+          for i in 1 2 3; do
+            echo "Attempt $i: git pull --rebase && git push"
+            git pull --rebase origin main
+            if git push origin HEAD:main; then
+              echo "Push OK"
+              exit 0
+            fi
+            echo "Push failed, retrying..."
+            sleep 2
+          done
+
+          echo "Push failed after retries"
+          exit 1
