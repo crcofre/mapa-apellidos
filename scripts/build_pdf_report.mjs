@@ -7,7 +7,8 @@ import { PNG } from "pngjs";
 /**
  * CONFIG
  */
-const SUMMARY_DIR = "pdf_summaries/2";
+const SUMMARY_DIR_2 = "pdf_summaries/2";
+const SUMMARY_DIR_3 = "pdf_summaries/3";
 const OUT_REPORTS_DIR = "pdf_reports";
 const OUT_MAPS_DIR = "pdf_maps";
 
@@ -67,42 +68,58 @@ function tableRow(cells) {
 /**
  * Carga summary desde shard pdf_summaries/2/apellidos_xx.json (estructura {"items":[...]})
  */
+/**
+ * Carga summary desde shards:
+ * - pdf_summaries/2/apellidos_xx.json (2 letras)
+ * - pdf_summaries/3/apellidos_xxx.json (3 letras)
+ * Estructura esperada: {"items":[...]}
+ */
 async function loadSummaryFromShard(slug) {
-  const base = path.resolve(SUMMARY_DIR);
-  if (!(await fs.pathExists(base))) {
-    throw new Error(
-      `No existe SUMMARY_DIR: ${SUMMARY_DIR}. Ajusta SUMMARY_DIR en el script.`
+  const attempts = [
+    { dir: SUMMARY_DIR_2, prefixLen: 2 },
+    { dir: SUMMARY_DIR_3, prefixLen: 3 },
+  ];
+
+  const errors = [];
+
+  for (const a of attempts) {
+    const base = path.resolve(a.dir);
+
+    if (!(await fs.pathExists(base))) {
+      errors.push(`No existe dir: ${a.dir}`);
+      continue;
+    }
+
+    const pref = slug.slice(0, a.prefixLen);
+    const shard = path.join(base, `apellidos_${pref}.json`);
+
+    if (!(await fs.pathExists(shard))) {
+      errors.push(`No existe shard: ${a.dir}/apellidos_${pref}.json`);
+      continue;
+    }
+
+    const data = await fs.readJson(shard);
+    const items = Array.isArray(data?.items) ? data.items : null;
+    if (!items) {
+      errors.push(`Shard sin estructura {"items":[...]}: ${shard}`);
+      continue;
+    }
+
+    const summary = items.find(
+      (it) => String(it?.slug ?? "").toLowerCase() === slug
     );
+
+    if (summary) return summary;
+
+    errors.push(`No encontré slug=${slug} en ${shard}`);
   }
 
-  const p2 = slug.slice(0, 2);
-  const shard = path.join(base, `apellidos_${p2}.json`);
-
-  if (!(await fs.pathExists(shard))) {
-    throw new Error(
-      `No existe shard esperado: ${shard}. Revisa que exista apellidos_${p2}.json en ${SUMMARY_DIR}`
-    );
-  }
-
-  const data = await fs.readJson(shard);
-  const items = Array.isArray(data?.items) ? data.items : null;
-  if (!items) {
-    throw new Error(`El shard ${shard} no tiene estructura {"items":[...]}.`);
-  }
-
-  const summary = items.find(
-    (it) => String(it?.slug ?? "").toLowerCase() === slug
+  throw new Error(
+    `No pude resolver slug=${slug} en pdf_summaries/2 ni /3.\n` +
+      errors.map((e) => `- ${e}`).join("\n")
   );
-
-  if (!summary) {
-    const sample = items.slice(0, 10).map((it) => it.slug).filter(Boolean);
-    throw new Error(
-      `No encontré el slug=${slug} dentro de ${shard}. Ejemplos: ${sample.join(", ")}`
-    );
-  }
-
-  return summary;
 }
+
 
 /**
  * 1) Captura PNG completo del #map (con Leaflet real)
