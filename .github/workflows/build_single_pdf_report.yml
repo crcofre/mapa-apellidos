@@ -1,0 +1,34 @@
+name: Build single PDF report (HTML + PNG)
+
+on:
+  repository_dispatch:
+    types: [build_pdf_report]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Build report
+        run: node scripts/build_pdf_report.mjs --slug "${{ github.event.client_payload.slug }}"
+
+      - name: Commit outputs
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add pdf_reports pdf_maps
+          git commit -m "build pdf report ${{ github.event.client_payload.slug }}" || echo "No changes"
+          git push
