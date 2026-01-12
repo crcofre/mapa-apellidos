@@ -478,7 +478,14 @@ async function buildHtmlReport({ slug, summary }) {
     .t-comunas col.c4{ width:42%; }
     .t-comunas col.c5{ width:12%; }
 
-    .below{ margin-top:4mm; }
+    .card.below{
+  margin-top: 4mm;
+
+  /* AJUSTE DE ANCHO PARA ALINEAR CON TABLAS SUPERIORES */
+  width: calc(100% + 4mm);
+  margin-right: -4mm;
+}
+
     .foot{ font-size:11px; color:#666; margin-top:3mm; }
 
     .card, table{ break-inside:avoid; page-break-inside:avoid; }
