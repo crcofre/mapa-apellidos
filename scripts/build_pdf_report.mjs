@@ -489,6 +489,48 @@ async function buildHtmlReport({ slug, summary }) {
     .foot{ font-size:11px; color:#666; margin-top:3mm; }
 
     .card, table{ break-inside:avoid; page-break-inside:avoid; }
+
+
+  /* CTA (anuncio final) */
+.cta{ margin-top:4mm; }
+.ctaRow{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:6mm;
+}
+.ctaTitle{
+  font-size:12.5px;
+  font-weight:700;
+  margin:0 0 1mm;
+}
+.ctaSub{
+  font-size:11px;
+  color:#444;
+  margin:0;
+}
+.ctaBtns{ display:flex; gap:2mm; flex-wrap:wrap; }
+
+.btn{
+  display:inline-block;
+  padding:2.2mm 3.2mm;
+  border-radius:8px;
+  font-size:11px;
+  text-decoration:none;
+  border:1px solid #ddd;
+  color:#111;
+}
+.btnPrimary{
+  background:#111;
+  color:#fff;
+  border-color:#111;
+}
+.btnGhost{
+  background:#fff;
+  color:#111;
+}
+
+    
   </style>
 </head>
 
@@ -496,8 +538,10 @@ async function buildHtmlReport({ slug, summary }) {
   <div class="page">
     <div class="header">
       <div class="brand">
-        <img class="logo" src="${LOGO_URL}" alt="Apellidos.cl"/>
-      </div>
+          <a href="https://www.apellidos.cl" target="_blank" rel="noopener noreferrer">
+            <img class="logo" src="${LOGO_URL}" alt="Apellidos.cl"/>
+          </a>
+        </div>
       <div class="meta">Actualizado: ${htmlEscape(summary.updated_at || "")}</div>
     </div>
 
@@ -541,8 +585,29 @@ async function buildHtmlReport({ slug, summary }) {
       </table>
     </div>
 
+    <div class="card cta">
+  <div class="ctaRow">
+    <div class="ctaText">
+      <div class="ctaTitle">¿Quieres tu Diploma del Apellido o un Estudio Genealógico?</div>
+      <div class="ctaSub">
+        Encarga tu diploma o solicita un estudio con respaldo documental.
+      </div>
+    </div>
+
+    <div class="ctaBtns">
+      <a class="btn btnPrimary" href="https://www.apellidos.cl/diploma" target="_blank" rel="noopener noreferrer">
+        Ver diploma
+      </a>
+      <a class="btn btnGhost" href="https://www.apellidos.cl/estudio-genealogico" target="_blank" rel="noopener noreferrer">
+        Solicitar estudio
+      </a>
+    </div>
+  </div>
+</div>
+
+
     <div class="foot">
-      Fuente: www.apellidos.cl / Mapa de apellidos en Chile. Este reporte presenta los lugares donde hay mayor frecuencia relativa del apellido, lo que en muchos casos se explica por su antigua presencia en aquellos lugares.
+      Fuente: https://www.apellidos.cl/mapa-de-apellidos en Chile. Este reporte presenta las regiones, provincias y comunas donde hay mayor frecuencia relativa del apellido, lo que en muchos casos se explica por su antigua presencia en aquellos lugares.
     </div>
   </div>
 </body>
