@@ -604,9 +604,17 @@ async function buildHtmlReport({ slug, summary }) {
 
 
     <div class="foot">
-      Fuente: https://www.apellidos.cl/mapa-de-apellidos en Chile. Este reporte presenta las regiones, provincias y comunas donde hay mayor frecuencia relativa del apellido, lo que en muchos casos se explica por su antigua presencia en aquellos lugares.
-    </div>
-  </div>
+  Fuente:
+  <a href="https://www.apellidos.cl/mapa-de-apellidos"
+     target="_blank"
+     rel="noopener noreferrer">
+    https://www.apellidos.cl/mapa-de-apellidos
+  </a>
+  en Chile. Este reporte presenta las regiones, provincias y comunas donde hay mayor
+  frecuencia relativa del apellido, lo que en muchos casos se explica por su antigua
+  presencia en aquellos lugares.
+</div>
+
 </body>
 </html>`;
 
