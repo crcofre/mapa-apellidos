@@ -4,12 +4,17 @@ on:
   repository_dispatch:
     types: [build_pdf_report]
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          persist-credentials: true
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -27,8 +32,8 @@ jobs:
 
       - name: Commit outputs
         run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git add pdf_reports pdf_maps
           git commit -m "build pdf report ${{ github.event.client_payload.slug }}" || echo "No changes"
           git push
