@@ -399,12 +399,14 @@ async function buildHtmlReport({ slug, summary }) {
     h1{ font-size:18px; margin:0 0 2mm; }
     .sub{ font-size:12px; color:#333; margin:0 0 4mm; }
 
-    .grid{
-      display:grid;
-      grid-template-columns: 40% 60%;
-      gap:4mm;
-      align-items:stretch;
-    }
+   .grid{
+  display:grid;
+  grid-template-columns: calc(40% - 2mm) calc(60% - 2mm);
+  gap:4mm;
+  align-items:stretch;
+}
+
+
 
     .rightCol{
       display:flex;
