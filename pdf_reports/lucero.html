@@ -114,7 +114,14 @@
     .t-comunas col.c4{ width:42%; }
     .t-comunas col.c5{ width:12%; }
 
-    .below{ margin-top:4mm; }
+    .card.below{
+  margin-top: 4mm;
+
+  /* AJUSTE DE ANCHO PARA ALINEAR CON TABLAS SUPERIORES */
+  width: calc(100% + 4mm);
+  margin-right: -4mm;
+}
+
     .foot{ font-size:11px; color:#666; margin-top:3mm; }
 
     .card, table{ break-inside:avoid; page-break-inside:avoid; }
@@ -136,7 +143,7 @@
     <div class="grid">
       <div class="card">
         <div class="mapWrap">
-          <img class="mapImg" src="../pdf_maps/lucero.png?v=1768231356213" alt="Mapa de Chile"/>
+          <img class="mapImg" src="../pdf_maps/lucero.png?v=1768234420325" alt="Mapa de Chile"/>
         </div>
       </div>
 
