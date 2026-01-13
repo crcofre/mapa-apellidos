@@ -132,6 +132,7 @@ async function buildMapPngWithPlaywright({ slug }) {
   const outRaw = path.join(OUT_MAPS_DIR, `${slug}.raw.png`);
   const outCrop = path.join(OUT_MAPS_DIR, `${slug}.crop.png`);
   const outPng = path.join(OUT_MAPS_DIR, `${slug}.png`);
+  const outPageError = path.join(OUT_MAPS_DIR, `${slug}.pageerror.png`);
 
   const browser = await chromium.launch({
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
@@ -143,6 +144,21 @@ async function buildMapPngWithPlaywright({ slug }) {
   });
 
   try {
+    // --- DEBUG: captura logs/errores de la página (quedan en el log de Actions) ---
+    page.on("console", (msg) =>
+      console.log("[PAGE CONSOLE]", msg.type(), msg.text())
+    );
+    page.on("pageerror", (err) =>
+      console.log("[PAGE ERROR]", err?.message || String(err))
+    );
+    page.on("requestfailed", (req) =>
+      console.log(
+        "[REQ FAILED]",
+        req.url(),
+        req.failure()?.errorText || "(no errorText)"
+      )
+    );
+
     // Fuerza no-cache
     await page.route("**/*", (route) => {
       const headers = {
@@ -152,15 +168,46 @@ async function buildMapPngWithPlaywright({ slug }) {
       route.continue({ headers });
     });
 
-    await page.goto(url, { waitUntil: "networkidle", timeout: 120000 });
+    // Carga inicial (más estable que networkidle en mapas con tiles)
+    await page.goto(url, { waitUntil: "domcontentloaded", timeout: 180000 });
 
-    // Espera a que tu mapa marque listo
-    await page.waitForFunction(
-      () => document.documentElement.getAttribute("data-pdf-ready") === "1",
-      { timeout: 120000 }
-    );
+    // Espera a que tu mapa marque listo (más generoso)
+    try {
+      await page.waitForFunction(
+        () => document.documentElement.getAttribute("data-pdf-ready") === "1",
+        { timeout: 180000 }
+      );
+    } catch (e) {
+      // Diagnóstico: screenshot + valor actual del atributo
+      await page.screenshot({ path: outPageError, fullPage: true }).catch(() => {
+        /* ignore */
+      });
 
-    // Oculta UI / fondo blanco
+      const attr = await page
+        .evaluate(() => document.documentElement.getAttribute("data-pdf-ready"))
+        .catch(() => null);
+
+      console.log("data-pdf-ready attribute:", attr);
+      console.log("Saved diagnostic screenshot:", outPageError);
+
+      // Fallback: si no se setea el flag, al menos espera a que Leaflet exista
+      // (Si esto tampoco aparece, el front no cargó el mapa.)
+      try {
+        await page.waitForSelector(".leaflet-pane", { timeout: 30000 });
+        await page.waitForTimeout(2000);
+      } catch (_) {
+        // no-op: mantenemos el error original
+      }
+
+      // Si el flag sigue sin estar, abortamos para no generar PNG “vacío”
+      const attr2 = await page
+        .evaluate(() => document.documentElement.getAttribute("data-pdf-ready"))
+        .catch(() => null);
+
+      if (attr2 !== "1") throw e;
+    }
+
+    // Oculta UI / fuerza fondo blanco
     await page.addStyleTag({
       content: `
         .leaflet-control-container,
@@ -186,7 +233,15 @@ async function buildMapPngWithPlaywright({ slug }) {
     });
 
     const mapEl = await page.$("#map");
-    if (!mapEl) throw new Error("No encontré #map en la página del mapa.");
+    if (!mapEl) {
+      // screenshot diagnóstico si falta #map
+      await page.screenshot({ path: outPageError, fullPage: true }).catch(() => {
+        /* ignore */
+      });
+      throw new Error(
+        `No encontré #map en la página del mapa. Ver screenshot: ${outPageError}`
+      );
+    }
 
     // 1) Screenshot del #map completo (con aire)
     await mapEl.screenshot({ path: outRaw, type: "png" });
@@ -214,6 +269,7 @@ async function buildMapPngWithPlaywright({ slug }) {
     await browser.close().catch(() => {});
   }
 }
+
 
 /**
  * Recorta un PNG detectando bounding box de píxeles no-blancos.
