@@ -344,7 +344,8 @@ function resizePngToHeight(png, targetH) {
 async function buildHtmlReport({ slug, summary }) {
   await fs.ensureDir(OUT_REPORTS_DIR);
 
-  const mapUrl = `../${OUT_MAPS_DIR}/${slug}.png?v=${Date.now()}`;
+  const mapUrl = `${MAP_BASE_URL}pdf_maps/${slug}.png?v=${Date.now()}`;
+
 
   const regionesRows = (summary.top_regiones || [])
     .map((r) =>
