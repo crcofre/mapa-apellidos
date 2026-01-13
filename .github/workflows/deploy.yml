@@ -1,16 +1,9 @@
-name: Descomprimir y publicar mapa
+name: Deploy GitHub Pages
 
 on:
   push:
-    branches: ["main"]
-    paths-ignore:
-      - "scripts/**"
-      - "pdf_summaries/**"
-      - "pdf_reports/**"
-      - "pdf_maps/**"
-      - ".github/workflows/build-pdf-report.yml"
-      - "package.json"
-      - "package-lock.json"
+    branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -18,67 +11,51 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
-  cancel-in-progress: false
+  group: pages
+  cancel-in-progress: true
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Mostrar árbol inicial
-        run: |
-          ls -la
-          echo "Contenido de data/:"
-          ls -la data || true
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
 
-      - name: Instalar unzip
-        run: sudo apt-get update && sudo apt-get install -y unzip
-
-      - name: Preparar carpeta de salida
+      # 1) Crear carpeta de publicación MINIMA
+      - name: Prepare site (minimal)
         run: |
           rm -rf _site
           mkdir -p _site
-          rsync -av --exclude '.git' --exclude '.github' ./ _site/
 
-      - name: Descomprimir ZIPs (si existen)
-        shell: bash
-        working-directory: _site
-        run: |
-          mkdir -p data/apellidos_json
-          set +e
-          count=0
-          for z in data/apellidos_json_parte_*.zip; do
-            if [ -f "$z" ]; then
-              echo "Descomprimiendo $z ..."
-              unzip -oq "$z" -d data/apellidos_json
-              ((count++))
-            fi
-          done
-          echo "ZIPs procesados: $count"
-          echo "JSON totales:"
-          find data/apellidos_json -type f -name '*.json' | wc -l
-          # Listar algunos para verificar
-          find data/apellidos_json -type f -name '*.json' | head -n 10 || true
+          # Copia lo esencial del sitio (ajusta según tu repo)
+          cp -R index.html _site/ 2>/dev/null || true
+          cp -R assets _site/ 2>/dev/null || true
+          cp -R css _site/ 2>/dev/null || true
+          cp -R js _site/ 2>/dev/null || true
+          cp -R data _site/ 2>/dev/null || true
 
-      - name: Configurar Pages
-        uses: actions/configure-pages@v5
+          # Copia SOLO lo necesario para el PDF pipeline
+          mkdir -p _site/pdf_reports _site/pdf_maps
+          cp -R pdf_reports/* _site/pdf_reports/ 2>/dev/null || true
+          cp -R pdf_maps/* _site/pdf_maps/ 2>/dev/null || true
 
-      - name: Subir artefacto para Pages
+          # Si tus shards se consultan desde el front, decide qué carpetas realmente van.
+          # EJEMPLO: NO copies pdf_summaries si no se usa en el front.
+          # cp -R pdf_summaries _site/  # solo si realmente lo necesitas público
+
+      # 2) Subir solo _site como artifact de Pages
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: _site
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Publicar en GitHub Pages
+      - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
