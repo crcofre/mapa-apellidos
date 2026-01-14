@@ -48,8 +48,24 @@ function slugArg() {
   if (idx === -1 || !process.argv[idx + 1]) {
     throw new Error("Falta parámetro --slug (ej: node scripts/build_pdf_report.mjs --slug lucero)");
   }
-  return process.argv[idx + 1].trim().toLowerCase();
+
+  // Normalización robusta:
+  // - minúsculas
+  // - espacios múltiples -> uno
+  // - espacios/underscores -> guion
+  // - quita caracteres raros
+  return process.argv[idx + 1]
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")   // quita tildes
+    .replace(/\s+/g, " ")
+    .replace(/[ _]+/g, "-")           // espacio o _ -> -
+    .replace(/[^a-z0-9-]/g, "")       // solo [a-z0-9-]
+    .replace(/-+/g, "-")              // colapsa guiones
+    .replace(/^-|-$/g, "");           // quita guiones extremos
 }
+
 
 function htmlEscape(s) {
   return String(s ?? "")
