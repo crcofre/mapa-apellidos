@@ -12,7 +12,7 @@ const SUMMARY_DIR_3 = "pdf_summaries/3";
 const OUT_REPORTS_DIR = "pdf_reports";
 const OUT_MAPS_DIR = "pdf_maps";
 
-const MAP_BASE_URL = "https://crcofre.github.io/mapa-apellidos/";
+const RAW_BASE_URL = "https://raw.githubusercontent.com/CRCOFRE/mapa-apellidos/main/";
 const LOGO_URL =
   "https://images.jumpseller.com/store/familias-y-apellidos/store/logo/Sitio_web.png?1741039595";
 
@@ -410,7 +410,8 @@ async function buildHtmlReport({ slug, summary }) {
   await fs.ensureDir(OUT_REPORTS_DIR);
 
   // IMPORTANTE: en Pages, el PNG está público aquí:
-  const mapUrl = `${MAP_BASE_URL}pdf_maps/${slug}.png?v=${Date.now()}`;
+  const mapUrl = `${RAW_BASE_URL}pdf_maps/${slug}.png?v=${Date.now()}`;
+
 
   const regionesRows = (summary.top_regiones || [])
     .map((r) =>
