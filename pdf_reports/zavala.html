@@ -4,7 +4,7 @@
   <meta charset="utf-8"/>
   <title>Informe ZAVALA</title>
   <style>
-    @page { size: A4; margin: 12mm; }
+    @page { size: A4; margin: 10mm; }
     html, body { margin:0; padding:0; }
     * { box-sizing: border-box; }
 
@@ -19,6 +19,7 @@
       width:100%;
       max-width:180mm;
       margin:0 auto;
+      padding-bottom: 16mm; /* reserva espacio para el footer fijo */
     }
 
     .header{
@@ -38,14 +39,14 @@
     .grid{
       display:grid;
       grid-template-columns: calc(40% - 2mm) calc(60% - 2mm);
-      gap:4mm;
+      gap:3mm;
       align-items:stretch;
     }
 
     .rightCol{
       display:flex;
       flex-direction:column;
-      gap:4mm;
+      gap:3mm;
     }
 
     .card{
@@ -55,12 +56,10 @@
       background:#fff;
     }
 
-    /* Espacio entre el bloque superior (grid) y la card inferior */
     .card.below{
       margin-top:4mm;
     }
 
-    /* Mapa: contenedor fijo y PNG ya listo */
     .mapWrap{
       width:100%;
       height:128mm;
@@ -96,7 +95,7 @@
       padding-bottom:1.4mm;
     }
     tbody td{
-      height:10mm;
+      height:9mm;
       vertical-align:middle;
       padding-top:1.6mm;
       padding-bottom:1.6mm;
@@ -117,11 +116,19 @@
     .t-comunas col.c4{ width:42%; }
     .t-comunas col.c5{ width:12%; }
 
-    .foot{ font-size:11px; color:#666; margin-top:3mm; }
+    .foot{
+      position: fixed;
+      left: 10mm;
+      right: 10mm;
+      bottom: 8mm;
+      font-size: 10px;
+      color:#666;
+      margin:0;
+      background:#fff;
+    }
 
     .card, table{ break-inside:avoid; page-break-inside:avoid; }
 
-    /* CTA (anuncio final) */
     .cta{ margin-top:4mm; }
     .ctaRow{
       display:flex;
@@ -134,11 +141,6 @@
       font-weight:700;
       margin:0 0 1mm;
     }
-    .ctaSub{
-      font-size:11px;
-      color:#444;
-      margin:0;
-    }
     .ctaBtns{ display:flex; gap:2mm; flex-wrap:wrap; }
 
     .btn{
@@ -150,15 +152,8 @@
       border:1px solid #ddd;
       color:#111;
     }
-    .btnPrimary{
-      background:#111;
-      color:#fff;
-      border-color:#111;
-    }
-    .btnGhost{
-      background:#fff;
-      color:#111;
-    }
+    .btnPrimary{ background:#111; color:#fff; border-color:#111; }
+    .btnGhost{ background:#fff; color:#111; }
   </style>
 </head>
 
@@ -179,7 +174,7 @@
     <div class="grid">
       <div class="card">
         <div class="mapWrap">
-          <img class="mapImg" src="../pdf_maps/zavala.png?v=1768315961481" alt="Mapa de Chile"/>
+          <img class="mapImg" src="https://crcofre.github.io/mapa-apellidos/pdf_maps/zavala.png?v=1768351105539" alt="Mapa de Chile"/>
         </div>
       </div>
 
@@ -218,7 +213,6 @@
         <div class="ctaText">
           <div class="ctaTitle">¿Quieres tu Diploma del Apellido o un Estudio Genealógico?</div>
         </div>
-
         <div class="ctaBtns">
           <a class="btn btnPrimary" href="https://www.apellidos.cl/diploma" target="_blank" rel="noopener noreferrer">
             Solicitar diploma
@@ -241,7 +235,6 @@
       frecuencia relativa del apellido, lo que en muchos casos se explica por su antigua
       presencia en aquellos lugares.
     </div>
-
   </div>
 </body>
 </html>
