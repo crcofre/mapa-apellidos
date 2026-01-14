@@ -41,20 +41,20 @@ const WAIT_READY_MS = 180000;
 const LEAFLET_FALLBACK_MS = 120000;
 
 /**
- * CLI
+ * CLI helpers
  */
-function slugArg() {
-  const idx = process.argv.indexOf("--slug");
-  if (idx === -1 || !process.argv[idx + 1]) {
-    throw new Error("Falta parámetro --slug (ej: node scripts/build_pdf_report.mjs --slug lucero)");
-  }
+function arg(name) {
+  const idx = process.argv.indexOf(`--${name}`);
+  if (idx === -1) return null;
+  const v = process.argv[idx + 1];
+  return v === undefined ? null : String(v);
+}
 
-  // Normalización robusta:
-  // - minúsculas
-  // - espacios múltiples -> uno
-  // - espacios/underscores -> guion
-  // - quita caracteres raros
-  return process.argv[idx + 1]
+/**
+ * Normaliza y crea slug desde texto (apellido crudo o slug)
+ */
+function slugify(s) {
+  return String(s ?? "")
     .trim()
     .toLowerCase()
     .normalize("NFD")
@@ -66,6 +66,42 @@ function slugArg() {
     .replace(/^-|-$/g, "");           // quita guiones extremos
 }
 
+/**
+ * Resuelve slug de entrada:
+ * - Preferido: --surname (texto crudo, puede traer espacios y tildes)
+ * - Alternativa: --slug (compatibilidad con flujo actual)
+ *
+ * Devuelve: { slug, surnameOriginal, requestId }
+ */
+function resolveInput() {
+  const surname = arg("surname");
+  const requestId = arg("request_id");
+  const slugParam = arg("slug");
+
+  if (surname) {
+    const slug = slugify(surname);
+    if (!slug) throw new Error("El --surname está vacío o no produce un slug válido.");
+    if (!requestId) {
+      throw new Error(
+        "Falta parámetro --request_id (ej: node scripts/build_pdf_report.mjs --surname \"Santa Maria\" --request_id 20260114153000123)"
+      );
+    }
+    return { slug, surnameOriginal: surname, requestId };
+  }
+
+  if (slugParam) {
+    const slug = slugify(slugParam);
+    if (!slug) throw new Error("El --slug está vacío o no produce un slug válido.");
+    return { slug, surnameOriginal: null, requestId: null };
+  }
+
+  throw new Error(
+    "Falta parámetro --surname (recomendado) o --slug.\n" +
+      "Ejemplos:\n" +
+      "  node scripts/build_pdf_report.mjs --slug lucero\n" +
+      "  node scripts/build_pdf_report.mjs --surname \"Santa Maria\" --request_id 20260114153000123"
+  );
+}
 
 function htmlEscape(s) {
   return String(s ?? "")
@@ -642,14 +678,49 @@ async function buildHtmlReport({ slug, summary }) {
   return outHtml;
 }
 
+/**
+ * Publica JSON de “respuesta” para Make (solo si viene request_id)
+ * Ruta: pdf_reports/requests/<request_id>.json
+ */
+async function writeRequestResponseJson({ requestId, slug, surnameOriginal }) {
+  if (!requestId) return null;
+
+  const reqDir = path.join(OUT_REPORTS_DIR, "requests");
+  await fs.ensureDir(reqDir);
+
+  const htmlUrl = `${PAGES_BASE_URL}pdf_reports/${slug}.html`;
+  const jsonPath = path.join(reqDir, `${requestId}.json`);
+
+  await fs.writeJson(
+    jsonPath,
+    {
+      request_id: requestId,
+      surname_original: surnameOriginal ?? null,
+      slug,
+      html_url: htmlUrl,
+      html_file: `${slug}.html`,
+      created_at: new Date().toISOString(),
+    },
+    { spaces: 2 }
+  );
+
+  return jsonPath;
+}
+
 async function main() {
-  const slug = slugArg();
+  const { slug, surnameOriginal, requestId } = resolveInput();
+
   const summary = await loadSummaryFromShard(slug);
 
   await buildMapPngWithPlaywright({ slug });
   await buildHtmlReport({ slug, summary });
 
+  const jsonPath = await writeRequestResponseJson({ requestId, slug, surnameOriginal });
+
   console.log(`OK: generado ${OUT_MAPS_DIR}/${slug}.png y ${OUT_REPORTS_DIR}/${slug}.html`);
+  if (jsonPath) {
+    console.log(`OK: generado ${jsonPath} (respuesta para Make)`);
+  }
 }
 
 main().catch((e) => {
