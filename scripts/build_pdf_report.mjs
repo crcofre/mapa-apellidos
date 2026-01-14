@@ -438,7 +438,7 @@ async function buildHtmlReport({ slug, summary }) {
   <meta charset="utf-8"/>
   <title>Informe ${htmlEscape(summary.apellido)}</title>
   <style>
-    @page { size: A4; margin: 12mm; }
+    @page { size: A4; margin: 10mm; }
     html, body { margin:0; padding:0; }
     * { box-sizing: border-box; }
 
@@ -453,6 +453,7 @@ async function buildHtmlReport({ slug, summary }) {
       width:100%;
       max-width:180mm;
       margin:0 auto;
+      padding-bottom: 16mm; /* reserva espacio para el footer fijo */
     }
 
     .header{
@@ -472,14 +473,14 @@ async function buildHtmlReport({ slug, summary }) {
     .grid{
       display:grid;
       grid-template-columns: calc(40% - 2mm) calc(60% - 2mm);
-      gap:4mm;
+      gap:3mm;
       align-items:stretch;
     }
 
     .rightCol{
       display:flex;
       flex-direction:column;
-      gap:4mm;
+      gap:3mm;
     }
 
     .card{
@@ -530,7 +531,7 @@ async function buildHtmlReport({ slug, summary }) {
       padding-bottom:1.4mm;
     }
     tbody td{
-      height:10mm;
+      height:9mm;
       vertical-align:middle;
       padding-top:1.6mm;
       padding-bottom:1.6mm;
@@ -551,7 +552,17 @@ async function buildHtmlReport({ slug, summary }) {
     .t-comunas col.c4{ width:42%; }
     .t-comunas col.c5{ width:12%; }
 
-    .foot{ font-size:11px; color:#666; margin-top:3mm; }
+    .foot{
+  position: fixed;
+  left: 10mm;
+  right: 10mm;
+  bottom: 8mm;
+  font-size: 10px;
+  color:#666;
+  margin:0;
+  background:#fff;
+}
+
 
     .card, table{ break-inside:avoid; page-break-inside:avoid; }
 
