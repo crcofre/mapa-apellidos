@@ -42,11 +42,3 @@ jobs:
           else
             node scripts/build_pdf_report.mjs --slug "${{ github.event.client_payload.slug }}"
           fi
-
-      - name: Commit & push generated files
-        run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git add pdf_reports/*.html pdf_maps/*.png || true
-          git commit -m "Generate pdf report" || echo "No changes"
-          git push
