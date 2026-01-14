@@ -34,7 +34,7 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
-      - name: Build + Commit + Push (retry from fresh main)
+      - name: Build + Commit + Push (rebase + retries)
         env:
           SLUG: ${{ github.event.client_payload.slug }}
         run: |
@@ -43,33 +43,38 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Intentos para lidiar con pushes concurrentes / main avanzando
-          for i in 1 2 3; do
-            echo "Attempt $i: syncing with origin/main"
+          echo "Sync base with origin/main"
+          git fetch origin main
+          git checkout main
+          git reset --hard origin/main
+
+          echo "Building report for slug=$SLUG"
+          node scripts/build_pdf_report.mjs --slug "$SLUG"
+
+          git add pdf_reports pdf_maps
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          git commit -m "build pdf report $SLUG"
+
+          # Rebase + push con reintentos
+          for i in 1 2 3 4 5; do
+            echo "Attempt $i: fetch + rebase + push"
             git fetch origin main
-            git reset --hard origin/main
+            git rebase origin/main || (git rebase --abort && exit 1)
 
-            echo "Building report for slug=$SLUG"
-            node scripts/build_pdf_report.mjs --slug "$SLUG"
-
-            git add pdf_reports pdf_maps
-
-            if git diff --cached --quiet; then
-              echo "No changes to commit."
-              exit 0
-            fi
-
-            git commit -m "build pdf report $SLUG"
-
-            echo "Pushing..."
             if git push origin HEAD:main; then
               echo "Push OK"
               exit 0
             fi
 
-            echo "Push rejected (main advanced). Retrying..."
-            sleep 2
+            echo "Push rejected; retrying in 3s..."
+            sleep 3
           done
 
           echo "Push failed after retries"
           exit 1
+
