@@ -20,9 +20,16 @@ const LOGO_URL =
  * PNG final: altura fija (equivalente a 128mm en un PDF “bonito”)
  * Ajusta SOLO estas 2 constantes si quieres:
  */
-const MAP_TARGET_HEIGHT_MM = 128; // el alto “final” que quieres que ocupe el mapa en el reporte
-const MAP_RENDER_DPI = 300; // DPI “teórico” para convertir mm->px (no es impresión real, es para fijar tamaño)
+const MAP_TARGET_HEIGHT_MM = 128;
+const MAP_RENDER_DPI = 300;
 const MAP_TARGET_HEIGHT_PX = Math.round((MAP_TARGET_HEIGHT_MM / 25.4) * MAP_RENDER_DPI);
+
+/**
+ * TIMEOUTS (robustez en GitHub Actions)
+ */
+const NAV_TIMEOUT_MS = 180000;   // navegación
+const WAIT_READY_MS = 180000;    // espera data-pdf-ready
+const LEAFLET_FALLBACK_MS = 120000; // fallback esperando Leaflet (antes 30s)
 
 /**
  * CLI
@@ -143,6 +150,10 @@ async function buildMapPngWithPlaywright({ slug }) {
     deviceScaleFactor: 2,
   });
 
+  // Blindaje: evitar que Playwright caiga a 30s por defecto
+  page.setDefaultTimeout(WAIT_READY_MS);
+  page.setDefaultNavigationTimeout(NAV_TIMEOUT_MS);
+
   try {
     // --- DEBUG: captura logs/errores de la página (quedan en el log de Actions) ---
     page.on("console", (msg) =>
@@ -158,6 +169,11 @@ async function buildMapPngWithPlaywright({ slug }) {
         req.failure()?.errorText || "(no errorText)"
       )
     );
+    // Log de HTTP >=400 con URL exacta (clave para cazar los 404)
+    page.on("response", (res) => {
+      const s = res.status();
+      if (s >= 400) console.log("[HTTP]", s, res.url());
+    });
 
     // Fuerza no-cache
     await page.route("**/*", (route) => {
@@ -169,20 +185,19 @@ async function buildMapPngWithPlaywright({ slug }) {
     });
 
     // Carga inicial (más estable que networkidle en mapas con tiles)
-    await page.goto(url, { waitUntil: "domcontentloaded", timeout: 180000 });
+    await page.goto(url, { waitUntil: "domcontentloaded", timeout: NAV_TIMEOUT_MS });
 
-    // Espera a que tu mapa marque listo (más generoso)
+    console.log("Waiting for data-pdf-ready with", WAIT_READY_MS, "ms...");
+
+    // Espera a que tu mapa marque listo
     try {
       await page.waitForFunction(
         () => document.documentElement.getAttribute("data-pdf-ready") === "1",
-        { timeout: 180000 }
+        { timeout: WAIT_READY_MS }
       );
     } catch (e) {
       // Diagnóstico: screenshot + valor actual del atributo
-      await page.screenshot({ path: outPageError, fullPage: true }).catch(() => {
-        /* ignore */
-      });
-
+      await page.screenshot({ path: outPageError, fullPage: true }).catch(() => {});
       const attr = await page
         .evaluate(() => document.documentElement.getAttribute("data-pdf-ready"))
         .catch(() => null);
@@ -190,20 +205,20 @@ async function buildMapPngWithPlaywright({ slug }) {
       console.log("data-pdf-ready attribute:", attr);
       console.log("Saved diagnostic screenshot:", outPageError);
 
-      // Fallback: si no se setea el flag, al menos espera a que Leaflet exista
-      // (Si esto tampoco aparece, el front no cargó el mapa.)
+      // Fallback: si no se setea el flag, espera Leaflet (más tiempo que antes)
       try {
-        await page.waitForSelector(".leaflet-pane", { timeout: 30000 });
-        await page.waitForTimeout(2000);
+        console.log("Fallback: waiting for Leaflet panes with", LEAFLET_FALLBACK_MS, "ms...");
+        await page.waitForSelector(".leaflet-pane", { timeout: LEAFLET_FALLBACK_MS });
+        await page.waitForTimeout(2500);
       } catch (_) {
         // no-op: mantenemos el error original
       }
 
-      // Si el flag sigue sin estar, abortamos para no generar PNG “vacío”
       const attr2 = await page
         .evaluate(() => document.documentElement.getAttribute("data-pdf-ready"))
         .catch(() => null);
 
+      // Si sigue sin estar listo, aborta (para no generar PNG vacío)
       if (attr2 !== "1") throw e;
     }
 
@@ -234,13 +249,8 @@ async function buildMapPngWithPlaywright({ slug }) {
 
     const mapEl = await page.$("#map");
     if (!mapEl) {
-      // screenshot diagnóstico si falta #map
-      await page.screenshot({ path: outPageError, fullPage: true }).catch(() => {
-        /* ignore */
-      });
-      throw new Error(
-        `No encontré #map en la página del mapa. Ver screenshot: ${outPageError}`
-      );
+      await page.screenshot({ path: outPageError, fullPage: true }).catch(() => {});
+      throw new Error(`No encontré #map en la página del mapa. Ver screenshot: ${outPageError}`);
     }
 
     // 1) Screenshot del #map completo (con aire)
@@ -248,8 +258,8 @@ async function buildMapPngWithPlaywright({ slug }) {
 
     // 2) Auto-crop (quita aire blanco)
     await autoCropPngByContent(outRaw, outCrop, {
-      margin: 14, // MÁS chico = “crece” más (prueba 10–22)
-      whiteThreshold: 252, // 250–254 (más alto = recorta más agresivo)
+      margin: 14,
+      whiteThreshold: 252,
       alphaThreshold: 5,
     });
 
@@ -269,7 +279,6 @@ async function buildMapPngWithPlaywright({ slug }) {
     await browser.close().catch(() => {});
   }
 }
-
 
 /**
  * Recorta un PNG detectando bounding box de píxeles no-blancos.
@@ -395,13 +404,13 @@ function resizePngToHeight(png, targetH) {
 
 /**
  * HTML del reporte (usa el PNG ya “listo”)
- * Sin “CSS creativo”: solo muestra el PNG a la altura fija del contenedor.
+ * Objetivo: que quepa en 1 hoja (footer fijo + reserva de espacio).
  */
 async function buildHtmlReport({ slug, summary }) {
   await fs.ensureDir(OUT_REPORTS_DIR);
 
+  // IMPORTANTE: en Pages, el PNG está público aquí:
   const mapUrl = `${MAP_BASE_URL}pdf_maps/${slug}.png?v=${Date.now()}`;
-
 
   const regionesRows = (summary.top_regiones || [])
     .map((r) =>
@@ -490,12 +499,10 @@ async function buildHtmlReport({ slug, summary }) {
       background:#fff;
     }
 
-    /* Espacio entre el bloque superior (grid) y la card inferior */
     .card.below{
       margin-top:4mm;
     }
 
-    /* Mapa: contenedor fijo y PNG ya listo */
     .mapWrap{
       width:100%;
       height:${MAP_TARGET_HEIGHT_MM}mm;
@@ -553,20 +560,18 @@ async function buildHtmlReport({ slug, summary }) {
     .t-comunas col.c5{ width:12%; }
 
     .foot{
-  position: fixed;
-  left: 10mm;
-  right: 10mm;
-  bottom: 8mm;
-  font-size: 10px;
-  color:#666;
-  margin:0;
-  background:#fff;
-}
-
+      position: fixed;
+      left: 10mm;
+      right: 10mm;
+      bottom: 8mm;
+      font-size: 10px;
+      color:#666;
+      margin:0;
+      background:#fff;
+    }
 
     .card, table{ break-inside:avoid; page-break-inside:avoid; }
 
-    /* CTA (anuncio final) */
     .cta{ margin-top:4mm; }
     .ctaRow{
       display:flex;
@@ -579,11 +584,6 @@ async function buildHtmlReport({ slug, summary }) {
       font-weight:700;
       margin:0 0 1mm;
     }
-    .ctaSub{
-      font-size:11px;
-      color:#444;
-      margin:0;
-    }
     .ctaBtns{ display:flex; gap:2mm; flex-wrap:wrap; }
 
     .btn{
@@ -595,15 +595,8 @@ async function buildHtmlReport({ slug, summary }) {
       border:1px solid #ddd;
       color:#111;
     }
-    .btnPrimary{
-      background:#111;
-      color:#fff;
-      border-color:#111;
-    }
-    .btnGhost{
-      background:#fff;
-      color:#111;
-    }
+    .btnPrimary{ background:#111; color:#fff; border-color:#111; }
+    .btnGhost{ background:#fff; color:#111; }
   </style>
 </head>
 
@@ -663,7 +656,6 @@ async function buildHtmlReport({ slug, summary }) {
         <div class="ctaText">
           <div class="ctaTitle">¿Quieres tu Diploma del Apellido o un Estudio Genealógico?</div>
         </div>
-
         <div class="ctaBtns">
           <a class="btn btnPrimary" href="https://www.apellidos.cl/diploma" target="_blank" rel="noopener noreferrer">
             Solicitar diploma
@@ -686,7 +678,6 @@ async function buildHtmlReport({ slug, summary }) {
       frecuencia relativa del apellido, lo que en muchos casos se explica por su antigua
       presencia en aquellos lugares.
     </div>
-
   </div>
 </body>
 </html>`;
@@ -703,9 +694,7 @@ async function main() {
   await buildMapPngWithPlaywright({ slug });
   await buildHtmlReport({ slug, summary });
 
-  console.log(
-    `OK: generado ${OUT_MAPS_DIR}/${slug}.png y ${OUT_REPORTS_DIR}/${slug}.html`
-  );
+  console.log(`OK: generado ${OUT_MAPS_DIR}/${slug}.png y ${OUT_REPORTS_DIR}/${slug}.html`);
 }
 
 main().catch((e) => {
