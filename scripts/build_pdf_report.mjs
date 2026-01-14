@@ -11,8 +11,10 @@ const SUMMARY_DIR_2 = "pdf_summaries/2";
 const SUMMARY_DIR_3 = "pdf_summaries/3";
 const OUT_REPORTS_DIR = "pdf_reports";
 const OUT_MAPS_DIR = "pdf_maps";
-
 const RAW_BASE_URL = "https://raw.githubusercontent.com/CRCOFRE/mapa-apellidos/main/";
+
+const MAP_BASE_URL = "https://crcofre.github.io/mapa-apellidos/";
+
 const LOGO_URL =
   "https://images.jumpseller.com/store/familias-y-apellidos/store/logo/Sitio_web.png?1741039595";
 
