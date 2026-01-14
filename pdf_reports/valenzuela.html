@@ -1,0 +1,240 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Informe VALENZUELA</title>
+  <style>
+    @page { size: A4; margin: 10mm; }
+    html, body { margin:0; padding:0; }
+    * { box-sizing: border-box; }
+
+    body{
+      font-family: Arial, Helvetica, sans-serif;
+      color:#111;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .page{
+      width:100%;
+      max-width:180mm;
+      margin:0 auto;
+      padding-bottom: 16mm; /* reserva espacio para el footer fijo */
+    }
+
+    .header{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:10px;
+      margin-bottom:4mm;
+    }
+    .brand{ display:flex; align-items:center; gap:10px; }
+    .logo{ height:12mm; }
+    .meta{ font-size:10px; color:#555; text-align:right; line-height:1.25; padding-top:2mm; }
+
+    h1{ font-size:18px; margin:0 0 2mm; }
+    .sub{ font-size:12px; color:#333; margin:0 0 4mm; }
+
+    .grid{
+      display:grid;
+      grid-template-columns: calc(40% - 2mm) calc(60% - 2mm);
+      gap:3mm;
+      align-items:stretch;
+    }
+
+    .rightCol{
+      display:flex;
+      flex-direction:column;
+      gap:3mm;
+    }
+
+    .card{
+      border:1px solid #e6e6e6;
+      border-radius:10px;
+      padding:3mm;
+      background:#fff;
+    }
+
+    .card.below{
+      margin-top:4mm;
+    }
+
+    .mapWrap{
+      width:100%;
+      height:128mm;
+      display:flex;
+      align-items:stretch;
+      justify-content:center;
+      overflow:hidden;
+    }
+    .mapImg{
+      height:100%;
+      width:auto;
+      max-width:100%;
+      display:block;
+    }
+
+    h2{ font-size:12.5px; margin:0 0 2mm; }
+
+    table{ width:100%; border-collapse:collapse; table-layout:fixed; }
+    th, td{
+      border:1px solid #eee;
+      padding:2mm 2.2mm;
+      font-size:10.5px;
+      line-height:1.2;
+      word-wrap:break-word;
+      overflow-wrap:anywhere;
+    }
+    thead th{
+      background:#f7f7f7;
+      text-align:left;
+      white-space:normal;
+      vertical-align:middle;
+      padding-top:1.4mm;
+      padding-bottom:1.4mm;
+    }
+    tbody td{
+      height:9mm;
+      vertical-align:middle;
+      padding-top:1.6mm;
+      padding-bottom:1.6mm;
+    }
+
+    .t-regiones col.c1{ width:10%; }
+    .t-regiones col.c2{ width:70%; }
+    .t-regiones col.c3{ width:20%; }
+
+    .t-provincias col.c1{ width:10%; }
+    .t-provincias col.c2{ width:30%; }
+    .t-provincias col.c3{ width:40%; }
+    .t-provincias col.c4{ width:20%; }
+
+    .t-comunas col.c1{ width:6%; }
+    .t-comunas col.c2{ width:20%; }
+    .t-comunas col.c3{ width:20%; }
+    .t-comunas col.c4{ width:42%; }
+    .t-comunas col.c5{ width:12%; }
+
+    .foot{
+      position: fixed;
+      left: 10mm;
+      right: 10mm;
+      bottom: 8mm;
+      font-size: 10px;
+      color:#666;
+      margin:0;
+      background:#fff;
+    }
+
+    .card, table{ break-inside:avoid; page-break-inside:avoid; }
+
+    .cta{ margin-top:4mm; }
+    .ctaRow{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:6mm;
+    }
+    .ctaTitle{
+      font-size:12.5px;
+      font-weight:700;
+      margin:0 0 1mm;
+    }
+    .ctaBtns{ display:flex; gap:2mm; flex-wrap:wrap; }
+
+    .btn{
+      display:inline-block;
+      padding:2.2mm 3.2mm;
+      border-radius:8px;
+      font-size:11px;
+      text-decoration:none;
+      border:1px solid #ddd;
+      color:#111;
+    }
+    .btnPrimary{ background:#111; color:#fff; border-color:#111; }
+    .btnGhost{ background:#fff; color:#111; }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <div class="header">
+      <div class="brand">
+        <a href="https://www.apellidos.cl" target="_blank" rel="noopener noreferrer">
+          <img class="logo" src="https://images.jumpseller.com/store/familias-y-apellidos/store/logo/Sitio_web.png?1741039595" alt="Apellidos.cl"/>
+        </a>
+      </div>
+      <div class="meta">Actualizado: 2026-01-04T23:50:49.900Z</div>
+    </div>
+
+    <h1>Mapa del apellido VALENZUELA</h1>
+    <p class="sub">Lugares donde tiene mayor arraigo histórico.</p>
+
+    <div class="grid">
+      <div class="card">
+        <div class="mapWrap">
+          <img class="mapImg" src="https://crcofre.github.io/mapa-apellidos/pdf_maps/valenzuela.png?v=1768350826137" alt="Mapa de Chile"/>
+        </div>
+      </div>
+
+      <div class="rightCol">
+        <div class="card">
+          <h2>Top regiones</h2>
+          <table class="t-regiones">
+            <colgroup><col class="c1"><col class="c2"><col class="c3"></colgroup>
+            <thead><tr><th>#</th><th>Región</th><th>Frecuencia</th></tr></thead>
+            <tbody><tr><td>1</td><td>MAULE</td><td>2.47%</td></tr><tr><td>2</td><td>LIBERTADOR GENERAL BERNARDO O&#039;HIGGINS</td><td>2.00%</td></tr><tr><td>3</td><td>ÑUBLE</td><td>1.66%</td></tr><tr><td>4</td><td>METROPOLITANA DE SANTIAGO</td><td>1.31%</td></tr><tr><td>5</td><td>BIOBIO</td><td>1.19%</td></tr></tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <h2>Top provincias</h2>
+          <table class="t-provincias">
+            <colgroup><col class="c1"><col class="c2"><col class="c3"><col class="c4"></colgroup>
+            <thead><tr><th>#</th><th>Provincia</th><th>Región</th><th>Frecuencia</th></tr></thead>
+            <tbody><tr><td>1</td><td>TALCA</td><td>MAULE</td><td>3.07%</td></tr><tr><td>2</td><td>CURICÓ</td><td>MAULE</td><td>2.99%</td></tr><tr><td>3</td><td>COLCHAGUA</td><td>LIBERTADOR GENERAL BERNARDO O&#039;HIGGINS</td><td>2.53%</td></tr><tr><td>4</td><td>PUNILLA</td><td>ÑUBLE</td><td>1.94%</td></tr><tr><td>5</td><td>CACHAPOAL</td><td>LIBERTADOR GENERAL BERNARDO O&#039;HIGGINS</td><td>1.84%</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card below">
+      <h2>Top comunas</h2>
+      <table class="t-comunas">
+        <colgroup><col class="c1"><col class="c2"><col class="c3"><col class="c4"><col class="c5"></colgroup>
+        <thead><tr><th>#</th><th>Comuna</th><th>Provincia</th><th>Región</th><th>Frecuencia</th></tr></thead>
+        <tbody><tr><td>1</td><td>PAREDONES</td><td>CARDENAL CARO</td><td>LIBERTADOR GENERAL BERNARDO O&#039;HIGGINS</td><td>6.42%</td></tr><tr><td>2</td><td>CUREPTO</td><td>TALCA</td><td>MAULE</td><td>5.42%</td></tr><tr><td>3</td><td>HUALAÑE</td><td>CURICÓ</td><td>MAULE</td><td>5.38%</td></tr><tr><td>4</td><td>QUILLON</td><td>DIGUILLÍN</td><td>ÑUBLE</td><td>5.20%</td></tr><tr><td>5</td><td>PENCAHUE</td><td>TALCA</td><td>MAULE</td><td>4.85%</td></tr></tbody>
+      </table>
+    </div>
+
+    <div class="card cta">
+      <div class="ctaRow">
+        <div class="ctaText">
+          <div class="ctaTitle">¿Quieres tu Diploma del Apellido o un Estudio Genealógico?</div>
+        </div>
+        <div class="ctaBtns">
+          <a class="btn btnPrimary" href="https://www.apellidos.cl/diploma" target="_blank" rel="noopener noreferrer">
+            Solicitar diploma
+          </a>
+          <a class="btn btnGhost" href="https://www.apellidos.cl/investigacion-genealogica" target="_blank" rel="noopener noreferrer">
+            Solicitar estudio
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="foot">
+      Fuente:
+      <a href="https://www.apellidos.cl/mapa-de-apellidos"
+         target="_blank"
+         rel="noopener noreferrer">
+        https://www.apellidos.cl/mapa-de-apellidos
+      </a>
+      en Chile. Este reporte presenta las regiones, provincias y comunas donde hay mayor
+      frecuencia relativa del apellido, lo que en muchos casos se explica por su antigua
+      presencia en aquellos lugares.
+    </div>
+  </div>
+</body>
+</html>
