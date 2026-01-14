@@ -11,27 +11,33 @@ const SUMMARY_DIR_2 = "pdf_summaries/2";
 const SUMMARY_DIR_3 = "pdf_summaries/3";
 const OUT_REPORTS_DIR = "pdf_reports";
 const OUT_MAPS_DIR = "pdf_maps";
-const RAW_BASE_URL = "https://raw.githubusercontent.com/CRCOFRE/mapa-apellidos/main/";
 
+// RAW: usar SOLO para recursos “estáticos” dentro del HTML (por ejemplo el PNG)
+const RAW_BASE_URL =
+  "https://raw.githubusercontent.com/CRCOFRE/mapa-apellidos/main/";
+
+// PAGES: usar SIEMPRE para Playwright (mapa con JS)
 const MAP_BASE_URL = "https://crcofre.github.io/mapa-apellidos/";
 
 const LOGO_URL =
   "https://images.jumpseller.com/store/familias-y-apellidos/store/logo/Sitio_web.png?1741039595";
 
 /**
- * PNG final: altura fija (equivalente a 128mm en un PDF “bonito”)
- * Ajusta SOLO estas 2 constantes si quieres:
+ * Ajustes de tamaño del mapa en el PDF (para que quepa en 1 hoja)
+ * Si quieres más grande, sube MAP_TARGET_HEIGHT_MM, pero puede saltar a 2 páginas.
  */
-const MAP_TARGET_HEIGHT_MM = 128;
+const MAP_TARGET_HEIGHT_MM = 112; // antes 128
 const MAP_RENDER_DPI = 300;
-const MAP_TARGET_HEIGHT_PX = Math.round((MAP_TARGET_HEIGHT_MM / 25.4) * MAP_RENDER_DPI);
+const MAP_TARGET_HEIGHT_PX = Math.round(
+  (MAP_TARGET_HEIGHT_MM / 25.4) * MAP_RENDER_DPI
+);
 
 /**
  * TIMEOUTS (robustez en GitHub Actions)
  */
-const NAV_TIMEOUT_MS = 180000;   // navegación
-const WAIT_READY_MS = 180000;    // espera data-pdf-ready
-const LEAFLET_FALLBACK_MS = 120000; // fallback esperando Leaflet (antes 30s)
+const NAV_TIMEOUT_MS = 180000; // navegación
+const WAIT_READY_MS = 180000; // espera data-pdf-ready
+const LEAFLET_FALLBACK_MS = 120000; // fallback esperando Leaflet panes
 
 /**
  * CLI
@@ -127,9 +133,9 @@ async function loadSummaryFromShard(slug) {
 }
 
 /**
- * 1) Captura PNG completo del #map (con Leaflet real)
- * 2) Auto-crop por contenido (quita aire blanco)
- * 3) Escala el PNG resultante a altura final fija (MAP_TARGET_HEIGHT_PX)
+ * 1) Captura PNG del #map (Leaflet real en GitHub Pages)
+ * 2) Auto-crop por contenido
+ * 3) Escala a altura final fija
  */
 async function buildMapPngWithPlaywright({ slug }) {
   await fs.ensureDir(OUT_MAPS_DIR);
@@ -137,6 +143,13 @@ async function buildMapPngWithPlaywright({ slug }) {
   const url =
     `${MAP_BASE_URL}?apellido=${encodeURIComponent(slug)}` +
     `&pdf=1&t=${Date.now()}`;
+
+  // Guardrail: Playwright NO puede navegar a RAW
+  if (!url.startsWith("https://crcofre.github.io/")) {
+    throw new Error(
+      `URL inválida para Playwright (debe ser GitHub Pages). Recibido: ${url}`
+    );
+  }
 
   const outRaw = path.join(OUT_MAPS_DIR, `${slug}.raw.png`);
   const outCrop = path.join(OUT_MAPS_DIR, `${slug}.crop.png`);
@@ -152,12 +165,12 @@ async function buildMapPngWithPlaywright({ slug }) {
     deviceScaleFactor: 2,
   });
 
-  // Blindaje: evitar que Playwright caiga a 30s por defecto
+  // Evita defaults de 30s
   page.setDefaultTimeout(WAIT_READY_MS);
   page.setDefaultNavigationTimeout(NAV_TIMEOUT_MS);
 
   try {
-    // --- DEBUG: captura logs/errores de la página (quedan en el log de Actions) ---
+    // Logs útiles en Actions
     page.on("console", (msg) =>
       console.log("[PAGE CONSOLE]", msg.type(), msg.text())
     );
@@ -171,13 +184,12 @@ async function buildMapPngWithPlaywright({ slug }) {
         req.failure()?.errorText || "(no errorText)"
       )
     );
-    // Log de HTTP >=400 con URL exacta (clave para cazar los 404)
     page.on("response", (res) => {
       const s = res.status();
       if (s >= 400) console.log("[HTTP]", s, res.url());
     });
 
-    // Fuerza no-cache
+    // No-cache
     await page.route("**/*", (route) => {
       const headers = {
         ...route.request().headers(),
@@ -186,20 +198,27 @@ async function buildMapPngWithPlaywright({ slug }) {
       route.continue({ headers });
     });
 
-    // Carga inicial (más estable que networkidle en mapas con tiles)
-    await page.goto(url, { waitUntil: "domcontentloaded", timeout: NAV_TIMEOUT_MS });
+    console.log("Playwright goto:", url);
 
-    console.log("Waiting for data-pdf-ready with", WAIT_READY_MS, "ms...");
+    // load > domcontentloaded para mapas (más estable en GH Actions)
+    await page.goto(url, { waitUntil: "load", timeout: NAV_TIMEOUT_MS });
 
-    // Espera a que tu mapa marque listo
+    // Un pequeño “settle” ayuda a Leaflet/tiles
+    await page.waitForTimeout(500);
+
+    console.log("Waiting for data-pdf-ready:", WAIT_READY_MS, "ms");
+
     try {
       await page.waitForFunction(
         () => document.documentElement.getAttribute("data-pdf-ready") === "1",
         { timeout: WAIT_READY_MS }
       );
     } catch (e) {
-      // Diagnóstico: screenshot + valor actual del atributo
-      await page.screenshot({ path: outPageError, fullPage: true }).catch(() => {});
+      // Diagnóstico: screenshot full page
+      await page.screenshot({ path: outPageError, fullPage: true }).catch(() => {
+        /* ignore */
+      });
+
       const attr = await page
         .evaluate(() => document.documentElement.getAttribute("data-pdf-ready"))
         .catch(() => null);
@@ -207,24 +226,29 @@ async function buildMapPngWithPlaywright({ slug }) {
       console.log("data-pdf-ready attribute:", attr);
       console.log("Saved diagnostic screenshot:", outPageError);
 
-      // Fallback: si no se setea el flag, espera Leaflet (más tiempo que antes)
+      // Fallback: esperar Leaflet panes
       try {
-        console.log("Fallback: waiting for Leaflet panes with", LEAFLET_FALLBACK_MS, "ms...");
-        await page.waitForSelector(".leaflet-pane", { timeout: LEAFLET_FALLBACK_MS });
+        console.log(
+          "Fallback: waiting for .leaflet-pane:",
+          LEAFLET_FALLBACK_MS,
+          "ms"
+        );
+        await page.waitForSelector(".leaflet-pane", {
+          timeout: LEAFLET_FALLBACK_MS,
+        });
         await page.waitForTimeout(2500);
       } catch (_) {
-        // no-op: mantenemos el error original
+        /* ignore */
       }
 
       const attr2 = await page
         .evaluate(() => document.documentElement.getAttribute("data-pdf-ready"))
         .catch(() => null);
 
-      // Si sigue sin estar listo, aborta (para no generar PNG vacío)
       if (attr2 !== "1") throw e;
     }
 
-    // Oculta UI / fuerza fondo blanco
+    // Oculta UI y fuerza fondo
     await page.addStyleTag({
       content: `
         .leaflet-control-container,
@@ -236,36 +260,40 @@ async function buildMapPngWithPlaywright({ slug }) {
       `,
     });
 
-    // Reflow Leaflet
+    // Reflow Leaflet (doble)
     await page.evaluate(() => {
       try {
         window.map?.invalidateSize?.(true);
-      } catch (e) {}
+      } catch {}
     });
-    await page.waitForTimeout(250);
+    await page.waitForTimeout(300);
     await page.evaluate(() => {
       try {
         window.map?.invalidateSize?.(true);
-      } catch (e) {}
+      } catch {}
     });
 
     const mapEl = await page.$("#map");
     if (!mapEl) {
-      await page.screenshot({ path: outPageError, fullPage: true }).catch(() => {});
-      throw new Error(`No encontré #map en la página del mapa. Ver screenshot: ${outPageError}`);
+      await page.screenshot({ path: outPageError, fullPage: true }).catch(() => {
+        /* ignore */
+      });
+      throw new Error(
+        `No encontré #map en la página del mapa. Ver screenshot: ${outPageError}`
+      );
     }
 
-    // 1) Screenshot del #map completo (con aire)
+    // Screenshot del mapa
     await mapEl.screenshot({ path: outRaw, type: "png" });
 
-    // 2) Auto-crop (quita aire blanco)
+    // Auto-crop
     await autoCropPngByContent(outRaw, outCrop, {
       margin: 14,
       whiteThreshold: 252,
       alphaThreshold: 5,
     });
 
-    // 3) Escala a altura final fija
+    // Resize a altura objetivo
     const buf = await fs.readFile(outCrop);
     const png = PNG.sync.read(buf);
     const resized = resizePngToHeight(png, MAP_TARGET_HEIGHT_PX);
@@ -322,7 +350,6 @@ async function autoCropPngByContent(inPath, outPath, opts = {}) {
     }
   }
 
-  // Fallback si no detecta nada
   if (maxX < 0 || maxY < 0) {
     await fs.copy(inPath, outPath);
     return;
@@ -353,8 +380,7 @@ async function autoCropPngByContent(inPath, outPath, opts = {}) {
 }
 
 /**
- * Escala un PNG a una altura objetivo (px) manteniendo proporción.
- * (Interpolación bilineal simple)
+ * Resize PNG a altura objetivo manteniendo proporción (bilinear simple)
  */
 function resizePngToHeight(png, targetH) {
   const srcW = png.width;
@@ -405,15 +431,13 @@ function resizePngToHeight(png, targetH) {
 }
 
 /**
- * HTML del reporte (usa el PNG ya “listo”)
- * Objetivo: que quepa en 1 hoja (footer fijo + reserva de espacio).
+ * HTML del reporte (1 página)
  */
 async function buildHtmlReport({ slug, summary }) {
   await fs.ensureDir(OUT_REPORTS_DIR);
 
-  // IMPORTANTE: en Pages, el PNG está público aquí:
+  // OJO: aquí RAW solo para el PNG (recurso estático)
   const mapUrl = `${RAW_BASE_URL}pdf_maps/${slug}.png?v=${Date.now()}`;
-
 
   const regionesRows = (summary.top_regiones || [])
     .map((r) =>
@@ -450,7 +474,8 @@ async function buildHtmlReport({ slug, summary }) {
   <meta charset="utf-8"/>
   <title>Informe ${htmlEscape(summary.apellido)}</title>
   <style>
-    @page { size: A4; margin: 10mm; }
+    /* Más compacto para 1 hoja */
+    @page { size: A4; margin: 8mm; }
     html, body { margin:0; padding:0; }
     * { box-sizing: border-box; }
 
@@ -463,48 +488,46 @@ async function buildHtmlReport({ slug, summary }) {
 
     .page{
       width:100%;
-      max-width:180mm;
+      max-width:190mm;
       margin:0 auto;
-      padding-bottom: 16mm; /* reserva espacio para el footer fijo */
+      padding-bottom: 14mm; /* reserva para footer fijo */
     }
 
     .header{
       display:flex;
       justify-content:space-between;
       align-items:flex-start;
-      gap:10px;
-      margin-bottom:4mm;
+      gap:8px;
+      margin-bottom:3mm;
     }
-    .brand{ display:flex; align-items:center; gap:10px; }
-    .logo{ height:12mm; }
-    .meta{ font-size:10px; color:#555; text-align:right; line-height:1.25; padding-top:2mm; }
+    .brand{ display:flex; align-items:center; gap:8px; }
+    .logo{ height:11mm; }
+    .meta{ font-size:9.5px; color:#555; text-align:right; line-height:1.2; padding-top:1.5mm; }
 
-    h1{ font-size:18px; margin:0 0 2mm; }
-    .sub{ font-size:12px; color:#333; margin:0 0 4mm; }
+    h1{ font-size:16.5px; margin:0 0 1.6mm; }
+    .sub{ font-size:11px; color:#333; margin:0 0 3mm; }
 
     .grid{
       display:grid;
-      grid-template-columns: calc(40% - 2mm) calc(60% - 2mm);
-      gap:3mm;
+      grid-template-columns: calc(40% - 1.5mm) calc(60% - 1.5mm);
+      gap:2.5mm;
       align-items:stretch;
     }
 
     .rightCol{
       display:flex;
       flex-direction:column;
-      gap:3mm;
+      gap:2.5mm;
     }
 
     .card{
       border:1px solid #e6e6e6;
       border-radius:10px;
-      padding:3mm;
+      padding:2.6mm;
       background:#fff;
     }
 
-    .card.below{
-      margin-top:4mm;
-    }
+    .card.below{ margin-top:3mm; }
 
     .mapWrap{
       width:100%;
@@ -521,30 +544,29 @@ async function buildHtmlReport({ slug, summary }) {
       display:block;
     }
 
-    h2{ font-size:12.5px; margin:0 0 2mm; }
+    h2{ font-size:12px; margin:0 0 1.6mm; }
 
     table{ width:100%; border-collapse:collapse; table-layout:fixed; }
     th, td{
       border:1px solid #eee;
-      padding:2mm 2.2mm;
-      font-size:10.5px;
-      line-height:1.2;
+      padding:1.6mm 2mm;
+      font-size:10px;
+      line-height:1.15;
       word-wrap:break-word;
       overflow-wrap:anywhere;
     }
     thead th{
       background:#f7f7f7;
       text-align:left;
-      white-space:normal;
       vertical-align:middle;
-      padding-top:1.4mm;
-      padding-bottom:1.4mm;
+      padding-top:1.2mm;
+      padding-bottom:1.2mm;
     }
     tbody td{
-      height:9mm;
+      height:7.2mm; /* más bajo para caber en 1 hoja */
       vertical-align:middle;
-      padding-top:1.6mm;
-      padding-bottom:1.6mm;
+      padding-top:1.2mm;
+      padding-bottom:1.2mm;
     }
 
     .t-regiones col.c1{ width:10%; }
@@ -564,10 +586,10 @@ async function buildHtmlReport({ slug, summary }) {
 
     .foot{
       position: fixed;
-      left: 10mm;
-      right: 10mm;
-      bottom: 8mm;
-      font-size: 10px;
+      left: 8mm;
+      right: 8mm;
+      bottom: 6mm;
+      font-size: 9.5px;
       color:#666;
       margin:0;
       background:#fff;
@@ -575,25 +597,26 @@ async function buildHtmlReport({ slug, summary }) {
 
     .card, table{ break-inside:avoid; page-break-inside:avoid; }
 
-    .cta{ margin-top:4mm; }
+    /* CTA compacto */
+    .cta{ margin-top:3mm; }
     .ctaRow{
       display:flex;
       justify-content:space-between;
       align-items:center;
-      gap:6mm;
+      gap:4mm;
     }
     .ctaTitle{
-      font-size:12.5px;
+      font-size:11.5px;
       font-weight:700;
-      margin:0 0 1mm;
+      margin:0;
     }
     .ctaBtns{ display:flex; gap:2mm; flex-wrap:wrap; }
 
     .btn{
       display:inline-block;
-      padding:2.2mm 3.2mm;
+      padding:1.8mm 2.8mm;
       border-radius:8px;
-      font-size:11px;
+      font-size:10.5px;
       text-decoration:none;
       border:1px solid #ddd;
       color:#111;
@@ -674,12 +697,9 @@ async function buildHtmlReport({ slug, summary }) {
       Fuente:
       <a href="https://www.apellidos.cl/mapa-de-apellidos"
          target="_blank"
-         rel="noopener noreferrer">
-        https://www.apellidos.cl/mapa-de-apellidos
-      </a>
+         rel="noopener noreferrer">https://www.apellidos.cl/mapa-de-apellidos</a>
       en Chile. Este reporte presenta las regiones, provincias y comunas donde hay mayor
-      frecuencia relativa del apellido, lo que en muchos casos se explica por su antigua
-      presencia en aquellos lugares.
+      frecuencia relativa del apellido.
     </div>
   </div>
 </body>
@@ -697,7 +717,9 @@ async function main() {
   await buildMapPngWithPlaywright({ slug });
   await buildHtmlReport({ slug, summary });
 
-  console.log(`OK: generado ${OUT_MAPS_DIR}/${slug}.png y ${OUT_REPORTS_DIR}/${slug}.html`);
+  console.log(
+    `OK: generado ${OUT_MAPS_DIR}/${slug}.png y ${OUT_REPORTS_DIR}/${slug}.html`
+  );
 }
 
 main().catch((e) => {
