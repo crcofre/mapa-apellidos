@@ -6,9 +6,17 @@ on:
   workflow_dispatch:
     inputs:
       slug:
-        description: "Apellido slug (ej: lucero)"
+        description: "Apellido slug (ej: lucero) [compatibilidad]"
         required: true
         default: "lucero"
+      surname:
+        description: "Apellido crudo (ej: Santa Maria). Si se define, se usa con request_id."
+        required: false
+        default: ""
+      request_id:
+        description: "ID único (ej: 20260114153000123). Requerido si usas surname."
+        required: false
+        default: ""
 
 permissions:
   contents: write
@@ -40,7 +48,12 @@ jobs:
 
       - name: Build + Commit + Push (retry)
         env:
+          # Compatibilidad (modo antiguo)
           SLUG: ${{ github.event_name == 'workflow_dispatch' && inputs.slug || github.event.client_payload.slug }}
+
+          # Modo nuevo (Opción A)
+          SURNAME: ${{ github.event_name == 'workflow_dispatch' && inputs.surname || github.event.client_payload.surname }}
+          REQUEST_ID: ${{ github.event_name == 'workflow_dispatch' && inputs.request_id || github.event.client_payload.request_id }}
         run: |
           set -e
 
@@ -52,8 +65,14 @@ jobs:
             git fetch origin main
             git reset --hard origin/main
 
-            echo "Building report for slug=$SLUG"
-            node scripts/build_pdf_report.mjs --slug "$SLUG"
+            # --- Ejecución: modo nuevo si viene surname + request_id ---
+            if [ -n "$SURNAME" ] && [ -n "$REQUEST_ID" ]; then
+              echo "Building report for surname=$SURNAME (request_id=$REQUEST_ID)"
+              node scripts/build_pdf_report.mjs --surname "$SURNAME" --request_id "$REQUEST_ID"
+            else
+              echo "Building report for slug=$SLUG"
+              node scripts/build_pdf_report.mjs --slug "$SLUG"
+            fi
 
             git add pdf_reports pdf_maps
 
@@ -62,7 +81,7 @@ jobs:
               exit 0
             fi
 
-            git commit -m "build pdf report $SLUG"
+            git commit -m "build pdf report ${SLUG:-$SURNAME}"
 
             echo "Pushing..."
             if git push origin HEAD:main; then
