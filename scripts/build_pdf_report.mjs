@@ -485,7 +485,7 @@ async function buildHtmlReport({ slug, summary }) {
       width:100%;
       max-width:190mm;
       margin:0 auto;
-      padding-bottom: 14mm; /* reserva para footer fijo */
+      
     }
 
     .header{
@@ -580,15 +580,12 @@ async function buildHtmlReport({ slug, summary }) {
     .t-comunas col.c5{ width:12%; }
 
     .foot{
-      position: fixed;
-      left: 8mm;
-      right: 8mm;
-      bottom: 6mm;
-      font-size: 9.5px;
-      color:#666;
-      margin:0;
-      background:#fff;
-    }
+  margin-top: 4mm;
+  font-size: 9.5px;
+  color:#666;
+  background:#fff;
+}
+
 
     .card, table{ break-inside:avoid; page-break-inside:avoid; }
 
