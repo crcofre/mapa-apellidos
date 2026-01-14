@@ -428,6 +428,9 @@ function resizePngToHeight(png, targetH) {
 /**
  * HTML del reporte (orientado a 1 hoja)
  */
+// PAGES base (sirve para PNG y para el HTML en PDF.co)
+const RAW_BASE_URL = "https://crcofre.github.io/mapa-apellidos/";
+
 async function buildHtmlReport({ slug, summary }) {
   await fs.ensureDir(OUT_REPORTS_DIR);
 
