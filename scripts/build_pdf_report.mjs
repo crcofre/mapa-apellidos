@@ -431,22 +431,35 @@ function resizePngToHeight(png, targetH) {
 async function buildHtmlReport({ slug, summary }) {
   await fs.ensureDir(OUT_REPORTS_DIR);
 
-  // PNG público por Pages (no RAW)
-  const mapUrl = `${ASSET_BASE_URL_FOR_HTML}pdf_maps/${slug}.png?v=${Date.now()}`;
+  // OJO: aquí RAW solo para el PNG (recurso estático)
+  const mapUrl = `${RAW_BASE_URL}pdf_maps/${slug}.png?v=${Date.now()}`;
 
   const regionesRows = (summary.top_regiones || [])
-    .map((r) => tableRow([r.rank, cleanRegionLabel(r.region), `${formatPct(r.pct_region)}%`]))
+    .map((r) =>
+      tableRow([r.rank, cleanRegionLabel(r.region), `${formatPct(r.pct_region)}%`])
+    )
     .join("");
 
   const provinciasRows = (summary.top_provincias || [])
     .map((r) =>
-      tableRow([r.rank, r.provincia, cleanRegionLabel(r.region), `${formatPct(r.pct_provincia)}%`])
+      tableRow([
+        r.rank,
+        r.provincia,
+        cleanRegionLabel(r.region),
+        `${formatPct(r.pct_provincia)}%`,
+      ])
     )
     .join("");
 
   const comunasRows = (summary.top_comunas || [])
     .map((r) =>
-      tableRow([r.rank, r.comuna, r.provincia, cleanRegionLabel(r.region), `${formatPct(r.pct_comuna)}%`])
+      tableRow([
+        r.rank,
+        r.comuna,
+        r.provincia,
+        cleanRegionLabel(r.region),
+        `${formatPct(r.pct_comuna)}%`,
+      ])
     )
     .join("");
 
@@ -456,6 +469,7 @@ async function buildHtmlReport({ slug, summary }) {
   <meta charset="utf-8"/>
   <title>Informe ${htmlEscape(summary.apellido)}</title>
   <style>
+    /* Más compacto para 1 hoja */
     @page { size: A4; margin: 8mm; }
     html, body { margin:0; padding:0; }
     * { box-sizing: border-box; }
@@ -469,9 +483,9 @@ async function buildHtmlReport({ slug, summary }) {
 
     .page{
       width:100%;
-      max-width: 190mm;
+      max-width:190mm;
       margin:0 auto;
-      padding-bottom: 14mm; /* espacio footer fijo */
+      padding-bottom: 14mm; /* reserva para footer fijo */
     }
 
     .header{
@@ -481,23 +495,24 @@ async function buildHtmlReport({ slug, summary }) {
       gap:8px;
       margin-bottom:3mm;
     }
+    .brand{ display:flex; align-items:center; gap:8px; }
     .logo{ height:11mm; }
-    .meta{ font-size:10px; color:#555; text-align:right; line-height:1.2; padding-top:2mm; }
+    .meta{ font-size:9.5px; color:#555; text-align:right; line-height:1.2; padding-top:1.5mm; }
 
-    h1{ font-size:17px; margin:0 0 1.5mm; }
-    .sub{ font-size:11.5px; color:#333; margin:0 0 3mm; }
+    h1{ font-size:16.5px; margin:0 0 1.6mm; }
+    .sub{ font-size:11px; color:#333; margin:0 0 3mm; }
 
     .grid{
       display:grid;
-      grid-template-columns: 40% 60%;
-      gap:3mm;
+      grid-template-columns: calc(40% - 1.5mm) calc(60% - 1.5mm);
+      gap:2.5mm;
       align-items:stretch;
     }
 
     .rightCol{
       display:flex;
       flex-direction:column;
-      gap:3mm;
+      gap:2.5mm;
     }
 
     .card{
@@ -506,6 +521,7 @@ async function buildHtmlReport({ slug, summary }) {
       padding:2.6mm;
       background:#fff;
     }
+
     .card.below{ margin-top:3mm; }
 
     .mapWrap{
@@ -528,7 +544,7 @@ async function buildHtmlReport({ slug, summary }) {
     table{ width:100%; border-collapse:collapse; table-layout:fixed; }
     th, td{
       border:1px solid #eee;
-      padding:1.6mm 2.0mm;
+      padding:1.6mm 2mm;
       font-size:10px;
       line-height:1.15;
       word-wrap:break-word;
@@ -537,13 +553,12 @@ async function buildHtmlReport({ slug, summary }) {
     thead th{
       background:#f7f7f7;
       text-align:left;
-      white-space:normal;
       vertical-align:middle;
       padding-top:1.2mm;
       padding-bottom:1.2mm;
     }
     tbody td{
-      height:7.6mm; /* ayuda a 1 hoja */
+      height:7.2mm; /* más bajo para caber en 1 hoja */
       vertical-align:middle;
       padding-top:1.2mm;
       padding-bottom:1.2mm;
@@ -564,30 +579,6 @@ async function buildHtmlReport({ slug, summary }) {
     .t-comunas col.c4{ width:42%; }
     .t-comunas col.c5{ width:12%; }
 
-    .card, table{ break-inside:avoid; page-break-inside:avoid; }
-
-    .cta{ margin-top:3mm; }
-    .ctaRow{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:5mm;
-    }
-    .ctaTitle{ font-size:12px; font-weight:700; margin:0; }
-    .ctaBtns{ display:flex; gap:2mm; flex-wrap:wrap; }
-
-    .btn{
-      display:inline-block;
-      padding:2.0mm 3.0mm;
-      border-radius:8px;
-      font-size:10.5px;
-      text-decoration:none;
-      border:1px solid #ddd;
-      color:#111;
-    }
-    .btnPrimary{ background:#111; color:#fff; border-color:#111; }
-    .btnGhost{ background:#fff; color:#111; }
-
     .foot{
       position: fixed;
       left: 8mm;
@@ -598,13 +589,42 @@ async function buildHtmlReport({ slug, summary }) {
       margin:0;
       background:#fff;
     }
+
+    .card, table{ break-inside:avoid; page-break-inside:avoid; }
+
+    /* CTA compacto */
+    .cta{ margin-top:3mm; }
+    .ctaRow{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:4mm;
+    }
+    .ctaTitle{
+      font-size:11.5px;
+      font-weight:700;
+      margin:0;
+    }
+    .ctaBtns{ display:flex; gap:2mm; flex-wrap:wrap; }
+
+    .btn{
+      display:inline-block;
+      padding:1.8mm 2.8mm;
+      border-radius:8px;
+      font-size:10.5px;
+      text-decoration:none;
+      border:1px solid #ddd;
+      color:#111;
+    }
+    .btnPrimary{ background:#111; color:#fff; border-color:#111; }
+    .btnGhost{ background:#fff; color:#111; }
   </style>
 </head>
 
 <body>
   <div class="page">
     <div class="header">
-      <div>
+      <div class="brand">
         <a href="https://www.apellidos.cl" target="_blank" rel="noopener noreferrer">
           <img class="logo" src="${LOGO_URL}" alt="Apellidos.cl"/>
         </a>
@@ -654,20 +674,27 @@ async function buildHtmlReport({ slug, summary }) {
 
     <div class="card cta">
       <div class="ctaRow">
-        <div class="ctaTitle">¿Quieres tu Diploma del Apellido o un Estudio Genealógico?</div>
+        <div class="ctaText">
+          <div class="ctaTitle">¿Quieres tu Diploma del Apellido o un Estudio Genealógico?</div>
+        </div>
         <div class="ctaBtns">
-          <a class="btn btnPrimary" href="https://www.apellidos.cl/diploma" target="_blank" rel="noopener noreferrer">Solicitar diploma</a>
-          <a class="btn btnGhost" href="https://www.apellidos.cl/investigacion-genealogica" target="_blank" rel="noopener noreferrer">Solicitar estudio</a>
+          <a class="btn btnPrimary" href="https://www.apellidos.cl/diploma" target="_blank" rel="noopener noreferrer">
+            Solicitar diploma
+          </a>
+          <a class="btn btnGhost" href="https://www.apellidos.cl/investigacion-genealogica" target="_blank" rel="noopener noreferrer">
+            Solicitar estudio
+          </a>
         </div>
       </div>
     </div>
 
     <div class="foot">
       Fuente:
-      <a href="https://www.apellidos.cl/mapa-de-apellidos" target="_blank" rel="noopener noreferrer">
-        https://www.apellidos.cl/mapa-de-apellidos
-      </a>
-      en Chile. Este reporte presenta las regiones, provincias y comunas donde hay mayor frecuencia relativa del apellido, lo que puede indicar una zona de origen familiar.
+      <a href="https://www.apellidos.cl/mapa-de-apellidos"
+         target="_blank"
+         rel="noopener noreferrer">https://www.apellidos.cl/mapa-de-apellidos</a>
+      en Chile. Este reporte presenta las regiones, provincias y comunas donde hay mayor
+      frecuencia relativa del apellido.
     </div>
   </div>
 </body>
