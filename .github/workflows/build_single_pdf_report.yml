@@ -3,11 +3,16 @@ name: Build single PDF report (HTML + PNG)
 on:
   repository_dispatch:
     types: [build_pdf_report]
+  workflow_dispatch:
+    inputs:
+      slug:
+        description: "Apellido slug (ej: lucero)"
+        required: true
+        default: "lucero"
 
 permissions:
   contents: write
 
-# Serializa ejecuciones para evitar carreras con otros dispatch
 concurrency:
   group: build-pdf-report
   cancel-in-progress: false
@@ -15,7 +20,6 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout (full history)
         uses: actions/checkout@v4
@@ -34,47 +38,41 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
-      - name: Build + Commit + Push (rebase + retries)
+      - name: Build + Commit + Push (retry)
         env:
-          SLUG: ${{ github.event.client_payload.slug }}
+          SLUG: ${{ github.event_name == 'workflow_dispatch' && inputs.slug || github.event.client_payload.slug }}
         run: |
           set -e
 
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          echo "Sync base with origin/main"
-          git fetch origin main
-          git checkout main
-          git reset --hard origin/main
-
-          echo "Building report for slug=$SLUG"
-          node scripts/build_pdf_report.mjs --slug "$SLUG"
-
-          git add pdf_reports pdf_maps
-
-          if git diff --cached --quiet; then
-            echo "No changes to commit."
-            exit 0
-          fi
-
-          git commit -m "build pdf report $SLUG"
-
-          # Rebase + push con reintentos
           for i in 1 2 3 4 5; do
-            echo "Attempt $i: fetch + rebase + push"
+            echo "Attempt $i: syncing with origin/main"
             git fetch origin main
-            git rebase origin/main || (git rebase --abort && exit 1)
+            git reset --hard origin/main
 
+            echo "Building report for slug=$SLUG"
+            node scripts/build_pdf_report.mjs --slug "$SLUG"
+
+            git add pdf_reports pdf_maps
+
+            if git diff --cached --quiet; then
+              echo "No changes to commit."
+              exit 0
+            fi
+
+            git commit -m "build pdf report $SLUG"
+
+            echo "Pushing..."
             if git push origin HEAD:main; then
               echo "Push OK"
               exit 0
             fi
 
-            echo "Push rejected; retrying in 3s..."
+            echo "Push rejected (main advanced). Retrying..."
             sleep 3
           done
 
           echo "Push failed after retries"
           exit 1
-
