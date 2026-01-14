@@ -133,7 +133,7 @@ async function buildMapPngWithPlaywright({ slug }) {
   await fs.ensureDir(OUT_MAPS_DIR);
 
   const url =
-    `${MAP_BASE_URL}?apellido=${encodeURIComponent(slug)}` +
+    `${RAW_BASE_URL}?apellido=${encodeURIComponent(slug)}` +
     `&pdf=1&t=${Date.now()}`;
 
   const outRaw = path.join(OUT_MAPS_DIR, `${slug}.raw.png`);
