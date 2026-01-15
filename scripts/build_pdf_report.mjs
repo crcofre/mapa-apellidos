@@ -584,7 +584,7 @@ async function buildHtmlReport({ slug, summary }) {
 
     .foot{
   margin-top: 4mm;
-  font-size: 9.5px;
+  font-size: 10.5px;
   color:#666;
   background:#fff;
 }
@@ -694,7 +694,7 @@ async function buildHtmlReport({ slug, summary }) {
          target="_blank"
          rel="noopener noreferrer">https://www.apellidos.cl/mapa-de-apellidos</a>
       en Chile. Este reporte presenta las regiones, provincias y comunas donde hay mayor
-      frecuencia relativa del apellido.
+      frecuencia relativa del apellido, lo que puede reflejar las zonas de origen familiar en Chile.
     </div>
   </div>
 </body>
