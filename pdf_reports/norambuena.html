@@ -1,0 +1,232 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Informe NORAMBUENA</title>
+  <style>
+    /* Más compacto para 1 hoja */
+    @page { size: A4; margin: 8mm; }
+    html, body { margin:0; padding:0; }
+    * { box-sizing: border-box; }
+
+    body{
+      font-family: Arial, Helvetica, sans-serif;
+      color:#111;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .page{
+      width:100%;
+      max-width:190mm;
+      margin:0 auto;
+      
+    }
+
+    .header{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:8px;
+      margin-bottom:3mm;
+    }
+    .brand{ display:flex; align-items:center; gap:8px; }
+    .logo{ height:11mm; }
+    .meta{ font-size:9.5px; color:#555; text-align:right; line-height:1.2; padding-top:1.5mm; }
+
+    h1{ font-size:16.5px; margin:0 0 1.6mm; }
+    .sub{ font-size:11px; color:#333; margin:0 0 3mm; }
+
+    .grid{
+      display:grid;
+      grid-template-columns: calc(40% - 1.5mm) calc(60% - 1.5mm);
+      gap:2.5mm;
+      align-items:stretch;
+    }
+
+    .rightCol{
+      display:flex;
+      flex-direction:column;
+      gap:2.5mm;
+    }
+
+    .card{
+      border:1px solid #e6e6e6;
+      border-radius:10px;
+      padding:2.6mm;
+      background:#fff;
+    }
+
+    .card.below{ margin-top:3mm; }
+
+    .mapWrap{
+      width:100%;
+      height:112mm;
+      display:flex;
+      align-items:stretch;
+      justify-content:center;
+      overflow:hidden;
+    }
+    .mapImg{
+      height:100%;
+      width:auto;
+      max-width:100%;
+      display:block;
+    }
+
+    h2{ font-size:12px; margin:0 0 1.6mm; }
+
+    table{ width:100%; border-collapse:collapse; table-layout:fixed; }
+    th, td{
+      border:1px solid #eee;
+      padding:1.6mm 2mm;
+      font-size:10px;
+      line-height:1.15;
+      word-wrap:break-word;
+      overflow-wrap:anywhere;
+    }
+    thead th{
+      background:#f7f7f7;
+      text-align:left;
+      vertical-align:middle;
+      padding-top:1.2mm;
+      padding-bottom:1.2mm;
+    }
+    tbody td{
+      height:7.2mm; /* más bajo para caber en 1 hoja */
+      vertical-align:middle;
+      padding-top:1.2mm;
+      padding-bottom:1.2mm;
+    }
+
+    .t-regiones col.c1{ width:10%; }
+    .t-regiones col.c2{ width:70%; }
+    .t-regiones col.c3{ width:20%; }
+
+    .t-provincias col.c1{ width:10%; }
+    .t-provincias col.c2{ width:30%; }
+    .t-provincias col.c3{ width:40%; }
+    .t-provincias col.c4{ width:20%; }
+
+    .t-comunas col.c1{ width:6%; }
+    .t-comunas col.c2{ width:20%; }
+    .t-comunas col.c3{ width:20%; }
+    .t-comunas col.c4{ width:42%; }
+    .t-comunas col.c5{ width:12%; }
+
+    .foot{
+  margin-top: 4mm;
+  font-size: 10.5px;
+  color:#666;
+  background:#fff;
+}
+
+
+    .card, table{ break-inside:avoid; page-break-inside:avoid; }
+
+    /* CTA compacto */
+    .cta{ margin-top:3mm; }
+    .ctaRow{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:4mm;
+    }
+    .ctaTitle{
+      font-size:11.5px;
+      font-weight:700;
+      margin:0;
+    }
+    .ctaBtns{ display:flex; gap:2mm; flex-wrap:wrap; }
+
+    .btn{
+      display:inline-block;
+      padding:1.8mm 2.8mm;
+      border-radius:8px;
+      font-size:10.5px;
+      text-decoration:none;
+      border:1px solid #ddd;
+      color:#111;
+    }
+    .btnPrimary{ background:#111; color:#fff; border-color:#111; }
+    .btnGhost{ background:#fff; color:#111; }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <div class="header">
+      <div class="brand">
+        <a href="https://www.apellidos.cl" target="_blank" rel="noopener noreferrer">
+          <img class="logo" src="https://images.jumpseller.com/store/familias-y-apellidos/store/logo/Sitio_web.png?1741039595" alt="Apellidos.cl"/>
+        </a>
+      </div>
+      <div class="meta">Actualizado: 2026-01-04T23:50:49.172Z</div>
+    </div>
+
+    <h1>Mapa del apellido NORAMBUENA</h1>
+    <p class="sub">Lugares donde tiene mayor arraigo histórico.</p>
+
+    <div class="grid">
+      <div class="card">
+        <div class="mapWrap">
+          <img class="mapImg" src="https://crcofre.github.io/mapa-apellidos/pdf_maps/norambuena.png?v=1775365818918" alt="Mapa de Chile"/>
+        </div>
+      </div>
+
+      <div class="rightCol">
+        <div class="card">
+          <h2>Top regiones</h2>
+          <table class="t-regiones">
+            <colgroup><col class="c1"><col class="c2"><col class="c3"></colgroup>
+            <thead><tr><th>#</th><th>Región</th><th>Frecuencia</th></tr></thead>
+            <tbody><tr><td>1</td><td>MAULE</td><td>0.60%</td></tr><tr><td>2</td><td>LA ARAUCANIA</td><td>0.19%</td></tr><tr><td>3</td><td>ÑUBLE</td><td>0.17%</td></tr><tr><td>4</td><td>LOS RIOS</td><td>0.17%</td></tr><tr><td>5</td><td>METROPOLITANA DE SANTIAGO</td><td>0.16%</td></tr></tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <h2>Top provincias</h2>
+          <table class="t-provincias">
+            <colgroup><col class="c1"><col class="c2"><col class="c3"><col class="c4"></colgroup>
+            <thead><tr><th>#</th><th>Provincia</th><th>Región</th><th>Frecuencia</th></tr></thead>
+            <tbody><tr><td>1</td><td>LINARES</td><td>MAULE</td><td>1.39%</td></tr><tr><td>2</td><td>CAUQUENES</td><td>MAULE</td><td>0.44%</td></tr><tr><td>3</td><td>TIERRA DEL FUEGO</td><td>MAGALLANES Y DE LA ANTARTICA CHILENA</td><td>0.39%</td></tr><tr><td>4</td><td>TALCA</td><td>MAULE</td><td>0.30%</td></tr><tr><td>5</td><td>PUNILLA</td><td>ÑUBLE</td><td>0.29%</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card below">
+      <h2>Top comunas</h2>
+      <table class="t-comunas">
+        <colgroup><col class="c1"><col class="c2"><col class="c3"><col class="c4"><col class="c5"></colgroup>
+        <thead><tr><th>#</th><th>Comuna</th><th>Provincia</th><th>Región</th><th>Frecuencia</th></tr></thead>
+        <tbody><tr><td>1</td><td>LONGAVI</td><td>LINARES</td><td>MAULE</td><td>2.83%</td></tr><tr><td>2</td><td>LINARES</td><td>LINARES</td><td>MAULE</td><td>1.38%</td></tr><tr><td>3</td><td>SAN JAVIER</td><td>LINARES</td><td>MAULE</td><td>1.38%</td></tr><tr><td>4</td><td>COLBUN</td><td>LINARES</td><td>MAULE</td><td>1.24%</td></tr><tr><td>5</td><td>PARRAL</td><td>LINARES</td><td>MAULE</td><td>1.01%</td></tr></tbody>
+      </table>
+    </div>
+
+    <div class="card cta">
+      <div class="ctaRow">
+        <div class="ctaText">
+          <div class="ctaTitle">¿Quieres tu Diploma del Apellido o un Estudio Genealógico?</div>
+        </div>
+        <div class="ctaBtns">
+          <a class="btn btnPrimary" href="https://www.apellidos.cl/diploma" target="_blank" rel="noopener noreferrer">
+            Solicitar diploma
+          </a>
+          <a class="btn btnGhost" href="https://www.apellidos.cl/investigacion-genealogica" target="_blank" rel="noopener noreferrer">
+            Solicitar estudio
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="foot">
+      Fuente:
+      <a href="https://www.apellidos.cl/mapa-de-apellidos"
+         target="_blank"
+         rel="noopener noreferrer">https://www.apellidos.cl/mapa-de-apellidos</a>. Este reporte presenta las regiones, provincias y comunas donde hay mayor
+      frecuencia relativa del apellido, lo que puede reflejar las zonas de origen familiar en Chile.
+    </div>
+  </div>
+</body>
+</html>
