@@ -181,37 +181,6 @@ async function loadSummaryFromShard(slug) {
 }
 
 /**
- * Intenta resolver el summary probando variantes del slug:
- *   1) el slug completo (ej: "oliva-munoz")
- *   2) cada parte por separado (ej: "oliva", luego "munoz")
- * Sirve para apellidos compuestos / dos apellidos: si "Oliva Muñoz" no existe
- * como tal, usa el primer apellido que SÍ esté en los datos.
- *
- * Devuelve { summary, slugUsed } o null si no encontró ninguna variante.
- */
-async function resolveSummaryWithFallback(slug) {
-  const parts = slug.split("-").filter(Boolean);
-  const candidates = [];
-  const seen = new Set();
-  for (const c of [slug, ...parts]) {
-    if (c && !seen.has(c)) {
-      seen.add(c);
-      candidates.push(c);
-    }
-  }
-
-  for (const cand of candidates) {
-    try {
-      const summary = await loadSummaryFromShard(cand);
-      return { summary, slugUsed: cand };
-    } catch (e) {
-      // prueba la siguiente variante
-    }
-  }
-  return null;
-}
-
-/**
  * Captura PNG del mapa con Playwright (Leaflet real)
  */
 async function buildMapPngWithPlaywright({ slug }) {
@@ -799,11 +768,14 @@ async function writeNotFoundJson({ requestId, slug, surnameOriginal }) {
 async function main() {
   const { slug, surnameOriginal, requestId } = resolveInput();
 
-  // Intenta el slug completo y, si es compuesto, cada apellido por separado.
-  const resolved = await resolveSummaryWithFallback(slug);
-
-  if (!resolved) {
-    // No se encontró ninguna variante: deja respuesta de estado para Make.
+  // Busca el apellido EXACTO (un solo apellido). Sin fallback a partes:
+  // el sistema está pensado para un apellido.
+  let summary = null;
+  try {
+    summary = await loadSummaryFromShard(slug);
+  } catch (e) {
+    // No existe ese apellido tal cual: deja respuesta de estado para Make
+    // (status: not_found) en vez de fallar sin avisar.
     const jsonPath = await writeNotFoundJson({ requestId, slug, surnameOriginal });
     console.log(`NOT_FOUND: no hay datos para "${surnameOriginal || slug}" (slug=${slug})`);
     if (jsonPath) {
@@ -812,17 +784,12 @@ async function main() {
     return; // sale con código 0: no marca el workflow en rojo
   }
 
-  const { summary, slugUsed } = resolved;
-  if (slugUsed !== slug) {
-    console.log(`Apellido compuesto: uso "${slugUsed}" (de "${slug}").`);
-  }
+  await buildMapPngWithPlaywright({ slug });
+  await buildHtmlReport({ slug, summary });
 
-  await buildMapPngWithPlaywright({ slug: slugUsed });
-  await buildHtmlReport({ slug: slugUsed, summary });
+  const jsonPath = await writeRequestResponseJson({ requestId, slug, surnameOriginal });
 
-  const jsonPath = await writeRequestResponseJson({ requestId, slug: slugUsed, surnameOriginal });
-
-  console.log(`OK: generado ${OUT_MAPS_DIR}/${slugUsed}.png y ${OUT_REPORTS_DIR}/${slugUsed}.html`);
+  console.log(`OK: generado ${OUT_MAPS_DIR}/${slug}.png y ${OUT_REPORTS_DIR}/${slug}.html`);
   if (jsonPath) {
     console.log(`OK: generado ${jsonPath} (respuesta para Make)`);
   }
