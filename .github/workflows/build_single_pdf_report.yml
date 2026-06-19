@@ -21,13 +21,28 @@ on:
 permissions:
   contents: write
 
+# ===========================================================================
+# ARREGLO PRINCIPAL — grupo de concurrencia ÚNICO por solicitud.
+#
+# Antes era fijo:
+#     group: build-pdf-report
+# Con un grupo fijo, GitHub serializa todo y solo admite UNA ejecución en
+# cola: cada solicitud nueva CANCELABA la anterior que estaba esperando
+# ("Canceling since a higher priority waiting request exists"). Por eso la
+# mayoría de los PDFs nunca se generaban y el GET de Make daba 404.
+#
+# Ahora cada request_id es su propio grupo => las solicitudes corren en
+# paralelo y NO se cancelan entre sí.
+# ===========================================================================
 concurrency:
-  group: build-pdf-report
+  group: build-pdf-${{ github.event.client_payload.request_id || github.event.inputs.request_id || github.run_id }}
   cancel-in-progress: false
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 15   # evita ejecuciones colgadas (había una de 2h+)
+
     steps:
       - name: Checkout (full history)
         uses: actions/checkout@v4
@@ -40,58 +55,80 @@ jobs:
         with:
           node-version: 20
 
+      # No hay package-lock.json => cacheamos node_modules por hash de package.json
+      - name: Cache node_modules
+        id: cache-node
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('package.json') }}
+
       - name: Install deps
+        if: steps.cache-node.outputs.cache-hit != 'true'
         run: npm install
 
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
+      # Cacheamos el navegador de Playwright (lo más lento del build)
+      - name: Cache Playwright browsers
+        id: cache-pw
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('package.json') }}
 
-      - name: Build + Commit + Push (retry)
+      - name: Install Playwright (browser + deps)
+        run: |
+          if [ "${{ steps.cache-pw.outputs.cache-hit }}" = "true" ]; then
+            # El binario ya está cacheado: solo instalamos dependencias del SO
+            npx playwright install-deps chromium
+          else
+            npx playwright install --with-deps chromium
+          fi
+
+      - name: Build report
         env:
-          # Compatibilidad (modo antiguo)
           SLUG: ${{ github.event_name == 'workflow_dispatch' && inputs.slug || github.event.client_payload.slug }}
-
-          # Modo nuevo (Opción A)
           SURNAME: ${{ github.event_name == 'workflow_dispatch' && inputs.surname || github.event.client_payload.surname }}
           REQUEST_ID: ${{ github.event_name == 'workflow_dispatch' && inputs.request_id || github.event.client_payload.request_id }}
         run: |
           set -e
+          if [ -n "$SURNAME" ] && [ -n "$REQUEST_ID" ]; then
+            echo "Building report for surname=$SURNAME (request_id=$REQUEST_ID)"
+            node scripts/build_pdf_report.mjs --surname "$SURNAME" --request_id "$REQUEST_ID"
+          else
+            echo "Building report for slug=$SLUG"
+            node scripts/build_pdf_report.mjs --slug "$SLUG"
+          fi
 
+      # Commit + push con reintentos SOLO del push (sin reconstruir el reporte).
+      # Como cada solicitud escribe archivos distintos (requests/<id>.json es
+      # único), el rebase resuelve sin conflicto cuando otra ejecución empujó antes.
+      - name: Commit & push (rebase retry)
+        env:
+          SLUG: ${{ github.event_name == 'workflow_dispatch' && inputs.slug || github.event.client_payload.slug }}
+          SURNAME: ${{ github.event_name == 'workflow_dispatch' && inputs.surname || github.event.client_payload.surname }}
+        run: |
+          set -e
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          for i in 1 2 3 4 5; do
-            echo "Attempt $i: syncing with origin/main"
-            git fetch origin main
-            git reset --hard origin/main
+          git add pdf_reports pdf_maps
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "build pdf report ${SLUG:-$SURNAME}"
 
-            # --- Ejecución: modo nuevo si viene surname + request_id ---
-            if [ -n "$SURNAME" ] && [ -n "$REQUEST_ID" ]; then
-              echo "Building report for surname=$SURNAME (request_id=$REQUEST_ID)"
-              node scripts/build_pdf_report.mjs --surname "$SURNAME" --request_id "$REQUEST_ID"
-            else
-              echo "Building report for slug=$SLUG"
-              node scripts/build_pdf_report.mjs --slug "$SLUG"
-            fi
-
-            git add pdf_reports pdf_maps
-
-            if git diff --cached --quiet; then
-              echo "No changes to commit."
-              exit 0
-            fi
-
-            git commit -m "build pdf report ${SLUG:-$SURNAME}"
-
-            echo "Pushing..."
+          for i in 1 2 3 4 5 6 7 8; do
+            echo "Push attempt $i"
             if git push origin HEAD:main; then
               echo "Push OK"
               exit 0
             fi
-
-            echo "Push rejected (main advanced). Retrying..."
+            echo "Push rechazado (main avanzo). Rebase y reintento..."
+            git fetch origin main
+            git rebase origin/main || git rebase --abort
             sleep 3
           done
 
-          echo "Push failed after retries"
+          echo "Push fallo tras reintentos"
           exit 1
