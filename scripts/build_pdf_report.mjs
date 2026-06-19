@@ -58,7 +58,7 @@ function slugify(s) {
     .trim()
     .toLowerCase()
     .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")   // quita tildes
+    .replace(/\p{M}/gu, "")           // quita tildes (marcas combinantes)
     .replace(/\s+/g, " ")
     .replace(/[ _]+/g, "-")           // espacio o _ -> -
     .replace(/[^a-z0-9-]/g, "")       // solo [a-z0-9-]
@@ -178,6 +178,37 @@ async function loadSummaryFromShard(slug) {
     `No pude resolver slug=${slug} en pdf_summaries/2 ni /3.\n` +
       errors.map((e) => `- ${e}`).join("\n")
   );
+}
+
+/**
+ * Intenta resolver el summary probando variantes del slug:
+ *   1) el slug completo (ej: "oliva-munoz")
+ *   2) cada parte por separado (ej: "oliva", luego "munoz")
+ * Sirve para apellidos compuestos / dos apellidos: si "Oliva Muñoz" no existe
+ * como tal, usa el primer apellido que SÍ esté en los datos.
+ *
+ * Devuelve { summary, slugUsed } o null si no encontró ninguna variante.
+ */
+async function resolveSummaryWithFallback(slug) {
+  const parts = slug.split("-").filter(Boolean);
+  const candidates = [];
+  const seen = new Set();
+  for (const c of [slug, ...parts]) {
+    if (c && !seen.has(c)) {
+      seen.add(c);
+      candidates.push(c);
+    }
+  }
+
+  for (const cand of candidates) {
+    try {
+      const summary = await loadSummaryFromShard(cand);
+      return { summary, slugUsed: cand };
+    } catch (e) {
+      // prueba la siguiente variante
+    }
+  }
+  return null;
 }
 
 /**
@@ -488,7 +519,7 @@ async function buildHtmlReport({ slug, summary }) {
       width:100%;
       max-width:190mm;
       margin:0 auto;
-      
+
     }
 
     .header{
@@ -721,6 +752,7 @@ async function writeRequestResponseJson({ requestId, slug, surnameOriginal }) {
     jsonPath,
     {
       request_id: requestId,
+      status: "ok",
       surname_original: surnameOriginal ?? null,
       slug,
       html_url: htmlUrl,
@@ -733,17 +765,64 @@ async function writeRequestResponseJson({ requestId, slug, surnameOriginal }) {
   return jsonPath;
 }
 
+/**
+ * Publica JSON de “no encontrado” para Make (solo si viene request_id).
+ * Así Make recibe una respuesta 200 con status:"not_found" y puede avisar al
+ * usuario en vez de quedar reintentando hasta el timeout.
+ * Ruta: pdf_reports/requests/<request_id>.json
+ */
+async function writeNotFoundJson({ requestId, slug, surnameOriginal }) {
+  if (!requestId) return null;
+
+  const reqDir = path.join(OUT_REPORTS_DIR, "requests");
+  await fs.ensureDir(reqDir);
+
+  const jsonPath = path.join(reqDir, `${requestId}.json`);
+
+  await fs.writeJson(
+    jsonPath,
+    {
+      request_id: requestId,
+      status: "not_found",
+      surname_original: surnameOriginal ?? null,
+      slug,
+      html_url: null,
+      html_file: null,
+      created_at: new Date().toISOString(),
+    },
+    { spaces: 2 }
+  );
+
+  return jsonPath;
+}
+
 async function main() {
   const { slug, surnameOriginal, requestId } = resolveInput();
 
-  const summary = await loadSummaryFromShard(slug);
+  // Intenta el slug completo y, si es compuesto, cada apellido por separado.
+  const resolved = await resolveSummaryWithFallback(slug);
 
-  await buildMapPngWithPlaywright({ slug });
-  await buildHtmlReport({ slug, summary });
+  if (!resolved) {
+    // No se encontró ninguna variante: deja respuesta de estado para Make.
+    const jsonPath = await writeNotFoundJson({ requestId, slug, surnameOriginal });
+    console.log(`NOT_FOUND: no hay datos para "${surnameOriginal || slug}" (slug=${slug})`);
+    if (jsonPath) {
+      console.log(`OK: generado ${jsonPath} (status=not_found para Make)`);
+    }
+    return; // sale con código 0: no marca el workflow en rojo
+  }
 
-  const jsonPath = await writeRequestResponseJson({ requestId, slug, surnameOriginal });
+  const { summary, slugUsed } = resolved;
+  if (slugUsed !== slug) {
+    console.log(`Apellido compuesto: uso "${slugUsed}" (de "${slug}").`);
+  }
 
-  console.log(`OK: generado ${OUT_MAPS_DIR}/${slug}.png y ${OUT_REPORTS_DIR}/${slug}.html`);
+  await buildMapPngWithPlaywright({ slug: slugUsed });
+  await buildHtmlReport({ slug: slugUsed, summary });
+
+  const jsonPath = await writeRequestResponseJson({ requestId, slug: slugUsed, surnameOriginal });
+
+  console.log(`OK: generado ${OUT_MAPS_DIR}/${slugUsed}.png y ${OUT_REPORTS_DIR}/${slugUsed}.html`);
   if (jsonPath) {
     console.log(`OK: generado ${jsonPath} (respuesta para Make)`);
   }
