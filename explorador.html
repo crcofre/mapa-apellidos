@@ -166,11 +166,19 @@ async function loadShardText(fn){
   TXTCACHE[fn]=null;return null;
 }
 function extractObj(text,slug){
-  const needle='"'+slug+'":{';let i=text.indexOf(needle);if(i<0)return null;
-  let start=i+needle.length-1,depth=0,inStr=false,esc=false;
-  for(let j=start;j<text.length;j++){const c=text[j];
-    if(inStr){if(esc)esc=false;else if(c==='\\')esc=true;else if(c==='"')inStr=false;}
-    else{if(c==='"')inStr=true;else if(c==='{')depth++;else if(c==='}'){depth--;if(depth===0)return text.slice(start,j+1);}}}
+  const key='"'+slug+'":';let i=text.indexOf(key);
+  while(i>=0){
+    let p=i+key.length;
+    while(p<text.length){const c=text[p];if(c===' '||c==='\t'||c==='\n'||c==='\r')p++;else break;}
+    if(text[p]==='{'){
+      let depth=0,inStr=false,esc=false;
+      for(let j=p;j<text.length;j++){const c=text[j];
+        if(inStr){if(esc)esc=false;else if(c==='\\')esc=true;else if(c==='"')inStr=false;}
+        else{if(c==='"')inStr=true;else if(c==='{')depth++;else if(c==='}'){depth--;if(depth===0)return text.slice(p,j+1);}}}
+      return null;
+    }
+    i=text.indexOf(key,i+1);
+  }
   return null;
 }
 const AYREG="AYSEN DEL GENERAL CARLOS IBANEZ DEL CAMPO",AYPROV=["AYSEN","CAPITAN PRAT","COYHAIQUE","GENERAL CARRERA"],AYPEN=0.05;
