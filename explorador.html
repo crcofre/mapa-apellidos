@@ -259,6 +259,7 @@ QEL.addEventListener('keydown',function(e){
   else if(e.key==='Enter'){e.preventDefault();if(SUGIDX>=0&&items[SUGIDX]){pickSugg(items[SUGIDX].getAttribute('data-v'));}else{hideSugg();doSearch();}}
   else if(e.key==='Escape'){hideSugg();}
 });
+document.querySelectorAll('.pills button').forEach(function(b){b.addEventListener('click',function(){setLevel(b.dataset.l);});});
 function openModal(){var l=(CUR?CUR.label:surname);document.getElementById('mape').value=l;document.getElementById('mtitle').textContent='Recibe el informe de '+l;document.getElementById('mform').style.display='block';document.getElementById('mok').style.display='none';document.getElementById('memail').value='';document.getElementById('mcons').checked=false;document.getElementById('overlay').classList.add('on');}
 function closeModal(){document.getElementById('overlay').classList.remove('on');}
 function enviarPDF(){var e=document.getElementById('memail').value.trim();var c=document.getElementById('mcons').checked;if(!/^\S+@\S+\.\S+$/.test(e)){alert('Ingresa un correo válido');return;}if(!c){alert('Marca la casilla para recibir el informe');return;}
