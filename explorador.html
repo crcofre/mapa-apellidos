@@ -203,7 +203,7 @@ function buildIndex(obj){
   for(const k in aP)out.provincia[k]=pct(aP[k]);
   for(const k in aC)out.comuna[k]=pct(aC[k]);
   adjustAysen(out);
-  out.label=ACCN[slugify(obj.apellido||'')]||(obj.apellido||'').toUpperCase();
+  out.label=ACCN[slugify(obj.apellido||'')]||(obj.apellido||'').toUpperCase().replace(/-/g,' ');
   return out;
 }
 function objFromText(text,slug){
@@ -213,9 +213,18 @@ function objFromText(text,slug){
   if(!raw)return null;
   try{return JSON.parse(clean(raw));}catch(e){return null;}
 }
+let VALIDSET=null,VALIDARR=null;
+const VALID_URLS=["apellidos_validos.txt","data/apellidos_validos.txt","https://raw.githubusercontent.com/CRCOFRE/mapa-apellidos/main/apellidos_validos.txt"];
+async function ensureValid(){
+  if(VALIDSET!==null) return VALIDSET;
+  for(const u of VALID_URLS){const t=await fetchText(u,20000);if(t){VALIDARR=t.split('\n').filter(Boolean);VALIDSET=new Set(VALIDARR);return VALIDSET;}}
+  VALIDSET=false;return false;
+}
 async function fetchSurname(input){
   const s=slugify(input);
   if(LOCAL[s]) return {slug:s,idx:LOCAL[s]};
+  const _V=await ensureValid();
+  if(_V && !_V.has(s)) throw new Error('nf');
   let text=await loadShardText('apellidos_'+s.slice(0,2)+'.json');
   let obj=objFromText(text,s);
   if(!obj){const m=await getManifest();if(m&&m[s]){text=await loadShardText(m[s]);obj=objFromText(text,s);}}
@@ -246,7 +255,7 @@ function showSugg(keys){
 function pickSugg(v){document.getElementById('q').value=v.replace(/-/g,' ').toUpperCase();hideSugg();doSearch();}
 async function autocomplete(){
   const q=slugify(document.getElementById('q').value);if(q.length<2){hideSugg();return;}
-  try{const keys=await ensureKeys();if(!keys.length)return;const out=[];for(const k of keys){if(k.startsWith(q)){out.push(k);if(out.length>=30)break;}}showSugg(out);}catch(e){}
+  try{await ensureValid();if(!VALIDARR)return;const out=[];for(let i=0;i<VALIDARR.length;i++){const k=VALIDARR[i];if(k.startsWith(q)){out.push(k);if(out.length>=30)break;}}showSugg(out);}catch(e){}
 }
 sugg.addEventListener('mousedown',function(e){const it=e.target.closest('.it');if(!it)return;e.preventDefault();pickSugg(it.getAttribute('data-v'));});
 const QEL=document.getElementById('q');
@@ -267,5 +276,5 @@ function enviarPDF(){var e=document.getElementById('memail').value.trim();var c=
 document.getElementById('mokape').textContent=document.getElementById('mape').value;document.getElementById('mform').style.display='none';document.getElementById('mok').style.display='block';}
 document.getElementById('overlay').addEventListener('click',function(ev){if(ev.target.id==='overlay')closeModal();});
 
-render();
+render();ensureValid();
 </script></body></html>
