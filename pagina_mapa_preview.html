@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maqueta — Página Mapa de Apellidos</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans','Helvetica Neue',Arial,sans-serif;color:#261c15;background:#fff}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+
+/* ====== HERO ====== */
+h1.page-title{font-size:34px;text-align:center;margin:26px 0 18px;font-weight:700}
+.hero-mapa{max-width:980px;margin:6px auto 14px;}
+.subtitulo-mapa{margin:0 0 10px;color:#4a4a4a;line-height:1.55;font-size:15.5px}
+.hero-mapa ul{margin:8px 0 14px 20px;color:#3a322b}
+.hero-mapa li{margin:3px 0;line-height:1.5;font-size:14.5px}
+.hero-cta{display:inline-flex;gap:10px;flex-wrap:wrap}
+.hero-cta a{height:42px;padding:0 18px;border-radius:10px;font-size:.95rem;font-weight:600;text-decoration:none;
+  display:inline-flex;align-items:center;justify-content:center;border:1px solid #dcdcdc;box-shadow:0 1px 6px rgba(0,0,0,.08);white-space:nowrap}
+.btn-hero{background:#141246;color:#fff;border-color:transparent}
+.btn-hero:hover{background:#23206b}
+.btn-hero-sec{background:#fff;color:#222}
+.btn-hero-sec:hover{background:#f6f6f6}
+
+/* ====== MAPA (iframe embed) ====== */
+#mapa-apellidos-wrap{width:100%;max-width:1180px;margin:14px auto 8px;}
+.iframe-box{position:relative;width:100%;border-radius:14px;overflow:hidden;box-shadow:0 4px 18px rgba(20,18,70,.08);border:1px solid #eee3d2}
+#iframe-mapa-apellidos{width:100%;border:0;background:#fcfaf5;display:block;height:720px}
+
+/* ====== PRODUCTOS ====== */
+.prodsec{margin:40px auto 50px;padding-top:30px;border-top:1px solid #e7ded0}
+.prodsec h2{font-size:27px;margin-bottom:4px;text-align:center}
+.prodsec .psub{color:#6f6457;font-size:14.5px;margin-bottom:26px;text-align:center}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.prod{background:#fff;border:1px solid #e7ded0;border-radius:16px;overflow:hidden;display:flex;flex-direction:column;
+  box-shadow:0 2px 10px rgba(20,18,70,.05);transition:transform .15s,box-shadow .15s}
+.prod:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(20,18,70,.12)}
+.prod .img{width:100%;aspect-ratio:4/3;object-fit:cover;background:#f0eef8;display:block}
+.prod .body{padding:18px 20px 22px;display:flex;flex-direction:column;flex:1}
+.prod h3{font-size:18px;margin-bottom:7px;color:#141246}
+.prod p{color:#6f6457;font-size:14px;line-height:1.55;flex:1;margin-bottom:16px}
+.pbtn{display:block;text-align:center;background:#141246;color:#fff;text-decoration:none;border-radius:22px;padding:11px 14px;font-size:14.5px;font-weight:600}
+.pbtn:hover{background:#23206b}
+
+@media (max-width:860px){.pgrid{grid-template-columns:1fr}}
+@media (max-width:991.98px){#iframe-mapa-apellidos{height:780px}}
+.demo-note{background:#fff8e6;border:1px solid #f1e3b8;color:#7a601a;font-size:13px;padding:8px 14px;border-radius:8px;max-width:980px;margin:10px auto 0;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1 class="page-title">Mapa de apellidos de Chile</h1>
+
+  <section class="hero-mapa">
+    <p class="subtitulo-mapa">
+      Escribe tu apellido y explora su presencia por <strong>región</strong>, <strong>provincia</strong> y <strong>comuna</strong>.
+      Los tonos más oscuros indican mayor frecuencia relativa y pueden apuntar al lugar de origen de la familia o donde tuvo mayor presencia histórica en Chile.
+    </p>
+    <ul>
+      <li>Prueba variantes: <em>Díaz / Dias, Laso / Lazo.</em></li>
+      <li>Cambia entre <strong>Regiones</strong>, <strong>Provincias</strong> y <strong>Comunas</strong> con los botones del mapa.</li>
+      <li>Un apellido poco frecuente se verá con un mapa muy pálido.</li>
+      <li>¿Quieres el detalle completo? Pídelo y te lo enviamos en <strong>PDF</strong> a tu correo.</li>
+    </ul>
+    <div class="hero-cta">
+      <a href="https://www.apellidos.cl/estudio-familiar" target="_blank" rel="noopener" class="btn-hero">Solicita Estudio Familiar</a>
+      <a href="https://www.apellidos.cl/diploma" target="_blank" rel="noopener" class="btn-hero-sec">Diploma de Apellido</a>
+    </div>
+  </section>
+
+  <div class="demo-note">Vista previa local · el explorador busca apellidos contra los datos en GitHub (necesita internet)</div>
+
+  <div id="mapa-apellidos-wrap">
+    <div class="iframe-box">
+      <iframe id="iframe-mapa-apellidos" src="./explorador_embed.html"
+        title="Mapa de apellidos de Chile" loading="eager"></iframe>
+    </div>
+  </div>
+
+  <section class="prodsec">
+    <h2>Lleva tu historia familiar más allá del mapa</h2>
+    <p class="psub">El mapa te muestra el dónde. Estos servicios te cuentan el quiénes y el por qué.</p>
+    <div class="pgrid">
+
+      <div class="prod">
+        <img class="img" src="https://cdnx.jumpseller.com/familias-y-apellidos/image/65872451/resize/1200/1200?1753727555" alt="Diploma de apellido">
+        <div class="body">
+          <h3>Diploma de Apellido</h3>
+          <p>El origen, el escudo y la historia de tu apellido en un diploma listo para enmarcar y regalar.</p>
+          <a class="pbtn" href="https://www.apellidos.cl/diploma" target="_blank" rel="noopener">Ver diplomas</a>
+        </div>
+      </div>
+
+      <div class="prod">
+        <img class="img" src="https://cdnx.jumpseller.com/familias-y-apellidos/image/60924595/resize/1200/1200?1741043090" alt="Árbol genealógico">
+        <div class="body">
+          <h3>Árbol Genealógico</h3>
+          <p>Tu árbol familiar investigado y diseñado para enmarcar, compartir y heredar a las próximas generaciones.</p>
+          <a class="pbtn" href="https://www.apellidos.cl/arbol-genealogico" target="_blank" rel="noopener">Ver árboles</a>
+        </div>
+      </div>
+
+      <div class="prod">
+        <img class="img" src="https://cdnx.jumpseller.com/familias-y-apellidos/image/61397215/resize/1200/1200?1742174016" alt="Investigación genealógica">
+        <div class="body">
+          <h3>Investigación Genealógica</h3>
+          <p>Un estudio profesional de tus raíces a partir de registros históricos, parroquiales y civiles.</p>
+          <a class="pbtn" href="https://www.apellidos.cl/investigacion-genealogica" target="_blank" rel="noopener">Ver investigación</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+</body>
+</html>
