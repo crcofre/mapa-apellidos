@@ -100,8 +100,8 @@ h1.page-title{font-size:34px;text-align:center;margin:26px 0 18px;font-weight:70
   var f=document.getElementById('iframe-mapa-apellidos');
   window.addEventListener('message',function(e){
     if(e&&e.data&&typeof e.data._apMapH==='number'){
-      var h=Math.max(420,Math.min(2600,e.data._apMapH));
-      f.style.height=(h+4)+'px';
+      var h=Math.max(360,Math.min(2200,e.data._apMapH));
+      f.style.height=(h+2)+'px';
     }
   });
 })();
