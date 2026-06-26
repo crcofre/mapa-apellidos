@@ -28,27 +28,29 @@ jobs:
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
-      # 1) Crear carpeta de publicación MINIMA
-      - name: Prepare site (minimal)
+      # 1) Crear carpeta de publicación
+      - name: Prepare site
         run: |
           rm -rf _site
           mkdir -p _site
 
-          # Copia lo esencial del sitio (ajusta según tu repo)
+          # Front-end del mapa / explorador
           cp -R index.html _site/ 2>/dev/null || true
+          cp -R explorador.html _site/ 2>/dev/null || true
+          cp -R explorador_embed.html _site/ 2>/dev/null || true
+          cp -R apellidos_validos.txt _site/ 2>/dev/null || true
           cp -R assets _site/ 2>/dev/null || true
           cp -R css _site/ 2>/dev/null || true
           cp -R js _site/ 2>/dev/null || true
-          cp -R data _site/ 2>/dev/null || true
 
-          # Copia SOLO lo necesario para el PDF pipeline
+          # Datos consultados por el explorador
+          cp -R data _site/ 2>/dev/null || true
+          cp -R data_fixed _site/ 2>/dev/null || true
+
+          # Salidas del pipeline de PDF (links de descarga)
           mkdir -p _site/pdf_reports _site/pdf_maps
           cp -R pdf_reports/* _site/pdf_reports/ 2>/dev/null || true
           cp -R pdf_maps/* _site/pdf_maps/ 2>/dev/null || true
-
-          # Si tus shards se consultan desde el front, decide qué carpetas realmente van.
-          # EJEMPLO: NO copies pdf_summaries si no se usa en el front.
-          # cp -R pdf_summaries _site/  # solo si realmente lo necesitas público
 
       # 2) Subir solo _site como artifact de Pages
       - name: Upload artifact
