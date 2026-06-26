@@ -1,39 +1,24 @@
-name: Build single PDF report (HTML + PNG)
+name: Build single PDF report (Python)
 
 on:
   repository_dispatch:
     types: [build_pdf_report]
   workflow_dispatch:
     inputs:
-      slug:
-        description: "Apellido slug (ej: lucero) [compatibilidad]"
-        required: true
-        default: "lucero"
       surname:
-        description: "Apellido crudo (ej: Santa Maria). Si se define, se usa con request_id."
-        required: false
-        default: ""
+        description: "Apellido (ej: Mancilla). Se slugifica solo."
+        required: true
+        default: "Mancilla"
       request_id:
-        description: "ID único (ej: 20260114153000123). Requerido si usas surname."
+        description: "ID único de la solicitud (ej: 20260114153000123)."
         required: false
         default: ""
 
 permissions:
   contents: write
 
-# ===========================================================================
-# ARREGLO PRINCIPAL — grupo de concurrencia ÚNICO por solicitud.
-#
-# Antes era fijo:
-#     group: build-pdf-report
-# Con un grupo fijo, GitHub serializa todo y solo admite UNA ejecución en
-# cola: cada solicitud nueva CANCELABA la anterior que estaba esperando
-# ("Canceling since a higher priority waiting request exists"). Por eso la
-# mayoría de los PDFs nunca se generaban y el GET de Make daba 404.
-#
-# Ahora cada request_id es su propio grupo => las solicitudes corren en
-# paralelo y NO se cancelan entre sí.
-# ===========================================================================
+# Un grupo de concurrencia ÚNICO por solicitud: las solicitudes corren en
+# paralelo y NO se cancelan entre sí (esto era lo que rompía la generación).
 concurrency:
   group: build-pdf-${{ github.event.client_payload.request_id || github.event.inputs.request_id || github.run_id }}
   cancel-in-progress: false
@@ -41,7 +26,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 15   # evita ejecuciones colgadas (había una de 2h+)
+    timeout-minutes: 15
 
     steps:
       - name: Checkout (full history)
@@ -50,85 +35,48 @@ jobs:
           persist-credentials: true
           fetch-depth: 0
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          node-version: 20
+          python-version: "3.11"
 
-      # No hay package-lock.json => cacheamos node_modules por hash de package.json
-      - name: Cache node_modules
-        id: cache-node
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('package.json') }}
+      - name: Instalar dependencias del sistema (cairo + fuente)
+        run: sudo apt-get update && sudo apt-get install -y libcairo2 fonts-dejavu-core
 
-      - name: Install deps
-        if: steps.cache-node.outputs.cache-hit != 'true'
-        run: npm install
+      - name: Instalar dependencias de Python
+        run: pip install --no-cache-dir cairosvg pymupdf pillow
 
-      # Cacheamos el navegador de Playwright (lo más lento del build)
-      - name: Cache Playwright browsers
-        id: cache-pw
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ hashFiles('package.json') }}
-
-      - name: Install Playwright (browser + deps)
-        run: |
-          if [ "${{ steps.cache-pw.outputs.cache-hit }}" = "true" ]; then
-            # El binario ya está cacheado: solo instalamos dependencias del SO
-            npx playwright install-deps chromium
-          else
-            npx playwright install --with-deps chromium
-          fi
-
-      - name: Build report
+      - name: Generar PDF del informe
         env:
-          SLUG: ${{ github.event_name == 'workflow_dispatch' && inputs.slug || github.event.client_payload.slug }}
-          SURNAME: ${{ github.event_name == 'workflow_dispatch' && inputs.surname || github.event.client_payload.surname }}
+          SURNAME: ${{ github.event_name == 'workflow_dispatch' && inputs.surname || (github.event.client_payload.surname || github.event.client_payload.slug) }}
           REQUEST_ID: ${{ github.event_name == 'workflow_dispatch' && inputs.request_id || github.event.client_payload.request_id }}
         run: |
           set -e
-          if [ -n "$SURNAME" ] && [ -n "$REQUEST_ID" ]; then
-            echo "Building report for surname=$SURNAME (request_id=$REQUEST_ID)"
-            node scripts/build_pdf_report.mjs --surname "$SURNAME" --request_id "$REQUEST_ID"
-          else
-            echo "Building report for slug=$SLUG"
-            node scripts/build_pdf_report.mjs --slug "$SLUG"
-          fi
+          echo "Generando informe para: $SURNAME (request_id=$REQUEST_ID)"
+          REPO_ROOT="." python scripts/gen_pdf.py --surname "$SURNAME" --request_id "$REQUEST_ID"
 
-      # Commit + push con reintentos SOLO del push (sin reconstruir el reporte).
-      # Como cada solicitud escribe archivos distintos (requests/<id>.json es
-      # único), el rebase resuelve sin conflicto cuando otra ejecución empujó antes.
+      # Commit + push con reintentos SOLO del push. Cada solicitud escribe
+      # archivos distintos (requests/<id>.json es único), así el rebase resuelve
+      # sin conflicto cuando otra ejecución empujó antes.
       - name: Commit & push (rebase retry)
         env:
-          SLUG: ${{ github.event_name == 'workflow_dispatch' && inputs.slug || github.event.client_payload.slug }}
-          SURNAME: ${{ github.event_name == 'workflow_dispatch' && inputs.surname || github.event.client_payload.surname }}
+          SURNAME: ${{ github.event_name == 'workflow_dispatch' && inputs.surname || (github.event.client_payload.surname || github.event.client_payload.slug) }}
         run: |
           set -e
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          git add pdf_reports pdf_maps
+          git add pdf_reports
           if git diff --cached --quiet; then
             echo "No changes to commit."
             exit 0
           fi
-          git commit -m "build pdf report ${SLUG:-$SURNAME}"
-
+          git commit -m "informe PDF ${SURNAME}"
           for i in 1 2 3 4 5 6 7 8; do
             echo "Push attempt $i"
-            if git push origin HEAD:main; then
-              echo "Push OK"
-              exit 0
-            fi
+            if git push origin HEAD:main; then echo "Push OK"; exit 0; fi
             echo "Push rechazado (main avanzo). Rebase y reintento..."
             git fetch origin main
             git rebase origin/main || git rebase --abort
             sleep 3
           done
-
-          echo "Push fallo tras reintentos"
-          exit 1
+          echo "Push fallo tras reintentos"; exit 1
