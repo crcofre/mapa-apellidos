@@ -26,7 +26,7 @@ h1.page-title{font-size:34px;text-align:center;margin:26px 0 18px;font-weight:70
 /* ====== MAPA (iframe embed) ====== */
 #mapa-apellidos-wrap{width:100%;max-width:1180px;margin:14px auto 8px;}
 .iframe-box{position:relative;width:100%;border-radius:14px;overflow:hidden;box-shadow:0 4px 18px rgba(20,18,70,.08);border:1px solid #eee3d2}
-#iframe-mapa-apellidos{width:100%;border:0;background:#fcfaf5;display:block;height:720px}
+#iframe-mapa-apellidos{width:100%;border:0;background:#fcfaf5;display:block;height:880px}
 
 /* ====== PRODUCTOS ====== */
 .prodsec{margin:40px auto 50px;padding-top:30px;border-top:1px solid #e7ded0}
@@ -44,7 +44,6 @@ h1.page-title{font-size:34px;text-align:center;margin:26px 0 18px;font-weight:70
 .pbtn:hover{background:#23206b}
 
 @media (max-width:860px){.pgrid{grid-template-columns:1fr}}
-@media (max-width:991.98px){#iframe-mapa-apellidos{height:780px}}
 .demo-note{background:#fff8e6;border:1px solid #f1e3b8;color:#7a601a;font-size:13px;padding:8px 14px;border-radius:8px;max-width:980px;margin:10px auto 0;text-align:center}
 </style>
 </head>
@@ -56,7 +55,7 @@ h1.page-title{font-size:34px;text-align:center;margin:26px 0 18px;font-weight:70
   <div id="mapa-apellidos-wrap">
     <div class="iframe-box">
       <iframe id="iframe-mapa-apellidos" src="./explorador_embed.html"
-        title="Mapa de apellidos de Chile" loading="eager"></iframe>
+        title="Mapa de apellidos de Chile" loading="eager" scrolling="no"></iframe>
     </div>
   </div>
 
@@ -96,5 +95,16 @@ h1.page-title{font-size:34px;text-align:center;margin:26px 0 18px;font-weight:70
   </section>
 
 </div>
+<script>
+(function(){
+  var f=document.getElementById('iframe-mapa-apellidos');
+  window.addEventListener('message',function(e){
+    if(e&&e.data&&typeof e.data._apMapH==='number'){
+      var h=Math.max(420,Math.min(2600,e.data._apMapH));
+      f.style.height=(h+4)+'px';
+    }
+  });
+})();
+</script>
 </body>
 </html>
