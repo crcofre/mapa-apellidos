@@ -272,7 +272,7 @@ document.querySelectorAll('.pills button').forEach(function(b){b.addEventListene
 function openModal(){var l=(CUR?CUR.label:surname);document.getElementById('mape').value=l;document.getElementById('mtitle').textContent='Recibe el informe de '+l;document.getElementById('mform').style.display='block';document.getElementById('mok').style.display='none';document.getElementById('memail').value='';document.getElementById('mcons').checked=false;document.getElementById('overlay').classList.add('on');}
 function closeModal(){document.getElementById('overlay').classList.remove('on');}
 function enviarPDF(){var e=document.getElementById('memail').value.trim();var c=document.getElementById('mcons').checked;if(!/^\S+@\S+\.\S+$/.test(e)){alert('Ingresa un correo válido');return;}if(!c){alert('Marca la casilla para recibir el informe');return;}
-/* PRODUCCION: aqui se hace POST al webhook de Make con {email:e, apellido:document.getElementById('mape').value} */
+try{fetch('https://hook.us2.make.com/hadv863g0o8t6vjlk2kul8hiwhudh5un',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:e,apellido:document.getElementById('mape').value,source:'mapa-web',ts:new Date().toISOString()})}).catch(function(){});}catch(_){}
 document.getElementById('mokape').textContent=document.getElementById('mape').value;document.getElementById('mform').style.display='none';document.getElementById('mok').style.display='block';}
 document.getElementById('overlay').addEventListener('click',function(ev){if(ev.target.id==='overlay')closeModal();});
 
