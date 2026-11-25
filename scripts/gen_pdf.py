@@ -154,6 +154,32 @@ def products(S,links,py):
         S.append(f'<text x="{x+16}" y="{cyy+90}" font-size="10.3" fill="{MUT}" font-family="{SANS}">{esc(d)}</text>')
         S.append(f'<text x="{x+16}" y="{cyy+108}" font-size="12" fill="{NAVY}" font-family="{SANS}" font-weight="700">Ver más →</text>')
         S.append('</a>')
+BOOK_URL="https://www.apellidos.cl/apellidos-chilenos-origen-e-historia"
+BOOK_IMG=None;BOOK_AR=0.677
+_bp=os.path.join(ASSETS,"libro_apellidos_chilenos.jpg")
+if os.path.exists(_bp):
+    _bi=Image.open(_bp).convert("RGB");BOOK_AR=_bi.width/_bi.height
+    _bb=io.BytesIO();_bi.save(_bb,"JPEG",quality=88)
+    BOOK_IMG="data:image/jpeg;base64,"+base64.b64encode(_bb.getvalue()).decode()
+def book_banner(S,links,x0,y0,w,h):
+    """Recuadro promocional del libro 'Apellidos chilenos. Origen e historia' (sin precio)."""
+    links.append((x0,y0,x0+w,y0+h,BOOK_URL))
+    S.append(f'<a xlink:href="{BOOK_URL}">')
+    S.append(f'<rect x="{x0}" y="{y0}" width="{w}" height="{h}" rx="12" fill="{NAVY}"/>')
+    ch=h-32;cw=ch*BOOK_AR;cx=x0+16;cy=y0+16
+    if BOOK_IMG:
+        S.append(f'<rect x="{cx+3}" y="{cy+3}" width="{cw:.1f}" height="{ch}" fill="#000" opacity=".25"/>')
+        S.append(f'<image href="{BOOK_IMG}" x="{cx}" y="{cy}" width="{cw:.1f}" height="{ch}" preserveAspectRatio="xMidYMid slice"/>')
+    tx=cx+cw+18
+    S.append(f'<text x="{tx:.1f}" y="{y0+28}" font-size="9.5" letter-spacing="2" fill="#b9b5e6" font-family="{SANS}" font-weight="700">NUEVO LIBRO</text>')
+    S.append(f'<text x="{tx:.1f}" y="{y0+49}" font-size="16.5" fill="#fff" font-family="{SANS}" font-weight="700">Apellidos chilenos.</text>')
+    S.append(f'<text x="{tx:.1f}" y="{y0+67}" font-size="13" fill="#e9e7f1" font-family="{SANS}" font-weight="700">Origen e historia</text>')
+    for i,l in enumerate(["Cómo nacieron los apellidos y","cómo llegaron a Chile. Incluye","los 50 más frecuentes del país."]):
+        S.append(f'<text x="{tx:.1f}" y="{y0+88+i*14}" font-size="10.2" fill="#d9d7ef" font-family="{SANS}">{esc(l)}</text>')
+    bw=w-(tx-x0)-16
+    S.append(f'<rect x="{tx:.1f}" y="{y0+h-42}" width="{bw:.1f}" height="26" rx="13" fill="#fff"/>')
+    S.append(f'<text x="{tx+bw/2:.1f}" y="{y0+h-24.5}" text-anchor="middle" font-size="11.5" fill="{NAVY}" font-family="{SANS}" font-weight="700">Comprar el libro →</text>')
+    S.append('</a>')
 def head(S,pg,total):
     S.append(f'<rect width="{Wd}" height="{Ht}" fill="{CREAM}"/><rect x="22" y="22" width="{Wd-44}" height="{Ht-44}" fill="none" stroke="{LINE}" stroke-width="1.4"/>')
     S.append('<a xlink:href="https://www.apellidos.cl">'+logo(50,40,32)+'</a>')
@@ -198,9 +224,10 @@ def page(level,pg,total):
         cu=[f"En {nmf(top[0])}, 1 de cada {one(vals.get(top[0]['k']))} personas lleva",f"el apellido {LABEL}.",f"Tu apellido aparece en {C['nn']} {C['unit']} del país."]
     else:cu=["Sin datos suficientes."]
     for i,l in enumerate(cu):S.append(f'<text x="422" y="{by+52+i*18}" font-size="11.5" fill="{INK}" font-family="{SANS}">{esc(l)}</text>')
+    if pg==1:book_banner(S,links,402,max(by+bh+18,660),Wd-50-402,172)
     products(S,links,866)
     S.append(f'<a xlink:href="https://www.apellidos.cl/mapa-de-apellidos"><text x="50" y="1066" font-size="9.5" fill="{NAVY}" font-family="{SANS}" font-weight="700">apellidos.cl/mapa-de-apellidos</text></a>')
-    S.append(f'<text x="208" y="1066" font-size="9.5" fill="{MUT}" font-family="{SANS}">· Tonos más oscuros = mayor frecuencia relativa · pág. {pg}/{total}</text>')
+    S.append(f'<text x="226" y="1066" font-size="9.5" fill="{MUT}" font-family="{SANS}">· Tonos más oscuros = mayor frecuencia relativa · pág. {pg}/{total}</text>')
     S.append('</svg>')
     links.append((50,40,210,74,"https://www.apellidos.cl"))
     links.append((50,1057,205,1070,"https://www.apellidos.cl/mapa-de-apellidos"))
